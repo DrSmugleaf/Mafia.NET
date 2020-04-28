@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mafia.NET
+﻿namespace Mafia.NET
 {
     class Program
     {
