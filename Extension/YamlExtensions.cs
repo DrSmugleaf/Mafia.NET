@@ -30,6 +30,6 @@ namespace Mafia.NET.Extension
 
         public static int AsInt(this YamlNode node) => int.Parse(((YamlScalarNode)node).Value);
 
-        public static Color AsColor(this YamlNode node) => ColorTranslator.FromHtml("#" + node.AsString());
+        public static Color AsColor(this YamlNode node) => ColorTranslator.FromHtml(node.AsString());
     }
 }
