@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Player.Roles;
+using Mafia.NET.Player.Roles.Categories;
 using Mafia.NET.Player.Teams;
 using System;
 
@@ -10,6 +11,7 @@ namespace Mafia.NET
         {
             var teams = Team.Teams;
             var roles = Role.Roles;
+            var categories = Category.Categories;
             Console.WriteLine();
         }
     }

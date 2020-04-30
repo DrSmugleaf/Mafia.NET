@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Player.Teams;
+﻿using Mafia.NET.Player.Roles.Categories;
+using Mafia.NET.Player.Teams;
 using System.Collections.Generic;
 
 namespace Mafia.NET.Player.Roles
@@ -7,6 +8,6 @@ namespace Mafia.NET.Player.Roles
     {
         string Name { get; }
         ITeam Affiliation { get; }
-        IReadOnlyList<string> Categories { get; }
+        IReadOnlyList<ICategory> Categories { get; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Mafia.NET.Extension;
+using Mafia.NET.Player.Roles.Categories;
 using Mafia.NET.Player.Teams;
 using Mafia.NET.Resources;
+using System;
 using System.Collections.Generic;
 using YamlDotNet.RepresentationModel;
 
@@ -11,9 +13,9 @@ namespace Mafia.NET.Player.Roles
         public static readonly IReadOnlyDictionary<string, Role> Roles = LoadAll();
         public string Name { get; }
         public ITeam Affiliation { get; }
-        public IReadOnlyList<string> Categories { get; }
+        public IReadOnlyList<ICategory> Categories { get; }
 
-        public Role(string name, ITeam affiliation, List<string> categories)
+        public Role(string name, ITeam affiliation, List<ICategory> categories)
         {
             Name = name;
             Affiliation = affiliation;
@@ -31,12 +33,24 @@ namespace Mafia.NET.Player.Roles
             {
                 var name = yaml["name"].AsString();
                 Team affiliation = (Team)yaml["affiliation"].AsString();
-                var categories = new List<string>();
-                YamlSequenceNode yamlCategories = (YamlSequenceNode)yaml["categories"];
+                var categories = new List<ICategory>();
+                YamlNode categoriesNode = yaml["categories"];
 
-                foreach (var category in yamlCategories)
+                if (categoriesNode is YamlScalarNode categoryNode)
                 {
-                    categories.Add(category.AsString());
+                    if (!categoryNode.IsNull())
+                    {
+                        categories.Add((Category)categoryNode.AsString());
+                    }
+                } else if (categoriesNode is YamlSequenceNode yamlCategories)
+                {
+                    foreach (var category in yamlCategories)
+                    {
+                        categories.Add((Category)category.AsString());
+                    }
+                } else
+                {
+                    throw new InvalidOperationException("Unrecognized type for yamlCategories");
                 }
 
                 var role = new Role(name, affiliation, categories);
