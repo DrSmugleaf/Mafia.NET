@@ -4,7 +4,7 @@ namespace Mafia.NET.Matches.Chats
 {
     public class NotificationEventArgs : EventArgs
     {
-        public Notification Notification { get; set; }
+        public Notification Notification { get; }
 
         public NotificationEventArgs(Notification notification)
         {

@@ -6,8 +6,8 @@ namespace Mafia.NET.Matches.Phases
 {
     public class PhaseChangeEventArgs : EventArgs
     {
-        public IPhase Before { get; set; }
-        public IPhase After { get; set; }
+        public IPhase Before { get; }
+        public IPhase After { get; }
         public IList<INotification> Notifications{ get; set; }
 
         public PhaseChangeEventArgs(IPhase before, IPhase after, IList<INotification> notifications)
@@ -16,6 +16,5 @@ namespace Mafia.NET.Matches.Phases
             After = after;
             Notifications = notifications;
         }
-
     }
 }

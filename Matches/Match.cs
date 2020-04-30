@@ -11,7 +11,8 @@ namespace Mafia.NET.Matches
     public class Match : IMatch
     {
         public IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
-        public IList<IDeath> Graveyard { get; }
+        public List<IDeath> Graveyard { get; }
+        public IList<IDeath> UndisclosedDeaths { get; }
         public IReadOnlyList<IRole> PossibleRoles { get; }
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
