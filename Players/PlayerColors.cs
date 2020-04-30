@@ -1,6 +1,6 @@
 ﻿namespace Mafia.NET.Players
 {
-    enum PlayerColors : uint
+    public enum PlayerColors : uint
     {
         RED = 0xFFB4141E,
         BLUE = 0xFF0042FF,

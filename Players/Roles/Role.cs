@@ -9,7 +9,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
 {
-    class Role : IRole
+    public class Role : IRole
     {
         public static readonly IReadOnlyDictionary<string, Role> Roles = LoadAll();
         public string Name { get; }

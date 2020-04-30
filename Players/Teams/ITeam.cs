@@ -2,7 +2,7 @@
 
 namespace Mafia.NET.Players.Teams
 {
-    interface ITeam
+    public interface ITeam
     {
         string Name { get; }
         Color Tint { get; }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Mafia.NET.Matches.Chats
 {
-    interface IChat
+    public interface IChat
     {
-        public IList<IChatParticipant> Participants { get; }
+        IList<IChatParticipant> Participants { get; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Mafia.NET.Matches
 {
-    enum GamePhase
+    public enum GamePhase
     {
         STARTING,
         DEATHS,

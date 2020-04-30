@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Mafia.NET.Players
 {
-    interface IPlayer
+    public interface IPlayer
     {
         int Id { get; }
         string Name { get; }

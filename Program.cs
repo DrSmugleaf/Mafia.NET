@@ -5,9 +5,9 @@ using System;
 
 namespace Mafia.NET
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var teams = Team.Teams;
             var roles = Role.Roles;

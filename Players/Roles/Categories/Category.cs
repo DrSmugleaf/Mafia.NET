@@ -5,7 +5,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles.Categories
 {
-    class Category : ICategory
+    public class Category : ICategory
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
         public string Name { get; }

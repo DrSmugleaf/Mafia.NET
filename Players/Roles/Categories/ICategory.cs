@@ -1,6 +1,6 @@
 ﻿namespace Mafia.NET.Players.Roles.Categories
 {
-    interface ICategory
+    public interface ICategory
     {
         string Name { get; }
         string Description { get; }

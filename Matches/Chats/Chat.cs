@@ -2,7 +2,7 @@
 
 namespace Mafia.NET.Matches.Chats
 {
-    class Chat : IChat
+    public class Chat : IChat
     {
         public IList<IChatParticipant> Participants { get; }
 

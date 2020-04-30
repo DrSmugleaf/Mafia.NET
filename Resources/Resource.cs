@@ -4,7 +4,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Resources
 {
-    class Resource
+    public class Resource
     {
         private string ResourcePath { get; }
 

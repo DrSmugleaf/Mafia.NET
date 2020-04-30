@@ -1,10 +1,9 @@
 ﻿using Mafia.NET.Players.Roles;
-using System;
 using System.Drawing;
 
 namespace Mafia.NET.Players
 {
-    class Player : IPlayer
+    public class Player : IPlayer
     {
         public int Id { get; }
         public string Name { get; }

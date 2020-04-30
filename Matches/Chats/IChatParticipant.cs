@@ -4,11 +4,11 @@
 
 namespace Mafia.NET.Matches.Chats
 {
-    interface IChatParticipant
+    public interface IChatParticipant
     {
-        public IPlayer Owner { get; }
-        public string? DisplayName { get; set; }
-        public bool Muted { get; set; }
-        public bool Deaf { get; set; }
+        IPlayer Owner { get; }
+        string? DisplayName { get; set; }
+        bool Muted { get; set; }
+        bool Deaf { get; set; }
     }
 }

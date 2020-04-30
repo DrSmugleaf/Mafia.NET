@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace Mafia.NET.Players.Roles
 {
-    interface IRole
+    public interface IRole
     {
         string Name { get; }
         ITeam Affiliation { get; }

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace Mafia.NET.Matches
 {
-    interface IMatch
+    public interface IMatch
     {
-        public IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
-        public IList<IPlayer> Graveyard { get; }
-        public IReadOnlyList<IRole> PossibleRoles { get; }
-        public TimePhase CurrentTime { get; set; }
-        public GamePhase CurrentPhase { get; set; }
-        public IList<IChat> OpenChats { get; }
+        IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
+        IList<IPlayer> Graveyard { get; }
+        IReadOnlyList<IRole> PossibleRoles { get; }
+        TimePhase CurrentTime { get; set; }
+        GamePhase CurrentPhase { get; set; }
+        IList<IChat> OpenChats { get; }
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Mafia.NET.Matches
 {
-    class Match : IMatch
+    public class Match : IMatch
     {
         public IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
         public IList<IPlayer> Graveyard { get; }

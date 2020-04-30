@@ -6,7 +6,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Teams
 {
-    class Team : ITeam
+    public class Team : ITeam
     {
         public static readonly IReadOnlyDictionary<string, Team> Teams = LoadAll();
         public string Name { get; }

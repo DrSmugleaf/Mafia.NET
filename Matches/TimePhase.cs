@@ -1,6 +1,6 @@
 ﻿namespace Mafia.NET.Matches
 {
-    enum TimePhase
+    public enum TimePhase
     {
         DAY,
         NIGHT
