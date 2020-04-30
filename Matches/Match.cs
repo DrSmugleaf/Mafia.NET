@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches
             Graveyard = new List<IPlayer>();
             PossibleRoles = possibleRoles;
             CurrentTime = TimePhase.DAY;
-            CurrentPhase = new StartingPhase();
+            CurrentPhase = new PresentationPhase();
             OpenChats = new List<IChat>();
             Timer = new Timer();
         }

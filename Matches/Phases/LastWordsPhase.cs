@@ -2,7 +2,7 @@
 {
     class LastWordsPhase : BasePhase
     {
-        public LastWordsPhase(int duration = 10) : base("Last Words Phase", duration, new ExecutionPhase())
+        public LastWordsPhase(int duration = 10) : base("Last Words", duration, new ExecutionPhase())
         {
 
         }

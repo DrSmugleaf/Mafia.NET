@@ -1,8 +1,8 @@
 ﻿namespace Mafia.NET.Matches.Phases
 {
-    class EndingPhase : BasePhase
+    public class DiscussionPhase : BasePhase
     {
-        public EndingPhase(int duration = 120) : base("Ending Phase", duration)
+        public DiscussionPhase(int duration = 50) : base("Discussion", duration, new TrialVotePhase())
         {
         }
 

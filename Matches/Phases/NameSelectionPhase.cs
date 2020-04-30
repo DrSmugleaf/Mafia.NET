@@ -1,11 +1,10 @@
 ﻿namespace Mafia.NET.Matches.Phases
 {
-    class DeathsPhase : BasePhase
+    public class NameSelectionPhase : BasePhase
     {
-        public DeathsPhase() : base("Deaths", nextPhase: new DiscussionPhase())
+        public NameSelectionPhase() : base("Name Selection", 30, new PresentationPhase())
         {
         }
-
         public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();

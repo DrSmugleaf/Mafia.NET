@@ -2,7 +2,7 @@
 {
     class TrialVotePhase : BasePhase
     {
-        public TrialVotePhase(int duration = 80) : base("Trial Vote Phase", duration)
+        public TrialVotePhase(int duration = 80) : base("Vote", duration)
         {
         }
 

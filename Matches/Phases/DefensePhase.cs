@@ -2,7 +2,7 @@
 {
     class DefensePhase : BasePhase
     {
-        public DefensePhase(int duration = 15) : base("Defense Phase", duration, new DefenseVotePhase())
+        public DefensePhase(int duration = 15) : base("Defense", duration, new VerdictVotePhase())
         {
         }
 

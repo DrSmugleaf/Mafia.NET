@@ -2,7 +2,7 @@
 {
     class TrialPhase : BasePhase
     {
-        public TrialPhase() : base("Trial Phase", nextPhase: new DefensePhase())
+        public TrialPhase() : base("Trial", nextPhase: new DefensePhase())
         {
         }
 

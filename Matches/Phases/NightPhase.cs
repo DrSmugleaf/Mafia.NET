@@ -2,7 +2,7 @@
 {
     class NightPhase : BasePhase
     {
-        public NightPhase(int duration = 40) : base("Night Phase", duration, new DeathsPhase())
+        public NightPhase(int duration = 40) : base("Night", duration, new DeathsPhase())
         {
         }
 

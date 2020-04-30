@@ -2,7 +2,7 @@
 {
     public class ExecutionRevealPhase : BasePhase
     {
-        public ExecutionRevealPhase() : base("Execution Reveal Phase", nextPhase: new NightPhase())
+        public ExecutionRevealPhase() : base("Execution Reveal", nextPhase: new NightPhase())
         {
         }
 
