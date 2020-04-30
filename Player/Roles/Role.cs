@@ -20,7 +20,7 @@ namespace Mafia.NET.Player.Roles
             Categories = categories.AsReadOnly();
         }
 
-        public static implicit operator Role(string name) => Roles[name];
+        public static explicit operator Role(string name) => Roles[name];
 
         private static Dictionary<string, Role> LoadAll()
         {
@@ -30,7 +30,7 @@ namespace Mafia.NET.Player.Roles
             foreach (YamlMappingNode yaml in yamlRoles)
             {
                 var name = yaml["name"].AsString();
-                Team affiliation = yaml["affiliation"].AsString();
+                Team affiliation = (Team)yaml["affiliation"].AsString();
                 var categories = new List<string>();
                 YamlSequenceNode yamlCategories = (YamlSequenceNode)yaml["categories"];
 

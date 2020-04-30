@@ -18,12 +18,12 @@ namespace Mafia.NET.Player.Teams
             Tint = tint;
         }
 
-        public static implicit operator Team(string name) => Teams[name];
+        public static explicit operator Team(string name) => Teams[name];
 
         private static Dictionary<string, Team> LoadAll()
         {
             var teams = new Dictionary<string, Team>();
-            YamlSequenceNode yaml = new Resource("teams.yml");
+            YamlSequenceNode yaml = (YamlSequenceNode)new Resource("teams.yml");
 
             foreach (var entry in yaml)
             {

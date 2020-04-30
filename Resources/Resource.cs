@@ -38,7 +38,7 @@ namespace Mafia.NET.Resources
             return resources;
         }
 
-        public static implicit operator YamlSequenceNode(Resource resource)
+        public static explicit operator YamlSequenceNode(Resource resource)
         {
             using var reader = new StreamReader(resource.ResourcePath);
             var yaml = new YamlStream();
@@ -46,6 +46,6 @@ namespace Mafia.NET.Resources
             return (YamlSequenceNode)yaml.Documents[0].RootNode;
         }
 
-        public static implicit operator YamlMappingNode(Resource resource) => (YamlMappingNode)((YamlSequenceNode)resource)[0];
+        public static explicit operator YamlMappingNode(Resource resource) => (YamlMappingNode)((YamlSequenceNode)resource)[0];
     }
 }
