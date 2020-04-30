@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using YamlDotNet.RepresentationModel;
 
-namespace Mafia.NET.Player.Teams
+namespace Mafia.NET.Players.Teams
 {
     class Team : ITeam
     {

@@ -1,8 +1,8 @@
-﻿using Mafia.NET.Player.Roles.Categories;
-using Mafia.NET.Player.Teams;
+﻿using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Teams;
 using System.Collections.Generic;
 
-namespace Mafia.NET.Player.Roles
+namespace Mafia.NET.Players.Roles
 {
     interface IRole
     {

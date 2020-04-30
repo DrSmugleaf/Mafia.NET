@@ -1,4 +1,4 @@
-﻿namespace Mafia.NET.Player.Roles.Categories
+﻿namespace Mafia.NET.Players.Roles.Categories
 {
     interface ICategory
     {

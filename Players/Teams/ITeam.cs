@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Mafia.NET.Player.Teams
+namespace Mafia.NET.Players.Teams
 {
     interface ITeam
     {

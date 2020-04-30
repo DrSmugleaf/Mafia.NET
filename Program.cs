@@ -1,6 +1,6 @@
-﻿using Mafia.NET.Player.Roles;
-using Mafia.NET.Player.Roles.Categories;
-using Mafia.NET.Player.Teams;
+﻿using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Teams;
 using System;
 
 namespace Mafia.NET

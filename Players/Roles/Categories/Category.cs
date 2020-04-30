@@ -3,7 +3,7 @@ using Mafia.NET.Resources;
 using System.Collections.Generic;
 using YamlDotNet.RepresentationModel;
 
-namespace Mafia.NET.Player.Roles.Categories
+namespace Mafia.NET.Players.Roles.Categories
 {
     class Category : ICategory
     {

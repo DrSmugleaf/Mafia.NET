@@ -1,12 +1,12 @@
 ﻿using Mafia.NET.Extension;
-using Mafia.NET.Player.Roles.Categories;
-using Mafia.NET.Player.Teams;
+using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
 using System;
 using System.Collections.Generic;
 using YamlDotNet.RepresentationModel;
 
-namespace Mafia.NET.Player.Roles
+namespace Mafia.NET.Players.Roles
 {
     class Role : IRole
     {

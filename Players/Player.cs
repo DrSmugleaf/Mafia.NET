@@ -1,6 +1,6 @@
-﻿using Mafia.NET.Player.Roles;
+﻿using Mafia.NET.Players.Roles;
 
-namespace Mafia.NET.Player
+namespace Mafia.NET.Players
 {
     class Player : IPlayer
     {
