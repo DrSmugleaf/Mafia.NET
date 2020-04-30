@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Mafia.NET.Matches
         IList<IPlayer> Graveyard { get; }
         IReadOnlyList<IRole> PossibleRoles { get; }
         TimePhase CurrentTime { get; set; }
-        GamePhase CurrentPhase { get; set; }
+        IPhase CurrentPhase { get; set; }
         IList<IChat> OpenChats { get; }
     }
 }
