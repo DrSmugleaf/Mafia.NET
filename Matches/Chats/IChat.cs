@@ -5,6 +5,6 @@ namespace Mafia.NET.Matches.Chats
 {
     interface IChat
     {
-        public IReadOnlyDictionary<int, IPlayer> Participants { get; }
+        public IList<IChatParticipant> Participants { get; }
     }
 }
