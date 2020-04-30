@@ -9,7 +9,7 @@ namespace Mafia.NET
         static void Main(string[] args)
         {
             var teams = Team.Teams;
-            var roles = Role.LoadAll();
+            var roles = Role.Roles;
             Console.WriteLine();
         }
     }

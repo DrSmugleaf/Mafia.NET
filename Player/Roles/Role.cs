@@ -8,6 +8,7 @@ namespace Mafia.NET.Player.Roles
 {
     class Role : IRole
     {
+        public static readonly IReadOnlyDictionary<string, Role> Roles = LoadAll();
         public string Name { get; }
         public ITeam Affiliation { get; }
         public IReadOnlyList<string> Categories { get; }
@@ -19,9 +20,11 @@ namespace Mafia.NET.Player.Roles
             Categories = categories.AsReadOnly();
         }
 
-        public static List<Role> LoadAll()
+        public static implicit operator Role(string name) => Roles[name];
+
+        private static Dictionary<string, Role> LoadAll()
         {
-            var roles = new List<Role>();
+            var roles = new Dictionary<string, Role>();
             YamlSequenceNode townYaml = new Resource("roles/town.yml");
 
             foreach (var townEntry in townYaml)
@@ -37,7 +40,7 @@ namespace Mafia.NET.Player.Roles
                 }
 
                 var role = new Role(name, affiliation, categories);
-                roles.Add(role);
+                roles.Add(name, role);
             }
 
             return roles;
