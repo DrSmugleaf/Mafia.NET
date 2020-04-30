@@ -1,4 +1,4 @@
-﻿using Mafia.NET.Player.Role;
+﻿using Mafia.NET.Player.Roles;
 
 namespace Mafia.NET.Player
 {

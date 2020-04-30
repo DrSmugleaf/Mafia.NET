@@ -69,5 +69,15 @@ namespace Mafia.NET.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] town {
+            get {
+                object obj = ResourceManager.GetObject("town", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -10,8 +10,8 @@ namespace Mafia.NET.Extension
             return node[keyNode];
         }
 
-        public static string ToString(this YamlNode node) => ((YamlScalarNode)node).Value;
+        public static string AsString(this YamlNode node) => ((YamlScalarNode)node).Value;
 
-        public static int ToInt(this YamlNode node) => int.Parse(((YamlScalarNode)node).Value);
+        public static int AsInt(this YamlNode node) => int.Parse(((YamlScalarNode)node).Value);
     }
 }

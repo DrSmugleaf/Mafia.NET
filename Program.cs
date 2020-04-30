@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Player.Team;
+﻿using Mafia.NET.Player.Roles;
+using Mafia.NET.Player.Teams;
+using System;
 
 namespace Mafia.NET
 {
@@ -6,7 +8,9 @@ namespace Mafia.NET
     {
         static void Main(string[] args)
         {
-            var teams = TeamInformation.LoadAll();
+            var teams = Team.Teams;
+            var roles = Role.LoadAll();
+            Console.WriteLine();
         }
     }
 }

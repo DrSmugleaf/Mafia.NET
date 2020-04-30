@@ -25,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Resources\Roles\town.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\teams.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
