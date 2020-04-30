@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="administrator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\administrator.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="agent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\mafia\agent.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -148,6 +151,9 @@
   <data name="crier" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\crier.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="deceiver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\deceiver.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="detective" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\detective.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -157,14 +163,32 @@
   <data name="doctor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\doctor.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="dragonhead" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\dragonhead.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="enforcer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\enforcer.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="escort" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\escort.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="forger" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\forger.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="framer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\mafia\framer.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="godfather" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\mafia\godfather.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="incensemaster" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\incensemaster.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="informant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\informant.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="interrogator" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\interrogator.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="investigator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\investigator.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -177,6 +201,9 @@
   </data>
   <data name="kidnapper" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\mafia\kidnapper.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="liaison" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\liaison.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lookout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\lookout.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -199,6 +226,9 @@
   <data name="sheriff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\sheriff.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="silencer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\silencer.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="spy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\spy.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -207,6 +237,9 @@
   </data>
   <data name="teams" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\teams.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="vanguard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\roles\triad\vanguard.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="veteran" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\roles\town\veteran.yml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

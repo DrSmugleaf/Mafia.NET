@@ -118,6 +118,39 @@
     <None Update="Resources\Roles\Town\bodyguard.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Roles\Triad\vanguard.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\silencer.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\liaison.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\interrogator.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\informant.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\incensemaster.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\forger.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\enforcer.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\dragonhead.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\deceiver.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Roles\Triad\administrator.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\teams.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -125,7 +158,6 @@
 
   <ItemGroup>
     <Folder Include="Resources\Roles\Neutral\" />
-    <Folder Include="Resources\Roles\Triad\" />
   </ItemGroup>
 
 </Project>

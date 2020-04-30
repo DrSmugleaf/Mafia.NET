@@ -63,6 +63,16 @@ namespace Mafia.NET.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] administrator {
+            get {
+                object obj = ResourceManager.GetObject("administrator", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] agent {
             get {
                 object obj = ResourceManager.GetObject("agent", resourceCulture);
@@ -163,6 +173,16 @@ namespace Mafia.NET.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] deceiver {
+            get {
+                object obj = ResourceManager.GetObject("deceiver", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] detective {
             get {
                 object obj = ResourceManager.GetObject("detective", resourceCulture);
@@ -193,9 +213,39 @@ namespace Mafia.NET.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] dragonhead {
+            get {
+                object obj = ResourceManager.GetObject("dragonhead", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] enforcer {
+            get {
+                object obj = ResourceManager.GetObject("enforcer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] escort {
             get {
                 object obj = ResourceManager.GetObject("escort", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] forger {
+            get {
+                object obj = ResourceManager.GetObject("forger", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -216,6 +266,36 @@ namespace Mafia.NET.Properties {
         public static byte[] godfather {
             get {
                 object obj = ResourceManager.GetObject("godfather", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] incensemaster {
+            get {
+                object obj = ResourceManager.GetObject("incensemaster", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] informant {
+            get {
+                object obj = ResourceManager.GetObject("informant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] interrogator {
+            get {
+                object obj = ResourceManager.GetObject("interrogator", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -256,6 +336,16 @@ namespace Mafia.NET.Properties {
         public static byte[] kidnapper {
             get {
                 object obj = ResourceManager.GetObject("kidnapper", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] liaison {
+            get {
+                object obj = ResourceManager.GetObject("liaison", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -333,6 +423,16 @@ namespace Mafia.NET.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        public static byte[] silencer {
+            get {
+                object obj = ResourceManager.GetObject("silencer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         public static byte[] spy {
             get {
                 object obj = ResourceManager.GetObject("spy", resourceCulture);
@@ -356,6 +456,16 @@ namespace Mafia.NET.Properties {
         public static byte[] teams {
             get {
                 object obj = ResourceManager.GetObject("teams", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] vanguard {
+            get {
+                object obj = ResourceManager.GetObject("vanguard", resourceCulture);
                 return ((byte[])(obj));
             }
         }
