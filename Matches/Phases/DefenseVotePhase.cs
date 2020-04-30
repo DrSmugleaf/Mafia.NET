@@ -2,15 +2,15 @@
 {
     public class DefenseVotePhase : BasePhase
     {
-        public DefenseVotePhase() : base("Defense Vote Phase")
+        public DefenseVotePhase(int duration = 15) : base("Defense Vote Phase", duration)
         {
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

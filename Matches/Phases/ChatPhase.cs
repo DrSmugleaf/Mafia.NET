@@ -2,15 +2,15 @@
 {
     public class ChatPhase : BasePhase
     {
-        public ChatPhase() : base("Chat Phase", new TrialVotePhase())
+        public ChatPhase(int duration = 50) : base("Chat Phase", duration, new TrialVotePhase())
         {
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

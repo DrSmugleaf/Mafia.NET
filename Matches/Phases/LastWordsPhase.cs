@@ -2,16 +2,16 @@
 {
     class LastWordsPhase : BasePhase
     {
-        public LastWordsPhase() : base("Last Words Phase", new ExecutionPhase())
+        public LastWordsPhase(int duration = 10) : base("Last Words Phase", duration, new ExecutionPhase())
         {
 
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

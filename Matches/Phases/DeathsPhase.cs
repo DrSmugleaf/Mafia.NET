@@ -2,15 +2,15 @@
 {
     class DeathsPhase : BasePhase
     {
-        public DeathsPhase() : base("Deaths Phase", new ChatPhase())
+        public DeathsPhase() : base("Deaths Phase", nextPhase: new ChatPhase())
         {
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

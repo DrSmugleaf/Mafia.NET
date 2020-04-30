@@ -2,15 +2,15 @@
 {
     class EndingPhase : BasePhase
     {
-        public EndingPhase() : base("Ending Phase")
+        public EndingPhase(int duration = 120) : base("Ending Phase", duration)
         {
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

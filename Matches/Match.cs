@@ -3,6 +3,7 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace Mafia.NET.Matches
 {
@@ -14,6 +15,7 @@ namespace Mafia.NET.Matches
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
         public IList<IChat> OpenChats { get; }
+        public Timer Timer { get; }
 
         public Match(Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
@@ -23,6 +25,12 @@ namespace Mafia.NET.Matches
             CurrentTime = TimePhase.DAY;
             CurrentPhase = new StartingPhase();
             OpenChats = new List<IChat>();
+            Timer = new Timer();
+        }
+
+        public void AdvancePhase(object state)
+        {
+
         }
     }
 }

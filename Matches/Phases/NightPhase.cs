@@ -2,15 +2,15 @@
 {
     class NightPhase : BasePhase
     {
-        public NightPhase() : base("Night Phase", new DeathsPhase())
+        public NightPhase(int duration = 40) : base("Night Phase", duration, new DeathsPhase())
         {
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

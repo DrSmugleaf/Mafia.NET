@@ -2,15 +2,15 @@
 {
     class TrialPhase : BasePhase
     {
-        public TrialPhase() : base("Trial Phase", new DefensePhase())
+        public TrialPhase() : base("Trial Phase", nextPhase: new DefensePhase())
         {
         }
 
-        public override void Start()
+        public override void Start(IMatch match)
         {
             throw new System.NotImplementedException();
         }
-        public override void End()
+        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }
