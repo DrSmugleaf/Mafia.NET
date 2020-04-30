@@ -2,10 +2,10 @@
 
 namespace Mafia.NET.Player.Role
 {
-    class Role : IRole
+    abstract class Role : IRole
     {
-        public string Name { get; set; }
-        public ITeam Team { get; set; }
+        public string Name { get; }
+        public ITeam Team { get; }
 
         public Role(string name, ITeam team)
         {

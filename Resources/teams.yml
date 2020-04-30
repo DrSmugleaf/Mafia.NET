@@ -1,0 +1,23 @@
+﻿- name: Town
+  color:
+    r: 144
+    g: 238
+    b: 144
+
+- name: Mafia
+  color:
+    r: 250
+    g: 128
+    b: 114
+
+- name: Triad
+  color:
+    r: 100
+    g: 149
+    b: 237
+
+- name: Neutral
+  color:
+    r: 211
+    g: 211 
+    b: 211

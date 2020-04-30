@@ -2,6 +2,6 @@
 {
     interface ITeam
     {
-        string Name { get; set; }
+        string Name { get; }
     }
 }
