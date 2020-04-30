@@ -1,4 +1,6 @@
-﻿namespace Mafia.NET.Matches.Phases
+﻿using Mafia.NET.Matches.Chats;
+
+namespace Mafia.NET.Matches.Phases
 {
     class DeathsPhase : BasePhase
     {

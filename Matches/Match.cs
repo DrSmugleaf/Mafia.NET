@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
+using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles;
 using System.Collections.Generic;
 using System.Timers;
@@ -10,7 +11,7 @@ namespace Mafia.NET.Matches
     public class Match : IMatch
     {
         public IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
-        public IList<IPlayer> Graveyard { get; }
+        public IList<IDeath> Graveyard { get; }
         public IReadOnlyList<IRole> PossibleRoles { get; }
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
@@ -20,7 +21,7 @@ namespace Mafia.NET.Matches
         public Match(Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
             AllPlayers = players;
-            Graveyard = new List<IPlayer>();
+            Graveyard = new List<IDeath>();
             PossibleRoles = possibleRoles;
             CurrentTime = TimePhase.DAY;
             CurrentPhase = new PresentationPhase();
@@ -30,7 +31,12 @@ namespace Mafia.NET.Matches
 
         public void AdvancePhase(object state)
         {
+            CurrentPhase.End(this);
+        }
 
+        public void End()
+        {
+            Timer.Stop();
         }
     }
 }

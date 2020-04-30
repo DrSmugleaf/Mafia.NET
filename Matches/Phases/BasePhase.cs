@@ -8,6 +8,7 @@ namespace Mafia.NET.Matches.Phases
     {
         public string Name { get; }
         public int Duration { get; }
+        public IPhase? PreviousPhase { get; }
         public IPhase? NextPhase { get; }
         public bool Skippable { get; }
         public IPhase? Supersedes { get; set; }

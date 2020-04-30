@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Players.Roles;
+﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players.Roles;
+using System;
 using System.Drawing;
 
 namespace Mafia.NET.Players
@@ -9,6 +11,7 @@ namespace Mafia.NET.Players
         public string Name { get; }
         public IRole Role { get; set; }
         public Color Tint { get; }
+        public event EventHandler<NotificationEventArgs> Notification;
 
         public Player(int id, string name, IRole role)
         {
@@ -41,6 +44,11 @@ namespace Mafia.NET.Players
             };
 
             return Color.FromArgb((int)color);
+        }
+
+        public virtual void OnNotification(NotificationEventArgs e)
+        {
+            Notification?.Invoke(this, e);
         }
     }
 }

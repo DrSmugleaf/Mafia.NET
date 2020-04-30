@@ -12,7 +12,7 @@
         }
         public override void End(IMatch match)
         {
-            throw new System.NotImplementedException();
+            match.End();
         }
     }
 }
