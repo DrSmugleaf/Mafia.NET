@@ -4,6 +4,7 @@ using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
@@ -14,12 +15,14 @@ namespace Mafia.NET.Players.Roles
         public string Name { get; }
         public ITeam Affiliation { get; }
         public IReadOnlyList<ICategory> Categories { get; }
+        public Color Tint { get; }
 
-        public Role(string name, ITeam affiliation, List<ICategory> categories)
+        public Role(string name, ITeam affiliation, List<ICategory> categories, Color tint)
         {
             Name = name;
             Affiliation = affiliation;
             Categories = categories.AsReadOnly();
+            Tint = tint;
         }
 
         public static explicit operator Role(string name) => Roles[name];
@@ -53,7 +56,9 @@ namespace Mafia.NET.Players.Roles
                     throw new InvalidOperationException("Unrecognized type for yamlCategories");
                 }
 
-                var role = new Role(name, affiliation, categories);
+                var tint = yaml["color"].AsColor();
+
+                var role = new Role(name, affiliation, categories, tint);
                 roles.Add(name, role);
             }
 
