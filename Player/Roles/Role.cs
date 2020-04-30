@@ -25,14 +25,14 @@ namespace Mafia.NET.Player.Roles
         private static Dictionary<string, Role> LoadAll()
         {
             var roles = new Dictionary<string, Role>();
-            YamlSequenceNode townYaml = new Resource("roles/town.yml");
+            var yamlRoles = Resource.FromDirectory("Roles", "*.yml");
 
-            foreach (var townEntry in townYaml)
+            foreach (YamlMappingNode yaml in yamlRoles)
             {
-                var name = townEntry["name"].AsString();
-                Team affiliation = townEntry["affiliation"].AsString();
+                var name = yaml["name"].AsString();
+                Team affiliation = yaml["affiliation"].AsString();
                 var categories = new List<string>();
-                YamlSequenceNode yamlCategories = (YamlSequenceNode)townEntry["categories"];
+                YamlSequenceNode yamlCategories = (YamlSequenceNode)yaml["categories"];
 
                 foreach (var category in yamlCategories)
                 {
