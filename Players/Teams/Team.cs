@@ -23,18 +23,13 @@ namespace Mafia.NET.Players.Teams
         private static Dictionary<string, Team> LoadAll()
         {
             var teams = new Dictionary<string, Team>();
-            YamlSequenceNode yaml = (YamlSequenceNode)new Resource("teams.yml");
+            var yamlTeams = Resource.FromDirectory("Teams", "*.yml");
 
-            foreach (var entry in yaml)
+            foreach (YamlMappingNode yaml in yamlTeams)
             {
-                var name = entry["name"].ToString();
-                var color = entry["color"];
-                var r = color["r"].AsInt();
-                var g = color["g"].AsInt();
-                var b = color["b"].AsInt();
-                var tint = Color.FromArgb(r, g, b);
-
-                var team = new Team(name, tint);
+                var name = yaml["name"].ToString();
+                var color = yaml["color"].AsColor();
+                var team = new Team(name, color);
                 teams.Add(name, team);
             }
 
