@@ -8,6 +8,7 @@ namespace Mafia.NET.Players.Roles.Categories
     public class Category : ICategory
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
+
         public string Name { get; }
         public string Description { get; }
 

@@ -2,6 +2,7 @@
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 using System;
+using System.Collections.Generic;
 
 namespace Mafia.NET
 {
