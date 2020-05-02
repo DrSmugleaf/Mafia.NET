@@ -11,6 +11,7 @@ namespace Mafia.NET.Players
         public string Name { get; }
         public IRole Role { get; set; }
         public Color Tint { get; }
+        public bool Alive { get; set; }
         public event EventHandler<NotificationEventArgs> Notification;
 
         public Player(int id, string name, IRole role)

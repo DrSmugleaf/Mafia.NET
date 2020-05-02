@@ -10,6 +10,7 @@ namespace Mafia.NET.Players
         string Name { get; }
         IRole Role { get; set; }
         Color Tint { get; }
+        bool Alive { get; set; }
 
         public void OnNotification(NotificationEventArgs e);
     }

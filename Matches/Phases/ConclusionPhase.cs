@@ -11,9 +11,10 @@
             throw new System.NotImplementedException();
         }
 
-        public override void End(IMatch match)
+        public override IPhase End(IMatch match)
         {
             match.End();
+            return this;
         }
     }
 }

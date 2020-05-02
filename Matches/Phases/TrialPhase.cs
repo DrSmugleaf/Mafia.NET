@@ -1,17 +1,16 @@
-﻿namespace Mafia.NET.Matches.Phases
+﻿using Mafia.NET.Players;
+
+namespace Mafia.NET.Matches.Phases
 {
     class TrialPhase : BasePhase
     {
-        public TrialPhase() : base("Trial", nextPhase: new DefensePhase())
+        public IPlayer Player { get; }
+
+        public TrialPhase(IPlayer player) : base("Trial", nextPhase: new DefensePhase(player))
         {
         }
 
         public override void Start(IMatch match)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void End(IMatch match)
         {
             throw new System.NotImplementedException();
         }

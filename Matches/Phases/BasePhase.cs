@@ -25,15 +25,14 @@ namespace Mafia.NET.Matches.Phases
 
         public abstract void Start(IMatch match);
 
-        public virtual void End(IMatch match)
+        public virtual IPhase End(IMatch match)
         {
             if (NextPhase == null)
             {
                 throw new NullReferenceException("Base End() method called with no next phase");
             }
 
-            match.CurrentPhase = NextPhase;
-            match.CurrentPhase.Start(match);
+            return NextPhase;
         }
 
         protected virtual void OnPhaseChange(PhaseChangeEventArgs e)
