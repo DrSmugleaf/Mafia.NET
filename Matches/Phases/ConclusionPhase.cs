@@ -2,11 +2,11 @@
 {
     class ConclusionPhase : BasePhase
     {
-        public ConclusionPhase(int duration = 120) : base("Conclusion", duration)
+        public ConclusionPhase(IMatch match, int duration = 120) : base(match, "Conclusion", duration)
         {
         }
 
-        public override void Start(IMatch match)
+        public override void Start()
         {
             throw new System.NotImplementedException();
         }

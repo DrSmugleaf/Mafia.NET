@@ -4,11 +4,11 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     class LastWordsPhase : BasePhase
     {
-        public LastWordsPhase(IPlayer player, int duration = 10) : base("Last Words", duration, new ExecutionPhase(player))
+        public LastWordsPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Last Words", duration, new ExecutionPhase(match, player))
         {
         }
 
-        public override void Start(IMatch match)
+        public override void Start()
         {
             throw new System.NotImplementedException();
         }

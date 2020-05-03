@@ -1,10 +1,9 @@
-﻿using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players;
+﻿using Mafia.NET.Players;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace Mafia.NET.Matches.Options.DayTypes
+namespace Mafia.NET.Matches.Phases.Vote
 {
     public class ProcedureStartEventArgs : EventArgs
     {

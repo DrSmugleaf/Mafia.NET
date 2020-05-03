@@ -6,11 +6,11 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; }
 
-        public TrialPhase(IPlayer player) : base("Trial", nextPhase: new DefensePhase(player))
+        public TrialPhase(IMatch match, IPlayer player) : base(match, "Trial", nextPhase: new DefensePhase(match, player))
         {
         }
 
-        public override void Start(IMatch match)
+        public override void Start()
         {
             throw new System.NotImplementedException();
         }

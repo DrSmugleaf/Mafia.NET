@@ -1,27 +1,20 @@
-﻿using Mafia.NET.Matches.Phases;
-using Mafia.NET.Matches.Players.Votes;
+﻿using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players;
 using System;
 using System.Collections.Generic;
 
-namespace Mafia.NET.Matches.Options.DayTypes
+namespace Mafia.NET.Matches.Phases.Vote
 {
-    public abstract class BaseVoting : IVoting
+    class AccusePhase : BasePhase
     {
-        public IPhase Procedure { get; }
-        public IReadOnlyDictionary<int, IPlayer> Voters { get; }
-        public event EventHandler<ProcedureStartEventArgs> ProcedureStart;
+        IPhase Procedure { get; }
+        IReadOnlyDictionary<int, IPlayer> Voters { get; }
+        event EventHandler<ProcedureStartEventArgs> ProcedureStart;
 
-        public BaseVoting(Dictionary<int, IPlayer> voters, IPhase procedure)
+        public AccusePhase(IMatch match, int duration = 80) : base(match, "Time Left", duration, new NightPhase(match))
         {
-            Voters = voters;
-            Procedure = procedure;
-
-            foreach (var voter in voters.Values)
-            {
-                voter.Accuse += Accused;
-                voter.Unaccuse += Unaccused;
-            }
+            Procedure = match.Settings.Procedure;
+            Voters = match.LivingPlayers;
         }
 
         public IList<IPlayer> VotesAgainst(IPlayer accused)
@@ -55,6 +48,26 @@ namespace Mafia.NET.Matches.Options.DayTypes
         protected virtual void OnProcedureStart(ProcedureStartEventArgs e)
         {
             ProcedureStart?.Invoke(this, e);
+        }
+
+        public override void Start()
+        {
+            foreach (var voter in Voters.Values)
+            {
+                voter.Accuse += Accused;
+                voter.Unaccuse += Unaccused;
+            }
+        }
+
+        public override IPhase End(IMatch match)
+        {
+            foreach (var voter in Voters.Values)
+            {
+                voter.Accuse -= Accused;
+                voter.Unaccuse -= Unaccused;
+            }
+
+            return base.End(match);
         }
     }
 }

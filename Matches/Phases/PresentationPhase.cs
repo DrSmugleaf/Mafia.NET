@@ -2,11 +2,11 @@
 {
     public class PresentationPhase : BasePhase
     {
-        public PresentationPhase() : base("Presentation", nextPhase: new DiscussionPhase())
+        public PresentationPhase(IMatch match) : base(match, "Presentation", nextPhase: new DiscussionPhase(match))
         {
         }
 
-        public override void Start(IMatch match)
+        public override void Start()
         {
             throw new System.NotImplementedException();
         }

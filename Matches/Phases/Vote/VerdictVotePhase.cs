@@ -2,11 +2,11 @@
 {
     public class VerdictVotePhase : BasePhase
     {
-        public VerdictVotePhase(int duration = 15) : base("Vote", duration)
+        public VerdictVotePhase(IMatch match, int duration = 15) : base(match, "Vote", duration)
         {
         }
 
-        public override void Start(IMatch match)
+        public override void Start()
         {
             throw new System.NotImplementedException();
         }

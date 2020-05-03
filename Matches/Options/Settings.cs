@@ -1,14 +1,16 @@
-﻿using Mafia.NET.Matches.Options.DayTypes;
+﻿using Mafia.NET.Matches.Phases;
 
 namespace Mafia.NET.Matches.Options
 {
     public class Settings : ISettings
     {
-        public IVoting Voting { get; }
+        public IPhase Procedure { get; }
+        public bool AnonymousVoting { get; }
 
-        public Settings(IVoting voting)
+        public Settings(IPhase procedure, bool anonymousVoting)
         {
-            Voting = voting;
+            Procedure = procedure;
+            AnonymousVoting = anonymousVoting;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Options;
-using Mafia.NET.Matches.Options.DayTypes;
 using Mafia.NET.Matches.Phases;
+using Mafia.NET.Matches.Phases.Vote;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles;
@@ -27,13 +27,11 @@ namespace Mafia.NET.Matches
         public Match(ISettings settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
             Settings = settings;
-            settings.Voting.ProcedureStart += ProcedureStarted;
-
             AllPlayers = players;
             Graveyard = new List<IDeath>();
             PossibleRoles = possibleRoles;
             CurrentTime = TimePhase.DAY;
-            CurrentPhase = new PresentationPhase();
+            CurrentPhase = new PresentationPhase(this);
             OpenChats = new List<IChat>();
             Timer = new Timer(CurrentPhase.DurationMs);
         }
@@ -43,13 +41,13 @@ namespace Mafia.NET.Matches
             CurrentPhase.SupersededBy = newPhase;
             newPhase.Supersedes = CurrentPhase;
             CurrentPhase = newPhase;
-            CurrentPhase.Start(this);
+            CurrentPhase.Start();
         }
 
         public void AdvancePhase(object state)
         {
             CurrentPhase = CurrentPhase.End(this);
-            CurrentPhase.Start(this);
+            CurrentPhase.Start();
         }
 
         public void End()

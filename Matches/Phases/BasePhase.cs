@@ -1,11 +1,12 @@
-﻿#nullable enable
+﻿using System;
 
-using System;
+#nullable enable
 
 namespace Mafia.NET.Matches.Phases
 {
     public abstract class BasePhase : IPhase
     {
+        public IMatch Match { get; }
         public string Name { get; }
         public int Duration { get; }
         public IPhase? PreviousPhase { get; }
@@ -15,15 +16,16 @@ namespace Mafia.NET.Matches.Phases
         public IPhase? SupersededBy { get; set; }
         public event EventHandler<PhaseChangeEventArgs>? PhaseChanged;
 
-        public BasePhase(string name, int duration = -1, IPhase? nextPhase = null, bool skippable = false)
+        public BasePhase(IMatch match, string name, int duration = -1, IPhase? nextPhase = null, bool skippable = false)
         {
+            Match = match;
             Name = name;
             Duration = duration;
             NextPhase = nextPhase;
             Skippable = skippable;
         }
 
-        public abstract void Start(IMatch match);
+        public abstract void Start();
 
         public virtual IPhase End(IMatch match)
         {

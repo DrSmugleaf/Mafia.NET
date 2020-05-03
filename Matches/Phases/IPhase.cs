@@ -4,6 +4,7 @@ namespace Mafia.NET.Matches.Phases
 {
     public interface IPhase
     {
+        IMatch Match { get; }
         string Name { get; }
         int Duration { get; }
         sealed double DurationMs => Duration * 1000;
@@ -12,7 +13,7 @@ namespace Mafia.NET.Matches.Phases
         IPhase? PreviousPhase { get; }
         IPhase? NextPhase { get; }
         bool Skippable { get; }
-        void Start(IMatch match);
+        void Start();
         IPhase End(IMatch match);
     }
 }

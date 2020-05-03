@@ -7,15 +7,15 @@ namespace Mafia.NET.Matches.Phases
 {
     class DeathsPhase : BasePhase
     {
-        public DeathsPhase() : base("Deaths", nextPhase: new DiscussionPhase())
+        public DeathsPhase(IMatch match) : base(match, "Deaths", nextPhase: new DiscussionPhase(match))
         {
         }
 
-        public override void Start(IMatch match)
+        public override void Start()
         {
             List<Notification> notifications = new List<Notification>();
             string startingMessage;
-            switch (match.UndisclosedDeaths.Count)
+            switch (Match.UndisclosedDeaths.Count)
             {
                 case 0:
                     return;
@@ -29,7 +29,7 @@ namespace Mafia.NET.Matches.Phases
 
             notifications.Add(new Notification(NotificationType.POPUP, startingMessage));
 
-            foreach (var death in match.UndisclosedDeaths)
+            foreach (var death in Match.UndisclosedDeaths)
             {
                 string popupName = $"{death.Of.Name} didn't live to see the morning.";
                 string popupCause = ""; // TODO
@@ -50,14 +50,14 @@ namespace Mafia.NET.Matches.Phases
             {
                 var notificationEvent = new NotificationEventArgs(notification);
                 
-                foreach (var player in match.AllPlayers.Values)
+                foreach (var player in Match.AllPlayers.Values)
                 {
                     player.OnNotification(notificationEvent);
                 }
             }
 
-            match.Graveyard.AddRange(match.UndisclosedDeaths);
-            match.UndisclosedDeaths.Clear();
+            Match.Graveyard.AddRange(Match.UndisclosedDeaths);
+            Match.UndisclosedDeaths.Clear();
         }
     }
 }
