@@ -4,6 +4,6 @@ namespace Mafia.NET.Matches.Options
 {
     public interface ISettings
     {
-        IDayType DayType { get; }
+        IVoting Voting { get; }
     }
 }

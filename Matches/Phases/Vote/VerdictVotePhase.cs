@@ -1,4 +1,4 @@
-﻿namespace Mafia.NET.Matches.Phases
+﻿namespace Mafia.NET.Matches.Phases.Vote
 {
     public class VerdictVotePhase : BasePhase
     {

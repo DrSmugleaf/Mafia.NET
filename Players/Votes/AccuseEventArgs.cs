@@ -1,14 +1,14 @@
 ﻿using Mafia.NET.Players;
 using System;
 
-namespace Mafia.NET.Matches.Options.DayTypes
+namespace Mafia.NET.Matches.Players.Votes
 {
-    public class TrialVoteAddEventArgs : EventArgs
+    public class AccuseEventArgs : EventArgs
     {
         public IPlayer Voter { get; }
         public IPlayer Accused { get; }
 
-        public TrialVoteAddEventArgs(IPlayer voter, IPlayer accused)
+        public AccuseEventArgs(IPlayer voter, IPlayer accused)
         {
             Voter = voter;
             Accused = accused;

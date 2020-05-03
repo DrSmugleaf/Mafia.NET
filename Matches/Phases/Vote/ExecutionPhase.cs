@@ -1,12 +1,12 @@
 ﻿using Mafia.NET.Players;
 
-namespace Mafia.NET.Matches.Phases
+namespace Mafia.NET.Matches.Phases.Vote
 {
-    class DefensePhase : BasePhase
+    class ExecutionPhase : BasePhase
     {
         public IPlayer Player { get; }
 
-        public DefensePhase(IPlayer player, int duration = 15) : base("Defense", duration, new VerdictVotePhase())
+        public ExecutionPhase(IPlayer player) : base("Execution", nextPhase: new ExecutionRevealPhase())
         {
             Player = player;
         }

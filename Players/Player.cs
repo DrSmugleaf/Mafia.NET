@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players.Roles;
 using System;
 using System.Drawing;
@@ -12,14 +13,40 @@ namespace Mafia.NET.Players
         public IRole Role { get; set; }
         public Color Tint { get; }
         public bool Alive { get; set; }
-        public event EventHandler<NotificationEventArgs> Notification;
+#nullable enable
+        private IPlayer? _accuses;
+        public IPlayer? Accuses
+        {
+            get => _accuses;
+            set
+            {
+                var oldAccused = _accuses;
+                _accuses = value;
 
-        public Player(int id, string name, IRole role)
+                if (Accuses != null)
+                {
+                    var ev = new AccuseEventArgs(this, Accuses);
+                    OnAccuse(ev);
+                } else
+                {
+                    var ev = new UnaccuseEventArgs(this, oldAccused);
+                    OnUnaccuse(ev);
+                }
+            }
+        }
+#nullable disable
+        public bool Anonymous { get; set; }
+        public event EventHandler<NotificationEventArgs> Notification;
+        public event EventHandler<AccuseEventArgs> Accuse;
+        public event EventHandler<UnaccuseEventArgs> Unaccuse;
+
+        public Player(int id, string name, IRole role, bool anonymous)
         {
             Id = id;
             Name = name;
             Role = role;
             Tint = IdToColor(id);
+            Anonymous = anonymous;
         }
 
         public static Color IdToColor(int id)
@@ -45,6 +72,16 @@ namespace Mafia.NET.Players
             };
 
             return Color.FromArgb((int)color);
+        }
+
+        public virtual void OnAccuse(AccuseEventArgs e)
+        {
+            Accuse?.Invoke(this, e);
+        }
+
+        public virtual void OnUnaccuse(UnaccuseEventArgs e)
+        {
+            Unaccuse?.Invoke(this, e);
         }
 
         public virtual void OnNotification(NotificationEventArgs e)

@@ -1,6 +1,6 @@
 ﻿using Mafia.NET.Players;
 
-namespace Mafia.NET.Matches.Phases
+namespace Mafia.NET.Matches.Phases.Vote
 {
     class LastWordsPhase : BasePhase
     {

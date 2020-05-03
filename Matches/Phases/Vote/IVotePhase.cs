@@ -1,20 +1,18 @@
-﻿using Mafia.NET.Matches.Phases;
+﻿using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players;
 using System;
 using System.Collections.Generic;
 
-namespace Mafia.NET.Matches.Options.DayTypes
+namespace Mafia.NET.Matches.Phases.Vote
 {
-    public interface IDayType
+    public interface IVotePhase : IPhase
     {
-        IMatch Match { get; }
         IReadOnlyDictionary<IPlayer, IPlayer> LynchVotes { get; }
         IReadOnlyDictionary<IPlayer, int> VotesAgainst { get; }
         bool AnonymousVoting { get; }
-        event EventHandler<TrialVoteAddEventArgs> TrialVoteAdd;
-        event EventHandler<TrialVoteRemoveEventArgs> TrialVoteRemove;
+        event EventHandler<AccuseEventArgs> TrialVoteAdd;
+        event EventHandler<UnaccuseEventArgs> TrialVoteRemove;
 
-        public BasePhase VotingPhase();
         public void Add(IPlayer voter, IPlayer accused);
         public bool Remove(IPlayer voter);
     }

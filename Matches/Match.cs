@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Options;
+using Mafia.NET.Matches.Options.DayTypes;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
@@ -26,6 +27,8 @@ namespace Mafia.NET.Matches
         public Match(ISettings settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
             Settings = settings;
+            settings.Voting.ProcedureStart += ProcedureStarted;
+
             AllPlayers = players;
             Graveyard = new List<IDeath>();
             PossibleRoles = possibleRoles;
@@ -52,6 +55,11 @@ namespace Mafia.NET.Matches
         public void End()
         {
             Timer.Stop();
+        }
+
+        protected virtual void ProcedureStarted(object sender, ProcedureStartEventArgs e)
+        {
+            SupersedePhase(e.Phase);
         }
     }
 }

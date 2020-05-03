@@ -4,11 +4,11 @@ namespace Mafia.NET.Matches.Options
 {
     public class Settings : ISettings
     {
-        public IDayType DayType { get; }
+        public IVoting Voting { get; }
 
-        public Settings(IDayType dayType)
+        public Settings(IVoting voting)
         {
-            DayType = dayType;
+            Voting = voting;
         }
     }
 }
