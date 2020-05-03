@@ -1,8 +1,9 @@
-﻿using Mafia.NET.Players;
+﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
-    class TrialPhase : BasePhase
+    public class TrialPhase : BasePhase
     {
         public IPlayer Player { get; }
 
@@ -12,7 +13,12 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            throw new System.NotImplementedException();
+            var notification = NotificationEventArgs.Popup($"The town has decided to put {Player.Name} to trial.");
+
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
         }
     }
 }

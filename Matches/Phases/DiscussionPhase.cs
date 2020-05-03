@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Matches.Phases.Vote;
+﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Matches.Phases.Vote;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -10,7 +11,13 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            throw new System.NotImplementedException();
+            Match.Day++;
+            var notification = NotificationEventArgs.Popup($"Day {Match.Day}");
+
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
         }
     }
 }

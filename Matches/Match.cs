@@ -19,6 +19,7 @@ namespace Mafia.NET.Matches
         public List<IDeath> Graveyard { get; }
         public IList<IDeath> UndisclosedDeaths { get; }
         public IReadOnlyList<IRole> PossibleRoles { get; }
+        public int Day { get; set; }
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
         public IList<IChat> OpenChats { get; }
@@ -30,6 +31,7 @@ namespace Mafia.NET.Matches
             AllPlayers = players;
             Graveyard = new List<IDeath>();
             PossibleRoles = possibleRoles;
+            Day = 0;
             CurrentTime = TimePhase.DAY;
             CurrentPhase = new PresentationPhase(this);
             OpenChats = new List<IChat>();
@@ -46,7 +48,7 @@ namespace Mafia.NET.Matches
 
         public void AdvancePhase(object state)
         {
-            CurrentPhase = CurrentPhase.End(this);
+            CurrentPhase = CurrentPhase.End();
             CurrentPhase.Start();
         }
 

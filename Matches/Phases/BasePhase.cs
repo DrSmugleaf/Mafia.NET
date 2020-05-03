@@ -14,7 +14,6 @@ namespace Mafia.NET.Matches.Phases
         public bool Skippable { get; }
         public IPhase? Supersedes { get; set; }
         public IPhase? SupersededBy { get; set; }
-        public event EventHandler<PhaseChangeEventArgs>? PhaseChanged;
 
         public BasePhase(IMatch match, string name, int duration = -1, IPhase? nextPhase = null, bool skippable = false)
         {
@@ -25,9 +24,11 @@ namespace Mafia.NET.Matches.Phases
             Skippable = skippable;
         }
 
-        public abstract void Start();
+        public virtual void Start()
+        {
+        }
 
-        public virtual IPhase End(IMatch match)
+        public virtual IPhase End()
         {
             if (NextPhase == null)
             {
@@ -35,11 +36,6 @@ namespace Mafia.NET.Matches.Phases
             }
 
             return NextPhase;
-        }
-
-        protected virtual void OnPhaseChange(PhaseChangeEventArgs e)
-        {
-            PhaseChanged?.Invoke(this, e);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Mafia.NET.Matches.Chats
 {
@@ -11,6 +12,12 @@ namespace Mafia.NET.Matches.Chats
         {
             Type = type;
             Text = text;
+        }
+
+        public NotificationEventArgs(NotificationType type, params NotificationEventArgs[] notifications)
+        {
+            Type = type;
+            Text = string.Join(Environment.NewLine, notifications.Select(notification => notification.Text));
         }
 
         public static NotificationEventArgs Chat(string text) => new NotificationEventArgs(NotificationType.CHAT, text);

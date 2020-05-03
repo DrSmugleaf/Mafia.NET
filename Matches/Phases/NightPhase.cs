@@ -1,6 +1,8 @@
-﻿namespace Mafia.NET.Matches.Phases
+﻿using Mafia.NET.Matches.Chats;
+
+namespace Mafia.NET.Matches.Phases
 {
-    class NightPhase : BasePhase
+    public class NightPhase : BasePhase
     {
         public NightPhase(IMatch match, int duration = 40) : base(match, "Night", duration, new DeathsPhase(match))
         {
@@ -8,7 +10,12 @@
 
         public override void Start()
         {
-            throw new System.NotImplementedException();
+            var notification = NotificationEventArgs.Popup($"Night {Match.Day}");
+
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
         }
     }
 }

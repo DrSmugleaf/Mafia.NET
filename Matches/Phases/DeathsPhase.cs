@@ -1,11 +1,9 @@
 ﻿using Mafia.NET.Matches.Chats;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Mafia.NET.Matches.Phases
 {
-    class DeathsPhase : BasePhase
+    public class DeathsPhase : BasePhase
     {
         public DeathsPhase(IMatch match) : base(match, "Deaths", nextPhase: new DiscussionPhase(match))
         {

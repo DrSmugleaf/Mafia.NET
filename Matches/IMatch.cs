@@ -17,6 +17,7 @@ namespace Mafia.NET.Matches
         List<IDeath> Graveyard { get; }
         IList<IDeath> UndisclosedDeaths { get; }
         IReadOnlyList<IRole> PossibleRoles { get; }
+        int Day { get; set; }
         TimePhase CurrentTime { get; set; }
         IPhase CurrentPhase { get; set; }
         IList<IChat> OpenChats { get; }

@@ -6,7 +6,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player;
 
-        public ExecutionRevealPhase(IMatch match, IPlayer player) : base(match, "Execution Reveal", nextPhase: new NightPhase(match))
+        public ExecutionRevealPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Execution Reveal", duration, new NightPhase(match))
         {
             Player = player;
         }

@@ -2,15 +2,13 @@
 using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Votes;
-using System;
 using System.Collections.Generic;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
-    class AccusePhase : BasePhase
+    public class AccusePhase : BasePhase
     {
-        IPhase Procedure { get; }
-        event EventHandler<ProcedureStartEventArgs> ProcedureStart;
+        IPhase Procedure { get; } // TODO
 
         public AccusePhase(IMatch match, int duration = 80) : base(match, "Time Left", duration, new NightPhase(match))
         {
@@ -50,8 +48,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
             if (VotesAgainst(e.Accused).Count > Match.LivingPlayers.Count / 2)
             {
-                var procedure = new ProcedureStartEventArgs(e.Accused, Match.LivingPlayers, Procedure);
-                OnProcedureStart(procedure);
+                Match.SupersedePhase(new TrialPhase(Match, e.Accused));
             }
         }
 
@@ -91,18 +88,6 @@ namespace Mafia.NET.Matches.Phases.Vote
             }
         }
 
-        protected virtual void OnProcedureStart(ProcedureStartEventArgs e)
-        {
-            var notification = NotificationEventArgs.Popup($"The town has decided to put {e.Against.Name} to trial.");
-
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
-
-            ProcedureStart?.Invoke(this, e);
-        }
-
         public override void Start()
         {
             foreach (var voter in Match.LivingPlayers.Values)
@@ -111,9 +96,21 @@ namespace Mafia.NET.Matches.Phases.Vote
                 voter.Unaccuse += Unaccused;
                 voter.AccuseChange += AccuseChange;
             }
+
+            var notification = NotificationEventArgs.Popup("Today's public vote and trial will begin now.");
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
+
+            notification = NotificationEventArgs.Popup($"{Match.LivingPlayers.Count / 2 + 1} votes are needed to send someone to trial.");
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
         }
 
-        public override IPhase End(IMatch match)
+        public override IPhase End()
         {
             foreach (var voter in Match.LivingPlayers.Values)
             {
@@ -122,7 +119,7 @@ namespace Mafia.NET.Matches.Phases.Vote
                 voter.AccuseChange -= AccuseChange;
             }
 
-            return base.End(match);
+            return base.End();
         }
     }
 }

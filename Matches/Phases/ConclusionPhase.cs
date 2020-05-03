@@ -1,8 +1,8 @@
 ﻿namespace Mafia.NET.Matches.Phases
 {
-    class ConclusionPhase : BasePhase
+    public class ConclusionPhase : BasePhase
     {
-        public ConclusionPhase(IMatch match, int duration = 120) : base(match, "Conclusion", duration)
+        public ConclusionPhase(IMatch match, int duration) : base(match, "Conclusion", duration)
         {
         }
 
@@ -11,9 +11,9 @@
             throw new System.NotImplementedException();
         }
 
-        public override IPhase End(IMatch match)
+        public override IPhase End()
         {
-            match.End();
+            Match.End();
             return this;
         }
     }

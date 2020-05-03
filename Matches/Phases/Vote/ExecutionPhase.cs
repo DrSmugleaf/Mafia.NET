@@ -2,11 +2,11 @@
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
-    class ExecutionPhase : BasePhase
+    public class ExecutionPhase : BasePhase
     {
         public IPlayer Player { get; }
 
-        public ExecutionPhase(IMatch match, IPlayer player) : base(match, "Execution", nextPhase: new ExecutionRevealPhase(match, player))
+        public ExecutionPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Execution", duration, new ExecutionRevealPhase(match, player))
         {
             Player = player;
         }

@@ -14,6 +14,6 @@ namespace Mafia.NET.Matches.Phases
         IPhase? NextPhase { get; }
         bool Skippable { get; }
         void Start();
-        IPhase End(IMatch match);
+        IPhase End();
     }
 }
