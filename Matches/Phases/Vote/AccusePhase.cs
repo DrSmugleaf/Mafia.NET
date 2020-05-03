@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players;
+using Mafia.NET.Players.Votes;
 using System;
 using System.Collections.Generic;
 
@@ -33,19 +34,18 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         protected void Accused(object sender, AccuseEventArgs e)
         {
-            Notification notification;
+            NotificationEventArgs notification;
             if (!e.Voter.Anonymous)
             {
-                notification = Notification.Chat($"{e.Voter.Name} has voted to try {e.Accused.Name}.");
+                notification = NotificationEventArgs.Chat($"{e.Voter.Name} has voted to try {e.Accused.Name}.");
             } else
             {
-                notification = Notification.Chat("Someone has voted to lynch someone.");
+                notification = NotificationEventArgs.Chat("Someone has voted to lynch someone.");
             }
 
-            var notificationEvent = new NotificationEventArgs(notification);
             foreach (var player in Match.AllPlayers.Values)
             {
-                player.OnNotification(notificationEvent);
+                player.OnNotification(notification);
             }
 
             if (VotesAgainst(e.Accused).Count > Match.LivingPlayers.Count / 2)
@@ -57,30 +57,47 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         protected void Unaccused(object sender, UnaccuseEventArgs e)
         {
-            Notification notification;
-            if (!e.Voter.Anonymous)
+            NotificationEventArgs notification;
+            if (e.Voter.Anonymous)
             {
-                notification = Notification.Chat($"{e.Voter.Name} has cancelled their vote.");
-            } else
+                notification = NotificationEventArgs.Chat("Someone has cancelled their vote.");
+            }
+            else
             {
-                notification = Notification.Chat("Someone has cancelled their vote.");
+                notification = NotificationEventArgs.Chat($"{e.Voter.Name} has cancelled their vote.");
             }
 
-            var notificationEvent = new NotificationEventArgs(notification);
             foreach (var player in Match.AllPlayers.Values)
             {
-                player.OnNotification(notificationEvent);
+                player.OnNotification(notification);
+            }
+        }
+
+        protected void AccuseChange(object sender, AccuseChangeEventArgs e)
+        {
+            NotificationEventArgs notification;
+            if (e.Voter.Anonymous)
+            {
+                notification = NotificationEventArgs.Chat($"Someone has changed their vote to someone else.");
+            }
+            else
+            {
+                notification = NotificationEventArgs.Chat($"{e.Voter.Name} has changed their vote to {e.NewAccuse.Name}.");
+            }
+
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
             }
         }
 
         protected virtual void OnProcedureStart(ProcedureStartEventArgs e)
         {
-            var notification = Notification.Popup($"The town has decided to put {e.Against.Name} to trial.");
-            var notificationEvent = new NotificationEventArgs(notification);
+            var notification = NotificationEventArgs.Popup($"The town has decided to put {e.Against.Name} to trial.");
 
             foreach (var player in Match.AllPlayers.Values)
             {
-                player.OnNotification(notificationEvent);
+                player.OnNotification(notification);
             }
 
             ProcedureStart?.Invoke(this, e);
@@ -92,6 +109,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             {
                 voter.Accuse += Accused;
                 voter.Unaccuse += Unaccused;
+                voter.AccuseChange += AccuseChange;
             }
         }
 
@@ -101,6 +119,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             {
                 voter.Accuse -= Accused;
                 voter.Unaccuse -= Unaccused;
+                voter.AccuseChange -= AccuseChange;
             }
 
             return base.End(match);

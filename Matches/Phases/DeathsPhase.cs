@@ -13,7 +13,7 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            List<Notification> notifications = new List<Notification>();
+            List<NotificationEventArgs> notifications = new List<NotificationEventArgs>();
             string startingMessage;
             switch (Match.UndisclosedDeaths.Count)
             {
@@ -27,7 +27,7 @@ namespace Mafia.NET.Matches.Phases
                     break;
             }
 
-            notifications.Add(new Notification(NotificationType.POPUP, startingMessage));
+            notifications.Add(new NotificationEventArgs(NotificationType.POPUP, startingMessage));
 
             foreach (var death in Match.UndisclosedDeaths)
             {
@@ -37,22 +37,20 @@ namespace Mafia.NET.Matches.Phases
                 string chatLastWillAuthor = $"{death.Of.Name} left us his last will:";
                 string chatLastWill = death.LastWill;
 
-                notifications.AddRange(new Notification[] {
-                    Notification.Popup(popupName),
-                    Notification.Popup(popupCause),
-                    Notification.Popup(popupRole),
-                    Notification.Chat(chatLastWillAuthor),
-                    Notification.Chat(chatLastWill)
+                notifications.AddRange(new NotificationEventArgs[] {
+                    NotificationEventArgs.Popup(popupName),
+                    NotificationEventArgs.Popup(popupCause),
+                    NotificationEventArgs.Popup(popupRole),
+                    NotificationEventArgs.Chat(chatLastWillAuthor),
+                    NotificationEventArgs.Chat(chatLastWill)
                 });
             }
 
             foreach (var notification in notifications)
             {
-                var notificationEvent = new NotificationEventArgs(notification);
-                
                 foreach (var player in Match.AllPlayers.Values)
                 {
-                    player.OnNotification(notificationEvent);
+                    player.OnNotification(notification);
                 }
             }
 

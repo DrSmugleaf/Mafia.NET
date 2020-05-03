@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Votes;
 using System;
 using System.Drawing;
 
@@ -20,17 +21,21 @@ namespace Mafia.NET.Players
             get => _accuses;
             set
             {
-                var oldAccused = _accuses;
+                var oldAccuse = _accuses;
                 _accuses = value;
 
-                if (Accuses != null)
+                if (Accuses == null && oldAccuse != null)
+                {
+                    var ev = new UnaccuseEventArgs(this, oldAccuse);
+                    OnUnaccuse(ev);
+                } else if (Accuses != null && oldAccuse == null)
                 {
                     var ev = new AccuseEventArgs(this, Accuses);
                     OnAccuse(ev);
-                } else
+                } else if (Accuses != null && oldAccuse != null)
                 {
-                    var ev = new UnaccuseEventArgs(this, oldAccused);
-                    OnUnaccuse(ev);
+                    var ev = new AccuseChangeEventArgs(this, oldAccuse, Accuses);
+                    OnAccuseChange(ev);
                 }
             }
         }
@@ -39,6 +44,7 @@ namespace Mafia.NET.Players
         public event EventHandler<NotificationEventArgs> Notification;
         public event EventHandler<AccuseEventArgs> Accuse;
         public event EventHandler<UnaccuseEventArgs> Unaccuse;
+        public event EventHandler<AccuseChangeEventArgs> AccuseChange;
 
         public Player(int id, string name, IRole role, bool anonymous)
         {
@@ -82,6 +88,11 @@ namespace Mafia.NET.Players
         public virtual void OnUnaccuse(UnaccuseEventArgs e)
         {
             Unaccuse?.Invoke(this, e);
+        }
+
+        public virtual void OnAccuseChange(AccuseChangeEventArgs e)
+        {
+            AccuseChange?.Invoke(this, e);
         }
 
         public virtual void OnNotification(NotificationEventArgs e)

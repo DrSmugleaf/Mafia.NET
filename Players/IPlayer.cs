@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Votes;
 using System;
 using System.Drawing;
 
@@ -18,9 +19,13 @@ namespace Mafia.NET.Players
 #nullable disable
         bool Anonymous { get; set; }
         event EventHandler<NotificationEventArgs> Notification;
-        public event EventHandler<AccuseEventArgs> Accuse;
-        public event EventHandler<UnaccuseEventArgs> Unaccuse;
+        event EventHandler<AccuseEventArgs> Accuse;
+        event EventHandler<UnaccuseEventArgs> Unaccuse;
+        event EventHandler<AccuseChangeEventArgs> AccuseChange;
 
-        public void OnNotification(NotificationEventArgs e);
+        void OnAccuse(AccuseEventArgs e);
+        void OnUnaccuse(UnaccuseEventArgs e);
+        void OnAccuseChange(AccuseChangeEventArgs e);
+        void OnNotification(NotificationEventArgs e);
     }
 }

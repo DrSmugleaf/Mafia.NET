@@ -2,13 +2,19 @@
 
 namespace Mafia.NET.Matches.Chats
 {
-    public class NotificationEventArgs : EventArgs
+    public class NotificationEventArgs : EventArgs, INotification
     {
-        public Notification Notification { get; }
+        public NotificationType Type { get; }
+        public string Text { get; }
 
-        public NotificationEventArgs(Notification notification)
+        public NotificationEventArgs(NotificationType type, string text)
         {
-            Notification = notification;
+            Type = type;
+            Text = text;
         }
+
+        public static NotificationEventArgs Chat(string text) => new NotificationEventArgs(NotificationType.CHAT, text);
+
+        public static NotificationEventArgs Popup(string text) => new NotificationEventArgs(NotificationType.POPUP, text);
     }
 }
