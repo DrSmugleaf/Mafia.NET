@@ -12,7 +12,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public AccusePhase(IMatch match, int duration = 80) : base(match, "Time Left", duration, new NightPhase(match))
         {
-            Procedure = match.Settings.Procedure;
+            Procedure = match.Setup.Procedure;
         }
 
         public IList<IPlayer> VotesAgainst(IPlayer accused)

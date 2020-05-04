@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Mafia.NET.Players.Deaths
+﻿namespace Mafia.NET.Players.Deaths
 {
     public enum DeathCause
     {

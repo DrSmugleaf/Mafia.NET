@@ -13,7 +13,7 @@ namespace Mafia.NET.Matches
 {
     public class Match : IMatch
     {
-        public ISettings Settings { get; }
+        public ISetup Setup { get; }
         public IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
         public IReadOnlyDictionary<int, IPlayer> LivingPlayers => new Dictionary<int, IPlayer>(AllPlayers.Where(player => player.Value.Alive));
         public List<IDeath> Graveyard { get; }
@@ -25,9 +25,9 @@ namespace Mafia.NET.Matches
         public IList<IChat> OpenChats { get; }
         public Timer Timer { get; }
 
-        public Match(ISettings settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
+        public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
-            Settings = settings;
+            Setup = settings;
             AllPlayers = players;
             Graveyard = new List<IDeath>();
             PossibleRoles = possibleRoles;

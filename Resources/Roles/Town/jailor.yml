@@ -4,3 +4,6 @@
   - Town Killing	
   - Town Power
   color: "#66CC00"
+  abilities:
+  - name: Jail
+    description: "Jail and roleblock one player each night following a day where no lynch occurred. Speak anonymously with the jailed player at night, and optionally execute that player."
