@@ -45,13 +45,15 @@ namespace Mafia.NET.Players.Roles
                     {
                         categories.Add((Category)categoryNode.AsString());
                     }
-                } else if (categoriesNode is YamlSequenceNode yamlCategories)
+                }
+                else if (categoriesNode is YamlSequenceNode yamlCategories)
                 {
                     foreach (var category in yamlCategories)
                     {
                         categories.Add((Category)category.AsString());
                     }
-                } else
+                }
+                else
                 {
                     throw new InvalidOperationException("Unrecognized type for yamlCategories");
                 }

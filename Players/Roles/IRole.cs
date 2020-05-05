@@ -1,5 +1,4 @@
-﻿using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Categories;
+﻿using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 using System.Collections.Generic;
 using System.Drawing;

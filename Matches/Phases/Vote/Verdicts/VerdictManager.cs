@@ -72,7 +72,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
         public NotificationEventArgs Votes()
         {
             string message = "";
-            
+
             foreach (var verdict in Verdicts)
             {
                 message += $"[{verdict.Key.Name} " + verdict.Value switch

@@ -28,11 +28,13 @@ namespace Mafia.NET.Players
                 {
                     var ev = new UnaccuseEventArgs(this, old);
                     OnUnaccuse(ev);
-                } else if (Accuses != null && old == null)
+                }
+                else if (Accuses != null && old == null)
                 {
                     var ev = new AccuseEventArgs(this, Accuses);
                     OnAccuse(ev);
-                } else if (Accuses != null && old != null)
+                }
+                else if (Accuses != null && old != null)
                 {
                     var ev = new AccuseChangeEventArgs(this, old, Accuses);
                     OnAccuseChange(ev);

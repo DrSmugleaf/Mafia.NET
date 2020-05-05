@@ -25,7 +25,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected override void OnDayEnd()
         {
-            if (Match.Graveyard.Any(death => death.Day == Match.Day && death.Cause == DeathCause.LYNCH)) {
+            if (Match.Graveyard.Any(death => death.Day == Match.Day && death.Cause == DeathCause.LYNCH))
+            {
                 Targeting.Get().Targets[0].Targeted = null;
             }
         }

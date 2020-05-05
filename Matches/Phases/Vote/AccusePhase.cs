@@ -36,7 +36,8 @@ namespace Mafia.NET.Matches.Phases.Vote
             if (!e.Voter.Anonymous)
             {
                 notification = NotificationEventArgs.Chat($"{e.Voter.Name} has voted to try {e.Accused.Name}.");
-            } else
+            }
+            else
             {
                 notification = NotificationEventArgs.Chat("Someone has voted to lynch someone.");
             }
