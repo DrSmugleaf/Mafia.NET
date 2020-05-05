@@ -1,5 +1,4 @@
-﻿using Mafia.NET.Matches.Chats;
-using Mafia.NET.Matches.Options;
+﻿using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
@@ -20,7 +19,6 @@ namespace Mafia.NET.Matches
         int Day { get; set; }
         TimePhase CurrentTime { get; set; }
         IPhase CurrentPhase { get; set; }
-        IList<IChat> OpenChats { get; }
         Timer Timer { get; }
 
         void SupersedePhase(IPhase newPhase);

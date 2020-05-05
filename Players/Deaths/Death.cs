@@ -1,20 +1,24 @@
-﻿namespace Mafia.NET.Players.Deaths
+﻿#nullable enable
+
+namespace Mafia.NET.Players.Deaths
 {
     public class Death : IDeath
     {
-        public int Day { get; }
-        public IPlayer Of { get; }
-        public DeathCause Cause { get; }
-        public string LastWill { get; }
-        public string DeathNote { get; }
+        public int Day { get; set; }
+        public IPlayer Victim { get; set; }
+        public DeathCause Cause { get; set; }
+        public IPlayer? Killer { get; set; }
+        public string LastWill { get; set; }
+        public string? DeathNote { get; set; }
 
-        public Death(int day, IPlayer of, DeathCause cause, string lastWill, string deathNote)
+        public Death(int day, IPlayer victim, DeathCause cause, IPlayer? killer = null)
         {
             Day = day;
-            Of = of;
+            Victim = victim;
             Cause = cause;
-            LastWill = lastWill;
-            DeathNote = deathNote;
+            Killer = killer;
+            LastWill = victim.LastWill;
+            DeathNote = killer?.DeathNote;
         }
     }
 }

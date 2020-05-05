@@ -32,14 +32,14 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         protected void Accused(object sender, AccuseEventArgs e)
         {
-            NotificationEventArgs notification;
+            Notification notification;
             if (!e.Voter.Anonymous)
             {
-                notification = NotificationEventArgs.Chat($"{e.Voter.Name} has voted to try {e.Accused.Name}.");
+                notification = Notification.Chat($"{e.Voter.Name} has voted to try {e.Accused.Name}.");
             }
             else
             {
-                notification = NotificationEventArgs.Chat("Someone has voted to lynch someone.");
+                notification = Notification.Chat("Someone has voted to lynch someone.");
             }
 
             foreach (var player in Match.AllPlayers.Values)
@@ -55,14 +55,14 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         protected void Unaccused(object sender, UnaccuseEventArgs e)
         {
-            NotificationEventArgs notification;
+            Notification notification;
             if (e.Voter.Anonymous)
             {
-                notification = NotificationEventArgs.Chat("Someone has cancelled their vote.");
+                notification = Notification.Chat("Someone has cancelled their vote.");
             }
             else
             {
-                notification = NotificationEventArgs.Chat($"{e.Voter.Name} has cancelled their vote.");
+                notification = Notification.Chat($"{e.Voter.Name} has cancelled their vote.");
             }
 
             foreach (var player in Match.AllPlayers.Values)
@@ -73,14 +73,14 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         protected void AccuseChange(object sender, AccuseChangeEventArgs e)
         {
-            NotificationEventArgs notification;
+            Notification notification;
             if (e.Voter.Anonymous)
             {
-                notification = NotificationEventArgs.Chat($"Someone has changed their vote to someone else.");
+                notification = Notification.Chat($"Someone has changed their vote to someone else.");
             }
             else
             {
-                notification = NotificationEventArgs.Chat($"{e.Voter.Name} has changed their vote to {e.NewAccuse.Name}.");
+                notification = Notification.Chat($"{e.Voter.Name} has changed their vote to {e.NewAccuse.Name}.");
             }
 
             foreach (var player in Match.AllPlayers.Values)
@@ -98,13 +98,15 @@ namespace Mafia.NET.Matches.Phases.Vote
                 voter.AccuseChange += AccuseChange;
             }
 
-            var notification = NotificationEventArgs.Popup("Today's public vote and trial will begin now.");
+            ChatManager.Open(Match.AllPlayers.Values);
+
+            var notification = Notification.Popup("Today's public vote and trial will begin now.");
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(notification);
             }
 
-            notification = NotificationEventArgs.Popup($"{Match.LivingPlayers.Count / 2 + 1} votes are needed to send someone to trial.");
+            notification = Notification.Popup($"{Match.LivingPlayers.Count / 2 + 1} votes are needed to send someone to trial.");
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(notification);

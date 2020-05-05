@@ -15,7 +15,7 @@ namespace Mafia.NET.Players
         public Color Tint { get; }
         public bool Alive { get; set; }
 #nullable enable
-        private IPlayer? _accuses;
+        private IPlayer? _accuses { get; set; }
         public IPlayer? Accuses
         {
             get => _accuses;
@@ -43,10 +43,31 @@ namespace Mafia.NET.Players
         }
 #nullable disable
         public bool Anonymous { get; set; }
-        public event EventHandler<NotificationEventArgs> Notification;
+        private string _lastWill { get; set; }
+        public string LastWill
+        {
+            get => _lastWill;
+            set
+            {
+                if (!Alive) return;
+                _lastWill = value.Trim().Substring(0, Math.Min(value.Length, 500));
+            }
+        }
+        private string _deathNote { get; set; }
+        public string DeathNote
+        {
+            get => _deathNote;
+            set
+            {
+                if (!Alive) return;
+                _deathNote = value.Trim().Substring(0, Math.Min(value.Length, 500));
+            }
+        }
         public event EventHandler<AccuseEventArgs> Accuse;
         public event EventHandler<UnaccuseEventArgs> Unaccuse;
         public event EventHandler<AccuseChangeEventArgs> AccuseChange;
+        public event EventHandler<Notification> Notification;
+        public event EventHandler<Message> Message;
 
         public Player(int id, string name, IRole role, bool anonymous)
         {
@@ -88,6 +109,8 @@ namespace Mafia.NET.Players
 
         public virtual void OnAccuseChange(AccuseChangeEventArgs e) => AccuseChange?.Invoke(this, e);
 
-        public virtual void OnNotification(NotificationEventArgs e) => Notification?.Invoke(this, e);
+        public virtual void OnNotification(Notification e) => Notification?.Invoke(this, e);
+
+        public virtual void OnMessage(Message e) => Message?.Invoke(this, e);
     }
 }

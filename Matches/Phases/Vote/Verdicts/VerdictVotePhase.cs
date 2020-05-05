@@ -14,7 +14,9 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public override void Start()
         {
-            NotificationEventArgs notification = NotificationEventArgs.Popup($"The town may now vote on the fate of {Verdicts.Player.Name}.");
+            ChatManager.Open(Match.AllPlayers.Values);
+
+            Notification notification = Notification.Popup($"The town may now vote on the fate of {Verdicts.Player.Name}.");
 
             foreach (var player in Match.AllPlayers.Values)
             {

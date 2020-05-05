@@ -18,14 +18,18 @@ namespace Mafia.NET.Players
         IPlayer? Accuses { get; set; }
 #nullable disable
         bool Anonymous { get; set; }
-        event EventHandler<NotificationEventArgs> Notification;
+        string LastWill { get; set; }
+        string DeathNote { get; set; }
         event EventHandler<AccuseEventArgs> Accuse;
         event EventHandler<UnaccuseEventArgs> Unaccuse;
         event EventHandler<AccuseChangeEventArgs> AccuseChange;
+        event EventHandler<Notification> Notification;
+        event EventHandler<Message> Message;
 
         void OnAccuse(AccuseEventArgs e);
         void OnUnaccuse(UnaccuseEventArgs e);
         void OnAccuseChange(AccuseChangeEventArgs e);
-        void OnNotification(NotificationEventArgs e);
+        void OnNotification(Notification e);
+        void OnMessage(Message e);
     }
 }

@@ -2,10 +2,11 @@
 {
     public interface IDeath
     {
-        int Day { get; }
-        IPlayer Of { get; }
-        DeathCause Cause { get; }
-        string LastWill { get; }
-        string DeathNote { get; }
+        int Day { get; set; }
+        IPlayer Victim { get; set; }
+        DeathCause Cause { get; set; }
+        IPlayer Killer { get; set; }
+        string LastWill { get; set; }
+        string DeathNote { get; set; }
     }
 }

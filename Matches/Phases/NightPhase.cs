@@ -10,7 +10,7 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            var notification = NotificationEventArgs.Popup($"Night {Match.Day}");
+            var notification = Notification.Popup($"Night {Match.Day}");
 
             foreach (var player in Match.AllPlayers.Values)
             {

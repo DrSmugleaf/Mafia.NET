@@ -15,7 +15,10 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            var notification = NotificationEventArgs.Popup($"{Player.Name}, you are on trial for conspiracy against the town. What is your defense?");
+            ChatManager.Open(Match.AllPlayers.Values, true);
+            ChatManager.Chats[0].Participants[Player].Muted = false;
+
+            var notification = Notification.Popup($"{Player.Name}, you are on trial for conspiracy against the town. What is your defense?");
 
             foreach (var player in Match.AllPlayers.Values)
             {

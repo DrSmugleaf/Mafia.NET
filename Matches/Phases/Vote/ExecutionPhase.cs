@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Players;
+﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players;
+using Mafia.NET.Players.Deaths;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
@@ -13,7 +15,16 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            throw new System.NotImplementedException();
+            Player.Alive = false;
+            var death = new Death(Match.Day, Player, DeathCause.LYNCH);
+            Match.Graveyard.Add(death);
+            ChatManager.Open(Match.AllPlayers.Values);
+            Notification notification = Notification.Popup($"May God have mercy upon your soul, {Player.Name}.");
+
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public static TargetFilter Living(IMatch match) => new TargetFilter(() => match.LivingPlayers);
 
-        public static TargetFilter Dead(IMatch match) => new TargetFilter(() => match.Graveyard.Select(death => death.Of).ToDictionary(x => x.Id, x => x));
+        public static TargetFilter Dead(IMatch match) => new TargetFilter(() => match.AllPlayers.Where(player => !player.Value.Alive).ToDictionary(x => x.Key, x => x.Value));
 
         public static TargetFilter Only(IPlayer player)
         {
@@ -90,7 +90,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             return _filter.Invoke(players);
         }
-
 
         public TargetFilter Except(IPlayer player)
         {

@@ -24,6 +24,8 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public void AddVerdict(IPlayer voter, Verdict verdict)
         {
+            if (!Active) return;
+
             var oldVerdict = Verdicts[voter];
             Verdicts[voter] = verdict;
 
@@ -45,7 +47,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
                 return;
             }
 
-            var notification = NotificationEventArgs.Chat(message);
+            var notification = Notification.Chat(message);
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(notification);
@@ -57,7 +59,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             return Verdicts.Values.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
         }
 
-        public NotificationEventArgs Decision()
+        public Notification Decision()
         {
             var count = VerdictCount();
             var innocent = count[Verdict.INNOCENT];
@@ -66,10 +68,10 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
                 $"The town has decided to pardon {Player.Name} by a vote of {innocent} to {guilty}" :
                 $"The town has decided to lynch {Player.Name} by a vote of {guilty} to {innocent}";
 
-            return NotificationEventArgs.Popup(decision);
+            return Notification.Popup(decision);
         }
 
-        public NotificationEventArgs Votes()
+        public Notification Votes()
         {
             string message = "";
 
@@ -84,7 +86,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
                 } + $"]{Environment.NewLine}";
             }
 
-            return NotificationEventArgs.Chat(message);
+            return Notification.Chat(message);
         }
 
         public bool Innocent()

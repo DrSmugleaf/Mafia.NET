@@ -11,7 +11,7 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            List<NotificationEventArgs> notifications = new List<NotificationEventArgs>();
+            List<Notification> notifications = new List<Notification>();
             string startingMessage;
             switch (Match.UndisclosedDeaths.Count)
             {
@@ -25,22 +25,24 @@ namespace Mafia.NET.Matches.Phases
                     break;
             }
 
-            notifications.Add(new NotificationEventArgs(NotificationType.POPUP, startingMessage));
+            notifications.Add(new Notification(NotificationType.POPUP, startingMessage));
 
             foreach (var death in Match.UndisclosedDeaths)
             {
-                string popupName = $"{death.Of.Name} didn't live to see the morning.";
+                death.Victim.Alive = false;
+
+                string popupName = $"{death.Victim.Name} didn't live to see the morning.";
                 string popupCause = ""; // TODO
-                string popupRole = $"{death.Of.Name}'s role was {death.Of.Role.Name}";
-                string chatLastWillAuthor = $"{death.Of.Name} left us his last will:";
+                string popupRole = $"{death.Victim.Name}'s role was {death.Victim.Role.Name}";
+                string chatLastWillAuthor = $"{death.Victim.Name} left us his last will:";
                 string chatLastWill = death.LastWill;
 
-                notifications.AddRange(new NotificationEventArgs[] {
-                    NotificationEventArgs.Popup(popupName),
-                    NotificationEventArgs.Popup(popupCause),
-                    NotificationEventArgs.Popup(popupRole),
-                    NotificationEventArgs.Chat(chatLastWillAuthor),
-                    NotificationEventArgs.Chat(chatLastWill)
+                notifications.AddRange(new Notification[] {
+                    Notification.Popup(popupName),
+                    Notification.Popup(popupCause),
+                    Notification.Popup(popupRole),
+                    Notification.Chat(chatLastWillAuthor),
+                    Notification.Chat(chatLastWill)
                 });
             }
 

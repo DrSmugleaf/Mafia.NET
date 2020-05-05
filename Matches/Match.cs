@@ -1,7 +1,5 @@
-﻿using Mafia.NET.Matches.Chats;
-using Mafia.NET.Matches.Options;
+﻿using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Matches.Phases.Vote;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles;
@@ -22,7 +20,6 @@ namespace Mafia.NET.Matches
         public int Day { get; set; }
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
-        public IList<IChat> OpenChats { get; }
         public Timer Timer { get; }
 
         public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
@@ -34,7 +31,6 @@ namespace Mafia.NET.Matches
             Day = 0;
             CurrentTime = TimePhase.DAY;
             CurrentPhase = new PresentationPhase(this);
-            OpenChats = new List<IChat>();
             Timer = new Timer(CurrentPhase.DurationMs);
         }
 
@@ -55,11 +51,6 @@ namespace Mafia.NET.Matches
         public void End()
         {
             Timer.Stop();
-        }
-
-        protected virtual void ProcedureStarted(object sender, ProcedureStartEventArgs e)
-        {
-            SupersedePhase(e.Phase);
         }
     }
 }

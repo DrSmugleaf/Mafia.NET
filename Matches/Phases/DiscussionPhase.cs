@@ -12,7 +12,8 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             Match.Day++;
-            var notification = NotificationEventArgs.Popup($"Day {Match.Day}");
+            ChatManager.Open(Match.LivingPlayers.Values);
+            var notification = Notification.Popup($"Day {Match.Day}");
 
             foreach (var player in Match.AllPlayers.Values)
             {

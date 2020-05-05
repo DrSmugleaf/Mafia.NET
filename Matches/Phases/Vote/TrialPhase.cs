@@ -13,7 +13,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            var notification = NotificationEventArgs.Popup($"The town has decided to put {Player.Name} to trial.");
+            var notification = Notification.Popup($"The town has decided to put {Player.Name} to trial.");
 
             foreach (var player in Match.AllPlayers.Values)
             {

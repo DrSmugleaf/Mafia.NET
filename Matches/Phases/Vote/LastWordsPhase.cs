@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Players;
+﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
@@ -13,7 +14,14 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            throw new System.NotImplementedException();
+            ChatManager.Open(Match.AllPlayers.Values, true);
+            ChatManager.Chats[0].Participants[Player].Muted = false;
+            Notification notification = Notification.Popup("Do you have any last words?");
+            
+            foreach (var player in Match.AllPlayers.Values)
+            {
+                player.OnNotification(notification);
+            }
         }
     }
 }

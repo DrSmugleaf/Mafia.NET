@@ -13,14 +13,14 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public override void Start()
         {
-            var trialOver = NotificationEventArgs.Popup("The trial is over and the votes have been counted.");
-            var popup = Verdicts.Decision();
+            var trialOver = Notification.Popup("The trial is over and the votes have been counted.");
+            var decision = Verdicts.Decision();
             var messages = Verdicts.Votes();
 
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(trialOver);
-                player.OnNotification(popup);
+                player.OnNotification(decision);
                 player.OnNotification(messages);
             }
         }
