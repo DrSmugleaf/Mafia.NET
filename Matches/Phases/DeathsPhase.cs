@@ -20,8 +20,12 @@ namespace Mafia.NET.Matches.Phases
                 case 1:
                     startingMessage = "One of us did not survive the night.";
                     break;
-                default:
+                case 2:
+                case 3:
                     startingMessage = "Some of us did not survive the night.";
+                    break;
+                default:
+                    startingMessage = "Last night was a massacre.";
                     break;
             }
 
