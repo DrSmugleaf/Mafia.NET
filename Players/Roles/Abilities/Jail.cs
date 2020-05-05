@@ -1,43 +1,46 @@
 ﻿using Mafia.NET.Matches;
 using Mafia.NET.Players.Deaths;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
     [RegisterAbility("Jail", typeof(JailSetup))]
-    public class Jail : BaseAbility<SingleTarget>
+    public class Jail : BaseAbility
     {
-        public JailSetup Setup { get; protected set; }
-        public bool Execute { get; protected set; }
+        protected JailSetup Setup { get; set; }
 
         public Jail(IMatch match, IPlayer user) : base(match, user, "Jail", AbilityPhase.BOTH)
         {
             Setup = (JailSetup)match.Setup.Roles.Abilities[Name];
-            Execute = false;
         }
 
-        public override bool UsableDay(SingleTarget target)
+        protected override void OnDayStart()
         {
-            return base.UsableDay(target) && !Match.Graveyard.Any(death => death.Day == Match.Day && death.Cause == DeathCause.LYNCH);
+            Targeting.Get().Targets = new List<Target>()
+            {
+                TargetFilter.Living(Match).Except(User)
+            };
         }
 
-        public override bool UsableNight(SingleTarget target) {
-            return base.UsableNight(target) && Setup.Executions > 0;
-        }
-
-        public override void UseDay(SingleTarget target)
+        protected override void OnDayEnd()
         {
-            Target = target;
+            if (Match.Graveyard.Any(death => death.Day == Match.Day && death.Cause == DeathCause.LYNCH)) {
+                Targeting.Get().Targets[0].Targeted = null;
+            }
         }
 
-        public override void UseNight(SingleTarget target)
+        protected override void OnNightStart()
         {
-            Execute = !Execute;
+            var prisoner = Targeting.Phases[TimePhase.DAY].Targets[0].Targeted;
+            if (prisoner == null) return;
+
+            Target target = Setup.Executions > 0 ? TargetFilter.Only(prisoner) : TargetFilter.None();
+            Targeting.Get().Targets = new List<Target>() { target };
         }
 
-        public override void OnDayStart()
+        protected override void OnNightEnd()
         {
-            base.OnDayStart();
         }
     }
 

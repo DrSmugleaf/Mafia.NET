@@ -21,20 +21,20 @@ namespace Mafia.NET.Players
             get => _accuses;
             set
             {
-                var oldAccuse = _accuses;
+                var old = _accuses;
                 _accuses = value;
 
-                if (Accuses == null && oldAccuse != null)
+                if (Accuses == null && old != null)
                 {
-                    var ev = new UnaccuseEventArgs(this, oldAccuse);
+                    var ev = new UnaccuseEventArgs(this, old);
                     OnUnaccuse(ev);
-                } else if (Accuses != null && oldAccuse == null)
+                } else if (Accuses != null && old == null)
                 {
                     var ev = new AccuseEventArgs(this, Accuses);
                     OnAccuse(ev);
-                } else if (Accuses != null && oldAccuse != null)
+                } else if (Accuses != null && old != null)
                 {
-                    var ev = new AccuseChangeEventArgs(this, oldAccuse, Accuses);
+                    var ev = new AccuseChangeEventArgs(this, old, Accuses);
                     OnAccuseChange(ev);
                 }
             }
@@ -74,30 +74,18 @@ namespace Mafia.NET.Players
                 13 => PlayerColors.LIGHT_GREEN,
                 14 => PlayerColors.BLACK,
                 15 => PlayerColors.PINK,
-                _ => PlayerColors.GRAY
+                _ => PlayerColors.DEFAULT
             };
 
             return Color.FromArgb((int)color);
         }
 
-        public virtual void OnAccuse(AccuseEventArgs e)
-        {
-            Accuse?.Invoke(this, e);
-        }
+        public virtual void OnAccuse(AccuseEventArgs e) => Accuse?.Invoke(this, e);
 
-        public virtual void OnUnaccuse(UnaccuseEventArgs e)
-        {
-            Unaccuse?.Invoke(this, e);
-        }
+        public virtual void OnUnaccuse(UnaccuseEventArgs e) => Unaccuse?.Invoke(this, e);
 
-        public virtual void OnAccuseChange(AccuseChangeEventArgs e)
-        {
-            AccuseChange?.Invoke(this, e);
-        }
+        public virtual void OnAccuseChange(AccuseChangeEventArgs e) => AccuseChange?.Invoke(this, e);
 
-        public virtual void OnNotification(NotificationEventArgs e)
-        {
-            Notification?.Invoke(this, e);
-        }
+        public virtual void OnNotification(NotificationEventArgs e) => Notification?.Invoke(this, e);
     }
 }

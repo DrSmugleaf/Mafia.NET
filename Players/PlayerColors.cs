@@ -17,6 +17,6 @@
         LIGHT_GREEN = 0xFF96FF91,
         BLACK = 0xFF464646,
         PINK = 0xFFE55BB0,
-        GRAY = 0xFFAAAAAA
+        DEFAULT = 0xFFAAAAAA
     }
 }
