@@ -19,7 +19,6 @@ namespace Mafia.NET.Matches
         int Day { get; set; }
         TimePhase CurrentTime { get; set; }
         IPhase CurrentPhase { get; set; }
-        Timer Timer { get; }
 
         void SupersedePhase(IPhase newPhase);
         void AdvancePhase(object state);

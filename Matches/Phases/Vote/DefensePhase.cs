@@ -8,9 +8,14 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; }
 
-        public DefensePhase(IMatch match, IPlayer player, int duration = 15) : base(match, "Defense", duration, new VerdictVotePhase(match, player))
+        public DefensePhase(IMatch match, IPlayer player, int duration = 15) : base(match, "Defense", duration)
         {
             Player = player;
+        }
+
+        public override IPhase NextPhase()
+        {
+            return new VerdictVotePhase(Match, Player);
         }
 
         public override void Start()
@@ -24,6 +29,8 @@ namespace Mafia.NET.Matches.Phases.Vote
             {
                 player.OnNotification(notification);
             }
+
+            base.Start();
         }
     }
 }

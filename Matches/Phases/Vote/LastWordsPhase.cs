@@ -7,10 +7,12 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; }
 
-        public LastWordsPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Last Words", duration, new ExecutionPhase(match, player))
+        public LastWordsPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Last Words", duration)
         {
             Player = player;
         }
+
+        public override IPhase NextPhase() => new ExecutionPhase(Match, Player);
 
         public override void Start()
         {
@@ -22,6 +24,8 @@ namespace Mafia.NET.Matches.Phases.Vote
             {
                 player.OnNotification(notification);
             }
+
+            base.Start();
         }
     }
 }

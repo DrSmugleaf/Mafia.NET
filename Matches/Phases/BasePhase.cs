@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Matches.Chats;
 using System;
+using System.Timers;
 
 #nullable enable
 
@@ -10,37 +11,37 @@ namespace Mafia.NET.Matches.Phases
         public IMatch Match { get; }
         public string Name { get; }
         public int Duration { get; }
-        public IPhase? PreviousPhase { get; }
-        public IPhase? NextPhase { get; }
         public IPhase? Supersedes { get; set; }
         public IPhase? SupersededBy { get; set; }
         public bool Skippable { get; }
         public ChatManager ChatManager { get; }
+        public Timer Timer { get; protected set; }
 
-        public BasePhase(IMatch match, string name, int duration = -1, IPhase? nextPhase = null, bool skippable = false)
+        public BasePhase(IMatch match, string name, int duration = -1, bool skippable = false)
         {
             Match = match;
             Name = name;
             Duration = duration;
-            NextPhase = nextPhase;
             Skippable = skippable;
             ChatManager = new ChatManager();
+            Timer = new Timer();
         }
+
+        public abstract IPhase NextPhase();
 
         public virtual void Start()
         {
+            Timer.Interval = Duration * 1000;
+            Timer.Elapsed += (source, e) => End();
+            Timer.AutoReset = false;
+            Timer.Start();
         }
 
-        public virtual IPhase End()
+        public virtual void End()
         {
+            Timer.Stop();
+            Timer.Dispose();
             ChatManager.Close();
-
-            if (NextPhase == null)
-            {
-                throw new NullReferenceException("Base End() method called with no next phase");
-            }
-
-            return NextPhase;
         }
     }
 }

@@ -4,9 +4,11 @@ namespace Mafia.NET.Matches.Phases
 {
     public class NightPhase : BasePhase
     {
-        public NightPhase(IMatch match, int duration = 40) : base(match, "Night", duration, new DeathsPhase(match))
+        public NightPhase(IMatch match, int duration = 40) : base(match, "Night", duration)
         {
         }
+
+        public override IPhase NextPhase() => new DeathsPhase(Match);
 
         public override void Start()
         {
@@ -16,6 +18,8 @@ namespace Mafia.NET.Matches.Phases
             {
                 player.OnNotification(notification);
             }
+
+            base.Start();
         }
     }
 }

@@ -5,12 +5,20 @@ namespace Mafia.NET.Matches.Phases
 {
     public class DeathsPhase : BasePhase
     {
-        public DeathsPhase(IMatch match) : base(match, "Deaths", nextPhase: new DiscussionPhase(match))
+        public DeathsPhase(IMatch match, int duration = 10) : base(match, "Deaths", duration)
         {
         }
 
+        public override IPhase NextPhase() => new DiscussionPhase(Match);
+
         public override void Start()
         {
+            if (Match.UndisclosedDeaths.Count == 0)
+            {
+                End();
+                return;
+            }
+
             List<Notification> notifications = new List<Notification>();
             string startingMessage;
             switch (Match.UndisclosedDeaths.Count)
@@ -29,7 +37,7 @@ namespace Mafia.NET.Matches.Phases
                     break;
             }
 
-            notifications.Add(new Notification(NotificationType.POPUP, startingMessage));
+            notifications.Add(Notification.Popup(startingMessage));
 
             foreach (var death in Match.UndisclosedDeaths)
             {
@@ -60,6 +68,8 @@ namespace Mafia.NET.Matches.Phases
 
             Match.Graveyard.AddRange(Match.UndisclosedDeaths);
             Match.UndisclosedDeaths.Clear();
+
+            base.Start();
         }
     }
 }

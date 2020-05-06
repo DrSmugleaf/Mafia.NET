@@ -11,6 +11,11 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             Verdicts = verdicts;
         }
 
+        public override IPhase NextPhase()
+        {
+            return Verdicts.Innocent() ? Supersedes : new LastWordsPhase(Match, Verdicts.Player);
+        }
+
         public override void Start()
         {
             var trialOver = Notification.Popup("The trial is over and the votes have been counted.");
@@ -23,11 +28,8 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
                 player.OnNotification(decision);
                 player.OnNotification(messages);
             }
-        }
 
-        public override IPhase End()
-        {
-            return Verdicts.Innocent() ? Supersedes : new LastWordsPhase(Match, Verdicts.Player);
+            base.Start();
         }
     }
 }

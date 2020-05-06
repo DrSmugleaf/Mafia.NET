@@ -10,7 +10,7 @@ namespace Mafia.NET.Players
     public class Player : IPlayer
     {
         public int Id { get; }
-        public string Name { get; }
+        public string Name { get; set; }
         public IRole Role { get; set; }
         public Color Tint { get; }
         public bool Alive { get; set; }

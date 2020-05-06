@@ -1,6 +1,7 @@
-﻿#nullable enable
+﻿using Mafia.NET.Matches.Chats;
+using System.Timers;
 
-using Mafia.NET.Matches.Chats;
+#nullable enable
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -9,14 +10,14 @@ namespace Mafia.NET.Matches.Phases
         IMatch Match { get; }
         string Name { get; }
         int Duration { get; }
-        sealed double DurationMs => Duration * 1000;
-        IPhase? PreviousPhase { get; }
-        IPhase? NextPhase { get; }
         IPhase? Supersedes { get; set; }
         IPhase? SupersededBy { get; set; }
         bool Skippable { get; }
         ChatManager ChatManager { get; }
+        Timer Timer { get; }
+
+        IPhase NextPhase();
         void Start();
-        IPhase End();
+        void End();
     }
 }

@@ -8,10 +8,12 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player;
 
-        public ExecutionRevealPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Execution Reveal", duration, new NightPhase(match))
+        public ExecutionRevealPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Execution Reveal", duration)
         {
             Player = player;
         }
+
+        public override IPhase NextPhase() => Supersedes;
 
         public override void Start()
         {
@@ -31,18 +33,20 @@ namespace Mafia.NET.Matches.Phases.Vote
             {
                 player.OnNotification(lastWill);
             }
+
+            base.Start();
         }
 
-        public override IPhase End()
+        public override void End()
         {
+            base.End();
+
             var notification = Notification.Popup("Let us reconvene tomorrow.");
             
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(notification);
             }
-
-            return base.End();
         }
     }
 }

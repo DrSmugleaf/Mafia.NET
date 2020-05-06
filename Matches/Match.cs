@@ -5,7 +5,7 @@ using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
+using System.Linq.Expressions;
 
 namespace Mafia.NET.Matches
 {
@@ -20,7 +20,6 @@ namespace Mafia.NET.Matches
         public int Day { get; set; }
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
-        public Timer Timer { get; }
 
         public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
@@ -31,7 +30,6 @@ namespace Mafia.NET.Matches
             Day = 0;
             CurrentTime = TimePhase.DAY;
             CurrentPhase = new PresentationPhase(this);
-            Timer = new Timer(CurrentPhase.DurationMs);
         }
 
         public void SupersedePhase(IPhase newPhase)
@@ -44,13 +42,12 @@ namespace Mafia.NET.Matches
 
         public void AdvancePhase(object state)
         {
-            CurrentPhase = CurrentPhase.End();
+            CurrentPhase = CurrentPhase.NextPhase();
             CurrentPhase.Start();
         }
 
-        public void End()
-        {
-            Timer.Stop();
-        }
+        public void Start() => CurrentPhase.Start();
+
+        public void End() => Expression.Empty();
     }
 }

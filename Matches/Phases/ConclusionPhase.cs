@@ -2,19 +2,19 @@
 {
     public class ConclusionPhase : BasePhase
     {
-        public ConclusionPhase(IMatch match, int duration) : base(match, "Conclusion", duration)
+        public ConclusionPhase(IMatch match, int duration = 120) : base(match, "Conclusion", duration)
         {
         }
 
-        public override void Start()
+        public override IPhase NextPhase()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public override IPhase End()
-        {
-            Match.End();
             return this;
+        }
+
+        public override void End()
+        {
+            base.End();
+            Match.End();
         }
     }
 }

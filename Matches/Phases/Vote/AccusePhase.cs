@@ -10,7 +10,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         IPhase Procedure { get; } // TODO
 
-        public AccusePhase(IMatch match, int duration = 80) : base(match, "Time Left", duration, new NightPhase(match))
+        public AccusePhase(IMatch match, int duration = 80) : base(match, "Time Left", duration)
         {
             Procedure = match.Setup.Procedure;
         }
@@ -89,6 +89,11 @@ namespace Mafia.NET.Matches.Phases.Vote
             }
         }
 
+        public override IPhase NextPhase()
+        {
+            return new NightPhase(Match);
+        }
+
         public override void Start()
         {
             foreach (var voter in Match.LivingPlayers.Values)
@@ -111,18 +116,20 @@ namespace Mafia.NET.Matches.Phases.Vote
             {
                 player.OnNotification(notification);
             }
+
+            base.Start();
         }
 
-        public override IPhase End()
+        public override void End()
         {
+            base.End();
+
             foreach (var voter in Match.LivingPlayers.Values)
             {
                 voter.Accuse -= Accused;
                 voter.Unaccuse -= Unaccused;
                 voter.AccuseChange -= AccuseChange;
             }
-
-            return base.End();
         }
     }
 }

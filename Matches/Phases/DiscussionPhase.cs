@@ -5,9 +5,11 @@ namespace Mafia.NET.Matches.Phases
 {
     public class DiscussionPhase : BasePhase
     {
-        public DiscussionPhase(IMatch match, int duration = 50) : base(match, "Discussion", duration, new AccusePhase(match))
+        public DiscussionPhase(IMatch match, int duration = 50) : base(match, "Discussion", duration)
         {
         }
+
+        public override IPhase NextPhase() => new AccusePhase(Match);
 
         public override void Start()
         {
@@ -19,6 +21,8 @@ namespace Mafia.NET.Matches.Phases
             {
                 player.OnNotification(notification);
             }
+
+            base.Start();
         }
     }
 }

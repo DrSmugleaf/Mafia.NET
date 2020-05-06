@@ -12,6 +12,8 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             Verdicts = new VerdictManager(match, player);
         }
 
+        public override IPhase NextPhase() => new VerdictResultPhase(Match, Verdicts);
+
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers.Values);
@@ -22,12 +24,14 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             {
                 player.OnNotification(notification);
             }
+
+            base.Start();
         }
 
-        public override IPhase End()
+        public override void End()
         {
+            base.End();
             Verdicts.End();
-            return new VerdictResultPhase(Match, Verdicts);
         }
     }
 }
