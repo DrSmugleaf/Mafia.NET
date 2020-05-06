@@ -5,7 +5,7 @@ namespace Mafia.NET.Matches.Phases
 {
     public class DiscussionPhase : BasePhase
     {
-        public DiscussionPhase(IMatch match, int duration = 50) : base(match, "Discussion", duration)
+        public DiscussionPhase(IMatch match, uint duration = 50) : base(match, "Discussion", duration)
         {
         }
 
@@ -13,9 +13,8 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            Match.Day++;
             ChatManager.Open(Match.LivingPlayers.Values);
-            var notification = Notification.Popup($"Day {Match.Day}");
+            var notification = Notification.Popup($"Day {Match.PhaseManager.Day}");
 
             foreach (var player in Match.AllPlayers.Values)
             {

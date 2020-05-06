@@ -5,7 +5,6 @@ using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Mafia.NET.Matches
 {
@@ -17,9 +16,7 @@ namespace Mafia.NET.Matches
         public List<IDeath> Graveyard { get; }
         public IList<IDeath> UndisclosedDeaths { get; }
         public IReadOnlyList<IRole> PossibleRoles { get; }
-        public int Day { get; set; }
-        public TimePhase CurrentTime { get; set; }
-        public IPhase CurrentPhase { get; set; }
+        public PhaseManager PhaseManager { get; set; }
 
         public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
         {
@@ -27,27 +24,11 @@ namespace Mafia.NET.Matches
             AllPlayers = players;
             Graveyard = new List<IDeath>();
             PossibleRoles = possibleRoles;
-            Day = 0;
-            CurrentTime = TimePhase.DAY;
-            CurrentPhase = new PresentationPhase(this);
+            PhaseManager = new PhaseManager(this);
         }
 
-        public void SupersedePhase(IPhase newPhase)
-        {
-            CurrentPhase.SupersededBy = newPhase;
-            newPhase.Supersedes = CurrentPhase;
-            CurrentPhase = newPhase;
-            CurrentPhase.Start();
-        }
+        public void Start() => PhaseManager.Start();
 
-        public void AdvancePhase(object state)
-        {
-            CurrentPhase = CurrentPhase.NextPhase();
-            CurrentPhase.Start();
-        }
-
-        public void Start() => CurrentPhase.Start();
-
-        public void End() => Expression.Empty();
+        public void End() => PhaseManager.Close();
     }
 }

@@ -6,6 +6,7 @@ namespace Mafia.NET.Matches.Chats
     public interface IChat
     {
         IReadOnlyDictionary<IPlayer, IChatParticipant> Participants { get; }
+        bool Paused { get; set; }
 
         void Send(Message message);
         void Close();
@@ -13,8 +14,9 @@ namespace Mafia.NET.Matches.Chats
 
     public class Chat : IChat
     {
-        private Dictionary<IPlayer, IChatParticipant> _participants;
+        private Dictionary<IPlayer, IChatParticipant> _participants { get; }
         public IReadOnlyDictionary<IPlayer, IChatParticipant> Participants { get => _participants; }
+        public bool Paused { get; set; }
 
         public Chat(Dictionary<IPlayer, IChatParticipant> participants)
         {
@@ -23,7 +25,7 @@ namespace Mafia.NET.Matches.Chats
 
         public void Send(Message message)
         {
-            if (!_participants.ContainsKey(message.Sender.Owner) || message.Sender.Muted) return;
+            if (Paused || !_participants.ContainsKey(message.Sender.Owner) || message.Sender.Muted) return;
             
             foreach (var participant in _participants.Values)
             {

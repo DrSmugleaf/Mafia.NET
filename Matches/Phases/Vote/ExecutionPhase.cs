@@ -8,7 +8,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; }
 
-        public ExecutionPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Execution", duration)
+        public ExecutionPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Execution", duration)
         {
             Player = player;
         }
@@ -18,7 +18,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             Player.Alive = false;
-            var death = new Death(Match.Day, Player, DeathCause.LYNCH);
+            var death = new Death(Match.PhaseManager.Day, Player, DeathCause.LYNCH);
             Match.Graveyard.Add(death);
             ChatManager.Open(Match.AllPlayers.Values);
             Notification notification = Notification.Popup($"May God have mercy upon your soul, {Player.Name}.");

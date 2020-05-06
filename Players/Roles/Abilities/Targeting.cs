@@ -31,7 +31,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Match = match;
         }
 
-        public PhaseTargeting Get() => Phases[Match.CurrentTime];
+        public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
     }
 
     public class PhaseTargeting

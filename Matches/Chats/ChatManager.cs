@@ -37,6 +37,16 @@ namespace Mafia.NET.Matches.Chats
             foreach (var chat in _chats) chat.Send(message);
         }
 
+        public void Pause()
+        {
+            foreach (var chat in _chats) chat.Paused = true;
+        }
+
+        public void Resume()
+        {
+            foreach (var chat in _chats) chat.Paused = false;
+        }
+
         public void Close()
         {
             foreach (var chat in _chats) chat.Close();

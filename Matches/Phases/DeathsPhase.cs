@@ -5,7 +5,7 @@ namespace Mafia.NET.Matches.Phases
 {
     public class DeathsPhase : BasePhase
     {
-        public DeathsPhase(IMatch match, int duration = 10) : base(match, "Deaths", duration)
+        public DeathsPhase(IMatch match, uint duration = 10) : base(match, "Deaths", duration)
         {
         }
 
@@ -13,6 +13,9 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
+            Match.PhaseManager.Day++;
+            Match.PhaseManager.CurrentTime = TimePhase.DAY;
+
             if (Match.UndisclosedDeaths.Count == 0)
             {
                 End();

@@ -7,7 +7,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
     {
         public VerdictManager Verdicts { get; }
 
-        public VerdictVotePhase(IMatch match, IPlayer player, int duration = 15) : base(match, "Vote", duration)
+        public VerdictVotePhase(IMatch match, IPlayer player, uint duration = 15) : base(match, "Vote", duration)
         {
             Verdicts = new VerdictManager(match, player);
         }

@@ -8,7 +8,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; }
 
-        public DefensePhase(IMatch match, IPlayer player, int duration = 15) : base(match, "Defense", duration)
+        public DefensePhase(IMatch match, IPlayer player, uint duration = 15) : base(match, "Defense", duration)
         {
             Player = player;
         }

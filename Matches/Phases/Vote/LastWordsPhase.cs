@@ -7,7 +7,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; }
 
-        public LastWordsPhase(IMatch match, IPlayer player, int duration = 10) : base(match, "Last Words", duration)
+        public LastWordsPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Last Words", duration)
         {
             Player = player;
         }

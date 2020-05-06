@@ -2,7 +2,7 @@
 {
     public class ConclusionPhase : BasePhase
     {
-        public ConclusionPhase(IMatch match, int duration = 120) : base(match, "Conclusion", duration)
+        public ConclusionPhase(IMatch match, uint duration = 120) : base(match, "Conclusion", duration)
         {
         }
 

@@ -6,7 +6,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
     {
         private VerdictManager Verdicts { get; }
 
-        public VerdictResultPhase(IMatch match, VerdictManager verdicts, int duration = 10) : base(match, "Vote Recount", duration)
+        public VerdictResultPhase(IMatch match, VerdictManager verdicts, uint duration = 10) : base(match, "Vote Recount", duration)
         {
             Verdicts = verdicts;
         }

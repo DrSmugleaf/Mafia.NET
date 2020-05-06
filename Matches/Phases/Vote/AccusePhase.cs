@@ -10,7 +10,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         IPhase Procedure { get; } // TODO
 
-        public AccusePhase(IMatch match, int duration = 80) : base(match, "Time Left", duration)
+        public AccusePhase(IMatch match, uint duration = 80) : base(match, "Time Left", duration)
         {
             Procedure = match.Setup.Procedure;
         }
@@ -49,7 +49,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
             if (VotesAgainst(e.Accused).Count > Match.LivingPlayers.Count / 2)
             {
-                Match.SupersedePhase(new TrialPhase(Match, e.Accused));
+                Match.PhaseManager.SupersedePhase(new TrialPhase(Match, e.Accused));
             }
         }
 

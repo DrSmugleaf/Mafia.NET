@@ -4,7 +4,7 @@ namespace Mafia.NET.Matches.Phases
 {
     public class NightPhase : BasePhase
     {
-        public NightPhase(IMatch match, int duration = 40) : base(match, "Night", duration)
+        public NightPhase(IMatch match, uint duration = 40) : base(match, "Night", duration)
         {
         }
 
@@ -12,7 +12,8 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            var notification = Notification.Popup($"Night {Match.Day}");
+            Match.PhaseManager.CurrentTime = TimePhase.NIGHT;
+            var notification = Notification.Popup($"Night {Match.PhaseManager.Day}");
 
             foreach (var player in Match.AllPlayers.Values)
             {
