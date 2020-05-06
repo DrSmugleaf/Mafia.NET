@@ -19,7 +19,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             ChatManager.Open(Match.AllPlayers.Values, true);
             ChatManager.Chats[0].Participants[Player].Muted = false;
             Notification notification = Notification.Popup("Do you have any last words?");
-            
+
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(notification);

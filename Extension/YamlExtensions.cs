@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Extension
@@ -31,5 +32,13 @@ namespace Mafia.NET.Extension
         public static int AsInt(this YamlNode node) => int.Parse(((YamlScalarNode)node).Value);
 
         public static Color AsColor(this YamlNode node) => ColorTranslator.FromHtml(node.AsString());
+
+        public static bool AsBool(this YamlNode node)
+        {
+            bool.TryParse(node.AsString(), out bool result);
+            return result;
+        }
+
+        public static T AsEnum<T>(this YamlNode node) => (T)Enum.Parse(typeof(T), node.AsString(), true);
     }
 }

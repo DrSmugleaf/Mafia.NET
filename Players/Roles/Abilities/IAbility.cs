@@ -9,5 +9,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         string Name { get; }
         AbilityPhase Phase { get; }
         Targeting Targeting { get; }
+
+        bool TryVictory(out IVictory victory);
     }
 }

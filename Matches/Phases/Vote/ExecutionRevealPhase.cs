@@ -19,7 +19,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             ChatManager.Open(Match.AllPlayers.Values);
             var role = Notification.Popup($"{Player.Name}'s role was {Player.Role.Name}.");
-            
+
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(role);
@@ -42,7 +42,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             base.End();
 
             var notification = Notification.Popup("Let us reconvene tomorrow.");
-            
+
             foreach (var player in Match.AllPlayers.Values)
             {
                 player.OnNotification(notification);

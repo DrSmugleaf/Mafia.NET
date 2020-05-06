@@ -7,7 +7,8 @@ namespace Mafia.NET.Matches.Phases
         public new double Interval
         {
             get => base.Interval;
-            set {
+            set
+            {
                 var old = Enabled;
                 Enabled = true;
                 base.Interval = value;

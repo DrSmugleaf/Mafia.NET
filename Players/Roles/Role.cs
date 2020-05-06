@@ -1,14 +1,28 @@
 ﻿using Mafia.NET.Extension;
+using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
 {
+    public interface IRole
+    {
+        string Name { get; }
+        ITeam Affiliation { get; }
+        IReadOnlyList<ICategory> Categories { get; }
+        Color Tint { get; }
+        IAbility Ability { get; }
+
+        IReadOnlyList<Goal> Goals();
+        IReadOnlyList<Goal> Enemies();
+    }
+
     public class Role : IRole
     {
         public static readonly IReadOnlyDictionary<string, Role> Roles = LoadAll();
@@ -16,6 +30,7 @@ namespace Mafia.NET.Players.Roles
         public ITeam Affiliation { get; }
         public IReadOnlyList<ICategory> Categories { get; }
         public Color Tint { get; }
+        public IAbility Ability { get; set; } // TODO
 
         public Role(string name, ITeam affiliation, List<ICategory> categories, Color tint)
         {
@@ -66,5 +81,9 @@ namespace Mafia.NET.Players.Roles
 
             return roles;
         }
+
+        public IReadOnlyList<Goal> Goals() => Categories.Select(category => category.Goal).ToList();
+
+        public IReadOnlyList<Goal> Enemies() => Categories.SelectMany(category => category.Goal.Enemies()).ToList();
     }
 }

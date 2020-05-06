@@ -5,11 +5,22 @@ namespace Mafia.NET.Matches.Phases
 {
     public class DeathsPhase : BasePhase
     {
+        public VictoryManager VictoryManager { get; }
+
         public DeathsPhase(IMatch match, uint duration = 10) : base(match, "Deaths", duration)
         {
+            VictoryManager = new VictoryManager(Match);
         }
 
-        public override IPhase NextPhase() => new DiscussionPhase(Match);
+        public override IPhase NextPhase()
+        {
+            if (VictoryManager.TryVictory(out var victory))
+            {
+                return new ConclusionPhase(victory, Match);
+            }
+
+            return new DiscussionPhase(Match);
+        }
 
         public override void Start()
         {

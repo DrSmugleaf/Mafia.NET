@@ -5,17 +5,26 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles.Categories
 {
+    public interface ICategory
+    {
+        string Name { get; }
+        string Description { get; }
+        Goal Goal { get; }
+    }
+
     public class Category : ICategory
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
 
         public string Name { get; }
         public string Description { get; }
+        public Goal Goal { get; }
 
-        public Category(string name, string description)
+        public Category(string name, string description, Goal goal)
         {
             Name = name;
             Description = description;
+            Goal = goal;
         }
 
         public static explicit operator Category(string name) => Categories[name];
@@ -29,7 +38,8 @@ namespace Mafia.NET.Players.Roles.Categories
             {
                 var name = yaml["name"].AsString();
                 var description = yaml["description"].AsString();
-                var category = new Category(name, description);
+                var goal = yaml["goal"].AsEnum<Goal>();
+                var category = new Category(name, description, goal);
                 categories.Add(name, category);
             }
 

@@ -1,6 +1,4 @@
-﻿using System.Timers;
-
-namespace Mafia.NET.Matches.Phases
+﻿namespace Mafia.NET.Matches.Phases
 {
     public interface IPhaseManager
     {

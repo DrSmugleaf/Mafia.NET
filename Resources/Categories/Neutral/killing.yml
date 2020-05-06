@@ -1,2 +1,3 @@
 ﻿- name: Neutral Killing
   description: "Neutral Killing roles are technically a subset of Neutral Evil roles, but most players decide the two up, in terms of game settings for the reason stated above (to ensure that two Neutral Killing roles do not appear in their games). Per the category name, Neutral Killing roles focus on killing players at night."
+  goal: Killing

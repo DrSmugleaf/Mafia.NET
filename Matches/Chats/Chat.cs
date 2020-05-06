@@ -26,7 +26,7 @@ namespace Mafia.NET.Matches.Chats
         public void Send(Message message)
         {
             if (Paused || !_participants.ContainsKey(message.Sender.Owner) || message.Sender.Muted) return;
-            
+
             foreach (var participant in _participants.Values)
             {
                 if (!participant.Deaf) participant.Owner.OnMessage(message);

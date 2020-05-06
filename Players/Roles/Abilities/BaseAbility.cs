@@ -1,4 +1,7 @@
 ﻿using Mafia.NET.Matches;
+using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players.Roles.Categories;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -19,6 +22,20 @@ namespace Mafia.NET.Players.Roles.Abilities
             Phase = phase;
             Targeting = new Targeting(match);
         }
+
+        public virtual bool TryVictory(out IVictory victory)
+        {
+            var living = Match.LivingPlayers.Values;
+            var enemies = User.Role.Enemies();
+            victory = null;
+
+            if (living.SelectMany(player => player.Role.Goals()).Intersect(enemies).Any()) return false;
+
+            victory = new Victory(User, VictoryNotification());
+            return true;
+        }
+
+        public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
 
         protected virtual void OnDayStart() => Expression.Empty();
 

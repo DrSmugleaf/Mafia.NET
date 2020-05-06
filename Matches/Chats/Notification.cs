@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mafia.NET.Matches.Chats
@@ -14,10 +15,14 @@ namespace Mafia.NET.Matches.Chats
             Text = text;
         }
 
-        public Notification(NotificationType type, params Notification[] notifications)
+        public Notification(NotificationType type, IEnumerable<Notification> notifications)
         {
             Type = type;
             Text = string.Join(Environment.NewLine, notifications.Select(notification => notification.Text));
+        }
+
+        public Notification(NotificationType type, params Notification[] notifications) : this(type, notifications.AsEnumerable())
+        {
         }
 
         public static Notification Chat(string text) => new Notification(NotificationType.CHAT, text);

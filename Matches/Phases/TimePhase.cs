@@ -1,4 +1,4 @@
-﻿namespace Mafia.NET.Matches
+﻿namespace Mafia.NET.Matches.Phases
 {
     public enum TimePhase
     {

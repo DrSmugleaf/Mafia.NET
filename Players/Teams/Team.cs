@@ -6,6 +6,12 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Teams
 {
+    public interface ITeam
+    {
+        string Name { get; }
+        Color Tint { get; }
+    }
+
     public class Team : ITeam
     {
         public static readonly IReadOnlyDictionary<string, Team> Teams = LoadAll();
