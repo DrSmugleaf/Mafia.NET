@@ -12,7 +12,7 @@ namespace Mafia.NET
             var teams = Team.Teams;
             var roles = Role.Roles;
             var categories = Category.Categories;
-            Console.WriteLine();
+            Console.ReadLine();
         }
     }
 }

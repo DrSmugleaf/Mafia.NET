@@ -10,7 +10,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         IPhase Procedure { get; } // TODO
 
-        public AccusePhase(IMatch match, uint duration = 80) : base(match, "Time Left", duration)
+        public AccusePhase(IMatch match, uint duration = 80) : base(match, "Time Left", duration, true)
         {
             Procedure = match.Setup.Procedure;
         }

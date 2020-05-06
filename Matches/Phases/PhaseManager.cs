@@ -8,7 +8,7 @@ namespace Mafia.NET.Matches.Phases
         int Day { get; set; }
         TimePhase CurrentTime { get; set; }
         IPhase CurrentPhase { get; set; }
-        Timer Timer { get; }
+        Clock Clock { get; }
 
         void Start();
         void AdvancePhase();
@@ -22,7 +22,7 @@ namespace Mafia.NET.Matches.Phases
         public int Day { get; set; }
         public TimePhase CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
-        public Timer Timer { get; }
+        public Clock Clock { get; }
 
         public PhaseManager(IMatch match)
         {
@@ -30,21 +30,20 @@ namespace Mafia.NET.Matches.Phases
             Day = 1;
             CurrentTime = TimePhase.DAY;
             CurrentPhase = new PresentationPhase(Match);
-            Timer = new Timer();
+            Clock = new Clock();
         }
 
         public void Start()
         {
             CurrentPhase.Start();
-            Timer.Interval = CurrentPhase.Duration;
-            Timer.Elapsed += (source, e) => AdvancePhase();
-            Timer.AutoReset = false;
-            Timer.Start();
+            Clock.Elapsed += (source, e) => AdvancePhase();
+            Clock.Start(CurrentPhase.Duration);
         }
 
         public void AdvancePhase()
         {
-            Timer.Stop();
+            Clock.Stop();
+
             var next = CurrentPhase.NextPhase();
             CurrentPhase.End();
 
@@ -52,21 +51,19 @@ namespace Mafia.NET.Matches.Phases
             {
                 CurrentPhase.Supersedes = null;
                 next.SupersededBy = null;
-                Timer.Interval = next.Duration;
                 next.Resume();
             }
             else
             {
-                Timer.Interval = next.Duration;
                 next.Start();
             }
 
-            Timer.Start();
+            Clock.Start(next.Duration);
         }
 
         public void SupersedePhase(IPhase newPhase)
         {
-            Timer.Stop();
+            Clock.Stop();
 
             CurrentPhase.SupersededBy = newPhase;
             newPhase.Supersedes = CurrentPhase;
@@ -76,14 +73,13 @@ namespace Mafia.NET.Matches.Phases
             CurrentPhase = newPhase;
             CurrentPhase.Start();
 
-            Timer.Interval = CurrentPhase.Duration;
-            Timer.Start();
+            Clock.Start(CurrentPhase.Duration);
         }
 
         public void Close()
         {
-            Timer.Stop();
-            Timer.Dispose();
+            Clock.Stop();
+            Clock.Dispose();
         }
     }
 }

@@ -9,9 +9,9 @@ namespace Mafia.NET.Matches.Phases
     {
         public IMatch Match { get; }
         public string Name { get; }
-        public DateTime StartTime { get; protected set; }
-        protected TimeSpan Elapsed { get; set; }
         public double Duration { get; protected set; }
+        public DateTime StartTime { get; protected set; }
+        public double Elapsed { get; protected set; }
         public IPhase? Supersedes { get; set; }
         public IPhase? SupersededBy { get; set; }
         public bool Skippable { get; }
@@ -30,17 +30,17 @@ namespace Mafia.NET.Matches.Phases
 
         public virtual void Start() => StartTime = DateTime.Now;
 
-        public void Pause()
+        public virtual void Pause()
         {
-            Elapsed = DateTime.Now - StartTime;
-            Duration -= Elapsed.TotalMilliseconds;
+            Elapsed += (DateTime.Now - StartTime).TotalMilliseconds;
             ChatManager.Pause();
         }
 
-        public void Resume()
+        public virtual double Resume()
         {
             StartTime = DateTime.Now;
             ChatManager.Resume();
+            return Math.Max(0, Duration - Elapsed);
         }
 
         public virtual void End() => ChatManager.Close();

@@ -9,8 +9,9 @@ namespace Mafia.NET.Matches.Phases
     {
         IMatch Match { get; }
         string Name { get; }
-        DateTime StartTime { get; }
         double Duration { get; }
+        DateTime StartTime { get; }
+        double Elapsed { get; }
         IPhase? Supersedes { get; set; }
         IPhase? SupersededBy { get; set; }
         bool Skippable { get; }
@@ -19,7 +20,7 @@ namespace Mafia.NET.Matches.Phases
         IPhase NextPhase();
         void Start();
         void Pause();
-        void Resume();
+        double Resume();
         void End();
     }
 }
