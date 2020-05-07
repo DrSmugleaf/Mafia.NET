@@ -4,3 +4,12 @@
   - Neutral Evil
   - Neutral Killing
   color: "#BB4455"
+  abilities:
+  - name: Mass Murderer
+    description: "Perform a killing spree at someone's house each night, killing anyone who visits that player at night."
+    murder_descriptions:
+    - "They were completely eviscerated."
+    - "They died horribly to chainsaw wounds."
+    - "They were torn to pieces with a chainsaw."
+    - "They became an unrecognizable pile of gore."
+    - "Their entrails were strewn about the house."

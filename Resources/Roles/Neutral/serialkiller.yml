@@ -4,3 +4,11 @@
   - Neutral Evil
   - Neutral Killing
   color: "#FF00CC"
+  abilities:
+  - name: Serial Killer
+    description: "Kill one target at night"
+    murder_descriptions:
+    - "They had multiple stab wounds."
+    - "There were signs of a struggle. They had multiple stab wounds."
+    - "They had bruises and some bone fractures. They had multiple stab wounds."
+    - "Their body was severely battered with many broken bones. They had multiple stab wounds."

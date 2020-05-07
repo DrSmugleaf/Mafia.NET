@@ -3,3 +3,11 @@
   categories:
   - Town Government
   color: "#22FF77"
+  abilities:
+  - name: Mason Leader
+    description: "May to try to convert one person to a Mason each night. This ability only works on Citizens. Also collaborates with the other Masons at night in the secret Mason chat."
+    murder_descriptions:
+    - "They were bludgeoned to death."
+    - "They were beaten to a pulp with a blunt object."
+    - "Their body had bruises and minor fractures. They were bludgeoned to death."
+    - "Their body had bruises and minor fractures. They werebeaten to a pulp with a blunt object."

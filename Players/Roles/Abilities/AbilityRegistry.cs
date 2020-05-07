@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Matches;
+using Mafia.NET.Matches.Chats;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -6,21 +7,23 @@ using System.Linq;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
+    public class AbilityEntry
+    {
+        public string Name { get; }
+        public Type Ability { get; }
+        public Type Setup { get; }
+        public MessageRandomizer MurderDescriptions { get; } // TODO
+
+        public AbilityEntry(string name, Type ability, Type setup)
+        {
+            Name = name;
+            Ability = ability;
+            Setup = setup;
+        }
+    }
+
     public class AbilityRegistry
     {
-        public class AbilityEntry
-        {
-            public string Name { get; }
-            public Type Ability { get; }
-            public Type Setup { get; }
-
-            public AbilityEntry(string name, Type ability, Type setup)
-            {
-                Name = name;
-                Ability = ability;
-                Setup = setup;
-            }
-        }
 
         private static readonly Lazy<AbilityRegistry> Lazy = new Lazy<AbilityRegistry>(() => new AbilityRegistry());
         public static AbilityRegistry Instance { get => Lazy.Value; }
@@ -54,7 +57,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Types = types.ToImmutableDictionary();
         }
 
-        public T Ability<T>(IMatch match, IPlayer user) where T : IAbility
+        public AbilityEntry Entry<T>() where T : IAbility
         {
             var type = typeof(T);
 
@@ -63,9 +66,15 @@ namespace Mafia.NET.Players.Roles.Abilities
                 throw new InvalidCastException("No ability found with type " + type);
             }
 
-            return (T)Activator.CreateInstance(type, new object[] { match, user });
+            return Types[type];
         }
 
-        public T Setup<T>() where T : IAbility, new() => new T();
+        public T Ability<T>(IMatch match, IPlayer user) where T : IAbility
+        {
+            var entry = Entry<T>();
+            return (T)Activator.CreateInstance(typeof(T), new object[] { match, user });
+        }
+
+        public T Setup<T>() where T : IAbilitySetup, new() => new T();
     }
 }

@@ -33,23 +33,20 @@ namespace Mafia.NET.Matches.Phases
                 return;
             }
 
-            List<Notification> notifications = new List<Notification>();
-            string startingMessage;
-            switch (Match.UndisclosedDeaths.Count)
+            var notifications = new List<Notification>();
+            string startingMessage = Match.UndisclosedDeaths.Count switch
             {
-                case 0:
-                    return;
-                case 1:
-                    startingMessage = "One of us did not survive the night.";
-                    break;
-                case 2:
-                case 3:
-                    startingMessage = "Some of us did not survive the night.";
-                    break;
-                default:
-                    startingMessage = "Last night was a massacre.";
-                    break;
-            }
+                var x when x < 1 => "",
+                var x when x < 2 => "One of us did not survive the night.",
+                var x when x < 4 => "Some of us did not survive the night.",
+                var x when x < 6 => "Many of us perished last night.",
+                var x when x < 8 => "A mass quantity of people died last night.",
+                var x when x < 10 => "Most of the entire town was wiped out last night.",
+                var x when x < 12 => "A veritable Armageddon decimated the town last night.",
+                var x when x < 14 => "Literally the entire town was obliterated last night.",
+                var x when x > 14 => "Your setup is shit.",
+                _ => "",
+            };
 
             notifications.Add(Notification.Popup(startingMessage));
 

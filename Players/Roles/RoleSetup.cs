@@ -39,8 +39,8 @@ namespace Mafia.NET.Players.Roles
 
         public List<IRole> GetRoles()
         {
-            List<IRole> roles = new List<IRole>(MandatoryRoles);
-            List<IRole> possibleRoles = new List<IRole>(AllRoles);
+            var roles = new List<IRole>(MandatoryRoles);
+            var possibleRoles = new List<IRole>(AllRoles);
             possibleRoles.RemoveAll(role => !role.Categories.Any(category => MandatoryCategories.Contains(category)));
 
             foreach (var category in MandatoryCategories)

@@ -13,14 +13,16 @@ namespace Mafia.NET.Players.Roles.Abilities
         public string Name { get; }
         public AbilityPhase Phase { get; }
         public Targeting Targeting { get; }
+        public MessageRandomizer MurderDescriptions { get; set; }
 
-        public BaseAbility(IMatch match, IPlayer user, string name, AbilityPhase phase)
+        public BaseAbility(AbilityEntry entry, IMatch match, IPlayer user, AbilityPhase phase)
         {
             Match = match;
             User = user;
-            Name = name;
+            Name = entry.Name;
             Phase = phase;
             Targeting = new Targeting(match);
+            MurderDescriptions = entry.MurderDescriptions;
         }
 
         public virtual bool TryVictory(out IVictory victory)

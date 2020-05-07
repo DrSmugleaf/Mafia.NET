@@ -50,6 +50,8 @@ namespace Mafia.NET.Players.Roles
             foreach (YamlMappingNode yaml in yamlRoles)
             {
                 var name = yaml["name"].AsString();
+                Console.WriteLine($"Parsing role {name}");
+
                 Team affiliation = (Team)yaml["affiliation"].AsString();
                 var categories = new List<ICategory>();
                 YamlNode categoriesNode = yaml["categories"];

@@ -4,3 +4,8 @@
   - Town Protective
   - Town Power
   color: "#55CC11"
+  abilities:
+  - name: Bus Driver
+    description: "Swap two players at night, making actions that target the first player instead target the second player and vice versa."
+    murder_descriptions:
+    - "They were run over by a bus."

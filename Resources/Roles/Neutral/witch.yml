@@ -3,3 +3,10 @@
   categories:
   - Neutral Evil
   color: "#6622CC"
+  abilities:
+  - name: Witch
+    description: "Force one person to use their night ability on a target of the Witch's choice."
+    murder_descriptions:
+    - "There were signs of struggle, but they apparently committed suicide."
+    - "There were signs of struggle, but they apparently killed themselves."
+    - "There were signs of struggle, but they apparently shot themselves."

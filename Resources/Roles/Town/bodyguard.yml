@@ -4,3 +4,9 @@
   - Town Protective
   - Town Killing
   color: "#00CC66"
+  abilities:
+  - name: Bodyguard
+    description: "Guard one player each night. If someone attacks a guarded player, both the attacker and the Bodyguard die instead of the guarded player."
+    murder_descriptions:
+    - "They were killed in a duel."
+    - "They were slain in a shootout."

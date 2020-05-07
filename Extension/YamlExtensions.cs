@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Extension
@@ -26,6 +27,8 @@ namespace Mafia.NET.Extension
                     return false;
             }
         }
+
+        public static bool Contains(this YamlNode node, string key) => node.AllNodes.Contains(key);
 
         public static string AsString(this YamlNode node) => ((YamlScalarNode)node).Value;
 

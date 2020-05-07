@@ -4,3 +4,9 @@
   - Town Killing
   - Town Power
   color: "#AAFF55"
+  abilities:
+  - name: Veteran
+    description: "May go on alert during the night. If he goes on alert, will automatically kills any player who targets him that night."
+    murder_descriptions:
+    - "They were killed with a military-grade assault rifle."
+    - "They had multiple wounds from a fragmentation grenade. They were killed with a military-grade assault rifle."

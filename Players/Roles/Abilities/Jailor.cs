@@ -6,12 +6,12 @@ using System.Linq;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    [RegisterAbility("Jail", typeof(JailSetup))]
-    public class Jail : BaseAbility
+    [RegisterAbility("Jailor", typeof(JailSetup))]
+    public class Jailor : BaseAbility
     {
         protected JailSetup Setup { get; set; }
 
-        public Jail(IMatch match, IPlayer user) : base(match, user, "Jail", AbilityPhase.BOTH)
+        public Jailor(AbilityEntry entry, IMatch match, IPlayer user) : base(entry, match, user, AbilityPhase.BOTH)
         {
             Setup = (JailSetup)match.Setup.Roles.Abilities[Name];
         }
@@ -49,9 +49,5 @@ namespace Mafia.NET.Players.Roles.Abilities
     public class JailSetup : IAbilitySetup
     {
         public int Executions { get; set; } = 1;
-
-        public JailSetup()
-        {
-        }
     }
 }

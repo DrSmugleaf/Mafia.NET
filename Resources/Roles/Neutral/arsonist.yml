@@ -4,3 +4,10 @@
   - Neutral Evil
   - Neutral Killing
   color: "#FFAA00"
+  abilities:
+  - name: Arsonist
+    description: "Either douse a person in gasoline or kill all previously doused targets at night. May also undouse himself by taking no action."
+    murder_descriptions:
+    - "They were incinerated."
+    - "They were burnt to death."
+    - "They were killed in a fire."
