@@ -55,18 +55,32 @@ namespace Mafia.NET.Matches.Phases
             {
                 death.Victim.Alive = false;
 
-                string popupName = $"{death.Victim.Name} didn't live to see the morning.";
-                string popupCause = ""; // TODO
-                string popupRole = $"{death.Victim.Name}'s role was {death.Victim.Role.Name}";
-                string chatLastWillAuthor = $"{death.Victim.Name} left us his last will:";
-                string chatLastWill = death.LastWill;
+                var popupName = $"{death.Victim.Name} didn't live to see the morning.";
+                var popupCause = death.Description;
+                var popupRole = $"{death.Victim.Name}'s role was {death.Victim.Role.Name}";
+
+                if (death.LastWill.Text.Length > 0)
+                {
+                    notifications.AddRange(new Notification[]
+                    {
+                        Notification.Chat($"{death.Victim.Name} left us their last will:"),
+                        Notification.Chat(death.LastWill)
+                    });
+                }
+
+                if (death.DeathNote?.Text.Length > 0)
+                {
+                    notifications.AddRange(new Notification[]
+                    {
+                        Notification.Chat("We also found a death note near their corpse:"),
+                        Notification.Chat(death.DeathNote.Text)
+                    });
+                }
 
                 notifications.AddRange(new Notification[] {
                     Notification.Popup(popupName),
                     Notification.Popup(popupCause),
                     Notification.Popup(popupRole),
-                    Notification.Chat(chatLastWillAuthor),
-                    Notification.Chat(chatLastWill)
                 });
             }
 
