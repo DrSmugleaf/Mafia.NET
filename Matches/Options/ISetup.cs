@@ -1,11 +1,10 @@
-﻿using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles;
+﻿using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Matches.Options
 {
     public interface ISetup
     {
-        IPhase Procedure { get; }
+        bool Trial { get; }
         bool AnonymousVoting { get; }
         RoleSetup Roles { get; }
     }

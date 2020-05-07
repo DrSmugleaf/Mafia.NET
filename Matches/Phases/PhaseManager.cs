@@ -45,18 +45,27 @@
             var next = CurrentPhase.NextPhase();
             CurrentPhase.End();
 
+            double duration;
             if (next == CurrentPhase.Supersedes)
             {
                 CurrentPhase.Supersedes = null;
                 next.SupersededBy = null;
-                next.Resume();
+                duration = next.Resume();
             }
             else
             {
                 next.Start();
+                duration = next.Duration;
             }
 
-            Clock.Start(next.Duration);
+            if (duration > 0)
+            {
+                Clock.Start(next.Duration);
+            }
+            else
+            {
+                AdvancePhase();
+            }
         }
 
         public void SupersedePhase(IPhase newPhase)
