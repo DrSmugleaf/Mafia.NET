@@ -14,6 +14,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         protected IPlayer? Target { get; set; }
         public string DisplayName { get; set; }
         public bool AnonymousVote { get; set; }
+        public int Power { get; set; }
         public bool Active { get; set; }
 
         public Accuser(IPlayer player, bool anonymousVote)
@@ -22,6 +23,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             Target = null;
             DisplayName = Player.Name;
             AnonymousVote = anonymousVote;
+            Power = 1;
             Active = true;
         }
 
@@ -155,7 +157,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public int VotesAgainst(IPlayer player) => GetAccusers(player).Count;
 
-        public int TotalVotes() => Accusers.Values.Count; // TODO: Vote power
+        public int TotalVotes() => Accusers.Values.Select(accuser => accuser.Power).Sum();
 
         public int RequiredVotes() => TotalVotes() / 2 + 1;
     }
