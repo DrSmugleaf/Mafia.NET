@@ -3,8 +3,7 @@
   categories:
   - Neutral Benign
   color: "#FCA8FC"
-  abilities:
-  - name: Jester
+  ability:
     description: "Annoy another player at night, indicating to that player that he was visited by a Jester."
     murder_descriptions:
     - "They apparently shot themselves. Their suicide note expressed grief and guilt over the Jester's death"

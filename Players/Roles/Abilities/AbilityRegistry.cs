@@ -1,24 +1,29 @@
-﻿using Mafia.NET.Matches;
+﻿using Mafia.NET.Extension;
+using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
     public class AbilityEntry
     {
+        private static readonly MessageRandomizer DefaultMurderDescriptions = new MessageRandomizer("They died in mysterious ways");
         public string Name { get; }
         public Type Ability { get; }
         public Type Setup { get; }
-        public MessageRandomizer MurderDescriptions { get; } // TODO
+        public MessageRandomizer MurderDescriptions { get; }
 
-        public AbilityEntry(string name, Type ability, Type setup)
+        public AbilityEntry(string name, Type ability, Type setup, MessageRandomizer murderDescriptions = null)
         {
             Name = name;
             Ability = ability;
             Setup = setup;
+            MurderDescriptions = murderDescriptions ?? DefaultMurderDescriptions;
         }
     }
 
@@ -32,9 +37,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         private AbilityRegistry()
         {
-            var names = new Dictionary<string, AbilityEntry>();
-            var types = new Dictionary<Type, AbilityEntry>();
-
+            var attributes = new Dictionary<string, (Type, RegisterAbilityAttribute)>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in assembly.GetTypes())
@@ -43,14 +46,31 @@ namespace Mafia.NET.Players.Roles.Abilities
 
                     if (attribute == null) continue;
 
-                    var name = attribute.Name;
-                    var ability = type;
-                    var setup = attribute.Setup;
-                    var entry = new AbilityEntry(name, ability, setup);
-
-                    names[name] = entry;
-                    types[type] = entry;
+                    attributes[attribute.Name] = (type, attribute);
                 }
+            }
+
+            var names = new Dictionary<string, AbilityEntry>();
+            var types = new Dictionary<Type, AbilityEntry>();
+            var roles = Resource.FromDirectory("Roles", "*.yml");
+            foreach (YamlMappingNode yaml in roles)
+            {
+                var name = yaml["name"].AsString();
+                if (!attributes.ContainsKey(name) || !yaml.Contains("ability")) continue; // TODO
+
+                var type = attributes[name].Item1;
+                var ability = type;
+                var setup = attributes[name].Item2.Setup;
+                MessageRandomizer murderDescriptions = null;
+                if (((YamlMappingNode)yaml["ability"]).Contains("murder_descriptions"))
+                {
+                    murderDescriptions = new MessageRandomizer(yaml["ability"]["murder_descriptions"][0].AsStringList());
+                }
+
+                var entry = new AbilityEntry(name, ability, setup, murderDescriptions);
+
+                names[name] = entry;
+                types[type] = entry;
             }
 
             Names = names.ToImmutableDictionary();

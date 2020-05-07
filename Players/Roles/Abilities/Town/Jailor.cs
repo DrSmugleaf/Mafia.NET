@@ -4,7 +4,7 @@ using Mafia.NET.Players.Deaths;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Jailor", typeof(JailSetup))]
     public class Jailor : BaseAbility
@@ -45,7 +45,10 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
     }
+}
 
+namespace Mafia.NET.Players.Roles.Abilities
+{
     public class JailSetup : IAbilitySetup
     {
         public int Executions { get; set; } = 1;

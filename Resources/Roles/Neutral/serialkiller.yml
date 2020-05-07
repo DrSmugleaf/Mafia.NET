@@ -4,8 +4,7 @@
   - Neutral Evil
   - Neutral Killing
   color: "#FF00CC"
-  abilities:
-  - name: Serial Killer
+  ability:
     description: "Kill one target at night"
     murder_descriptions:
     - "They had multiple stab wounds."

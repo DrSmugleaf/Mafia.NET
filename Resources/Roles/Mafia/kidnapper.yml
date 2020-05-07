@@ -4,8 +4,7 @@
   - Mafia Killing
   - Mafia Support
   color: "#AA3333"
-  abilities:
-  - name: Kidnapper
+  ability:
     description: "Jail, Anonymous night chat, Execute"
     murder_descriptions:
     - "They were executed in a jail cell."

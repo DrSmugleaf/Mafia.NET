@@ -3,8 +3,7 @@
   categories:
   - Town Killing
   color: "#88CC00"
-  abilities:
-  - name: Vigilante
+  ability:
     description: "Kill one target at night"
     murder_descriptions:
     - "They were shot by a high-caliber gun."

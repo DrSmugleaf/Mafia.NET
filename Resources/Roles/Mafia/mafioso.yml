@@ -3,8 +3,7 @@
   categories:
   - Mafia Killing
   color: "#CC0000"
-  abilities:
-  - name: Mafioso
+  ability:
     description: "Kill"
     murder_descriptions:
     - "They were shot at close range."

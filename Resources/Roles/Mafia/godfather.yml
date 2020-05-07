@@ -3,8 +3,7 @@
   categories:
   - Mafia Killing
   color: "#FF4488"
-  abilities:
-  - name: Godfather
+  ability:
     description: "Order to kill, Kill"
     murder_descriptions:
     - "They were shot at close range."

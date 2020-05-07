@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using YamlDotNet.RepresentationModel;
@@ -28,7 +29,7 @@ namespace Mafia.NET.Extension
             }
         }
 
-        public static bool Contains(this YamlNode node, string key) => node.AllNodes.Contains(key);
+        public static bool Contains(this YamlMappingNode node, string key) => node.Children.ContainsKey(key);
 
         public static string AsString(this YamlNode node) => ((YamlScalarNode)node).Value;
 
@@ -43,5 +44,7 @@ namespace Mafia.NET.Extension
         }
 
         public static T AsEnum<T>(this YamlNode node) => (T)Enum.Parse(typeof(T), node.AsString(), true);
+
+        public static List<string> AsStringList(this YamlNode node) => node.AllNodes.Select(value => value.AsString()).ToList();
     }
 }

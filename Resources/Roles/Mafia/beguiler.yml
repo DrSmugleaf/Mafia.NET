@@ -3,8 +3,7 @@
   categories:
   - Mafia Deception
   color: "#BB3355"
-  abilities:
-  - name: Beguiler
+  ability:
     description: "Hide."
     murder_descriptions:
     - "They were killed by Asphyxiation."
