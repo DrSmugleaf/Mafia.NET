@@ -55,5 +55,7 @@ namespace Mafia.NET.Matches
         }
 
         public bool DiedToday(DeathCause cause) => DiedOn(Match.PhaseManager.Day, cause);
+
+        public bool LynchedToday() => DiedToday(DeathCause.LYNCH);
     }
 }

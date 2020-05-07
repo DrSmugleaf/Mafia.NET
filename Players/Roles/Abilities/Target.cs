@@ -46,6 +46,12 @@ namespace Mafia.NET.Players.Roles.Abilities
             Filter = filter;
         }
 
+        public bool Try(out IPlayer? target)
+        {
+            target = Targeted;
+            return target != null;
+        }
+
         public IReadOnlyDictionary<int, IPlayer> ValidTargets(IMatch match) => Filter.Filter(match.AllPlayers);
 
         public virtual void OnTargetAdd(TargetAddEventArgs e) => TargetAdd?.Invoke(this, e);

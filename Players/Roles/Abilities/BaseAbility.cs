@@ -15,7 +15,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         TargetManager TargetManager { get; set; }
         MessageRandomizer MurderDescriptions { get; set; }
         IAbilitySetup AbilitySetup { get; }
+        bool _activeNight { get; set; }
 
+        void ActiveNight(bool value);
         bool TryVictory(out IVictory victory);
         void OnDayStart();
         void OnDayEnd();
@@ -32,10 +34,16 @@ namespace Mafia.NET.Players.Roles.Abilities
         public MessageRandomizer MurderDescriptions { get; set; }
         public IAbilitySetup AbilitySetup { get; }
         public T Setup { get => (T)AbilitySetup; }
+        public bool _activeNight { get; set; }
 
         public BaseAbility()
         {
             AbilitySetup = (T)Match.Setup.Roles.Abilities[Name];
+        }
+
+        public void ActiveNight(bool value)
+        {
+            _activeNight = value;
         }
 
         public virtual bool TryVictory(out IVictory victory)
@@ -58,21 +66,35 @@ namespace Mafia.NET.Players.Roles.Abilities
             Match.Graveyard.Threats.Add(threat);
         }
 
+        public void ThreatenImmunity(IPlayer victim)
+        {
+            var threat = new Death(this, victim, true);
+            Match.Graveyard.Threats.Add(threat);
+        }
+
         public void OnDayStart()
         {
             TargetManager.Reset();
+            _activeNight = true;
             _onDayStart();
         }
 
-        public void OnDayEnd() => _onDayEnd();
+        public void OnDayEnd()
+        {
+            if (_activeNight) _onDayEnd();
+        }
 
         public void OnNightStart()
         {
             TargetManager.Reset();
-            _onNightStart();
+
+            if (_activeNight) _onNightStart();
         }
 
-        public void OnNightEnd() => _onNightEnd();
+        public void OnNightEnd()
+        {
+            if (_activeNight) _onNightEnd();
+        }
 
         protected virtual void _onDayStart() => Expression.Empty();
 

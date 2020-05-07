@@ -35,21 +35,31 @@ namespace Mafia.NET.Players.Roles.Abilities
         public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
 
         public PhaseTargeting Day() => Phases[Time.DAY];
+#nullable enable
+        public IPlayer? Day(int index)
+        {
+            return this[Time.DAY, index];
+        }
 
         public PhaseTargeting Night() => Phases[Time.NIGHT];
 
-        public Target this[Time phase, int index]
+        public IPlayer? Night(int index)
         {
-            get => Phases[phase][index];
-            set => Phases[phase][index] = value;
+            return this[Time.NIGHT, index];
         }
 
-        public Target this[int index]
+        public IPlayer? this[Time phase, int index]
         {
-            get => Get()[index];
-            set => Get()[index] = value;
+            get => Phases[phase][index].Targeted;
+            set => Phases[phase][index].Targeted = value;
         }
 
+        public IPlayer? this[int index]
+        {
+            get => Get()[index].Targeted;
+            set => Get()[index].Targeted = value;
+        }
+#nullable disable
         public void Add(Target target) => Get().Add(target);
 
         public void Add(params IPlayer[] targets) => Get().Add(targets);

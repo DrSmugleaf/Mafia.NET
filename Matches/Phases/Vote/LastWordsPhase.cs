@@ -17,7 +17,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers.Values, true);
-            ChatManager.Chats[0].Participants[Player].Muted = false;
+            ChatManager.Main().Participants[Player].Muted = false;
             Notification notification = Notification.Popup("Do you have any last words?");
 
             foreach (var player in Match.AllPlayers.Values)

@@ -11,5 +11,6 @@ namespace Mafia.NET.Players.Deaths
         Note LastWill { get; set; }
         Note? DeathNote { get; set; }
         string Description { get; set; }
+        bool PiercesImmunity { get; set; }
     }
 }

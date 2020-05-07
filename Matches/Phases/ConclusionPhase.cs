@@ -21,11 +21,7 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers.Values);
-            foreach (var participant in ChatManager.Chats[0].Participants.Values)
-            {
-                participant.Muted = false;
-                participant.Deaf = false;
-            }
+            ChatManager.UnMuteUnDeafen();
 
             var popup = Notification.Popup("We have come to a conclusion...");
             var roles = Match.AllPlayers.Values

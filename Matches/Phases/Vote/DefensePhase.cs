@@ -21,7 +21,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers.Values, true);
-            ChatManager.Chats[0].Participants[Player].Muted = false;
+            ChatManager.Main().Participants[Player].Muted = false;
 
             var notification = Notification.Popup($"{Player.Name}, you are on trial for conspiracy against the town. What is your defense?");
 

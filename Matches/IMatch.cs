@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Matches.Options;
+﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
@@ -14,6 +15,7 @@ namespace Mafia.NET.Matches
         Graveyard Graveyard { get; }
         IReadOnlyList<IRole> PossibleRoles { get; }
         PhaseManager PhaseManager { get; set; }
+        ChatManager ChatManager { get; }
 
         void End();
     }

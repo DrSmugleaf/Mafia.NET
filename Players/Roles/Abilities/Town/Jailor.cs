@@ -1,6 +1,4 @@
-﻿using Mafia.NET.Players.Deaths;
-
-namespace Mafia.NET.Players.Roles.Abilities.Town
+﻿namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Jailor", typeof(JailSetup))]
     public class Jailor : BaseAbility<JailSetup>
@@ -12,21 +10,27 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         protected override void _onDayEnd()
         {
-            if (Match.Graveyard.DiedToday(DeathCause.LYNCH)) TargetManager[0].Targeted = null;
+            if (Match.Graveyard.LynchedToday()) TargetManager[0] = null;
+            TargetManager[0]?.Role.Ability.ActiveNight(false);
         }
 
         protected override void _onNightStart()
         {
-            var prisoner = TargetManager.Day()[0].Targeted;
+            var prisoner = TargetManager.Day(0);
             if (prisoner == null) return;
+
             TargetManager.Add(Setup.Executions > 0 ? prisoner : null);
+
+            var jail = Match.ChatManager.Open("Jailor", false, User, prisoner);
+            jail.Participants[User].Name = "Jailor";
+            Match.ChatManager.DisableExcept(prisoner, jail);
         }
 
         protected override void _onNightEnd()
         {
-            var execution = TargetManager[0].Targeted;
+            var execution = TargetManager[0];
             if (execution == null) return;
-            Threaten(execution);
+            ThreatenImmunity(execution);
         }
     }
 

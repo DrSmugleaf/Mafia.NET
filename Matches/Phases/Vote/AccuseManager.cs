@@ -12,7 +12,7 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player { get; set; }
         protected IPlayer? Target { get; set; }
-        public string DisplayName { get; set; }
+        public string Name { get; set; }
         public bool AnonymousVote { get; set; }
         public int Power { get; set; }
         public bool Active { get; set; }
@@ -21,7 +21,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             Player = player;
             Target = null;
-            DisplayName = Player.Name;
+            Name = Player.Name;
             AnonymousVote = anonymousVote;
             Power = 1;
             Active = true;
