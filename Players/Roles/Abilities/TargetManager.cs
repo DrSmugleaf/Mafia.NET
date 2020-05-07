@@ -8,18 +8,18 @@ using System.Linq;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    public class Targeting
+    public class TargetManager
     {
         public IReadOnlyDictionary<TimePhase, PhaseTargeting> Phases { get; }
         public IMatch Match { get; }
 
-        public Targeting(IReadOnlyDictionary<TimePhase, PhaseTargeting> phases, IMatch match)
+        public TargetManager(IReadOnlyDictionary<TimePhase, PhaseTargeting> phases, IMatch match)
         {
             Phases = phases;
             Match = match;
         }
 
-        public Targeting(IMatch match)
+        public TargetManager(IMatch match)
         {
             var phases = new Dictionary<TimePhase, PhaseTargeting>();
 
@@ -32,7 +32,43 @@ namespace Mafia.NET.Players.Roles.Abilities
             Match = match;
         }
 
+        public static TargetManager operator +(TargetManager manager, Target target)
+        {
+            manager.Add(target);
+            return manager;
+        }
+
+        public static TargetManager operator +(TargetManager manager, IPlayer target)
+        {
+            manager.Add(target);
+            return manager;
+        }
+
         public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
+
+        public PhaseTargeting Day() => Phases[TimePhase.DAY];
+
+        public PhaseTargeting Night() => Phases[TimePhase.NIGHT];
+
+        public Target this[TimePhase phase, int index]
+        {
+            get => Phases[phase][index];
+            set => Phases[phase][index] = value;
+        }
+
+        public Target this[int index]
+        {
+            get => Get()[index];
+            set => Get()[index] = value;
+        }
+
+        public void Add(Target target) => Get().Add(target);
+
+        public void Add(params IPlayer[] targets) => Get().Add(targets);
+
+        public void Reset(Target target) => Get().Reset(target);
+
+        public void Reset(params IPlayer[] targets) => Get().Reset(targets);
     }
 
     public class PhaseTargeting
@@ -50,12 +86,23 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
 
-        public IList<Target> OnStart()
+        public Target this[int index]
         {
-            var old = Targets;
-            Targets = new List<Target>();
-            return old;
+            get => Targets[index];
+            set => Targets[index] = value;
         }
+
+        public void Add(Target target) => Targets.Add(target);
+
+        public void Add(params IPlayer[] targets) => Add(TargetFilter.Of(targets));
+
+        public void Reset(Target target)
+        {
+            Targets.Clear();
+            Targets.Add(target);
+        }
+
+        public void Reset(params IPlayer[] targets) => Reset(TargetFilter.Of(targets));
     }
 
     public class TargetFilter
@@ -71,7 +118,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
 
-        public static implicit operator Target(TargetFilter targeting) => targeting.Make();
+        public static implicit operator Target(TargetFilter targeting) => targeting.Build();
 
         public static TargetFilter Living(IMatch match) => new TargetFilter(() => match.LivingPlayers);
 
@@ -79,6 +126,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public static TargetFilter Only(IPlayer player)
         {
+            if (player == null) return None();
+
             return new TargetFilter(() =>
             {
                 return new Dictionary<int, IPlayer>() { [player.Id] = player };
@@ -86,6 +135,13 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         public static TargetFilter None() => new TargetFilter(() => ImmutableDictionary.Create<int, IPlayer>());
+
+        public static TargetFilter Of(IEnumerable<IPlayer> players)
+        {
+            if (players.Count() == 1) return Only(players.First());
+
+            return new TargetFilter(() => players.ToImmutableDictionary(x => x.Id, x => x));
+        }
 
         public IReadOnlyDictionary<int, IPlayer> Filter(IReadOnlyDictionary<int, IPlayer> players)
         {
@@ -115,6 +171,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             return new TargetFilter(dictionary => filter.Filter(Filter(dictionary)));
         }
 
-        public Target Make() => new Target(this);
+        public Target Build() => new Target(this);
     }
 }

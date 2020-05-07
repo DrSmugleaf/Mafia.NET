@@ -6,12 +6,28 @@ using System.Linq.Expressions;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
+    public interface IAbility
+    {
+        IMatch Match { get; set; }
+        IPlayer User { get; set; }
+        string Name { get; set; }
+        TargetManager TargetManager { get; set; }
+        MessageRandomizer MurderDescriptions { get; set; }
+        IAbilitySetup AbilitySetup { get; }
+
+        bool TryVictory(out IVictory victory);
+        void OnDayStart();
+        void OnDayEnd();
+        void OnNightStart();
+        void OnNightEnd();
+    }
+
     public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup
     {
         public IMatch Match { get; set; }
         public IPlayer User { get; set; }
         public string Name { get; set; }
-        public Targeting Targeting { get; set; }
+        public TargetManager TargetManager { get; set; }
         public MessageRandomizer MurderDescriptions { get; set; }
         public IAbilitySetup AbilitySetup { get; }
         public T Setup { get => (T)AbilitySetup; }
@@ -35,12 +51,28 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
 
-        protected virtual void OnDayStart() => Expression.Empty();
+        public void OnDayStart()
+        {
+            TargetManager.Reset();
+            _onDayStart();
+        }
 
-        protected virtual void OnDayEnd() => Expression.Empty();
+        public void OnDayEnd() => _onDayEnd();
 
-        protected virtual void OnNightStart() => Expression.Empty();
+        public void OnNightStart()
+        {
+            TargetManager.Reset();
+            _onNightStart();
+        }
 
-        protected virtual void OnNightEnd() => Expression.Empty();
+        public void OnNightEnd() => _onNightEnd();
+
+        protected virtual void _onDayStart() => Expression.Empty();
+
+        protected virtual void _onDayEnd() => Expression.Empty();
+
+        protected virtual void _onNightStart() => Expression.Empty();
+
+        protected virtual void _onNightEnd() => Expression.Empty();
     }
 }

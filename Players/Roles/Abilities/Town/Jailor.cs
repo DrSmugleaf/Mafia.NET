@@ -1,39 +1,28 @@
-﻿using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Deaths;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Mafia.NET.Players.Deaths;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Jailor", typeof(JailSetup))]
     public class Jailor : BaseAbility<JailSetup>
     {
-        protected override void OnDayStart()
+        protected override void _onDayStart()
         {
-            Targeting.Get().Targets = new List<Target>()
-            {
-                TargetFilter.Living(Match).Except(User)
-            };
+            TargetManager += TargetFilter.Living(Match).Except(User);
         }
 
-        protected override void OnDayEnd()
+        protected override void _onDayEnd()
         {
-            if (Match.Graveyard.Any(death => death.Day == Match.PhaseManager.Day && death.Cause == DeathCause.LYNCH))
-            {
-                Targeting.Get().Targets[0].Targeted = null;
-            }
+            if (Match.AnyDiedToday(DeathCause.LYNCH)) TargetManager[0].Targeted = null;
         }
 
-        protected override void OnNightStart()
+        protected override void _onNightStart()
         {
-            var prisoner = Targeting.Phases[TimePhase.DAY].Targets[0].Targeted;
+            var prisoner = TargetManager.Day()[0].Targeted;
             if (prisoner == null) return;
-
-            Target target = Setup.Executions > 0 ? TargetFilter.Only(prisoner) : TargetFilter.None();
-            Targeting.Get().Targets = new List<Target>() { target };
+            TargetManager += Setup.Executions > 0 ? prisoner : null;
         }
 
-        protected override void OnNightEnd()
+        protected override void _onNightEnd()
         {
         }
     }
