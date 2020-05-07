@@ -10,5 +10,6 @@ namespace Mafia.NET.Players.Deaths
         IPlayer? Killer { get; set; }
         Note LastWill { get; set; }
         Note? DeathNote { get; set; }
+        string Description { get; set; }
     }
 }

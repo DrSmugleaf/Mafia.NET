@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         protected override void _onDayStart()
         {
-            TargetManager += TargetFilter.Living(Match).Except(User);
+            TargetManager.Add(TargetFilter.Living(Match).Except(User));
         }
 
         protected override void _onDayEnd()
@@ -19,11 +19,14 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             var prisoner = TargetManager.Day()[0].Targeted;
             if (prisoner == null) return;
-            TargetManager += Setup.Executions > 0 ? prisoner : null;
+            TargetManager.Add(Setup.Executions > 0 ? prisoner : null);
         }
 
         protected override void _onNightEnd()
         {
+            var execution = TargetManager[0].Targeted;
+            if (execution == null) return;
+            Threaten(execution);
         }
     }
 

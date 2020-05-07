@@ -1,4 +1,7 @@
-﻿#nullable enable
+﻿using Mafia.NET.Players.Roles.Abilities;
+using System;
+
+#nullable enable
 
 namespace Mafia.NET.Players.Deaths
 {
@@ -10,8 +13,9 @@ namespace Mafia.NET.Players.Deaths
         public IPlayer? Killer { get; set; }
         public Note LastWill { get; set; }
         public Note? DeathNote { get; set; }
+        public string Description { get; set; }
 
-        public Death(int day, IPlayer victim, DeathCause cause, IPlayer? killer = null)
+        public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer? killer = null)
         {
             Day = day;
             Victim = victim;
@@ -19,6 +23,29 @@ namespace Mafia.NET.Players.Deaths
             Killer = killer;
             LastWill = victim.LastWill;
             DeathNote = killer?.DeathNote;
+            Description = description;
+        }
+
+        public Death(IAbility ability, IPlayer victim)
+        {
+            Day = ability.Match.PhaseManager.Day;
+            Victim = victim;
+            Cause = DeathCause.MURDER;
+            Killer = ability.User;
+            LastWill = victim.LastWill;
+            DeathNote = Killer.DeathNote;
+            Description = ability.MurderDescriptions.Get();
+        }
+
+        public Death(IDeath death, string description)
+        {
+            Day = death.Day;
+            Victim = death.Victim;
+            Cause = death.Cause;
+            Killer = death.Killer;
+            LastWill = death.LastWill;
+            DeathNote = death.DeathNote;
+            Description = death.Description + Environment.NewLine + description;
         }
     }
 }

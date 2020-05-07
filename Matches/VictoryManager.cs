@@ -16,7 +16,7 @@ namespace Mafia.NET.Matches
             Match = match;
         }
 
-        public bool TryVictory(out IList<IVictory> victories)
+        public bool TryVictory(out IList<IVictory> victories) // TODO better victory checking
         {
             victories = new List<IVictory>();
 

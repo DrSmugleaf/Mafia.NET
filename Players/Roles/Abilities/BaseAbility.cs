@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles.Categories;
 using System.Linq;
 using System.Linq.Expressions;
@@ -50,6 +51,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
+
+        public void Threaten(IPlayer victim)
+        {
+            var threat = new Death(this, victim);
+            Match.Graveyard.Threats.Add(threat);
+        }
 
         public void OnDayStart()
         {

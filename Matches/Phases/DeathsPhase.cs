@@ -24,6 +24,7 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
+            Match.Graveyard.SettleThreats();
             Match.PhaseManager.Day++;
             Match.PhaseManager.CurrentTime = Time.DAY;
 
@@ -45,7 +46,7 @@ namespace Mafia.NET.Matches.Phases
                 var x when x < 12 => "A veritable Armageddon decimated the town last night.",
                 var x when x < 14 => "Literally the entire town was obliterated last night.",
                 var x when x > 14 => "Your setup is shit.",
-                _ => "",
+                _ => ""
             };
 
             notifications.Add(Notification.Popup(startingMessage));

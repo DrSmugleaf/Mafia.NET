@@ -1,7 +1,6 @@
 ﻿using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
-using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles;
 using System.Collections.Generic;
 using System.Linq;

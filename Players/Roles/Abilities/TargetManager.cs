@@ -32,18 +32,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             Match = match;
         }
 
-        public static TargetManager operator +(TargetManager manager, Target target)
-        {
-            manager.Add(target);
-            return manager;
-        }
-
-        public static TargetManager operator +(TargetManager manager, IPlayer target)
-        {
-            manager.Add(target);
-            return manager;
-        }
-
         public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
 
         public PhaseTargeting Day() => Phases[Time.DAY];
