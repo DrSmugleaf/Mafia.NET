@@ -1,5 +1,9 @@
 ﻿- name: Citizen
   affiliation: Town
+  summary: "A regular person who believes in truth and justice."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Government
   color: "#33CC33"
+  ability:
+    description: "Citizens have no special traits by default, but many hosts allow them to begin the game with one Bulletproof Vest."

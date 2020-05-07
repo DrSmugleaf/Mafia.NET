@@ -1,5 +1,7 @@
 ﻿- name: Veteran
   affiliation: Town
+  summary: "A paranoid, retired admiral who will shoot anyone who bothers him."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Killing
   - Town Power

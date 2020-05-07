@@ -1,4 +1,8 @@
 ﻿- name: Stump
   affiliation: Town
+  summary: "You are a Stump."
+  goal: "Lynch every criminal and evildoer."
   categories: null
   color: "#01FF10"
+  ability:
+    description: "None."

@@ -1,5 +1,7 @@
 ﻿- name: Witch
   affiliation: Neutral
+  summary: "A malicious mystic who uses their manipulative powers for evil."
+  goal: "Survive and see the town lose the game."
   categories:
   - Neutral Evil
   color: "#6622CC"

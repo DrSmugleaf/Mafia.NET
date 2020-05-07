@@ -1,5 +1,9 @@
 ﻿- name: Administrator
   affiliation: Triad
+  summary: '499 - "Red Candle" - A lieutenant in the Triad mob, keeps tabs on the populace.'
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Triad Support
   color: "#5B99FF"
+  ability:
+    description: "Investigate one player each night."

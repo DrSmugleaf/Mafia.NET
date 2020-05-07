@@ -1,5 +1,9 @@
 ﻿- name: Deceiver
   affiliation: Triad
+  summary: '432 - "Straw Sandal" - An expert con-man for the Triad.'
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Triad Deception
   color: "#6969BB"
+  ability:
+    description: "Hide."

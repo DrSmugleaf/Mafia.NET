@@ -1,5 +1,9 @@
 ﻿- name: Sheriff
   affiliation: Town
+  summary: "A member of law enforcement, forced into hiding because of the threat of murder."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Investigative
   color: "#00FF00"
+  ability:
+    description: "Check one player each night for criminal activity."

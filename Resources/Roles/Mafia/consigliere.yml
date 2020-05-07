@@ -1,5 +1,9 @@
 ﻿- name: Consigliere
   affiliation: Mafia
+  summary: "A counselor to the boss of a crime family."
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Mafia Support
   color: "#FF5533"
+  ability:
+    description: "	Investigate one player each night."

@@ -1,5 +1,9 @@
 ﻿- name: Forger
   affiliation: Triad
+  summary: '415 - "White Paper Fan" - Functionally a business and financial adviser, at night uses their abilities to implicate another.'
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Triad Deception
   color: "#2C95DD"
+  ability:
+    description: "Frame one player each night."

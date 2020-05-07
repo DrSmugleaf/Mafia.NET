@@ -1,5 +1,9 @@
 ﻿- name: Vanguard
   affiliation: Triad
+  summary: '438 - "Deputy Mountain Master" - Armed with state of the art GPS data trackers, this rogue IT professional delivers data to the Triad conglomerate.'
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Triad Support
   color: "#697AFF"
+  ability:
+    description: "See who one person visits and is visited by each night."

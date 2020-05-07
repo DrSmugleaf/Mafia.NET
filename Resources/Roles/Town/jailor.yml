@@ -1,5 +1,7 @@
 ﻿- name: Jailor
   affiliation: Town
+  summary: "A jail guard officer, secretly detaining suspects."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Killing	
   - Town Power

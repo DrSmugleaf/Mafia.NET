@@ -1,5 +1,7 @@
 ﻿- name: Mason Leader
   affiliation: Town
+  summary: "The leader of a secret society."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Government
   color: "#22FF77"

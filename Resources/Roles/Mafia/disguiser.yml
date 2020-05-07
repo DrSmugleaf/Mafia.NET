@@ -1,6 +1,10 @@
 ﻿- name: Disguiser
   affiliation: Mafia
+  summary: "A master spy and forger, working for organized crime."
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Mafia Deception
   - Mafia Killing
   color: "#DD6644"
+  ability:
+    description: "Kill a player and steal their identity."

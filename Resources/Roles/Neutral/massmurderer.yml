@@ -1,5 +1,7 @@
 ﻿- name: Mass Murderer
   affiliation: Neutral
+  summary: "A crazed spree killer who thinks entrail-spilling is an art form."
+  goal: "Be the last person left alive."
   categories:
   - Neutral Evil
   - Neutral Killing

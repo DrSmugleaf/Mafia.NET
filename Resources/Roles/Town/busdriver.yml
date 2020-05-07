@@ -1,5 +1,7 @@
 ﻿- name: Bus Driver
   affiliation: Town
+  summary: "A disgruntled licensed transport driver."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Protective
   - Town Power

@@ -1,5 +1,7 @@
 ﻿- name: Jester
   affiliation: Neutral
+  summary: "A lunatic whose life's goal is to be publicly executed."
+  goal: "Die by being lynched during the day."
   categories:
   - Neutral Benign
   color: "#FCA8FC"

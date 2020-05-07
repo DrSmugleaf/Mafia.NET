@@ -14,6 +14,9 @@ namespace Mafia.NET.Players.Roles
     public interface IRole
     {
         string Name { get; }
+        string Summary { get; }
+        string Goal { get; }
+        string Abilities { get; }
         ITeam Affiliation { get; }
         IReadOnlyList<ICategory> Categories { get; }
         Color Tint { get; }
@@ -27,14 +30,20 @@ namespace Mafia.NET.Players.Roles
     {
         public static readonly IReadOnlyDictionary<string, Role> Roles = LoadAll();
         public string Name { get; }
+        public string Summary { get; }
+        public string Goal { get; }
+        public string Abilities { get; }
         public ITeam Affiliation { get; }
         public IReadOnlyList<ICategory> Categories { get; }
         public Color Tint { get; }
         public IAbility Ability { get; set; } // TODO
 
-        public Role(string name, ITeam affiliation, List<ICategory> categories, Color tint)
+        public Role(string name, string summary, string goal, string abilities, ITeam affiliation, List<ICategory> categories, Color tint)
         {
             Name = name;
+            Summary = summary;
+            Goal = goal;
+            Abilities = abilities;
             Affiliation = affiliation;
             Categories = categories.AsReadOnly();
             Tint = tint;
@@ -76,8 +85,11 @@ namespace Mafia.NET.Players.Roles
                 }
 
                 var tint = yaml["color"].AsColor();
+                var summary = yaml["summary"].AsString();
+                var goal = yaml["goal"].AsString();
+                var abilities = yaml["ability"]["description"].AsString();
 
-                var role = new Role(name, affiliation, categories, tint);
+                var role = new Role(name, summary, goal, abilities, affiliation, categories, tint);
                 roles.Add(name, role);
             }
 

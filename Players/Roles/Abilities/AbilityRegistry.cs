@@ -12,24 +12,23 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class AbilityEntry
     {
-        private static readonly MessageRandomizer DefaultMurderDescriptions = new MessageRandomizer("They died in mysterious ways");
         public string Name { get; }
         public Type Ability { get; }
         public Type Setup { get; }
         public MessageRandomizer MurderDescriptions { get; }
 
-        public AbilityEntry(string name, Type ability, Type setup, MessageRandomizer murderDescriptions = null)
+        public AbilityEntry(string name, Type ability, Type setup, MessageRandomizer murderDescriptions)
         {
             Name = name;
             Ability = ability;
             Setup = setup;
-            MurderDescriptions = murderDescriptions ?? DefaultMurderDescriptions;
+            MurderDescriptions = murderDescriptions;
         }
     }
 
     public class AbilityRegistry
     {
-
+        private static readonly MessageRandomizer DefaultMurderDescriptions = new MessageRandomizer("They died in mysterious ways");
         private static readonly Lazy<AbilityRegistry> Lazy = new Lazy<AbilityRegistry>(() => new AbilityRegistry());
         public static AbilityRegistry Instance { get => Lazy.Value; }
         public IImmutableDictionary<string, AbilityEntry> Names { get; }
@@ -56,12 +55,12 @@ namespace Mafia.NET.Players.Roles.Abilities
             foreach (YamlMappingNode yaml in roles)
             {
                 var name = yaml["name"].AsString();
-                if (!attributes.ContainsKey(name) || !yaml.Contains("ability")) continue; // TODO
+                if (!attributes.ContainsKey(name)) continue; // TODO
 
                 var type = attributes[name].Item1;
                 var ability = type;
                 var setup = attributes[name].Item2.Setup;
-                MessageRandomizer murderDescriptions = null;
+                MessageRandomizer murderDescriptions = DefaultMurderDescriptions;
                 if (((YamlMappingNode)yaml["ability"]).Contains("murder_descriptions"))
                 {
                     murderDescriptions = new MessageRandomizer(yaml["ability"]["murder_descriptions"][0].AsStringList());
@@ -92,7 +91,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public T Ability<T>(IMatch match, IPlayer user) where T : IAbility
         {
             var entry = Entry<T>();
-            return (T)Activator.CreateInstance(typeof(T), new object[] { match, user });
+            return (T)Activator.CreateInstance(typeof(T), new object[] { entry, match, user });
         }
 
         public T Setup<T>() where T : IAbilitySetup, new() => new T();

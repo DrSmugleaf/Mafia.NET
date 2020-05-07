@@ -1,5 +1,9 @@
 ﻿- name: Enforcer
   affiliation: Triad
+  summary: '000 - "Blue Lantern" - A low-life criminal killer affiliated with the Triad conglomerate.'
+  goal: "Kill off the Town and everyone else who would oppose you."
   categories:
   - Triad Killing
   color: "#2851CC"
+  ability:
+    description: "Kill."
