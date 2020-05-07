@@ -19,7 +19,7 @@ namespace Mafia.NET.Matches.Phases
 
             foreach (var player in Match.AllPlayers.Values)
             {
-                var role = Notification.Popup($"Your role is {player.Role.Name}"); // TODO Add summary
+                var role = Notification.Popup($"Your role is {player.Role.Name}{Environment.NewLine}{player.Role.Summary}"); // Todo role abilities and information
 
                 player.OnNotification(namesNotification);
                 player.OnNotification(role);
