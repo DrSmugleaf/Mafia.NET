@@ -5,12 +5,12 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public interface IAbility
     {
-        IMatch Match { get; }
-        IPlayer User { get; }
-        string Name { get; }
-        AbilityPhase Phase { get; }
-        Targeting Targeting { get; }
-        MessageRandomizer MurderDescriptions { get; }
+        IMatch Match { get; set; }
+        IPlayer User { get; set; }
+        string Name { get; set; }
+        Targeting Targeting { get; set; }
+        MessageRandomizer MurderDescriptions { get; set; }
+        IAbilitySetup AbilitySetup { get; }
 
         bool TryVictory(out IVictory victory);
     }

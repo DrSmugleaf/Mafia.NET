@@ -6,23 +6,19 @@ using System.Linq.Expressions;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    public abstract class BaseAbility : IAbility
+    public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup
     {
-        public IMatch Match { get; }
-        public IPlayer User { get; }
-        public string Name { get; }
-        public AbilityPhase Phase { get; }
-        public Targeting Targeting { get; }
+        public IMatch Match { get; set; }
+        public IPlayer User { get; set; }
+        public string Name { get; set; }
+        public Targeting Targeting { get; set; }
         public MessageRandomizer MurderDescriptions { get; set; }
+        public IAbilitySetup AbilitySetup { get; }
+        public T Setup { get => (T)AbilitySetup; }
 
-        public BaseAbility(AbilityEntry entry, IMatch match, IPlayer user, AbilityPhase phase)
+        public BaseAbility()
         {
-            Match = match;
-            User = user;
-            Name = entry.Name;
-            Phase = phase;
-            Targeting = new Targeting(match);
-            MurderDescriptions = entry.MurderDescriptions;
+            AbilitySetup = (T)Match.Setup.Roles.Abilities[Name];
         }
 
         public virtual bool TryVictory(out IVictory victory)

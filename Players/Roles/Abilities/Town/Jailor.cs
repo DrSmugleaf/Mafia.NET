@@ -1,5 +1,4 @@
-﻿using Mafia.NET.Matches;
-using Mafia.NET.Matches.Phases;
+﻿using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players.Deaths;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +6,8 @@ using System.Linq;
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Jailor", typeof(JailSetup))]
-    public class Jailor : BaseAbility
+    public class Jailor : BaseAbility<JailSetup>
     {
-        protected JailSetup Setup { get; set; }
-
-        public Jailor(AbilityEntry entry, IMatch match, IPlayer user) : base(entry, match, user, AbilityPhase.BOTH)
-        {
-            Setup = (JailSetup)match.Setup.Roles.Abilities[Name];
-        }
-
         protected override void OnDayStart()
         {
             Targeting.Get().Targets = new List<Target>()
@@ -45,10 +37,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
         }
     }
-}
 
-namespace Mafia.NET.Players.Roles.Abilities
-{
     public class JailSetup : IAbilitySetup
     {
         public int Executions { get; set; } = 1;
