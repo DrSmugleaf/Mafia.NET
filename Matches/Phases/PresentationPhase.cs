@@ -6,7 +6,7 @@ namespace Mafia.NET.Matches.Phases
 {
     public class PresentationPhase : BasePhase
     {
-        public PresentationPhase(IMatch match, uint duration = 30) : base(match, "Presentation", duration)
+        public PresentationPhase(IMatch match, uint duration = 30) : base(match, "Presentation", duration, actionable: false)
         {
         }
 

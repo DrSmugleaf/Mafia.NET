@@ -8,7 +8,7 @@ namespace Mafia.NET.Matches.Phases
     {
         public IList<IVictory> Victories;
 
-        public ConclusionPhase(IList<IVictory> victories, IMatch match, uint duration = 120) : base(match, "Conclusion", duration)
+        public ConclusionPhase(IList<IVictory> victories, IMatch match, uint duration = 120) : base(match, "Conclusion", duration, actionable: false)
         {
             Victories = victories;
         }

@@ -16,6 +16,7 @@ namespace Mafia.NET.Matches.Phases
         IPhase? SupersededBy { get; set; }
         bool Skippable { get; }
         ChatManager ChatManager { get; }
+        bool Actionable { get; }
 
         IPhase NextPhase();
         void Start();

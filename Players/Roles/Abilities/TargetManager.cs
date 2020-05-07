@@ -10,10 +10,10 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetManager
     {
-        public IReadOnlyDictionary<TimePhase, PhaseTargeting> Phases { get; }
+        public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
         public IMatch Match { get; }
 
-        public TargetManager(IReadOnlyDictionary<TimePhase, PhaseTargeting> phases, IMatch match)
+        public TargetManager(IReadOnlyDictionary<Time, PhaseTargeting> phases, IMatch match)
         {
             Phases = phases;
             Match = match;
@@ -21,9 +21,9 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public TargetManager(IMatch match)
         {
-            var phases = new Dictionary<TimePhase, PhaseTargeting>();
+            var phases = new Dictionary<Time, PhaseTargeting>();
 
-            foreach (TimePhase phase in Enum.GetValues(typeof(TimePhase)))
+            foreach (Time phase in Enum.GetValues(typeof(Time)))
             {
                 phases[phase] = new PhaseTargeting(phase);
             }
@@ -46,11 +46,11 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
 
-        public PhaseTargeting Day() => Phases[TimePhase.DAY];
+        public PhaseTargeting Day() => Phases[Time.DAY];
 
-        public PhaseTargeting Night() => Phases[TimePhase.NIGHT];
+        public PhaseTargeting Night() => Phases[Time.NIGHT];
 
-        public Target this[TimePhase phase, int index]
+        public Target this[Time phase, int index]
         {
             get => Phases[phase][index];
             set => Phases[phase][index] = value;
@@ -73,16 +73,16 @@ namespace Mafia.NET.Players.Roles.Abilities
 
     public class PhaseTargeting
     {
-        public TimePhase Phase { get; }
+        public Time Phase { get; }
         public IList<Target> Targets { get; set; }
 
-        public PhaseTargeting(TimePhase phase, IList<Target> targets)
+        public PhaseTargeting(Time phase, IList<Target> targets)
         {
             Phase = phase;
             Targets = targets;
         }
 
-        public PhaseTargeting(TimePhase phase) : this(phase, new List<Target>())
+        public PhaseTargeting(Time phase) : this(phase, new List<Target>())
         {
         }
 

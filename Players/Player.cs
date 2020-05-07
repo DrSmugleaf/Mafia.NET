@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Matches;
+using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Players.Votes;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Votes;
@@ -7,8 +8,36 @@ using System.Drawing;
 
 namespace Mafia.NET.Players
 {
+    public interface IPlayer
+    {
+        IMatch Match { get; }
+        int Id { get; }
+        string Name { get; set; }
+        IRole Role { get; set; }
+        Color Tint { get; }
+        bool Alive { get; set; }
+#nullable enable
+        IPlayer? Accuses { get; set; }
+#nullable disable
+        bool Anonymous { get; set; }
+        Note LastWill { get; }
+        Note DeathNote { get; }
+        event EventHandler<AccuseEventArgs> Accuse;
+        event EventHandler<UnaccuseEventArgs> Unaccuse;
+        event EventHandler<AccuseChangeEventArgs> AccuseChange;
+        event EventHandler<Notification> Notification;
+        event EventHandler<Message> Message;
+
+        void OnAccuse(AccuseEventArgs e);
+        void OnUnaccuse(UnaccuseEventArgs e);
+        void OnAccuseChange(AccuseChangeEventArgs e);
+        void OnNotification(Notification e);
+        void OnMessage(Message e);
+    }
+
     public class Player : IPlayer
     {
+        public IMatch Match { get; }
         public int Id { get; }
         public string Name { get; set; }
         public IRole Role { get; set; }
@@ -43,39 +72,24 @@ namespace Mafia.NET.Players
         }
 #nullable disable
         public bool Anonymous { get; set; }
-        private string _lastWill { get; set; }
-        public string LastWill
-        {
-            get => _lastWill;
-            set
-            {
-                if (!Alive) return;
-                _lastWill = value.Trim().Substring(0, Math.Min(value.Length, 500));
-            }
-        }
-        private string _deathNote { get; set; }
-        public string DeathNote
-        {
-            get => _deathNote;
-            set
-            {
-                if (!Alive) return;
-                _deathNote = value.Trim().Substring(0, Math.Min(value.Length, 500));
-            }
-        }
+        public Note LastWill { get; }
+        public Note DeathNote { get; }
         public event EventHandler<AccuseEventArgs> Accuse;
         public event EventHandler<UnaccuseEventArgs> Unaccuse;
         public event EventHandler<AccuseChangeEventArgs> AccuseChange;
         public event EventHandler<Notification> Notification;
         public event EventHandler<Message> Message;
 
-        public Player(int id, string name, IRole role, bool anonymous)
+        public Player(IMatch match, int id, string name, IRole role, bool anonymous)
         {
+            Match = match;
             Id = id;
             Name = name;
             Role = role;
             Tint = IdToColor(id);
             Anonymous = anonymous;
+            LastWill = new Note(Match, this);
+            DeathNote = new Note(Match, this);
         }
 
         public static Color IdToColor(int id)

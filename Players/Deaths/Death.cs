@@ -8,8 +8,8 @@ namespace Mafia.NET.Players.Deaths
         public IPlayer Victim { get; set; }
         public DeathCause Cause { get; set; }
         public IPlayer? Killer { get; set; }
-        public string LastWill { get; set; }
-        public string? DeathNote { get; set; }
+        public Note LastWill { get; set; }
+        public Note? DeathNote { get; set; }
 
         public Death(int day, IPlayer victim, DeathCause cause, IPlayer? killer = null)
         {

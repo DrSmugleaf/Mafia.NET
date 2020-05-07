@@ -4,7 +4,7 @@
     {
         IMatch Match { get; }
         int Day { get; set; }
-        TimePhase CurrentTime { get; set; }
+        Time CurrentTime { get; set; }
         IPhase CurrentPhase { get; set; }
         Clock Clock { get; }
 
@@ -18,7 +18,7 @@
     {
         public IMatch Match { get; }
         public int Day { get; set; }
-        public TimePhase CurrentTime { get; set; }
+        public Time CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
         public Clock Clock { get; }
 
@@ -26,7 +26,7 @@
         {
             Match = match;
             Day = 1;
-            CurrentTime = TimePhase.DAY;
+            CurrentTime = Time.DAY;
             CurrentPhase = new PresentationPhase(Match);
             Clock = new Clock();
         }

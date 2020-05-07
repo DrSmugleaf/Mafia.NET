@@ -25,7 +25,7 @@ namespace Mafia.NET.Matches.Phases.Vote
                 player.OnNotification(role);
             }
 
-            if (Player.LastWill.Length == 0) return;
+            if (Player.LastWill.Text.Length == 0) return;
 
             var lastWill = Notification.Chat($"{Player.Name} left us his last will:{Environment.NewLine}{Player.LastWill}");
 

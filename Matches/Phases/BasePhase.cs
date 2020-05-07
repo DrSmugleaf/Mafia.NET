@@ -16,14 +16,16 @@ namespace Mafia.NET.Matches.Phases
         public IPhase? SupersededBy { get; set; }
         public bool Skippable { get; }
         public ChatManager ChatManager { get; }
+        public bool Actionable { get; }
 
-        public BasePhase(IMatch match, string name, uint duration, bool skippable = false)
+        public BasePhase(IMatch match, string name, uint duration, bool skippable = false, bool actionable = true)
         {
             Match = match;
             Name = name;
             Duration = duration * 1000;
             Skippable = skippable;
             ChatManager = new ChatManager();
+            Actionable = actionable;
         }
 
         public abstract IPhase NextPhase();
