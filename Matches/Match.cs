@@ -13,8 +13,7 @@ namespace Mafia.NET.Matches
         public ISetup Setup { get; }
         public IReadOnlyDictionary<int, IPlayer> AllPlayers { get; }
         public IReadOnlyDictionary<int, IPlayer> LivingPlayers => new Dictionary<int, IPlayer>(AllPlayers.Where(player => player.Value.Alive));
-        public List<IDeath> Graveyard { get; }
-        public IList<IDeath> UndisclosedDeaths { get; }
+        public Graveyard Graveyard { get; }
         public IReadOnlyList<IRole> PossibleRoles { get; }
         public PhaseManager PhaseManager { get; set; }
 
@@ -22,7 +21,7 @@ namespace Mafia.NET.Matches
         {
             Setup = settings;
             AllPlayers = players;
-            Graveyard = new List<IDeath>();
+            Graveyard = new Graveyard(this);
             PossibleRoles = possibleRoles;
             PhaseManager = new PhaseManager(this);
         }

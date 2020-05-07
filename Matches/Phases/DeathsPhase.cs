@@ -27,14 +27,14 @@ namespace Mafia.NET.Matches.Phases
             Match.PhaseManager.Day++;
             Match.PhaseManager.CurrentTime = TimePhase.DAY;
 
-            if (Match.UndisclosedDeaths.Count == 0)
+            if (Match.Graveyard.UndisclosedDeaths.Count == 0)
             {
                 End();
                 return;
             }
 
             var notifications = new List<Notification>();
-            string startingMessage = Match.UndisclosedDeaths.Count switch
+            string startingMessage = Match.Graveyard.UndisclosedDeaths.Count switch
             {
                 var x when x < 1 => "",
                 var x when x < 2 => "One of us did not survive the night.",
@@ -50,7 +50,7 @@ namespace Mafia.NET.Matches.Phases
 
             notifications.Add(Notification.Popup(startingMessage));
 
-            foreach (var death in Match.UndisclosedDeaths)
+            foreach (var death in Match.Graveyard.UndisclosedDeaths)
             {
                 death.Victim.Alive = false;
 
@@ -77,8 +77,7 @@ namespace Mafia.NET.Matches.Phases
                 }
             }
 
-            Match.Graveyard.AddRange(Match.UndisclosedDeaths);
-            Match.UndisclosedDeaths.Clear();
+            Match.Graveyard.Disclose();
 
             base.Start();
         }

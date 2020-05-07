@@ -12,7 +12,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         protected override void _onDayEnd()
         {
-            if (Match.AnyDiedToday(DeathCause.LYNCH)) TargetManager[0].Targeted = null;
+            if (Match.Graveyard.DiedToday(DeathCause.LYNCH)) TargetManager[0].Targeted = null;
         }
 
         protected override void _onNightStart()
@@ -29,6 +29,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
     public class JailSetup : IAbilitySetup
     {
-        public int Executions { get; set; } = 1;
+        public int Executions = 1;
     }
 }
