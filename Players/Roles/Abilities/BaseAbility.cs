@@ -17,6 +17,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         IAbilitySetup AbilitySetup { get; }
         bool Active { get; set; }
         bool CurrentlyDeathImmune { get; set; }
+        int Cooldown { get; set; }
 
         bool TryVictory(out IVictory victory);
         Notification VictoryNotification();
@@ -26,6 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         void DisablePiercing();
         void Threaten(IPlayer victim);
         void ThreatenPiercing(IPlayer victim);
+        bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
         bool OnNightStart();
@@ -44,6 +46,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         public bool Active { get; set; }
         protected bool DeathImmunity { get; }
         public bool CurrentlyDeathImmune { get; set; }
+        private int _cooldown { get; set; }
+        public int Cooldown
+        {
+            get => _cooldown;
+            set => _cooldown = _cooldown > 0 ? --_cooldown : 0;
+        }
 
         public BaseAbility()
         {
@@ -90,6 +98,11 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             var threat = new Death(this, victim, true);
             Match.Graveyard.Threats.Add(threat);
+        }
+
+        public bool AloneTeam()
+        {
+            return Match.LivingPlayers.Values.Where(player => player.Role.Affiliation == User.Role.Affiliation).Count() == 1;
         }
 
         public virtual void OnDayStart()

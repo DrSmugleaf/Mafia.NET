@@ -20,7 +20,7 @@ namespace Mafia.NET.Players.Roles
         ITeam Affiliation { get; }
         IReadOnlyList<ICategory> Categories { get; }
         Color Tint { get; }
-        IAbility Ability { get; }
+        IAbility Ability { get; set; }
 
         IReadOnlyList<Goal> Goals();
         IReadOnlyList<Goal> Enemies();

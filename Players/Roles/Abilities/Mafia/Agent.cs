@@ -7,20 +7,37 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Agent", typeof(AgentSetup))]
     public class Agent : MafiaAbility<AgentSetup>
     {
+        public Agent()
+        {
+            Cooldown = Setup.nightsBetweenShadowings;
+        }
+
+        protected override void _onDayStart()
+        {
+            if (AloneTeam() && Setup.becomesMafiosoIfAlone)
+            {
+                User.Role.Ability = AbilityRegistry.Instance.Ability<Mafioso>(Match, User);
+            }
+        }
+
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match), new TargetMessage()
+            if (Cooldown == 0)
             {
-                UserAddMessage = (target) => $"You will watch {target.Name}.",
-                UserRemoveMessage = (target) => $"You won't watch {target.Name}.",
-                UserChangeMessage = (old, _new) => $"You will instead watch ${_new.Name}."
-            });
+                AddTarget(TargetFilter.Living(Match), new TargetMessage()
+                {
+                    UserAddMessage = (target) => $"You will watch {target.Name}.",
+                    UserRemoveMessage = (target) => $"You won't watch {target.Name}.",
+                    UserChangeMessage = (old, _new) => $"You will instead watch ${_new.Name}."
+                });
+            }
         }
 
         protected override void _onNightEnd()
         {
-            if (TargetManager.Try(0, out var target))
+            if (Cooldown == 0 && TargetManager.Try(0, out var target))
             {
+                Cooldown = Setup.nightsBetweenShadowings;
                 var targetVisited = target.Role.Ability.TargetManager[0];
                 var targetVisitedMessage = targetVisited == null ?
                     "Your target did not do anything tonight." :
@@ -42,6 +59,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
                 User.OnNotification(targetNotification);
                 User.OnNotification(foreignNotification);
+            }
+            else
+            {
+                Cooldown--;
             }
         }
     }

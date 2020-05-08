@@ -47,8 +47,8 @@
         {
             if (TargetManager.Try(0, out var execution) && Executions > 0)
             {
-                ThreatenPiercing(execution);
                 Executions--;
+                ThreatenPiercing(execution);
             }
         }
     }
