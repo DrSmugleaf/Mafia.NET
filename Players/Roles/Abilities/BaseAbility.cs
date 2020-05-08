@@ -46,6 +46,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public IAbilitySetup AbilitySetup { get; }
         public T Setup { get => (T)AbilitySetup; }
         public bool Active { get; set; }
+        public bool RoleBlockImmune { get; set; }
         protected bool DeathImmunity { get; }
         public bool CurrentlyDeathImmune { get; set; }
         private int _cooldown { get; set; }
@@ -64,6 +65,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public BaseAbility()
         {
             AbilitySetup = (T)Match.Setup.Roles.Abilities[Name];
+            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup ? rbImmuneSetup.RoleBlockImmune : false;
             DeathImmunity = false;
             CurrentlyDeathImmune = DeathImmunity;
             Cooldown = 0;
@@ -93,7 +95,11 @@ namespace Mafia.NET.Players.Roles.Abilities
             AddTarget(TargetFilter.Only(target), message);
         }
 
-        public virtual void Disable() => Active = false;
+        public virtual void Disable()
+        {
+            if (RoleBlockImmune) return;
+            Active = false;
+        }
 
         public void PiercingDisable() => Active = false;
 
@@ -199,5 +205,10 @@ namespace Mafia.NET.Players.Roles.Abilities
     public interface IChargeSetup
     {
         int Charges { get; set; }
+    }
+
+    public interface IRoleBlockImmune
+    {
+        bool RoleBlockImmune { get; set; }
     }
 }
