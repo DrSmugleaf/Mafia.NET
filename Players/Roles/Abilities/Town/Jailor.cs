@@ -5,13 +5,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Jailor", typeof(JailSetup))]
     public class Jailor : BaseAbility<JailSetup>
     {
-        public int Executions { get; set; }
-
-        public Jailor()
-        {
-            Executions = Setup.Executions;
-        }
-
         protected override void _onDayStart()
         {
             AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage()
@@ -41,7 +34,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                 var jailor = jail.Participants[User];
                 jailor.Name = "Jailor";
 
-                AddTarget(Executions > 0 ? prisoner : null, new TargetMessage()
+                AddTarget(Charges > 0 ? prisoner : null, new TargetMessage()
                 {
                     UserAddMessage = (target) => $"You will execute {target.Name}.",
                     UserRemoveMessage = (target) => $"You changed your mind.",
@@ -56,9 +49,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         protected override bool _onNightEnd()
         {
-            if (TargetManager.Try(0, out var execution) && Executions > 0)
+            if (TargetManager.Try(0, out var execution) && Charges > 0)
             {
-                Executions--;
+                Charges--;
                 PiercingThreaten(execution);
                 return true;
             }
@@ -67,8 +60,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class JailSetup : IAbilitySetup
+    public class JailSetup : IAbilitySetup, IChargeSetup
     {
-        public int Executions = 1;
+        public int Charges { get; set; } = 1;
     }
 }

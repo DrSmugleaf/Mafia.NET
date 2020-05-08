@@ -18,6 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool Active { get; set; }
         bool CurrentlyDeathImmune { get; set; }
         int Cooldown { get; set; }
+        int Charges { get; set; }
 
         bool TryVictory(out IVictory victory);
         Notification VictoryNotification();
@@ -50,7 +51,13 @@ namespace Mafia.NET.Players.Roles.Abilities
         public int Cooldown
         {
             get => _cooldown;
-            set => _cooldown = _cooldown > 0 ? --_cooldown : 0;
+            set => _cooldown = value >= 0 ? value : 0;
+        }
+        private int _charges { get; set; }
+        public int Charges
+        {
+            get => _charges;
+            set => _charges = value >= 0 ? value : 0;
         }
 
         public BaseAbility()
@@ -181,5 +188,10 @@ namespace Mafia.NET.Players.Roles.Abilities
     public interface ICooldownSetup
     {
         int Cooldown { get; set; }
+    }
+
+    public interface IChargeSetup
+    {
+        int Charges { get; set; }
     }
 }

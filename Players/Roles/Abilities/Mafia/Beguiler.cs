@@ -5,16 +5,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Beguiler", typeof(BeguilerSetup))]
     public class Beguiler : MafiaAbility<BeguilerSetup>
     {
-        public int Hides { get; set; }
-
-        public Beguiler()
-        {
-            Hides = Setup.Hides;
-        }
-
         protected override void _onNightStart()
         {
-            if (Hides <= 0) return;
+            if (Charges == 0) return;
 
             TargetFilter filter = Setup.CanHideBehindMafia ?
                 TargetFilter.Living(Match).Except(User) :
@@ -30,9 +23,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         protected override bool _onNightEnd()
         {
-            if (TargetManager.Try(0, out var target) && Hides > 0)
+            if (TargetManager.Try(0, out var target) && Charges > 0)
             {
-                Hides--;
+                Charges--;
 
                 foreach (var player in Match.LivingPlayers.Values)
                 {
@@ -63,9 +56,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class BeguilerSetup : MafiaMinionSetup
+    public class BeguilerSetup : MafiaMinionSetup, IChargeSetup
     {
-        public int Hides = 2;
+        public int Charges { get; set; } = 2;
         public bool NotifiesTarget = false;
         public bool CanHideBehindMafia = false;
     }
