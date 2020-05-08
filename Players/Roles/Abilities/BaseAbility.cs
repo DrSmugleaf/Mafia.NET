@@ -58,6 +58,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             AbilitySetup = (T)Match.Setup.Roles.Abilities[Name];
             DeathImmunity = false;
             CurrentlyDeathImmune = DeathImmunity;
+            Cooldown = 0;
         }
 
         public virtual bool TryVictory(out IVictory victory)
@@ -129,8 +130,32 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual bool OnNightEnd()
         {
-            if (Active) _onNightEnd();
-            return Active;
+            if (Active)
+            {
+                if (Setup is ICooldownSetup cooldownSetup)
+                {
+                    if (Cooldown > 0)
+                    {
+                        Cooldown--;
+                        return false;
+                    }
+                    else
+                    {
+                        var action = _onNightEnd();
+                        if (action) Cooldown = cooldownSetup.Cooldown;
+                        return action;
+                    }
+                }
+                else
+                {
+                    return _onNightEnd();
+                }
+            }
+            else
+            {
+                Cooldown--;
+                return false;
+            }
         }
 
         protected virtual void _onDayStart() => Expression.Empty();
@@ -139,6 +164,11 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected virtual void _onNightStart() => Expression.Empty();
 
-        protected virtual void _onNightEnd() => Expression.Empty();
+        protected virtual bool _onNightEnd() => false;
+    }
+
+    public interface ICooldownSetup
+    {
+        int Cooldown { get; set; }
     }
 }

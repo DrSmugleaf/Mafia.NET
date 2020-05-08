@@ -43,13 +43,16 @@
             }
         }
 
-        protected override void _onNightEnd()
+        protected override bool _onNightEnd()
         {
             if (TargetManager.Try(0, out var execution) && Executions > 0)
             {
                 Executions--;
                 ThreatenPiercing(execution);
+                return true;
             }
+
+            return false;
         }
     }
 

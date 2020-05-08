@@ -7,19 +7,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Agent", typeof(AgentSetup))]
     public class Agent : MafiaAbility<AgentSetup>
     {
-        public Agent()
-        {
-            Cooldown = Setup.nightsBetweenShadowings;
-        }
-
-        protected override void _onDayStart()
-        {
-            if (AloneTeam() && Setup.becomesMafiosoIfAlone)
-            {
-                User.Role.Ability = AbilityRegistry.Instance.Ability<Mafioso>(Match, User);
-            }
-        }
-
         protected override void _onNightStart()
         {
             if (Cooldown == 0)
@@ -33,11 +20,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             }
         }
 
-        protected override void _onNightEnd()
+        protected override bool _onNightEnd()
         {
-            if (Cooldown == 0 && TargetManager.Try(0, out var target))
+            if (TargetManager.Try(0, out var target))
             {
-                Cooldown = Setup.nightsBetweenShadowings;
                 var targetVisited = target.Role.Ability.TargetManager[0];
                 var targetVisitedMessage = targetVisited == null ?
                     "Your target did not do anything tonight." :
@@ -59,17 +45,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
                 User.OnNotification(targetNotification);
                 User.OnNotification(foreignNotification);
+
+                return true;
             }
-            else
-            {
-                Cooldown--;
-            }
+
+            return false;
         }
     }
 
-    public class AgentSetup : IAbilitySetup
+    public class AgentSetup : MafiaSetup, ICooldownSetup
     {
-        public bool becomesMafiosoIfAlone = true;
-        public int nightsBetweenShadowings = 1;
+        public int Cooldown { get; set; } = 1;
     }
 }

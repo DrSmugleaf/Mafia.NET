@@ -6,25 +6,33 @@
 
         public sealed override void OnDayStart()
         {
+            if (Setup is MafiaSetup mafiaSetup && AloneTeam() && mafiaSetup.BecomesMafiosoIfAlone)
+            {
+                User.Role.Ability = AbilityRegistry.Instance.Ability<Mafioso>(Match, User);
+            }
+
             base.OnDayStart();
         }
 
         public sealed override bool OnDayEnd()
         {
-            base.OnDayEnd();
-            return Active;
+            return base.OnDayEnd();
         }
 
         public sealed override bool OnNightStart()
         {
-            if(base.OnNightStart()) Match.ChatManager.Open(NightChatName, User);
-            return Active;
+            if (Active) Match.ChatManager.Open(NightChatName, User);
+            return base.OnNightStart();
         }
 
         public sealed override bool OnNightEnd()
         {
-            base.OnNightEnd();
-            return Active;
+            return base.OnNightEnd();
         }
+    }
+
+    public abstract class MafiaSetup : IAbilitySetup
+    {
+        public bool BecomesMafiosoIfAlone = true;
     }
 }
