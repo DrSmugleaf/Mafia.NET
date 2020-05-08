@@ -11,26 +11,24 @@
         protected override void _onDayEnd()
         {
             if (Match.Graveyard.LynchedToday()) TargetManager[0] = null;
-            TargetManager[0]?.Role.Ability.ActiveNight(false);
+            TargetManager[0]?.Role.Ability.DisablePiercing();
         }
 
         protected override void _onNightStart()
         {
-            var prisoner = TargetManager.Day(0);
-            if (prisoner == null) return;
+            if (TargetManager.TryDay(0, out var prisoner))
+            {
+                TargetManager.Add(Setup.Executions > 0 ? prisoner : null);
 
-            TargetManager.Add(Setup.Executions > 0 ? prisoner : null);
-
-            var jail = Match.ChatManager.Open("Jailor", false, User, prisoner);
-            jail.Participants[User].Name = "Jailor";
-            Match.ChatManager.DisableExcept(prisoner, jail);
+                var jail = Match.ChatManager.Open("Jailor", User, prisoner);
+                jail.Participants[User].Name = "Jailor";
+                Match.ChatManager.DisableExcept(prisoner, jail);
+            }
         }
 
         protected override void _onNightEnd()
         {
-            var execution = TargetManager[0];
-            if (execution == null) return;
-            ThreatenImmunity(execution);
+            if (TargetManager.Try(0, out var execution)) ThreatenPiercing(execution);
         }
     }
 

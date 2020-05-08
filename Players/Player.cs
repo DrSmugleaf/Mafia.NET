@@ -72,7 +72,11 @@ namespace Mafia.NET.Players
             return Color.FromArgb((int)color);
         }
 
-        public virtual void OnNotification(Notification e) => Notification?.Invoke(this, e);
+        public virtual void OnNotification(Notification e)
+        {
+            if (e.Text.Length == 0) return;
+            Notification?.Invoke(this, e);
+        }
 
         public virtual void OnMessage(Message e) => Message?.Invoke(this, e);
     }

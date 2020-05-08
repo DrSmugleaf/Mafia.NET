@@ -9,7 +9,8 @@ namespace Mafia.NET.Matches.Chats
         IDictionary<IPlayer, IChatParticipant> Participants { get; }
         bool Paused { get; set; }
 
-        void Send(Message message);
+        bool CanSend(Message message);
+        bool Send(Message message);
         void Close();
     }
 
@@ -26,14 +27,24 @@ namespace Mafia.NET.Matches.Chats
             _participants = participants;
         }
 
-        public void Send(Message message)
+        public bool CanSend(Message message)
         {
-            if (Paused || !_participants.ContainsKey(message.Sender.Owner) || message.Sender.Muted) return;
+            return !Paused &&
+                _participants.ContainsKey(message.Sender.Owner) &&
+                !message.Sender.Muted &&
+                message.Text.Length > 0;
+        }
+
+        public bool Send(Message message)
+        {
+            if (!CanSend(message)) return false;
 
             foreach (var participant in _participants.Values)
             {
                 if (!participant.Deaf) participant.Owner.OnMessage(message);
             }
+
+            return true;
         }
 
         public void Close()

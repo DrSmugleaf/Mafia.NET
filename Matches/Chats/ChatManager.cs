@@ -54,6 +54,11 @@ namespace Mafia.NET.Matches.Chats
             return Open(players.AsEnumerable(), muted, name);
         }
 
+        public IChat Open(string name = MainName, params IPlayer[] players)
+        {
+            return Open(name, false, players);
+        }
+
         public void DisableExcept(IPlayer player, IChat except = null)
         {
             foreach (var chat in Chats.Values)

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+#nullable enable
+
 namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetManager
@@ -18,7 +20,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Phases = phases;
             Match = match;
         }
-
+#nullable disable
         public TargetManager(IMatch match)
         {
             var phases = new Dictionary<Time, PhaseTargeting>();
@@ -31,11 +33,11 @@ namespace Mafia.NET.Players.Roles.Abilities
             Phases = phases;
             Match = match;
         }
-
+#nullable enable
         public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
 
         public PhaseTargeting Day() => Phases[Time.DAY];
-#nullable enable
+
         public IPlayer? Day(int index)
         {
             return this[Time.DAY, index];
@@ -50,16 +52,28 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public IPlayer? this[Time phase, int index]
         {
-            get => Phases[phase][index].Targeted;
-            set => Phases[phase][index].Targeted = value;
+            get => Phases[phase][index]?.Targeted;
+            set => Phases[phase][index]?.Set(value);
         }
 
         public IPlayer? this[int index]
         {
-            get => Get()[index].Targeted;
-            set => Get()[index].Targeted = value;
+            get => Get()[index]?.Targeted;
+            set => Get()[index]?.Set(value);
         }
-#nullable disable
+
+        public bool Try(Time phase, int index, out IPlayer? target)
+        {
+            target = this[phase, index];
+            return target != null;
+        }
+
+        public bool Try(int index, out IPlayer? target) => Try(Match.PhaseManager.CurrentTime, index, out target);
+
+        public bool TryDay(int index, out IPlayer? target) => Try(Time.DAY, index, out target);
+
+        public bool TryNight(int index, out IPlayer? target) => Try(Time.NIGHT, index, out target);
+
         public void Add(Target target) => Get().Add(target);
 
         public void Add(params IPlayer[] targets) => Get().Add(targets);
@@ -84,10 +98,14 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
 
-        public Target this[int index]
+        public Target? this[int index]
         {
-            get => Targets[index];
-            set => Targets[index] = value;
+            get => index < Targets.Count ? Targets[index] : null;
+            set
+            {
+                if (value == null) return;
+                Targets[index] = value;
+            }
         }
 
         public void Add(Target target) => Targets.Add(target);

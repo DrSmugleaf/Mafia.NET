@@ -12,13 +12,13 @@ namespace Mafia.NET.Matches.Chats
         public Notification(NotificationType type, string text)
         {
             Type = type;
-            Text = text;
+            Text = text.Trim();
         }
 
         public Notification(NotificationType type, IEnumerable<Notification> notifications)
         {
             Type = type;
-            Text = string.Join(Environment.NewLine, notifications.Select(notification => notification.Text));
+            Text = string.Join(Environment.NewLine, notifications.Select(notification => notification.Text)).Trim();
         }
 
         public Notification(NotificationType type, params Notification[] notifications) : this(type, notifications.AsEnumerable())

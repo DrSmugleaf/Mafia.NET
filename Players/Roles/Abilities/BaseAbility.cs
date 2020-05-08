@@ -15,14 +15,18 @@ namespace Mafia.NET.Players.Roles.Abilities
         TargetManager TargetManager { get; set; }
         MessageRandomizer MurderDescriptions { get; set; }
         IAbilitySetup AbilitySetup { get; }
-        bool _activeNight { get; set; }
+        bool Active { get; set; }
+        IPlayer Visiting { get; set; }
 
-        void ActiveNight(bool value);
         bool TryVictory(out IVictory victory);
+        void Disable();
+        void DisablePiercing();
+        void Threaten(IPlayer victim);
+        void ThreatenPiercing(IPlayer victim);
         void OnDayStart();
-        void OnDayEnd();
-        void OnNightStart();
-        void OnNightEnd();
+        bool OnDayEnd();
+        bool OnNightStart();
+        bool OnNightEnd();
     }
 
     public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup
@@ -34,16 +38,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         public MessageRandomizer MurderDescriptions { get; set; }
         public IAbilitySetup AbilitySetup { get; }
         public T Setup { get => (T)AbilitySetup; }
-        public bool _activeNight { get; set; }
+        public bool Active { get; set; }
+        public IPlayer Visiting { get; set; }
 
         public BaseAbility()
         {
             AbilitySetup = (T)Match.Setup.Roles.Abilities[Name];
-        }
-
-        public void ActiveNight(bool value)
-        {
-            _activeNight = value;
         }
 
         public virtual bool TryVictory(out IVictory victory)
@@ -60,40 +60,47 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
 
-        public void Threaten(IPlayer victim)
+        public virtual void Disable() => Active = false;
+
+        public void DisablePiercing() => Active = false;
+
+        public virtual void Threaten(IPlayer victim)
         {
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
         }
 
-        public void ThreatenImmunity(IPlayer victim)
+        public void ThreatenPiercing(IPlayer victim)
         {
             var threat = new Death(this, victim, true);
             Match.Graveyard.Threats.Add(threat);
         }
 
-        public void OnDayStart()
+        public virtual void OnDayStart()
         {
             TargetManager.Reset();
-            _activeNight = true;
+            Active = true;
             _onDayStart();
         }
 
-        public void OnDayEnd()
+        public virtual bool OnDayEnd()
         {
-            if (_activeNight) _onDayEnd();
+            if (Active) _onDayEnd();
+            return Active;
         }
 
-        public void OnNightStart()
+        public virtual bool OnNightStart()
         {
             TargetManager.Reset();
 
-            if (_activeNight) _onNightStart();
+            if (Active) _onNightStart();
+            return Active;
         }
 
-        public void OnNightEnd()
+        public virtual bool OnNightEnd()
         {
-            if (_activeNight) _onNightEnd();
+            if (Active) _onNightEnd();
+            return Active;
         }
 
         protected virtual void _onDayStart() => Expression.Empty();

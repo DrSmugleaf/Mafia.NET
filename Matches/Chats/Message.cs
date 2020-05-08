@@ -10,7 +10,7 @@ namespace Mafia.NET.Matches.Chats
         public Message(IChatParticipant sender, string text)
         {
             Sender = sender;
-            Text = text;
+            Text = text.Trim();
         }
     }
 }
