@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players;
+using Mafia.NET.Players.Roles.Abilities.Mafia;
 
 namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
@@ -17,6 +18,11 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers.Values);
+
+            if (Verdicts.Player.Blackmailed && !Match.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
+            {
+                ChatManager.Main().Participants[Verdicts.Player].Muted = true;
+            }
 
             Notification notification = Notification.Popup($"The town may now vote on the fate of {Verdicts.Player.Name}.");
 

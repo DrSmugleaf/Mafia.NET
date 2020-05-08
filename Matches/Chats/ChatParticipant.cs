@@ -21,7 +21,7 @@ namespace Mafia.NET.Matches.Chats
         {
             Owner = owner;
             Name = name;
-            Muted = muted;
+            Muted = muted || owner.Blackmailed;
             Deaf = deaf;
         }
 

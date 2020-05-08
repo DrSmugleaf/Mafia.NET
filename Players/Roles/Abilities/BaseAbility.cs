@@ -31,8 +31,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
-        bool OnNightStart();
-        bool OnNightEnd();
+        bool OnNightStart(); // Detainments, chats
+        void BeforeNightEnd(); // Unblackmail
+        bool AfterNightEnd(); // Vests, switches & roleblockers, framing & arson & misc, killing & suicides, janitor, investigations, disguiser, mason recruitment, cult recruitment
     }
 
     public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup
@@ -146,7 +147,12 @@ namespace Mafia.NET.Players.Roles.Abilities
             else return false;
         }
 
-        public virtual bool OnNightEnd()
+        public void BeforeNightEnd()
+        {
+            User.Blackmailed = false;
+        }
+
+        public virtual bool AfterNightEnd()
         {
             if (Active)
             {
@@ -159,14 +165,14 @@ namespace Mafia.NET.Players.Roles.Abilities
                     }
                     else
                     {
-                        var action = _onNightEnd();
+                        var action = _afterNightEnd();
                         if (action) Cooldown = cooldownSetup.Cooldown;
                         return action;
                     }
                 }
                 else
                 {
-                    return _onNightEnd();
+                    return _afterNightEnd();
                 }
             }
             else
@@ -182,7 +188,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected virtual void _onNightStart() => Expression.Empty();
 
-        protected virtual bool _onNightEnd() => false;
+        protected virtual bool _afterNightEnd() => false;
     }
 
     public interface ICooldownSetup

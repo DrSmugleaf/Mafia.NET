@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities;
 using System;
 using System.Drawing;
 
@@ -16,6 +17,8 @@ namespace Mafia.NET.Players
         bool Alive { get; set; }
         Note LastWill { get; }
         Note DeathNote { get; }
+        bool Blackmailed { get; set; }
+        Crimes Crimes { get; }
         event EventHandler<Notification> Notification;
         event EventHandler<Message> Message;
 
@@ -33,6 +36,8 @@ namespace Mafia.NET.Players
         public bool Alive { get; set; }
         public Note LastWill { get; }
         public Note DeathNote { get; }
+        public bool Blackmailed { get; set; }
+        public Crimes Crimes { get; }
         public event EventHandler<Notification> Notification;
         public event EventHandler<Message> Message;
 
@@ -45,6 +50,8 @@ namespace Mafia.NET.Players
             Tint = IdToColor(id);
             LastWill = new Note(Match, this);
             DeathNote = new Note(Match, this);
+            Blackmailed = false;
+            Crimes = new Crimes();
         }
 
         public static Color IdToColor(int id)

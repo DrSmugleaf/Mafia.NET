@@ -30,6 +30,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (TargetManager.TryDay(0, out var prisoner))
             {
+                User.Crimes.Add("Kidnapping");
+
                 var jail = Match.Chat.Open("Jailor", User, prisoner);
                 var jailor = jail.Participants[User];
                 jailor.Name = "Jailor";
@@ -47,7 +49,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             }
         }
 
-        protected override bool _onNightEnd()
+        protected override bool _afterNightEnd()
         {
             if (TargetManager.Try(0, out var execution) && Charges > 0)
             {

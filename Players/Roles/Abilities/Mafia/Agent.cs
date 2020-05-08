@@ -13,14 +13,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             {
                 UserAddMessage = (target) => $"You will watch {target.Name}.",
                 UserRemoveMessage = (target) => $"You won't watch anyone.",
-                UserChangeMessage = (old, _new) => $"You will instead watch ${_new.Name}."
+                UserChangeMessage = (old, _new) => $"You will instead watch {_new.Name}."
             });
         }
 
-        protected override bool _onNightEnd()
+        protected override bool _afterNightEnd()
         {
             if (TargetManager.Try(0, out var target))
             {
+                User.Crimes.Add("Trespassing");
+
                 var targetVisited = target.Role.Ability.TargetManager[0];
                 var targetVisitedMessage = targetVisited == null ?
                     "Your target did not do anything tonight." :

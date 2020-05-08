@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Players;
+using Mafia.NET.Players.Roles.Abilities.Mafia;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
@@ -21,7 +22,11 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers.Values, true);
-            ChatManager.Main().Participants[Player].Muted = false;
+
+            if (!Player.Blackmailed || Match.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
+            {
+                ChatManager.Main().Participants[Player].Muted = false;
+            }
 
             var notification = Notification.Popup($"{Player.Name}, you are on trial for conspiracy against the town. What is your defense?");
 

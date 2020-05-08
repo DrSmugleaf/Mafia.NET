@@ -44,6 +44,7 @@ namespace Mafia.NET.Matches
                 else
                 {
                     threat.Victim.Alive = false;
+                    threat.Killer?.Crimes.Add("Murder"); // TODO do after murders, before investigations
                     victims[victim] = threat;
                 }
             }
