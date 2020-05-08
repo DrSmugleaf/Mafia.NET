@@ -14,7 +14,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 AddTarget(TargetFilter.Living(Match), new TargetMessage()
                 {
                     UserAddMessage = (target) => $"You will watch {target.Name}.",
-                    UserRemoveMessage = (target) => $"You won't watch {target.Name}.",
+                    UserRemoveMessage = (target) => $"You won't watch anyone.",
                     UserChangeMessage = (old, _new) => $"You will instead watch ${_new.Name}."
                 });
             }
