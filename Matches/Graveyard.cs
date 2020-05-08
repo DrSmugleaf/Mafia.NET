@@ -34,6 +34,9 @@ namespace Mafia.NET.Matches
             foreach (var threat in Threats)
             {
                 var victim = threat.Victim;
+
+                if (victim.Role.Ability.CurrentlyDeathImmune && !threat.PiercesImmunity) continue;
+
                 if (victims.TryGetValue(victim, out var old))
                 {
                     victims[victim] = new Death(old, threat.Description);

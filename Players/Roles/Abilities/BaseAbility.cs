@@ -17,6 +17,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         IAbilitySetup AbilitySetup { get; }
         bool Active { get; set; }
         IPlayer Visiting { get; set; }
+        bool CurrentlyDeathImmune { get; set; }
 
         bool TryVictory(out IVictory victory);
         void Disable();
@@ -40,10 +41,14 @@ namespace Mafia.NET.Players.Roles.Abilities
         public T Setup { get => (T)AbilitySetup; }
         public bool Active { get; set; }
         public IPlayer Visiting { get; set; }
+        protected bool DeathImmunity { get; }
+        public bool CurrentlyDeathImmune { get; set; }
 
         public BaseAbility()
         {
             AbilitySetup = (T)Match.Setup.Roles.Abilities[Name];
+            DeathImmunity = false;
+            CurrentlyDeathImmune = DeathImmunity;
         }
 
         public virtual bool TryVictory(out IVictory victory)
@@ -78,6 +83,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual void OnDayStart()
         {
+            CurrentlyDeathImmune = DeathImmunity;
             TargetManager.Reset();
             Active = true;
             _onDayStart();

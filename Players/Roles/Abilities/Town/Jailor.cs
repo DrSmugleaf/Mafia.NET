@@ -20,6 +20,8 @@
             {
                 TargetManager.Add(Setup.Executions > 0 ? prisoner : null);
 
+                prisoner.Role.Ability.CurrentlyDeathImmune = true;
+
                 var jail = Match.ChatManager.Open("Jailor", User, prisoner);
                 jail.Participants[User].Name = "Jailor";
                 Match.ChatManager.DisableExcept(prisoner, jail);
@@ -28,7 +30,11 @@
 
         protected override void _onNightEnd()
         {
-            if (TargetManager.Try(0, out var execution)) ThreatenPiercing(execution);
+            if (TargetManager.Try(0, out var execution))
+            {
+                Visiting = execution;
+                ThreatenPiercing(execution);
+            }
         }
     }
 
