@@ -16,10 +16,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         MessageRandomizer MurderDescriptions { get; set; }
         IAbilitySetup AbilitySetup { get; }
         bool Active { get; set; }
-        IPlayer Visiting { get; set; }
         bool CurrentlyDeathImmune { get; set; }
 
         bool TryVictory(out IVictory victory);
+        Notification VictoryNotification();
+        void AddTarget(TargetFilter filter, TargetMessage message);
+        void AddTarget(IPlayer target, TargetMessage message);
         void Disable();
         void DisablePiercing();
         void Threaten(IPlayer victim);
@@ -40,7 +42,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         public IAbilitySetup AbilitySetup { get; }
         public T Setup { get => (T)AbilitySetup; }
         public bool Active { get; set; }
-        public IPlayer Visiting { get; set; }
         protected bool DeathImmunity { get; }
         public bool CurrentlyDeathImmune { get; set; }
 
@@ -64,6 +65,16 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
+
+        public void AddTarget(TargetFilter filter, TargetMessage message)
+        {
+            TargetManager.Add(filter.Build(User, message));
+        }
+
+        public void AddTarget(IPlayer target, TargetMessage message)
+        {
+            AddTarget(TargetFilter.Only(target), message);
+        }
 
         public virtual void Disable() => Active = false;
 

@@ -12,7 +12,9 @@
 
         protected override void _onDayStart()
         {
-            TargetManager.Add(TargetFilter.Living(Match).Except(User));
+            AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage() {
+
+            });
         }
 
         protected override void _onDayEnd()
@@ -25,7 +27,13 @@
         {
             if (TargetManager.TryDay(0, out var prisoner))
             {
-                TargetManager.Add(Executions > 0 ? prisoner : null);
+                AddTarget(Executions > 0 ? prisoner : null, new TargetMessage()
+                {
+                    UserAddMessage = (target) => $"You will execute {target.Name}.",
+                    UserRemoveMessage = (target) => $"You won't execute {target.Name}.",
+                    TargetAddMessage = (target) => $"Your captor has decided to execute you.",
+                    TargetRemoveMessage = (target) => $"Your captor has decided to let you live."
+                });;
 
                 prisoner.Role.Ability.CurrentlyDeathImmune = true;
 
@@ -39,7 +47,6 @@
         {
             if (TargetManager.Try(0, out var execution) && Executions > 0)
             {
-                Visiting = execution;
                 ThreatenPiercing(execution);
                 Executions--;
             }

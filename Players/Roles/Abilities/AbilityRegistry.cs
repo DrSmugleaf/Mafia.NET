@@ -96,7 +96,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 Match = match,
                 User = user,
                 Name = entry.Name,
-                TargetManager = new TargetManager(match),
+                TargetManager = new TargetManager(match, user),
                 MurderDescriptions = entry.MurderDescriptions
             };
         }

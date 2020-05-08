@@ -12,17 +12,22 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetManager
     {
-        public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
         public IMatch Match { get; }
+        public IPlayer User { get; }
+        public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
 
-        public TargetManager(IReadOnlyDictionary<Time, PhaseTargeting> phases, IMatch match)
+        public TargetManager(IMatch match, IPlayer user, IReadOnlyDictionary<Time, PhaseTargeting> phases)
         {
-            Phases = phases;
             Match = match;
+            User = user;
+            Phases = phases;
         }
 #nullable disable
-        public TargetManager(IMatch match)
+        public TargetManager(IMatch match, IPlayer user)
         {
+            Match = match;
+            User = user;
+
             var phases = new Dictionary<Time, PhaseTargeting>();
 
             foreach (Time phase in Enum.GetValues(typeof(Time)))
@@ -31,7 +36,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             }
 
             Phases = phases;
-            Match = match;
         }
 #nullable enable
         public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
@@ -76,11 +80,13 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(Target target) => Get().Add(target);
 
-        public void Add(params IPlayer[] targets) => Get().Add(targets);
+        public void Add(TargetMessage message, params IPlayer[] targets) => Get().Add(User, message, targets);
+
+        public void Reset() => Get().Reset();
 
         public void Reset(Target target) => Get().Reset(target);
 
-        public void Reset(params IPlayer[] targets) => Get().Reset(targets);
+        public void Reset(TargetMessage message, params IPlayer[] targets) => Get().Reset(User, message, targets);
     }
 
     public class PhaseTargeting
@@ -110,15 +116,17 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(Target target) => Targets.Add(target);
 
-        public void Add(params IPlayer[] targets) => Add(TargetFilter.Of(targets));
+        public void Add(IPlayer user, TargetMessage message, params IPlayer[] targets) => Add(TargetFilter.Of(targets).Build(user, message));
+
+        public void Reset() => Targets.Clear();
 
         public void Reset(Target target)
         {
-            Targets.Clear();
+            Reset();
             Targets.Add(target);
         }
 
-        public void Reset(params IPlayer[] targets) => Reset(TargetFilter.Of(targets));
+        public void Reset(IPlayer user, TargetMessage message, params IPlayer[] targets) => Reset(TargetFilter.Of(targets).Build(user, message));
     }
 
     public class TargetFilter
@@ -133,8 +141,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         private TargetFilter(Func<IReadOnlyDictionary<int, IPlayer>> supplier) : this(_ => supplier.Invoke())
         {
         }
-
-        public static implicit operator Target(TargetFilter targeting) => targeting.Build();
 
         public static TargetFilter Living(IMatch match) => new TargetFilter(() => match.LivingPlayers);
 
@@ -187,6 +193,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             return new TargetFilter(dictionary => filter.Filter(Filter(dictionary)));
         }
 
-        public Target Build() => new Target(this);
+        public Target Build(IPlayer user, TargetMessage message) => new Target(user, this, message);
     }
 }

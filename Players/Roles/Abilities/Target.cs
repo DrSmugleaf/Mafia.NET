@@ -1,5 +1,4 @@
 ﻿using Mafia.NET.Matches;
-using System;
 using System.Collections.Generic;
 
 #nullable enable
@@ -8,6 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class Target
     {
+        public IPlayer User { get; }
         private IPlayer? _targeted { get; set; }
         public IPlayer? Targeted
         {
@@ -19,31 +19,39 @@ namespace Mafia.NET.Players.Roles.Abilities
 
                 if (Targeted == null && old != null)
                 {
-                    var e = new TargetRemoveEventArgs(old);
-                    OnTargetRemove(e);
+                    var userNotification = Message.UserRemove(old);
+                    User.OnNotification(userNotification);
+
+                    var targetNotification = Message.TargetRemove(old);
+                    old.OnNotification(targetNotification);
                 }
                 else if (Targeted != null && old == null)
                 {
-                    var e = new TargetAddEventArgs(Targeted);
-                    OnTargetAdd(e);
+                    var userNotification = Message.UserAdd(Targeted);
+                    User.OnNotification(userNotification);
+
+                    var targetNotification = Message.TargetAdd(Targeted);
+                    Targeted.OnNotification(targetNotification);
                 }
                 else if (Targeted != null && old != null)
                 {
-                    var e = new TargetChangeEventArgs(old, Targeted);
-                    OnTargetChange(e);
+                    var userNotification = Message.UserChange(old, Targeted);
+                    User.OnNotification(userNotification);
+
+                    var targetNotification = Message.TargetChange(old, Targeted);
+                    old.OnNotification(targetNotification);
+                    Targeted.OnNotification(targetNotification);
                 }
             }
         }
         public TargetFilter Filter { get; }
-#nullable disable
-        public event EventHandler<TargetAddEventArgs> TargetAdd;
-        public event EventHandler<TargetRemoveEventArgs> TargetRemove;
-        public event EventHandler<TargetChangeEventArgs> TargetChange;
-#nullable enable
+        public TargetMessage Message { get; set; }
 
-        public Target(TargetFilter filter)
+        public Target(IPlayer user, TargetFilter filter, TargetMessage message)
         {
+            User = user;
             Filter = filter;
+            Message = message;
         }
 
         public bool Try(out IPlayer? target)
@@ -55,37 +63,5 @@ namespace Mafia.NET.Players.Roles.Abilities
         public void Set(IPlayer? target) => Targeted = target;
 
         public IReadOnlyDictionary<int, IPlayer> ValidTargets(IMatch match) => Filter.Filter(match.AllPlayers);
-
-        public virtual void OnTargetAdd(TargetAddEventArgs e) => TargetAdd?.Invoke(this, e);
-
-        public virtual void OnTargetRemove(TargetRemoveEventArgs e) => TargetRemove?.Invoke(this, e);
-
-        public virtual void OnTargetChange(TargetChangeEventArgs e) => TargetChange?.Invoke(this, e);
-    }
-
-    public class TargetAddEventArgs : EventArgs
-    {
-        public IPlayer Target { get; }
-
-        public TargetAddEventArgs(IPlayer target) => Target = target;
-    }
-
-    public class TargetRemoveEventArgs : EventArgs
-    {
-        public IPlayer Target { get; }
-
-        public TargetRemoveEventArgs(IPlayer target) => Target = target;
-    }
-
-    public class TargetChangeEventArgs : EventArgs
-    {
-        public IPlayer Old { get; }
-        public IPlayer New { get; }
-
-        public TargetChangeEventArgs(IPlayer oldPlayer, IPlayer newPlayer)
-        {
-            Old = oldPlayer;
-            New = newPlayer;
-        }
     }
 }
