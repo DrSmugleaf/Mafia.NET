@@ -14,7 +14,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         protected override void _onDayStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage() {
+            AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage()
+            {
                 UserAddMessage = (target) => $"You will jail {target.Name}.",
                 UserRemoveMessage = (target) => $"You won't jail anyone.",
                 UserChangeMessage = (old, _new) => $"You will instead jail {_new.Name}."
@@ -46,7 +47,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                     UserRemoveMessage = (target) => $"You changed your mind.",
                     TargetAddMessage = (target) => $"{jailor.Name} will execute {target.Name}.",
                     TargetRemoveMessage = (target) => $"{jailor.Name} changed their mind."
-                });;
+                }); ;
 
                 prisoner.Role.Ability.CurrentlyDeathImmune = true;
                 Match.Chat.DisableExcept(prisoner, jail);

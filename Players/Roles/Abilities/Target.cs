@@ -49,11 +49,11 @@ namespace Mafia.NET.Players.Roles.Abilities
         public TargetFilter Filter { get; }
         public TargetMessage Message { get; set; }
 
-        public Target(IPlayer user, TargetFilter filter, TargetMessage message)
+        public Target(IPlayer user, TargetFilter filter, TargetMessage? message = null)
         {
             User = user;
             Filter = filter;
-            Message = message;
+            Message = message ?? TargetMessage.Empty;
         }
 
         public bool Try(out IPlayer? target)
@@ -63,6 +63,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         public void Set(IPlayer? target) => Targeted = target;
+
+        public void ForceSet(IPlayer? target) => _targeted = target;
 
         public IReadOnlyDictionary<int, IPlayer> ValidTargets(IMatch match) => Filter.Filter(match.AllPlayers);
     }

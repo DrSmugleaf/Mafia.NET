@@ -82,11 +82,16 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(TargetMessage message, params IPlayer[] targets) => Get().Add(User, message, targets);
 
+        public void Set(IPlayer? target) => Get().Set(User, target);
+
+        public void ForceSet(IPlayer? target) => Get().ForceSet(User, target);
+
         public void Reset() => Get().Reset();
 
         public void Reset(Target target) => Get().Reset(target);
 
         public void Reset(TargetMessage message, params IPlayer[] targets) => Get().Reset(User, message, targets);
+
     }
 
     public class PhaseTargeting
@@ -116,7 +121,19 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(Target target) => Targets.Add(target);
 
-        public void Add(IPlayer user, TargetMessage message, params IPlayer[] targets) => Add(TargetFilter.Of(targets).Build(user, message));
+        public void Add(IPlayer user, TargetMessage? message = null, params IPlayer[] targets) => Add(TargetFilter.Of(targets).Build(user, message));
+
+        public void Set(IPlayer user, IPlayer? target)
+        {
+            if (Targets.Count == 0) Add(new Target(user, TargetFilter.Any));
+            Targets[0].Targeted = target;
+        }
+
+        public void ForceSet(IPlayer user, IPlayer? target)
+        {
+            if (Targets.Count == 0) Add(new Target(user, TargetFilter.Any));
+            Targets[0].ForceSet(target);
+        }
 
         public void Reset() => Targets.Clear();
 
@@ -132,6 +149,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     public class TargetFilter
     {
         private Func<IReadOnlyDictionary<int, IPlayer>, IReadOnlyDictionary<int, IPlayer>> _filter { get; }
+        public static readonly TargetFilter Any = new TargetFilter(dictionary => dictionary);
 
         private TargetFilter(Func<IReadOnlyDictionary<int, IPlayer>, IReadOnlyDictionary<int, IPlayer>> filter)
         {
@@ -198,6 +216,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             return new TargetFilter(dictionary => filter.Filter(Filter(dictionary)));
         }
 
-        public Target Build(IPlayer user, TargetMessage message) => new Target(user, this, message);
+        public Target Build(IPlayer user, TargetMessage? message) => new Target(user, this, message);
     }
 }
