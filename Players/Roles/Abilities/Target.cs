@@ -14,6 +14,8 @@ namespace Mafia.NET.Players.Roles.Abilities
             get => _targeted;
             set
             {
+                if (value != null && !Filter.Valid(value)) return;
+
                 var old = _targeted;
                 _targeted = value;
 

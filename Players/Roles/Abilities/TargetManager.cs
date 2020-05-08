@@ -170,6 +170,11 @@ namespace Mafia.NET.Players.Roles.Abilities
             return _filter.Invoke(players);
         }
 
+        public bool Valid(IPlayer target)
+        {
+            return _filter.Invoke(new Dictionary<int, IPlayer>() { [target.Id] = target }).Count > 0;
+        }
+
         public TargetFilter Except(IPlayer player)
         {
             return new TargetFilter(players =>
