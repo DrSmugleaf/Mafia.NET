@@ -124,8 +124,19 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             TargetManager.Reset();
 
-            if (Active) _onNightStart();
-            return Active;
+            if (Active)
+            {
+                if (Setup is ICooldownSetup && Cooldown > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    _onNightStart();
+                    return true;
+                }
+            }
+            else return false;
         }
 
         public virtual bool OnNightEnd()

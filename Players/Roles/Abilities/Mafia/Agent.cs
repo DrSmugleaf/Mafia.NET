@@ -9,15 +9,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         protected override void _onNightStart()
         {
-            if (Cooldown == 0)
+            AddTarget(TargetFilter.Living(Match), new TargetMessage()
             {
-                AddTarget(TargetFilter.Living(Match), new TargetMessage()
-                {
-                    UserAddMessage = (target) => $"You will watch {target.Name}.",
-                    UserRemoveMessage = (target) => $"You won't watch anyone.",
-                    UserChangeMessage = (old, _new) => $"You will instead watch ${_new.Name}."
-                });
-            }
+                UserAddMessage = (target) => $"You will watch {target.Name}.",
+                UserRemoveMessage = (target) => $"You won't watch anyone.",
+                UserChangeMessage = (old, _new) => $"You will instead watch ${_new.Name}."
+            });
         }
 
         protected override bool _onNightEnd()
