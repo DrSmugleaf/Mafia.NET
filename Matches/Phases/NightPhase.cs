@@ -12,8 +12,8 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            Match.PhaseManager.CurrentTime = Time.NIGHT;
-            var notification = Notification.Popup($"Night {Match.PhaseManager.Day}");
+            Match.Phase.CurrentTime = Time.NIGHT;
+            var notification = Notification.Popup($"Night {Match.Phase.Day}");
 
             foreach (var player in Match.AllPlayers.Values)
             {

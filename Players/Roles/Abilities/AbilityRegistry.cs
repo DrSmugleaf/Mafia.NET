@@ -30,11 +30,11 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         private static readonly MessageRandomizer DefaultMurderDescriptions = new MessageRandomizer("They died in mysterious ways");
         private static readonly Lazy<AbilityRegistry> Lazy = new Lazy<AbilityRegistry>(() => new AbilityRegistry());
-        public static AbilityRegistry Instance { get => Lazy.Value; }
+        public static AbilityRegistry Default { get => Lazy.Value; }
         public IImmutableDictionary<string, AbilityEntry> Names { get; }
         public IImmutableDictionary<Type, AbilityEntry> Types { get; }
 
-        private AbilityRegistry()
+        public AbilityRegistry()
         {
             var attributes = new Dictionary<string, (Type, RegisterAbilityAttribute)>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())

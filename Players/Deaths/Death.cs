@@ -30,7 +30,7 @@ namespace Mafia.NET.Players.Deaths
 
         public Death(IAbility ability, IPlayer victim, bool piercesImmunity = false)
         {
-            Day = ability.Match.PhaseManager.Day;
+            Day = ability.Match.Phase.Day;
             Victim = victim;
             Cause = DeathCause.MURDER;
             Killer = ability.User;

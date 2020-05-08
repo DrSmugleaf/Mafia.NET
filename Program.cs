@@ -13,7 +13,7 @@ namespace Mafia.NET
             var teams = Team.Teams;
             var roles = Role.Roles;
             var categories = Category.Categories;
-            var abilities = AbilityRegistry.Instance;
+            var abilities = AbilityRegistry.Default;
             Console.ReadLine();
         }
     }

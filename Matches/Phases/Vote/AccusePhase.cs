@@ -21,7 +21,7 @@ namespace Mafia.NET.Matches.Phases.Vote
                 (IPhase)new TrialPhase(Match, accused) :
                 new ImmediateExecutionPhase(Match, accused);
 
-            Match.PhaseManager.SupersedePhase(phase);
+            Match.Phase.SupersedePhase(phase);
         }
 
         public override IPhase NextPhase()

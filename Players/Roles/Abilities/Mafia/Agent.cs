@@ -53,7 +53,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class AgentSetup : MafiaSetup, ICooldownSetup
+    public class AgentSetup : MafiaMinionSetup, ICooldownSetup
     {
         public int Cooldown { get; set; } = 1;
     }

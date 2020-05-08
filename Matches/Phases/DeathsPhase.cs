@@ -25,8 +25,8 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             Match.Graveyard.SettleThreats();
-            Match.PhaseManager.Day++;
-            Match.PhaseManager.CurrentTime = Time.DAY;
+            Match.Phase.Day++;
+            Match.Phase.CurrentTime = Time.DAY;
 
             if (Match.Graveyard.UndisclosedDeaths.Count == 0)
             {

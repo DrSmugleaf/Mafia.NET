@@ -3,6 +3,7 @@ using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities;
 using System.Collections.Generic;
 
 namespace Mafia.NET.Matches
@@ -14,8 +15,9 @@ namespace Mafia.NET.Matches
         IReadOnlyDictionary<int, IPlayer> LivingPlayers { get; }
         Graveyard Graveyard { get; }
         IReadOnlyList<IRole> PossibleRoles { get; }
-        PhaseManager PhaseManager { get; set; }
-        ChatManager ChatManager { get; }
+        PhaseManager Phase { get; set; }
+        ChatManager Chat { get; }
+        AbilityRegistry Abilities { get; }
 
         void End();
     }

@@ -57,7 +57,7 @@ namespace Mafia.NET.Matches
             return All().Any(death => death.Day == day && death.Cause == cause);
         }
 
-        public bool DiedToday(DeathCause cause) => DiedOn(Match.PhaseManager.Day, cause);
+        public bool DiedToday(DeathCause cause) => DiedOn(Match.Phase.Day, cause);
 
         public bool LynchedToday() => DiedToday(DeathCause.LYNCH);
     }

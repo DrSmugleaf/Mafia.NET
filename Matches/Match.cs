@@ -3,6 +3,7 @@ using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,20 +16,22 @@ namespace Mafia.NET.Matches
         public IReadOnlyDictionary<int, IPlayer> LivingPlayers => new Dictionary<int, IPlayer>(AllPlayers.Where(player => player.Value.Alive));
         public Graveyard Graveyard { get; }
         public IReadOnlyList<IRole> PossibleRoles { get; }
-        public PhaseManager PhaseManager { get; set; }
-        public ChatManager ChatManager => PhaseManager.CurrentPhase.ChatManager;
+        public PhaseManager Phase { get; set; }
+        public ChatManager Chat => Phase.CurrentPhase.ChatManager;
+        public AbilityRegistry Abilities { get; set; }
 
-        public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles)
+        public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles, AbilityRegistry abilities = null)
         {
             Setup = settings;
             AllPlayers = players;
             Graveyard = new Graveyard(this);
             PossibleRoles = possibleRoles;
-            PhaseManager = new PhaseManager(this);
+            Phase = new PhaseManager(this);
+            Abilities = abilities ?? AbilityRegistry.Default;
         }
 
-        public void Start() => PhaseManager.Start();
+        public void Start() => Phase.Start();
 
-        public void End() => PhaseManager.Close();
+        public void End() => Phase.Close();
     }
 }

@@ -27,7 +27,7 @@
         {
             if (TargetManager.TryDay(0, out var prisoner))
             {
-                var jail = Match.ChatManager.Open("Jailor", User, prisoner);
+                var jail = Match.Chat.Open("Jailor", User, prisoner);
                 var jailor = jail.Participants[User];
                 jailor.Name = "Jailor";
 
@@ -40,7 +40,7 @@
                 });;
 
                 prisoner.Role.Ability.CurrentlyDeathImmune = true;
-                Match.ChatManager.DisableExcept(prisoner, jail);
+                Match.Chat.DisableExcept(prisoner, jail);
             }
         }
 

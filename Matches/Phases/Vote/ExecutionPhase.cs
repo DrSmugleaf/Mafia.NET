@@ -18,7 +18,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             Player.Alive = false;
-            var death = new Death(Match.PhaseManager.Day, Player, DeathCause.LYNCH, "");
+            var death = new Death(Match.Phase.Day, Player, DeathCause.LYNCH, "");
             Match.Graveyard.PublicDeaths.Add(death);
             ChatManager.Open(Match.AllPlayers.Values);
             Notification notification = Notification.Popup($"May God have mercy upon your soul, {Player.Name}.");

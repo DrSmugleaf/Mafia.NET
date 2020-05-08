@@ -38,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Phases = phases;
         }
 #nullable enable
-        public PhaseTargeting Get() => Phases[Match.PhaseManager.CurrentTime];
+        public PhaseTargeting Get() => Phases[Match.Phase.CurrentTime];
 
         public PhaseTargeting Day() => Phases[Time.DAY];
 
@@ -72,7 +72,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             return target != null;
         }
 
-        public bool Try(int index, out IPlayer? target) => Try(Match.PhaseManager.CurrentTime, index, out target);
+        public bool Try(int index, out IPlayer? target) => Try(Match.Phase.CurrentTime, index, out target);
 
         public bool TryDay(int index, out IPlayer? target) => Try(Time.DAY, index, out target);
 
