@@ -3,6 +3,13 @@
     [RegisterAbility("Jailor", typeof(JailSetup))]
     public class Jailor : BaseAbility<JailSetup>
     {
+        public int Executions { get; set; }
+
+        public Jailor()
+        {
+            Executions = Setup.Executions;
+        }
+
         protected override void _onDayStart()
         {
             TargetManager.Add(TargetFilter.Living(Match).Except(User));
@@ -18,7 +25,7 @@
         {
             if (TargetManager.TryDay(0, out var prisoner))
             {
-                TargetManager.Add(Setup.Executions > 0 ? prisoner : null);
+                TargetManager.Add(Executions > 0 ? prisoner : null);
 
                 prisoner.Role.Ability.CurrentlyDeathImmune = true;
 
@@ -30,10 +37,11 @@
 
         protected override void _onNightEnd()
         {
-            if (TargetManager.Try(0, out var execution))
+            if (TargetManager.Try(0, out var execution) && Executions > 0)
             {
                 Visiting = execution;
                 ThreatenPiercing(execution);
+                Executions--;
             }
         }
     }
