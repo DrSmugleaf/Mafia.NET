@@ -24,9 +24,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         void AddTarget(TargetFilter filter, TargetMessage message);
         void AddTarget(IPlayer target, TargetMessage message);
         void Disable();
-        void DisablePiercing();
+        void PiercingDisable();
         void Threaten(IPlayer victim);
-        void ThreatenPiercing(IPlayer victim);
+        void PiercingThreaten(IPlayer victim);
         bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
@@ -87,7 +87,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual void Disable() => Active = false;
 
-        public void DisablePiercing() => Active = false;
+        public void PiercingDisable() => Active = false;
 
         public virtual void Threaten(IPlayer victim)
         {
@@ -95,7 +95,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Match.Graveyard.Threats.Add(threat);
         }
 
-        public void ThreatenPiercing(IPlayer victim)
+        public void PiercingThreaten(IPlayer victim)
         {
             var threat = new Death(this, victim, true);
             Match.Graveyard.Threats.Add(threat);

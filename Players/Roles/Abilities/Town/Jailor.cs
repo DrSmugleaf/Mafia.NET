@@ -1,4 +1,6 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Town
+﻿using Mafia.NET.Matches.Chats;
+
+namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Jailor", typeof(JailSetup))]
     public class Jailor : BaseAbility<JailSetup>
@@ -13,14 +15,21 @@
         protected override void _onDayStart()
         {
             AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage() {
-
+                UserAddMessage = (target) => $"You will jail {target.Name}.",
+                UserRemoveMessage = (target) => $"You won't jail anyone.",
+                UserChangeMessage = (old, _new) => $"You will instead jail {_new.Name}."
             });
         }
 
         protected override void _onDayEnd()
         {
-            if (Match.Graveyard.LynchedToday()) TargetManager[0] = null;
-            TargetManager[0]?.Role.Ability.DisablePiercing();
+            if (Match.Graveyard.LynchedToday())
+            {
+                TargetManager[0] = null;
+                User.OnNotification(Notification.Chat("You are unable to jail anyone due to today's lynch."));
+            }
+
+            TargetManager[0]?.Role.Ability.PiercingDisable();
         }
 
         protected override void _onNightStart()
@@ -49,7 +58,7 @@
             if (TargetManager.Try(0, out var execution) && Executions > 0)
             {
                 Executions--;
-                ThreatenPiercing(execution);
+                PiercingThreaten(execution);
                 return true;
             }
 
