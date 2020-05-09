@@ -5,6 +5,7 @@ using Mafia.NET.Players.Roles.Abilities.Mafia;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
 using Mafia.NET.Players.Roles.Abilities.Triad;
 using Mafia.NET.Players.Roles.Categories;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -31,6 +32,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetMessage message);
         void AddTarget(IPlayer target, TargetMessage message);
+        void Try(Action<IPlayer> action);
         void Disable();
         void PiercingDisable();
         void Threaten(IPlayer victim);
@@ -108,6 +110,11 @@ namespace Mafia.NET.Players.Roles.Abilities
         public void AddTarget(IPlayer target, TargetMessage message)
         {
             AddTarget(TargetFilter.Only(target), message);
+        }
+
+        public void Try(Action<IPlayer> action)
+        {
+            if (TargetManager.Try(out var target)) action(target);
         }
 
         public virtual void Disable()
@@ -265,5 +272,60 @@ namespace Mafia.NET.Players.Roles.Abilities
     public interface IRandomExcluded
     {
         bool ExcludedFromRandoms { get; set; }
+    }
+
+    public interface INightChatter : IAbility
+    {
+        public void Chat();
+    }
+
+    public interface IDetainer : IAbility
+    {
+        public void Detain(IPlayer prisoner);
+    }
+
+    public interface ISwitcher : IAbility
+    {
+        public void Switch();
+    }
+    
+    public interface IRoleBlocker : IAbility
+    {
+        public void Block(IPlayer target);
+    }
+
+    public interface IMisc : IAbility
+    {
+        public void Misc(IPlayer target);
+    }
+
+    public interface IKiller : IAbility
+    {
+        public void Kill(IPlayer target);
+    }
+
+    public interface ICleaner : IAbility
+    {
+        public void Clean(IPlayer target);
+    }
+
+    public interface IDetector : IAbility
+    {
+        public void Detect(IPlayer target);
+    }
+
+    public interface IDisguiser : IAbility
+    {
+        public void Disguise(IPlayer target);
+    }
+
+    public interface IMasonRecruiter : IAbility
+    {
+        public void MasonRecruit(IPlayer target);
+    }
+
+    public interface ICultRecruiter : IAbility
+    {
+        public void CultRecruit(IPlayer target);
     }
 }

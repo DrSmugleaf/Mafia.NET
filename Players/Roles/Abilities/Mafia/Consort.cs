@@ -3,7 +3,7 @@
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Consort", typeof(ConsortSetup))]
-    public class Consort : MafiaAbility<ConsortSetup>
+    public class Consort : MafiaAbility<ConsortSetup>, IRoleBlocker
     {
         protected override void _onNightStart()
         {
@@ -15,24 +15,17 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Block(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target))
+            User.Crimes.Add("Soliciting");
+            if (target.Role.Affiliation.Name == "Town") User.Crimes.Add("Disturbing the peace");
+
+            target.Role.Ability.Disable();
+            if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
             {
-                User.Crimes.Add("Soliciting");
-                if (target.Role.Affiliation.Name == "Town") User.Crimes.Add("Disturbing the peace");
-
-                target.Role.Ability.Disable();
-                if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
-                {
-                    var notification = Notification.Chat("Your target couldn't be role-blocked!");
-                    User.OnNotification(notification);
-                }
-
-                return true;
+                var notification = Notification.Chat("Your target couldn't be role-blocked!");
+                User.OnNotification(notification);
             }
-
-            return false;
         }
     }
 

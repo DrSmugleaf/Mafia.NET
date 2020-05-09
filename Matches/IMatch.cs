@@ -21,6 +21,7 @@ namespace Mafia.NET.Matches
         AbilityRegistry Abilities { get; }
         Random Random { get; }
 
+        void Start();
         void End();
     }
 }

@@ -4,7 +4,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
 #nullable enable
     [RegisterAbility("Godfather", typeof(GodfatherSetup))]
-    public class Godfather : MafiaAbility<GodfatherSetup> // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
+    public class Godfather : MafiaAbility<GodfatherSetup>, ISwitcher, IKiller // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
     {
         protected bool TryMafioso(out IPlayer mafioso)
         {
@@ -29,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             }
         }
 
-        protected override void _beforeNightEnd()
+        public void Switch()
         {
             if (TargetManager.Try(0, out var target) && TryMafioso(out var mafioso))
             {
@@ -38,17 +38,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             }
         }
 
-        protected override bool _afterNightEnd()
+        public void Kill(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target) && Setup.CanKillWithoutMafioso)
-            {
-                User.Crimes.Add("Trespassing");
-                Threaten(target);
-
-                return true;
-            }
-
-            return false;
+            if (!Setup.CanKillWithoutMafioso) return;
+            User.Crimes.Add("Trespassing");
+            Threaten(target);
         }
     }
 

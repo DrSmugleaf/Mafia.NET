@@ -45,6 +45,8 @@ namespace Mafia.NET.Matches.Chats
                 participants[player] = participant;
             }
 
+            if (Chats.TryGetValue(name, out var existing)) return existing.Add(participants);
+
             var chat = new Chat(name, participants);
             return Open(chat);
         }

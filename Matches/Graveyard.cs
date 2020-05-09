@@ -43,6 +43,7 @@ namespace Mafia.NET.Matches
                 {
                     threat.Victim.Alive = false;
                     threat.Killer?.Crimes.Add("Murder"); // TODO do after murders, before investigations
+                    // TODO Give murder crime to every killer involved, not just the first
                     victims[victim] = threat;
                 }
             }

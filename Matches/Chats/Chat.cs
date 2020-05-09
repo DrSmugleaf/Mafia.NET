@@ -10,7 +10,8 @@ namespace Mafia.NET.Matches.Chats
         IDictionary<IPlayer, IChatParticipant> Participants { get; }
         bool Paused { get; set; }
 
-        void Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false);
+        IChat Add(IDictionary<IPlayer, IChatParticipant> players);
+        IChat Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false);
         bool CanSend(Message message);
         bool Send(Message message);
         void Close();
@@ -29,13 +30,23 @@ namespace Mafia.NET.Matches.Chats
             _participants = participants;
         }
 
-        public void Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false)
+        public IChat Add(IDictionary<IPlayer, IChatParticipant> participants)
         {
+            foreach (var participant in participants) Participants.Add(participant);
+            return this;
+        }
+
+        public IChat Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false)
+        {
+            var participants = new Dictionary<IPlayer, IChatParticipant>();
+
             foreach (var player in players)
             {
                 var participant = new ChatParticipant(player, muted, deaf);
-                Participants[player] = participant;
+                participants[player] = participant;
             }
+
+            return Add(participants);
         }
 
         public bool CanSend(Message message)

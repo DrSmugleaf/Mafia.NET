@@ -3,7 +3,7 @@
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Beguiler", typeof(BeguilerSetup))]
-    public class Beguiler : MafiaAbility<BeguilerSetup>
+    public class Beguiler : MafiaAbility<BeguilerSetup>, ISwitcher
     {
         protected override void _onNightStart()
         {
@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Switch()
         {
             if (TargetManager.Try(0, out var target) && Charges > 0)
             {
@@ -43,11 +43,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                     Notification.Chat($"You went to hide behind {target.Name}"); // TODO: Attribute kills to the Beguiler
 
                 User.OnNotification(notification);
-
-                return true;
             }
-
-            return false;
         }
     }
 

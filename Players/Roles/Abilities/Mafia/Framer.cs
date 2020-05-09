@@ -1,7 +1,7 @@
 ﻿namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Framer", typeof(FramerSetup))]
-    public class Framer : MafiaAbility<FramerSetup>
+    public class Framer : MafiaAbility<FramerSetup>, IMisc
     {
         protected override void _onNightStart()
         {
@@ -13,16 +13,10 @@
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Misc(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target))
-            {
-                User.Crimes.Add("Trespassing");
-                target.Crimes.Framing = new Framing(Match);
-                return true;
-            }
-
-            return false;
+            User.Crimes.Add("Trespassing");
+            target.Crimes.Framing = new Framing(Match);
         }
     }
 

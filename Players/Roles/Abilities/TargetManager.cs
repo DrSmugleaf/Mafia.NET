@@ -74,6 +74,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public bool Try(int index, out IPlayer? target) => Try(Match.Phase.CurrentTime, index, out target);
 
+        public bool Try(out IPlayer? target) => Try(0, out target);
+
         public bool TryDay(int index, out IPlayer? target) => Try(Time.DAY, index, out target);
 
         public bool TryNight(int index, out IPlayer? target) => Try(Time.NIGHT, index, out target);

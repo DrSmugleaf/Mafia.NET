@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Agent", typeof(AgentSetup))]
-    public class Agent : MafiaAbility<AgentSetup>
+    public class Agent : MafiaAbility<AgentSetup>, IDetector
     {
         protected override void _onNightStart()
         {
@@ -17,38 +17,31 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Detect(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target))
+            User.Crimes.Add("Trespassing");
+
+            var targetVisited = target.Role.Ability.TargetManager[0];
+            var targetVisitedMessage = targetVisited == null ?
+                "Your target did not do anything tonight." :
+                $"Your target visited {targetVisited.Name} tonight.";
+
+            var foreignVisits = new List<string>();
+            foreach (var player in Match.LivingPlayers.Values)
             {
-                User.Crimes.Add("Trespassing");
+                var visited = player.Role.Ability.TargetManager[0];
+                if (visited != target) continue;
 
-                var targetVisited = target.Role.Ability.TargetManager[0];
-                var targetVisitedMessage = targetVisited == null ?
-                    "Your target did not do anything tonight." :
-                    $"Your target visited {targetVisited.Name} tonight.";
-
-                var foreignVisits = new List<string>();
-                foreach (var player in Match.LivingPlayers.Values)
-                {
-                    var visited = player.Role.Ability.TargetManager[0];
-                    if (visited != target) continue;
-
-                    foreignVisits.Add($"{player.Name} visited your target tonight.");
-                }
-
-                if (foreignVisits.Count == 0) foreignVisits.Add("Your target was not visited by anyone tonight.");
-
-                var targetNotification = Notification.Chat(targetVisitedMessage);
-                var foreignNotification = Notification.Chat(string.Join(Environment.NewLine, foreignVisits));
-
-                User.OnNotification(targetNotification);
-                User.OnNotification(foreignNotification);
-
-                return true;
+                foreignVisits.Add($"{player.Name} visited your target tonight.");
             }
 
-            return false;
+            if (foreignVisits.Count == 0) foreignVisits.Add("Your target was not visited by anyone tonight.");
+
+            var targetNotification = Notification.Chat(targetVisitedMessage);
+            var foreignNotification = Notification.Chat(string.Join(Environment.NewLine, foreignVisits));
+
+            User.OnNotification(targetNotification);
+            User.OnNotification(foreignNotification);
         }
     }
 

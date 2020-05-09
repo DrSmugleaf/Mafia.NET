@@ -1,7 +1,7 @@
 ﻿namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Mafioso", typeof(MafiosoSetup))]
-    public class Mafioso : MafiaAbility<MafiosoSetup>
+    public class Mafioso : MafiaAbility<MafiosoSetup>, IKiller
     {
         protected override void _onNightStart()
         {
@@ -13,17 +13,10 @@
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Kill(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target))
-            {
-                User.Crimes.Add("Trespassing");
-                Threaten(target);
-
-                return true;
-            }
-
-            return false;
+            User.Crimes.Add("Trespassing");
+            Threaten(target);
         }
     }
 

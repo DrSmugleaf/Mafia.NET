@@ -3,7 +3,7 @@
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Consigliere", typeof(ConsigliereSetup))]
-    public class Consigliere : MafiaAbility<ConsigliereSetup>
+    public class Consigliere : MafiaAbility<ConsigliereSetup>, IDetector
     {
         protected override void _onNightStart()
         {
@@ -15,22 +15,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Detect(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target))
-            {
-                User.Crimes.Add("Trespassing");
+            User.Crimes.Add("Trespassing");
 
-                string message = Setup.ExactDetection ?
-                    $"{target.Name} is a {target.Crimes.RoleName()}." :
-                    $"{target.Name} is guilty of {target.Crimes.Crime()}.";
-                var notification = Notification.Chat(message);
-                User.OnNotification(notification);
+            string message = Setup.ExactDetection ?
+                $"{target.Name} is a {target.Crimes.RoleName()}." :
+                $"{target.Name} is guilty of {target.Crimes.Crime()}.";
+            var notification = Notification.Chat(message);
 
-                return true;
-            }
-
-            return false;
+            User.OnNotification(notification);
         }
     }
 

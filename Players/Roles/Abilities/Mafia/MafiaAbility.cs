@@ -2,13 +2,15 @@
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 {
-    public interface IMafiaAbility
+    public interface IMafiaAbility : INightChatter
     {
     }
 
     public abstract class MafiaAbility<T> : BaseAbility<T>, IMafiaAbility where T : IMafiaSetup, new()
     {
         public static readonly string NightChatName = "Mafia";
+
+        public void Chat() => Match.Chat.Open(NightChatName, User);
 
         protected bool NoGodfather()
         {
@@ -31,22 +33,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
             }
 
             base.OnDayStart();
-        }
-
-        public sealed override bool OnDayEnd()
-        {
-            return base.OnDayEnd();
-        }
-
-        public sealed override bool OnNightStart()
-        {
-            if (Active) Match.Chat.Open(NightChatName, User);
-            return base.OnNightStart();
-        }
-
-        public sealed override bool AfterNightEnd()
-        {
-            return base.AfterNightEnd();
         }
     }
 

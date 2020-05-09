@@ -5,7 +5,7 @@ using System.Linq;
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
-    public class Kidnapper : MafiaAbility<KidnapperSetup>
+    public class Kidnapper : MafiaAbility<KidnapperSetup>, IDetainer, IRoleBlocker, IKiller
     {
         public Kidnapper()
         {
@@ -36,47 +36,46 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             TargetManager[0]?.Role.Ability.PiercingDisable();
         }
 
-        protected override void _onNightStart()
+        public void Detain(IPlayer prisoner)
         {
-            if (TargetManager.TryDay(0, out var prisoner))
+            User.Crimes.Add("Kidnapping");
+
+            var jail = Match.Chat.Open("Jailor", User, prisoner);
+            var jailor = jail.Participants[User];
+            jailor.Name = "Jailor";
+
+            var allies = Match.LivingPlayers.Values.Where(player => player.Role.Affiliation == User.Role.Affiliation && player != User);
+            jail.Add(allies, true, false);
+
+            AddTarget(prisoner, new TargetMessage()
             {
-                User.Crimes.Add("Kidnapping");
+                UserAddMessage = (target) => $"You will execute {target.Name}.",
+                UserRemoveMessage = (target) => "You changed your mind.",
+                TargetAddMessage = (target) => $"{jailor.Name} will execute {target.Name}.",
+                TargetRemoveMessage = (target) => $"{jailor.Name} changed their mind."
+            });
 
-                var jail = Match.Chat.Open("Jailor", User, prisoner);
-                var allies = Match.LivingPlayers.Values.Where(player => player.Role.Affiliation == User.Role.Affiliation && player != User);
-                jail.Add(allies, true, false);
-                var jailor = jail.Participants[User];
-                jailor.Name = "Jailor";
+            prisoner.Role.Ability.CurrentlyDeathImmune = true;
 
-                AddTarget(prisoner, new TargetMessage()
-                {
-                    UserAddMessage = (target) => $"You will execute {target.Name}.",
-                    UserRemoveMessage = (target) => "You changed your mind.",
-                    TargetAddMessage = (target) => $"{jailor.Name} will execute {target.Name}.",
-                    TargetRemoveMessage = (target) => $"{jailor.Name} changed their mind."
-                });
-
-                prisoner.Role.Ability.CurrentlyDeathImmune = true;
-
-                if (prisoner.Role.Affiliation != User.Role.Affiliation)
-                {
-                    Match.Chat.DisableExcept(prisoner, jail);
-                }
+            if (prisoner.Role.Affiliation != User.Role.Affiliation)
+            {
+                Match.Chat.DisableExcept(prisoner, jail);
             }
+
+            prisoner.Role.Ability.PiercingDisable();
         }
 
-        protected override bool _afterNightEnd()
+        public void Block(IPlayer target)
         {
-            if (TargetManager.Try(0, out var execution) && Charges > 0)
-            {
-                User.Crimes.Add("Murder");
+            target.Role.Ability.PiercingDisable();
+        }
 
-                Charges--;
-                PiercingThreaten(execution);
-                return true;
-            }
+        public void Kill(IPlayer target)
+        {
+            if (Charges == 0) return;
 
-            return false;
+            Charges--;
+            PiercingThreaten(target);
         }
     }
 

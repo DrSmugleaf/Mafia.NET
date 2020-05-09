@@ -5,7 +5,7 @@ using System.Linq;
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Janitor", typeof(JanitorSetup))]
-    public class Janitor : MafiaAbility<JanitorSetup>
+    public class Janitor : MafiaAbility<JanitorSetup>, ICleaner
     {
         protected override void _onNightStart()
         {
@@ -19,30 +19,24 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Clean(IPlayer target)
         {
-            if (TargetManager.Try(0, out var target) && Charges > 0)
+            var targetThreats = Match.Graveyard.Threats.Where(threat => threat.Victim == target);
+
+            if (targetThreats.Any())
             {
                 User.Crimes.Add("Trespassing");
-                var targetThreats = Match.Graveyard.Threats.Where(threat => threat.Victim == target);
-                if (targetThreats.Any())
-                {
-                    User.Crimes.Add("Destruction of property");
-                    Charges--;
+                User.Crimes.Add("Destruction of property");
+                Charges--;
 
-                    var threat = targetThreats.First();
-                    var notification = Notification.Chat($"Your target's last will was:{Environment.NewLine}{threat.LastWill}");
+                var threat = targetThreats.First();
+                var notification = Notification.Chat($"Your target's last will was:{Environment.NewLine}{threat.LastWill}");
 
-                    threat.VictimRole = null;
-                    threat.LastWill = "";
+                threat.VictimRole = null;
+                threat.LastWill = "";
 
-                    User.OnNotification(notification);
-                }
-
-                return true;
+                User.OnNotification(notification);
             }
-
-            return false;
         }
     }
 

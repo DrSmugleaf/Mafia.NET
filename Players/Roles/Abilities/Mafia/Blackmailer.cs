@@ -1,7 +1,7 @@
 ﻿namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Blackmailer", typeof(BlackmailerSetup))]
-    public class Blackmailer : MafiaAbility<BlackmailerSetup>
+    public class Blackmailer : MafiaAbility<BlackmailerSetup>, IMisc
     {
         protected override void _onNightStart()
         {
@@ -13,15 +13,9 @@
             });
         }
 
-        protected override bool _afterNightEnd()
+        public void Misc(IPlayer target)
         {
-            if (TargetManager.TryNight(0, out var target))
-            {
-                target.Blackmailed = true;
-                return true;
-            }
-
-            return false;
+            target.Blackmailed = true;
         }
     }
 
