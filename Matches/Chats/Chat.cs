@@ -24,6 +24,12 @@ namespace Mafia.NET.Matches.Chats
         public IDictionary<IPlayer, IChatParticipant> Participants { get => _participants; }
         public bool Paused { get; set; }
 
+        public Chat(string name)
+        {
+            Name = name;
+            _participants = new Dictionary<IPlayer, IChatParticipant>();
+        }
+
         public Chat(string name, Dictionary<IPlayer, IChatParticipant> participants)
         {
             Name = name;

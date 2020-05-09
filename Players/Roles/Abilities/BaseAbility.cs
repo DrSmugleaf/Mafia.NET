@@ -39,7 +39,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
-        void OnNightStart(); // Detainments, chats
+        void OnNightStart();
         void BeforeNightEnd();
     }
 
@@ -144,6 +144,14 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected abstract string GuiltyName();
 
+        public bool DetectTarget(IIgnoresDetectionImmunity setup, out IPlayer target)
+        {
+            target = null;
+            if (setup.IgnoresDetectionImmunity || !DetectionImmune) target = TargetManager[0];
+
+            return target != null;
+        }
+
         public bool AloneTeam()
         {
             return Match.LivingPlayers.Values
@@ -208,6 +216,11 @@ namespace Mafia.NET.Players.Roles.Abilities
     public interface IDetectionImmune
     {
         bool DetectionImmune { get; set; }
+    }
+
+    public interface IIgnoresDetectionImmunity
+    {
+        bool IgnoresDetectionImmunity { get; set; }
     }
 
     public interface ISheriffSetup

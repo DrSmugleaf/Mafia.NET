@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Matches;
+using Mafia.NET.Matches.Chats;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -9,10 +10,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         public void Chat()
         {
-            var chat = Match.Chat.Open(Match.AllPlayers.Values, true, NightChatName);
-            var crier = chat.Participants[User];
-            crier.Name = "Crier";
-            crier.Muted = false;
+            Match.Chat.Open(new CrierChat(Match));
 
             var notification = Notification.Chat("You may now talk to the town anonymously.");
             User.OnNotification(notification);
@@ -22,5 +20,23 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     public class CrierSetup : ITownSetup, IRandomExcluded
     {
         public bool ExcludedFromRandoms { get; set; } = false;
+    }
+
+    public class CrierChat : Chat
+    {
+        public CrierChat(IMatch match) : base(Crier.NightChatName)
+        {
+            foreach (var player in match.AllPlayers.Values)
+            {
+                var participant = new ChatParticipant(player, true);
+                if (player.Role.Ability is Crier)
+                {
+                    participant.Name = "Crier";
+                    participant.Muted = false;
+                }
+
+                Participants[player] = participant;
+            }
+        }
     }
 }
