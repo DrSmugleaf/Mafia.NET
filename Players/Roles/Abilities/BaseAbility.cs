@@ -36,6 +36,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         void PiercingAttack(IPlayer victim);
         bool DetectableBy(ISheriffSetup setup);
         string Guilty(ISheriffSetup setup);
+        bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null);
         bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
@@ -144,10 +145,12 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected abstract string GuiltyName();
 
-        public bool DetectTarget(IIgnoresDetectionImmunity setup, out IPlayer target)
+        public bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null)
         {
             target = null;
-            if (setup.IgnoresDetectionImmunity || !DetectionImmune) target = TargetManager[0];
+
+            var ignoresImmunity = setup?.IgnoresDetectionImmunity ?? false;
+            if (ignoresImmunity || !DetectionImmune) target = TargetManager[0];
 
             return target != null;
         }

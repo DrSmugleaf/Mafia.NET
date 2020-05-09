@@ -31,23 +31,24 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             User.Crimes.Add("Trespassing");
 
-            var targetVisited = target.Role.Ability.TargetManager[0];
-            var targetVisitedMessage = targetVisited == null ?
-                "Your target did not do anything tonight." :
-                $"Your target visited {targetVisited.Name} tonight.";
+            var targetVisitMessage = "Your target did not do anything tonight.";
+            if (target.Role.Ability.DetectTarget(out var targetVisit))
+            {
+                targetVisitMessage = $"Your target visited {targetVisit.Name} tonight.";
+            }
 
             var foreignVisits = new List<string>();
             foreach (var player in Match.LivingPlayers.Values)
             {
-                var visited = player.Role.Ability.TargetManager[0];
-                if (visited != target) continue;
+                var foreignVisit = player.Role.Ability.TargetManager[0];
+                if (foreignVisit != target) continue;
 
                 foreignVisits.Add($"{player.Name} visited your target tonight.");
             }
 
             if (foreignVisits.Count == 0) foreignVisits.Add("Your target was not visited by anyone tonight.");
 
-            var targetNotification = Notification.Chat(targetVisitedMessage);
+            var targetNotification = Notification.Chat(targetVisitMessage);
             var foreignNotification = Notification.Chat(string.Join(Environment.NewLine, foreignVisits));
 
             User.OnNotification(targetNotification);
