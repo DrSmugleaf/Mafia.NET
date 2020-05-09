@@ -16,7 +16,7 @@
         public void Kill(IPlayer target)
         {
             User.Crimes.Add("Trespassing");
-            Threaten(target);
+            Attack(target);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using Mafia.NET.Players.Roles.Abilities;
-using System;
 
 namespace Mafia.NET.Players.Deaths
 {
@@ -7,7 +6,7 @@ namespace Mafia.NET.Players.Deaths
     public class Death : IDeath
     {
         public int Day { get; set; }
-        public IPlayer Victim { get; set; }
+        public IPlayer Victim { get; protected set; }
         public string VictimName { get; set; }
         public string? VictimRole { get; set; }
         public DeathCause Cause { get; set; }
@@ -31,6 +30,11 @@ namespace Mafia.NET.Players.Deaths
 
         public Death(IAbility ability, IPlayer victim) : this(victim.Match.Phase.Day, victim, DeathCause.MURDER, ability.MurderDescriptions.Get(), ability.User)
         {
+        }
+
+        public IDeath WithVictim(IPlayer player)
+        {
+            return new Death(Day, player, Cause, Description, Killer);
         }
     }
 }

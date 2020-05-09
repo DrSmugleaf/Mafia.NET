@@ -58,7 +58,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             if (Charges == 0) return;
 
             Charges--;
-            PiercingThreaten(target);
+            PiercingAttack(target);
         }
     }
 

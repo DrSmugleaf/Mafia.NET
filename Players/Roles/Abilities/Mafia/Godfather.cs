@@ -2,7 +2,6 @@
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
-#nullable enable
     [RegisterAbility("Godfather", typeof(GodfatherSetup))]
     public class Godfather : MafiaAbility<GodfatherSetup>, ISwitcher, IKiller // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
     {
@@ -31,7 +30,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Switch()
         {
-            if (TargetManager.Try(0, out var target) && TryMafioso(out var mafioso))
+            if (TargetManager.Try(out var target) && TryMafioso(out var mafioso))
             {
                 mafioso.Role.Ability.TargetManager.ForceSet(target);
                 TargetManager.ForceSet(null);
@@ -42,7 +41,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (!Setup.CanKillWithoutMafioso) return;
             User.Crimes.Add("Trespassing");
-            Threaten(target);
+            Attack(target);
         }
     }
 

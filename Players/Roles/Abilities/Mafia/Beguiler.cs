@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Switch()
         {
-            if (TargetManager.Try(0, out var target) && Charges > 0)
+            if (TargetManager.Try(out var target) && Charges > 0)
             {
                 Charges--;
                 User.Crimes.Add("Trespassing");

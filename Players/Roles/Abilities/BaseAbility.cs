@@ -32,8 +32,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         void Try(Action<IPlayer> action);
         void Disable();
         void PiercingDisable();
-        void Threaten(IPlayer victim);
-        void PiercingThreaten(IPlayer victim);
+        void Attack(IPlayer victim);
+        void PiercingAttack(IPlayer victim);
         bool DetectableBy(ISheriffSetup setup);
         string Guilty(ISheriffSetup setup);
         bool AloneTeam();
@@ -121,14 +121,14 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void PiercingDisable() => Active = false;
 
-        public virtual void Threaten(IPlayer victim)
+        public virtual void Attack(IPlayer victim)
         {
             if (victim.Role.Ability.CurrentlyDeathImmune) return;
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
         }
 
-        public void PiercingThreaten(IPlayer victim)
+        public void PiercingAttack(IPlayer victim)
         {
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
