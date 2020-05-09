@@ -91,14 +91,18 @@ namespace Mafia.NET.Players.Roles.Abilities
         public T Ability<T>(IMatch match, IPlayer user) where T : IAbility, new()
         {
             var entry = Entry<T>();
-            return new T
+            var ability = new T()
             {
                 Match = match,
                 User = user,
                 Name = entry.Name,
-                TargetManager = new TargetManager(match, user),
-                MurderDescriptions = entry.MurderDescriptions
+                MurderDescriptions = entry.MurderDescriptions,
+                TargetManager = new TargetManager(match, user)
             };
+
+            ability.Initialize();
+
+            return ability;
         }
 
         public T Setup<T>() where T : IAbilitySetup, new() => new T();

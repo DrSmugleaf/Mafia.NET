@@ -5,7 +5,7 @@
     {
     }
 
-    public class MafiosoSetup : IAbilitySetup
+    public class MafiosoSetup : IMafiaSetup
     {
 
     }

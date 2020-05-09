@@ -19,7 +19,7 @@ namespace Mafia.NET.Matches
             UndisclosedDeaths = new List<IDeath>();
         }
 
-        public IReadOnlyList<IDeath> All() => PublicDeaths.Union(UndisclosedDeaths).ToList();
+        public IReadOnlyList<IDeath> AllDeaths() => PublicDeaths.Union(UndisclosedDeaths).ToList();
 
         public void Disclose()
         {
@@ -34,8 +34,6 @@ namespace Mafia.NET.Matches
             foreach (var threat in Threats)
             {
                 var victim = threat.Victim;
-
-                if (victim.Role.Ability.CurrentlyDeathImmune && !threat.PiercesImmunity) continue;
 
                 if (victims.TryGetValue(victim, out var old))
                 {
@@ -55,7 +53,7 @@ namespace Mafia.NET.Matches
 
         public bool DiedOn(int day, DeathCause cause)
         {
-            return All().Any(death => death.Day == day && death.Cause == cause);
+            return AllDeaths().Any(death => death.Day == day && death.Cause == cause);
         }
 
         public bool DiedToday(DeathCause cause) => DiedOn(Match.Phase.Day, cause);

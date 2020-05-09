@@ -4,7 +4,7 @@
     {
     }
 
-    public class GodfatherSetup : IAbilitySetup
+    public class GodfatherSetup : IMafiaSetup
     {
 
     }

@@ -1,16 +1,23 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
-namespace Mafia.NET.Players.Roles.Abilities.Mafia
+namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 {
-    public class MafiaAbility<T> : BaseAbility<T> where T : IAbilitySetup
+    public interface IMafiaAbility
+    {
+    }
+
+    public abstract class MafiaAbility<T> : BaseAbility<T>, IMafiaAbility where T : IMafiaSetup, new()
     {
         public static readonly string NightChatName = "Mafia";
 
-        protected bool NoGodfather ()
+        protected bool NoGodfather()
         {
             return !Match.LivingPlayers.Values.Any(player => player.Role.Ability is Godfather);
         }
+
+        public override bool DetectableBy(ISheriffSetup setup) => setup.DetectsMafiaTriad;
+
+        protected override string GuiltyName() => "Mafia";
 
         public sealed override void OnDayStart()
         {
@@ -18,8 +25,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             {
                 User.Role.Ability = Match.Abilities.Ability<Mafioso>(Match, User);
             }
-
-            if (Setup is MafiaSuperMinionSetup superMafiaSetup && superMafiaSetup.ReplacesGodfather && NoGodfather())
+            else if (Setup is MafiaSuperMinionSetup superMafiaSetup && superMafiaSetup.ReplacesGodfather && NoGodfather())
             {
                 User.Role.Ability = Match.Abilities.Ability<Godfather>(Match, User);
             }
@@ -44,12 +50,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public abstract class MafiaMinionSetup : IAbilitySetup
+    public interface IMafiaSetup : IAbilitySetup
+    {
+    }
+
+    public abstract class MafiaMinionSetup : IMafiaSetup
     {
         public bool BecomesMafiosoIfAlone = true;
     }
 
-    public abstract class MafiaSuperMinionSetup : IAbilitySetup
+    public abstract class MafiaSuperMinionSetup : IMafiaSetup
     {
         public bool ReplacesGodfather = false;
     }

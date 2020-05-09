@@ -10,7 +10,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will investigate {target.Name}.",
-                UserRemoveMessage = (target) => $"You won't investigate anyone.",
+                UserRemoveMessage = (target) => "You won't investigate anyone.",
                 UserChangeMessage = (old, _new) => $"You will instead investigate {_new.Name}."
             });
         }
@@ -22,8 +22,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 User.Crimes.Add("Trespassing");
 
                 string message = Setup.ExactDetection ?
-                    $"{target.Name} is a {target.Role.Name}." :
-                    $"{target.Name} is guilty of {target.Crimes.AsString()}";
+                    $"{target.Name} is a {target.Crimes.RoleName()}." :
+                    $"{target.Name} is guilty of {target.Crimes.Crime()}.";
                 var notification = Notification.Chat(message);
                 User.OnNotification(notification);
 

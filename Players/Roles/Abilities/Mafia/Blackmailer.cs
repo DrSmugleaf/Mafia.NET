@@ -8,7 +8,7 @@
             AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will blackmail {target.Name}.",
-                UserRemoveMessage = (target) => $"You won't blackmail anyone.",
+                UserRemoveMessage = (target) => "You won't blackmail anyone.",
                 UserChangeMessage = (old, _new) => $"You will instead blackmail {_new.Name}."
             });
         }

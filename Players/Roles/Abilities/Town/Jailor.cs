@@ -3,14 +3,14 @@
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Jailor", typeof(JailSetup))]
-    public class Jailor : BaseAbility<JailSetup>
+    public class Jailor : TownAbility<JailSetup>
     {
         protected override void _onDayStart()
         {
             AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will jail {target.Name}.",
-                UserRemoveMessage = (target) => $"You won't jail anyone.",
+                UserRemoveMessage = (target) => "You won't jail anyone.",
                 UserChangeMessage = (old, _new) => $"You will instead jail {_new.Name}."
             });
         }
@@ -39,7 +39,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                 AddTarget(Charges > 0 ? prisoner : null, new TargetMessage()
                 {
                     UserAddMessage = (target) => $"You will execute {target.Name}.",
-                    UserRemoveMessage = (target) => $"You changed your mind.",
+                    UserRemoveMessage = (target) => "You changed your mind.",
                     TargetAddMessage = (target) => $"{jailor.Name} will execute {target.Name}.",
                     TargetRemoveMessage = (target) => $"{jailor.Name} changed their mind."
                 }); ;
@@ -62,7 +62,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class JailSetup : IAbilitySetup, IChargeSetup
+    public class JailSetup : ITownSetup, IChargeSetup
     {
         public int Charges { get; set; } = 1;
     }

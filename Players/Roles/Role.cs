@@ -22,6 +22,7 @@ namespace Mafia.NET.Players.Roles
         Color Tint { get; }
         IAbility Ability { get; set; }
 
+        bool IsCategory(string name);
         IReadOnlyList<Goal> Goals();
         IReadOnlyList<Goal> Enemies();
     }
@@ -94,6 +95,11 @@ namespace Mafia.NET.Players.Roles
             }
 
             return roles;
+        }
+
+        public bool IsCategory(string name)
+        {
+            return Categories.Any(category => category.Name == name);
         }
 
         public IReadOnlyList<Goal> Goals() => Categories.Select(category => category.Goal).ToList();

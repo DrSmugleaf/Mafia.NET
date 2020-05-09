@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             AddTarget(filter, new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will hide behind {target.Name}.",
-                UserRemoveMessage = (target) => $"You won't hide behind anyone.",
+                UserRemoveMessage = (target) => "You won't hide behind anyone.",
                 UserChangeMessage = (old, _new) => $"You will instead hide behind {_new.Name}."
             });
         }

@@ -14,7 +14,6 @@ namespace Mafia.NET.Players.Deaths
         public Note LastWill { get; set; }
         public Note? DeathNote { get; set; }
         public string Description { get; set; }
-        public bool PiercesImmunity { get; set; }
 
         public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer? killer = null)
         {
@@ -25,10 +24,9 @@ namespace Mafia.NET.Players.Deaths
             LastWill = victim.LastWill;
             DeathNote = killer?.DeathNote;
             Description = description;
-            PiercesImmunity = false;
         }
 
-        public Death(IAbility ability, IPlayer victim, bool piercesImmunity = false)
+        public Death(IAbility ability, IPlayer victim)
         {
             Day = ability.Match.Phase.Day;
             Victim = victim;
@@ -37,7 +35,6 @@ namespace Mafia.NET.Players.Deaths
             LastWill = victim.LastWill;
             DeathNote = Killer.DeathNote;
             Description = ability.MurderDescriptions.Get();
-            PiercesImmunity = piercesImmunity;
         }
 
         public Death(IDeath death, string description)
@@ -49,7 +46,6 @@ namespace Mafia.NET.Players.Deaths
             LastWill = death.LastWill;
             DeathNote = death.DeathNote;
             Description = death.Description + Environment.NewLine + description;
-            PiercesImmunity = death.PiercesImmunity;
         }
     }
 }

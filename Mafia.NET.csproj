@@ -247,9 +247,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Players\Roles\Abilities\Neutral\" />
-    <Folder Include="Players\Roles\Abilities\Triad\" />
-  </ItemGroup>
-
 </Project>

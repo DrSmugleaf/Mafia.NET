@@ -4,6 +4,7 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +20,7 @@ namespace Mafia.NET.Matches
         public PhaseManager Phase { get; set; }
         public ChatManager Chat => Phase.CurrentPhase.ChatManager;
         public AbilityRegistry Abilities { get; set; }
+        public Random Random { get; }
 
         public Match(ISetup settings, Dictionary<int, IPlayer> players, List<IRole> possibleRoles, AbilityRegistry abilities = null)
         {
@@ -28,6 +30,7 @@ namespace Mafia.NET.Matches
             PossibleRoles = possibleRoles;
             Phase = new PhaseManager(this);
             Abilities = abilities ?? AbilityRegistry.Default;
+            Random = new Random();
         }
 
         public void Start() => Phase.Start();
