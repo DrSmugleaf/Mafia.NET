@@ -1,8 +1,17 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Town
+﻿using Mafia.NET.Matches.Chats;
+
+namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Bus Driver", typeof(BusDriverSetup))]
     public class BusDriver : TownAbility<BusDriverSetup>, ISwitcher // TODO Murder crime
     {
+        public Notification SwitchNotification(IPlayer target)
+        {
+            return target == User ?
+                Notification.Chat("You gave yourself a ride to someplace else. You were switched!") :
+                Notification.Chat("Someone gave you a ride to someplace else. You were switched!");
+        }
+
         public string GetMessage()
         {
             var target1 = TargetManager[0];
@@ -19,14 +28,14 @@
             var filter = TargetFilter.Living(Match);
             if (!Setup.CanTargetSelf) filter = filter.Except(User);
 
-            AddTarget(filter, new TargetMessage()
+            AddTarget(filter, new TargetNotification()
             {
                 UserAddMessage = (target) => GetMessage(),
                 UserRemoveMessage = (target) => GetMessage(),
                 UserChangeMessage = (old, _new) => GetMessage()
             });
 
-            AddTarget(filter, new TargetMessage()
+            AddTarget(filter, new TargetNotification()
             {
                 UserAddMessage = (target) => GetMessage(),
                 UserRemoveMessage = (target) => GetMessage(),
@@ -38,6 +47,12 @@
         {
             if (TargetManager.Try(out var target1) && TargetManager.Try(out var target2))
             {
+                var notification1 = SwitchNotification(target1);
+                target1.OnNotification(notification1);
+
+                var notification2 = SwitchNotification(target2);
+                target2.OnNotification(notification2);
+
                 foreach (var player in Match.LivingPlayers.Values)
                 {
                     var targets = player.Role.Ability.TargetManager.Get().Targets;

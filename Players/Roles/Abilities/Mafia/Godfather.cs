@@ -19,7 +19,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (Setup.CanKillWithoutMafioso || TryMafioso(out _))
             {
-                AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetMessage()
+                AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification()
                 {
                     UserAddMessage = (target) => $"You will kill {target.Name}.",
                     UserRemoveMessage = (target) => $"You won't kill anyone.",

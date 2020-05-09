@@ -11,7 +11,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (Uses == 0) return;
 
-            AddTarget(TargetFilter.Living(Match), new TargetMessage()
+            AddTarget(TargetFilter.Living(Match), new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will sanitize {target.Name}'s death.",
                 UserRemoveMessage = (target) => $"You won't sanitize anyone's death.",

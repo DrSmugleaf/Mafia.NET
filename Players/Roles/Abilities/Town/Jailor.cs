@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         protected override void _onDayStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage()
+            AddTarget(TargetFilter.Living(Match).Except(User), new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will jail {target.Name}.",
                 UserRemoveMessage = (target) => "You won't jail anyone.",
@@ -34,7 +34,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             var jailor = jail.Participants[User];
             jailor.Name = "Jailor";
 
-            AddTarget(Uses > 0 ? prisoner : null, new TargetMessage()
+            AddTarget(Uses > 0 ? prisoner : null, new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will execute {target.Name}.",
                 UserRemoveMessage = (target) => "You changed your mind.",

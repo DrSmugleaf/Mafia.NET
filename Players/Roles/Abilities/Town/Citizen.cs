@@ -22,7 +22,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             var notification = Notification.Chat($"Your bulletproof vest has {Uses} {(Uses == 1 ? "use" : "uses")} left.");
             User.OnNotification(notification);
 
-            AddTarget(TargetFilter.Only(User), new TargetMessage()
+            AddTarget(TargetFilter.Only(User), new TargetNotification()
             {
                 UserAddMessage = (target) => "You put on your bulletproof vest.",
                 UserRemoveMessage = (target) => "You take off your bulletproof vest."

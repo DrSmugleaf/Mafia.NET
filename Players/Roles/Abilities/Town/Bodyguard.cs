@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage()
+            AddTarget(TargetFilter.Living(Match).Except(User), new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will guard {target.Name}.",
                 UserRemoveMessage = (target) => "You won't guard anyone.",

@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             TargetFilter filter = TargetFilter.Living(Match);
             if (!Setup.CanKidnapMafiaMembers) filter = filter.Except(User.Role.Affiliation);
 
-            AddTarget(filter, new TargetMessage()
+            AddTarget(filter, new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will jail {target.Name}.",
                 UserRemoveMessage = (target) => "You won't jail anyone.",
@@ -48,7 +48,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             var allies = Match.LivingPlayers.Values.Where(player => player.Role.Affiliation == User.Role.Affiliation && player != User);
             jail.Add(allies, true, false);
 
-            AddTarget(prisoner, new TargetMessage()
+            AddTarget(prisoner, new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will execute {target.Name}.",
                 UserRemoveMessage = (target) => "You changed your mind.",

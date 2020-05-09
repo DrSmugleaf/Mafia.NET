@@ -82,7 +82,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(Target target) => Get().Add(target);
 
-        public void Add(TargetMessage message, params IPlayer[] targets) => Get().Add(User, message, targets);
+        public void Add(TargetNotification message, params IPlayer[] targets) => Get().Add(User, message, targets);
 
         public void Set(IPlayer? target) => Get().Set(User, target);
 
@@ -92,7 +92,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Reset(Target target) => Get().Reset(target);
 
-        public void Reset(TargetMessage message, params IPlayer[] targets) => Get().Reset(User, message, targets);
+        public void Reset(TargetNotification message, params IPlayer[] targets) => Get().Reset(User, message, targets);
 
     }
 
@@ -123,7 +123,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(Target target) => Targets.Add(target);
 
-        public void Add(IPlayer user, TargetMessage? message = null, params IPlayer[] targets) => Add(TargetFilter.Of(targets).Build(user, message));
+        public void Add(IPlayer user, TargetNotification? message = null, params IPlayer[] targets) => Add(TargetFilter.Of(targets).Build(user, message));
 
         public void Set(IPlayer user, IPlayer? target)
         {
@@ -145,7 +145,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Targets.Add(target);
         }
 
-        public void Reset(IPlayer user, TargetMessage message, params IPlayer[] targets) => Reset(TargetFilter.Of(targets).Build(user, message));
+        public void Reset(IPlayer user, TargetNotification message, params IPlayer[] targets) => Reset(TargetFilter.Of(targets).Build(user, message));
     }
 
     public class TargetFilter
@@ -218,6 +218,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             return new TargetFilter(dictionary => filter.Filter(Filter(dictionary)));
         }
 
-        public Target Build(IPlayer user, TargetMessage? message) => new Target(user, this, message);
+        public Target Build(IPlayer user, TargetNotification? message) => new Target(user, this, message);
     }
 }

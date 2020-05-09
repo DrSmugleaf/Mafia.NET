@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetMessage()
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will investigate {target.Name}.",
                 UserRemoveMessage = (target) => "You won't investigate anyone.",

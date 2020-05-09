@@ -27,8 +27,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         void Initialize();
         bool TryVictory(out IVictory victory);
         Notification VictoryNotification();
-        void AddTarget(TargetFilter filter, TargetMessage message);
-        void AddTarget(IPlayer target, TargetMessage message);
+        void AddTarget(TargetFilter filter, TargetNotification message);
+        void AddTarget(IPlayer target, TargetNotification message);
         void Try(Action<IPlayer> action);
         void Disable();
         void PiercingDisable();
@@ -99,12 +99,12 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
 
-        public void AddTarget(TargetFilter filter, TargetMessage message)
+        public void AddTarget(TargetFilter filter, TargetNotification message)
         {
             TargetManager.Add(filter.Build(User, message));
         }
 
-        public void AddTarget(IPlayer target, TargetMessage message)
+        public void AddTarget(IPlayer target, TargetNotification message)
         {
             AddTarget(TargetFilter.Only(target), message);
         }

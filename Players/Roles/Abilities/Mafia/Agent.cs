@@ -11,7 +11,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (Cooldown > 0) return;
 
-            AddTarget(TargetFilter.Living(Match), new TargetMessage()
+            AddTarget(TargetFilter.Living(Match), new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will watch {target.Name}.",
                 UserRemoveMessage = (target) => "You won't watch anyone.",

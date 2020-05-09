@@ -3,9 +3,9 @@ using System;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    public class TargetMessage
+    public class TargetNotification
     {
-        public static readonly TargetMessage Empty = new TargetMessage();
+        public static readonly TargetNotification Empty = new TargetNotification();
         public static readonly Func<IPlayer, string> Default = (player) => "";
         public static readonly Func<IPlayer, IPlayer, string> DefaultChange = (old, _new) => "";
         public Func<IPlayer, string> UserAddMessage { get; set; }
@@ -15,7 +15,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public Func<IPlayer, string> TargetRemoveMessage { get; set; }
         public Func<IPlayer, IPlayer, string> TargetChangeMessage { get; set; }
 
-        public TargetMessage(
+        public TargetNotification(
             Func<IPlayer, string> userAdd = null,
             Func<IPlayer, string> userRemove = null,
             Func<IPlayer, IPlayer, string> userChange = null,

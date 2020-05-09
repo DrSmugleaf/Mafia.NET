@@ -47,13 +47,13 @@ namespace Mafia.NET.Players.Roles.Abilities
             }
         }
         public TargetFilter Filter { get; }
-        public TargetMessage Message { get; set; }
+        public TargetNotification Message { get; set; }
 
-        public Target(IPlayer user, TargetFilter filter, TargetMessage? message = null)
+        public Target(IPlayer user, TargetFilter filter, TargetNotification? message = null)
         {
             User = user;
             Filter = filter;
-            Message = message ?? TargetMessage.Empty;
+            Message = message ?? TargetNotification.Empty;
         }
 
         public bool Try(out IPlayer? target)

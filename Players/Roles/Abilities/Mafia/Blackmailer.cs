@@ -5,7 +5,7 @@
     {
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetMessage()
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will blackmail {target.Name}.",
                 UserRemoveMessage = (target) => "You won't blackmail anyone.",

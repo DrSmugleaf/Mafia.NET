@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 TargetFilter.Living(Match).Except(User) :
                 TargetFilter.Living(Match).Except(User.Role.Affiliation);
 
-            AddTarget(filter, new TargetMessage()
+            AddTarget(filter, new TargetNotification()
             {
                 UserAddMessage = (target) => $"You will hide behind {target.Name}.",
                 UserRemoveMessage = (target) => "You won't hide behind anyone.",
