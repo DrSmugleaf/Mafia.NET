@@ -32,7 +32,12 @@ namespace Mafia.NET.Matches.Chats
 
         public IChat Add(IDictionary<IPlayer, IChatParticipant> participants)
         {
-            foreach (var participant in participants) Participants.Add(participant);
+            foreach (var participant in participants)
+            {
+                if (Participants.ContainsKey(participant.Key)) continue;
+                Participants.Add(participant);
+            }
+
             return this;
         }
 
