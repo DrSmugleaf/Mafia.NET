@@ -253,4 +253,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool DetectsCult { get; set; }
         bool DetectsMassMurderer { get; set; }
     }
+
+    public interface IRandomExcluded
+    {
+        bool ExcludedFromRandoms { get; set; }
+    }
 }
