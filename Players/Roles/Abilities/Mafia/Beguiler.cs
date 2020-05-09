@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         protected override void _onNightStart()
         {
-            if (Charges == 0) return;
+            if (Uses == 0) return;
 
             TargetFilter filter = Setup.CanHideBehindMafia ?
                 TargetFilter.Living(Match).Except(User) :
@@ -23,9 +23,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Switch()
         {
-            if (TargetManager.Try(out var target) && Charges > 0)
+            if (TargetManager.Try(out var target) && Uses > 0)
             {
-                Charges--;
+                Uses--;
                 User.Crimes.Add("Trespassing");
 
                 foreach (var player in Match.LivingPlayers.Values)

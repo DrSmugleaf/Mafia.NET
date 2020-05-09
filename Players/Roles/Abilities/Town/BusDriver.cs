@@ -1,7 +1,7 @@
 ﻿namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterAbility("Bus Driver", typeof(BusDriverSetup))]
-    public class BusDriver : TownAbility<BusDriverSetup>, ISwitcher
+    public class BusDriver : TownAbility<BusDriverSetup>, ISwitcher // TODO Murder crime
     {
         public string GetMessage()
         {

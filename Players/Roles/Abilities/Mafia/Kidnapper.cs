@@ -7,9 +7,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
     public class Kidnapper : MafiaAbility<KidnapperSetup>, IDetainer, IRoleBlocker, IKiller
     {
-        public Kidnapper()
+        public override void Initialize()
         {
-            Charges = Match.Abilities.Setup<JailorSetup>().Charges;
+            base.Initialize();
+            Uses = Match.Abilities.Setup<JailorSetup>().Charges;
         }
 
         protected override void _onDayStart()
@@ -72,9 +73,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Kill(IPlayer target)
         {
-            if (Charges == 0) return;
+            if (Uses == 0) return;
 
-            Charges--;
+            Uses--;
             PiercingAttack(target);
         }
     }

@@ -9,7 +9,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         protected override void _onNightStart()
         {
-            if (Charges == 0) return;
+            if (Uses == 0) return;
 
             AddTarget(TargetFilter.Living(Match), new TargetMessage()
             {
@@ -27,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             {
                 User.Crimes.Add("Trespassing");
                 User.Crimes.Add("Destruction of property");
-                Charges--;
+                Uses--;
 
                 var threat = targetThreats.First();
                 var notification = Notification.Chat($"Your target's last will was:{Environment.NewLine}{threat.LastWill}");

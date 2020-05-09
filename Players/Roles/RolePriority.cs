@@ -37,6 +37,7 @@ namespace Mafia.NET.Players.Roles
         {
             var living = match.LivingPlayers.Values;
 
+            foreach (var vest in Abilities<IVest>(living)) vest.Vest();
             foreach (var switcher in Abilities<ISwitcher>(living)) switcher.Switch();
             foreach (var blocker in Abilities<IRoleBlocker>(living)) blocker.Try(blocker.Block);
             foreach (var misc in Abilities<IMisc>(living)) misc.Try(misc.Misc);

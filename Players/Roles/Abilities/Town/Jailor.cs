@@ -34,7 +34,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             var jailor = jail.Participants[User];
             jailor.Name = "Jailor";
 
-            AddTarget(Charges > 0 ? prisoner : null, new TargetMessage()
+            AddTarget(Uses > 0 ? prisoner : null, new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will execute {target.Name}.",
                 UserRemoveMessage = (target) => "You changed your mind.",
@@ -55,9 +55,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         public void Kill(IPlayer target)
         {
-            if (Charges == 0) return;
+            if (Uses == 0) return;
 
-            Charges--;
+            Uses--;
             PiercingAttack(target);
         }
     }

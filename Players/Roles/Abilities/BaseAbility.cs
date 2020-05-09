@@ -22,7 +22,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool CurrentlyDeathImmune { get; set; }
         bool DetectionImmune { get; }
         int Cooldown { get; set; }
-        int Charges { get; set; }
+        int Uses { get; set; }
 
         void Initialize();
         bool TryVictory(out IVictory victory);
@@ -63,11 +63,11 @@ namespace Mafia.NET.Players.Roles.Abilities
             get => _cooldown;
             set => _cooldown = value >= 0 ? value : 0;
         }
-        private int _charges { get; set; }
-        public int Charges
+        private int _uses { get; set; }
+        public int Uses
         {
-            get => _charges;
-            set => _charges = value >= 0 ? value : 0;
+            get => _uses;
+            set => _uses = value >= 0 ? value : 0;
         }
 
         public BaseAbility()
@@ -77,9 +77,10 @@ namespace Mafia.NET.Players.Roles.Abilities
             DeathImmune = false;
             CurrentlyDeathImmune = DeathImmune;
             Cooldown = 0;
+            Uses = 0;
         }
 
-        public void Initialize()
+        public virtual void Initialize()
         {
             AbilitySetup = Match.Abilities.Setup<T>();
         }
@@ -231,6 +232,11 @@ namespace Mafia.NET.Players.Roles.Abilities
     public interface IDetainer : IAbility
     {
         public void Detain(IPlayer prisoner);
+    }
+
+    public interface IVest : IAbility
+    {
+        public void Vest();
     }
 
     public interface ISwitcher : IAbility
