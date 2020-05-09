@@ -13,6 +13,7 @@ namespace Mafia.NET.Players
             get => _text;
             set
             {
+                if (value == null) value = "";
                 if (!Owner.Alive || !Match.Phase.CurrentPhase.Actionable) return;
                 _text = value.Trim().Substring(0, Math.Min(value.Length, 500));
             }

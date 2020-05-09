@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,10 +35,9 @@ namespace Mafia.NET.Matches
             foreach (var threat in Threats)
             {
                 var victim = threat.Victim;
-
-                if (victims.TryGetValue(victim, out var old))
+                if (victims.TryGetValue(victim, out _))
                 {
-                    victims[victim] = new Death(old, threat.Description);
+                    victims[victim].Description += Environment.NewLine + threat.Description;
                 }
                 else
                 {

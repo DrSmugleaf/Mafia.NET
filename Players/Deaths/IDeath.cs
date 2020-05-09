@@ -1,15 +1,16 @@
-﻿#nullable enable
-
-namespace Mafia.NET.Players.Deaths
+﻿namespace Mafia.NET.Players.Deaths
 {
+#nullable enable
     public interface IDeath
     {
         int Day { get; set; }
         IPlayer Victim { get; set; }
+        string VictimName { get; set; }
+        string? VictimRole { get; set; }
         DeathCause Cause { get; set; }
         IPlayer? Killer { get; set; }
-        Note LastWill { get; set; }
-        Note? DeathNote { get; set; }
+        string LastWill { get; set; }
+        string? DeathNote { get; set; }
         string Description { get; set; }
     }
 }
