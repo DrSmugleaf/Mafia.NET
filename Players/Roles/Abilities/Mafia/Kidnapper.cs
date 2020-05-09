@@ -69,6 +69,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (TargetManager.Try(0, out var execution) && Charges > 0)
             {
+                User.Crimes.Add("Murder");
+
                 Charges--;
                 PiercingThreaten(execution);
                 return true;
