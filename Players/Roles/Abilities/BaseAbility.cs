@@ -184,6 +184,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public void BeforeNightEnd()
         {
             User.Blackmailed = false;
+            _beforeNightEnd();
         }
 
         public virtual bool AfterNightEnd()
@@ -222,6 +223,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected virtual void _onNightStart() => Expression.Empty();
 
+        protected virtual void _beforeNightEnd() => Expression.Empty();
+
         protected virtual bool _afterNightEnd() => false;
     }
 
@@ -233,6 +236,11 @@ namespace Mafia.NET.Players.Roles.Abilities
     public interface IChargeSetup
     {
         int Charges { get; set; }
+    }
+
+    public interface INightImmune
+    {
+        bool NightImmune { get; set; }
     }
 
     public interface IRoleBlockImmune
