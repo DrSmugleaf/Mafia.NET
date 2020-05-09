@@ -1,13 +1,23 @@
 ﻿using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players.Roles.Abilities.Town;
+using System.Linq;
 
-namespace Mafia.NET.Players.Roles.Abilities.Town
+namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
-    [RegisterAbility("Jailor", typeof(JailorSetup))]
-    public class Jailor : TownAbility<JailorSetup>
+    [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
+    public class Kidnapper : MafiaAbility<KidnapperSetup>
     {
+        public Kidnapper()
+        {
+            Charges = Match.Abilities.Setup<JailorSetup>().Charges;
+        }
+
         protected override void _onDayStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User), new TargetMessage()
+            TargetFilter filter = TargetFilter.Living(Match);
+            if (!Setup.CanKidnapMafiaMembers) filter = filter.Except(User.Role.Affiliation);
+
+            AddTarget(filter, new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will jail {target.Name}.",
                 UserRemoveMessage = (target) => "You won't jail anyone.",
@@ -33,19 +43,25 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                 User.Crimes.Add("Kidnapping");
 
                 var jail = Match.Chat.Open("Jailor", User, prisoner);
+                var allies = Match.LivingPlayers.Values.Where(player => player.Role.Affiliation == User.Role.Affiliation && player != User);
+                jail.Add(allies, true, false);
                 var jailor = jail.Participants[User];
                 jailor.Name = "Jailor";
 
-                AddTarget(Charges > 0 ? prisoner : null, new TargetMessage()
+                AddTarget(prisoner, new TargetMessage()
                 {
                     UserAddMessage = (target) => $"You will execute {target.Name}.",
                     UserRemoveMessage = (target) => "You changed your mind.",
                     TargetAddMessage = (target) => $"{jailor.Name} will execute {target.Name}.",
                     TargetRemoveMessage = (target) => $"{jailor.Name} changed their mind."
-                }); ;
+                });
 
                 prisoner.Role.Ability.CurrentlyDeathImmune = true;
-                Match.Chat.DisableExcept(prisoner, jail);
+
+                if (prisoner.Role.Affiliation != User.Role.Affiliation)
+                {
+                    Match.Chat.DisableExcept(prisoner, jail);
+                }
             }
         }
 
@@ -62,8 +78,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class JailorSetup : ITownSetup, IChargeSetup
+    public class KidnapperSetup : MafiaMinionSetup
     {
-        public int Charges { get; set; } = 1;
+        public bool CanKidnapMafiaMembers = false;
     }
 }

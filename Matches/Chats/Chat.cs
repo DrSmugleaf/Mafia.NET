@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Players;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mafia.NET.Matches.Chats
 {
@@ -9,6 +10,7 @@ namespace Mafia.NET.Matches.Chats
         IDictionary<IPlayer, IChatParticipant> Participants { get; }
         bool Paused { get; set; }
 
+        void Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false);
         bool CanSend(Message message);
         bool Send(Message message);
         void Close();
@@ -25,6 +27,15 @@ namespace Mafia.NET.Matches.Chats
         {
             Name = name;
             _participants = participants;
+        }
+
+        public void Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false)
+        {
+            foreach (var player in players)
+            {
+                var participant = new ChatParticipant(player, muted, deaf);
+                Participants[player] = participant;
+            }
         }
 
         public bool CanSend(Message message)
