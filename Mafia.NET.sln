@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30021.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mafia.NET", "Mafia.NET.csproj", "{7D77305B-C43C-4C6E-ACA2-02C9B5C2DC79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mafia.NET", "Mafia.NET/Mafia.NET.csproj", "{7D77305B-C43C-4C6E-ACA2-02C9B5C2DC79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.Tests", "..\Mafia.NET.Tests\Mafia.NET.Tests.csproj", "{66555B51-DA5E-4695-A814-023C2A8E5E42}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.Tests", "Mafia.NET.Tests/Mafia.NET.Tests.csproj", "{66555B51-DA5E-4695-A814-023C2A8E5E42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
