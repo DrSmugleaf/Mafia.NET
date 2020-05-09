@@ -9,6 +9,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         protected override void _onNightStart()
         {
+            if (Cooldown > 0) return;
+
             AddTarget(TargetFilter.Living(Match), new TargetMessage()
             {
                 UserAddMessage = (target) => $"You will watch {target.Name}.",
@@ -19,6 +21,14 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Detect(IPlayer target)
         {
+            if (Cooldown > 0)
+            {
+                Cooldown--;
+                return;
+            }
+
+            Cooldown = Setup.NightsBetweenUses;
+
             User.Crimes.Add("Trespassing");
 
             var targetVisited = target.Role.Ability.TargetManager[0];
@@ -47,6 +57,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
     public class AgentSetup : MafiaMinionSetup, ICooldownSetup
     {
-        public int Cooldown { get; set; } = 1;
+        public int NightsBetweenUses { get; set; } = 1;
     }
 }

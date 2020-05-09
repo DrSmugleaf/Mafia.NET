@@ -1,9 +1,6 @@
 ﻿using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Deaths;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
-using Mafia.NET.Players.Roles.Abilities.Triad;
 using Mafia.NET.Players.Roles.Categories;
 using System;
 using System.Linq;
@@ -42,9 +39,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
-        bool OnNightStart(); // Detainments, chats
-        void BeforeNightEnd(); // Unblackmail
-        bool AfterNightEnd(); // Vests, switches & roleblockers, framing & arson & misc, killing & suicides, janitor, investigations, disguiser, mason recruitment, cult recruitment
+        void OnNightStart(); // Detainments, chats
+        void BeforeNightEnd();
     }
 
     public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup, new()
@@ -169,59 +165,16 @@ namespace Mafia.NET.Players.Roles.Abilities
             return Active;
         }
 
-        public virtual bool OnNightStart()
+        public virtual void OnNightStart()
         {
             TargetManager.Reset();
-
-            if (Active)
-            {
-                if (Setup is ICooldownSetup && Cooldown > 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    _onNightStart();
-                    return true;
-                }
-            }
-            else return false;
+            if (Active) _onNightStart();
         }
 
         public void BeforeNightEnd()
         {
             User.Blackmailed = false;
-            _beforeNightEnd();
-        }
-
-        public virtual bool AfterNightEnd()
-        {
-            if (Active)
-            {
-                if (Setup is ICooldownSetup cooldownSetup)
-                {
-                    if (Cooldown > 0)
-                    {
-                        Cooldown--;
-                        return false;
-                    }
-                    else
-                    {
-                        var action = _afterNightEnd();
-                        if (action) Cooldown = cooldownSetup.Cooldown;
-                        return action;
-                    }
-                }
-                else
-                {
-                    return _afterNightEnd();
-                }
-            }
-            else
-            {
-                Cooldown--;
-                return false;
-            }
+            Cooldown--;
         }
 
         protected virtual void _onDayStart() => Expression.Empty();
@@ -229,15 +182,11 @@ namespace Mafia.NET.Players.Roles.Abilities
         protected virtual void _onDayEnd() => Expression.Empty();
 
         protected virtual void _onNightStart() => Expression.Empty();
-
-        protected virtual void _beforeNightEnd() => Expression.Empty();
-
-        protected virtual bool _afterNightEnd() => false;
     }
 
     public interface ICooldownSetup
     {
-        int Cooldown { get; set; }
+        int NightsBetweenUses { get; set; }
     }
 
     public interface IChargeSetup
