@@ -1,6 +1,6 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using System;
+using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players;
-using System;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
@@ -8,31 +8,30 @@ namespace Mafia.NET.Matches.Phases.Vote
     {
         public IPlayer Player;
 
-        public ExecutionRevealPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Execution Reveal", duration)
+        public ExecutionRevealPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Execution Reveal",
+            duration)
         {
             Player = player;
         }
 
-        public override IPhase NextPhase() => Supersedes;
+        public override IPhase NextPhase()
+        {
+            return Supersedes;
+        }
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers.Values);
+            ChatManager.Open(Match.AllPlayers);
             var role = Notification.Popup($"{Player.Name}'s role was {Player.Role.Name}.");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(role);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(role);
 
             if (Player.LastWill.Text.Length == 0) return;
 
-            var lastWill = Notification.Chat($"{Player.Name} left us his last will:{Environment.NewLine}{Player.LastWill}");
+            var lastWill =
+                Notification.Chat($"{Player.Name} left us his last will:{Environment.NewLine}{Player.LastWill}");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(lastWill);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(lastWill);
 
             base.Start();
         }
@@ -43,10 +42,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
             var notification = Notification.Popup("Let us reconvene tomorrow.");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
         }
     }
 }

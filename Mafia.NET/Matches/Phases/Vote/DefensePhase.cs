@@ -7,12 +7,12 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class DefensePhase : BasePhase
     {
-        public IPlayer Player { get; }
-
         public DefensePhase(IMatch match, IPlayer player, uint duration = 15) : base(match, "Defense", duration)
         {
             Player = player;
         }
+
+        public IPlayer Player { get; }
 
         public override IPhase NextPhase()
         {
@@ -21,19 +21,16 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers.Values, true);
+            ChatManager.Open(Match.AllPlayers, true);
 
-            if (!Player.Blackmailed || Match.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
-            {
+            if (!Player.Blackmailed || Match.Setup.Roles.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
                 ChatManager.Main().Participants[Player].Muted = false;
-            }
 
-            var notification = Notification.Popup($"{Player.Name}, you are on trial for conspiracy against the town. What is your defense?");
+            var notification =
+                Notification.Popup(
+                    $"{Player.Name}, you are on trial for conspiracy against the town. What is your defense?");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
         }

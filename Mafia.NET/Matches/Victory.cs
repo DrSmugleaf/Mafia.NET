@@ -1,8 +1,8 @@
-﻿using Mafia.NET.Matches.Chats;
-using Mafia.NET.Players;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches
 {
@@ -15,10 +15,6 @@ namespace Mafia.NET.Matches
 
     public class Victory : IVictory
     {
-        public IImmutableList<IPlayer> Winners { get; }
-        public Notification Popup { get; }
-        public Notification WinnersList { get; }
-
         public Victory(IList<IPlayer> winners, Notification popup)
         {
             Winners = winners.ToImmutableList();
@@ -27,8 +23,12 @@ namespace Mafia.NET.Matches
             WinnersList = Notification.Popup($"Congratulations ${winnerNames}");
         }
 
-        public Victory(IPlayer winner, Notification popup) : this(new List<IPlayer> { winner }, popup)
+        public Victory(IPlayer winner, Notification popup) : this(new List<IPlayer> {winner}, popup)
         {
         }
+
+        public IImmutableList<IPlayer> Winners { get; }
+        public Notification Popup { get; }
+        public Notification WinnersList { get; }
     }
 }

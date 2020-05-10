@@ -1,6 +1,6 @@
-﻿using Mafia.NET.Extension;
+﻿using System.Collections.Generic;
+using Mafia.NET.Extension;
 using Mafia.NET.Resources;
-using System.Collections.Generic;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles.Categories
@@ -16,10 +16,6 @@ namespace Mafia.NET.Players.Roles.Categories
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
 
-        public string Name { get; }
-        public string Description { get; }
-        public Goal Goal { get; }
-
         public Category(string name, string description, Goal goal)
         {
             Name = name;
@@ -27,7 +23,14 @@ namespace Mafia.NET.Players.Roles.Categories
             Goal = goal;
         }
 
-        public static explicit operator Category(string name) => Categories[name];
+        public string Name { get; }
+        public string Description { get; }
+        public Goal Goal { get; }
+
+        public static explicit operator Category(string name)
+        {
+            return Categories[name];
+        }
 
         private static Dictionary<string, Category> LoadAll()
         {

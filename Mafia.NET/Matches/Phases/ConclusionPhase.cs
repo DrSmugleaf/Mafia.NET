@@ -1,6 +1,6 @@
-﻿using Mafia.NET.Matches.Chats;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Mafia.NET.Matches.Chats;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -8,7 +8,8 @@ namespace Mafia.NET.Matches.Phases
     {
         public IList<IVictory> Victories;
 
-        public ConclusionPhase(IList<IVictory> victories, IMatch match, uint duration = 120) : base(match, "Conclusion", duration, actionable: false)
+        public ConclusionPhase(IList<IVictory> victories, IMatch match, uint duration = 120) : base(match, "Conclusion",
+            duration, actionable: false)
         {
             Victories = victories;
         }
@@ -20,17 +21,17 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers.Values);
+            ChatManager.Open(Match.AllPlayers);
             ChatManager.UnMuteUnDeafen();
 
             var popup = Notification.Popup("We have come to a conclusion...");
-            var roles = Match.AllPlayers.Values
+            var roles = Match.AllPlayers
                 .Select(player => $"{player.Name} was the {player.Role.Name}")
                 .Select(message => Notification.Chat(message))
                 .ToList();
             var rolesNotification = new Notification(NotificationType.CHAT, roles);
 
-            foreach (var player in Match.AllPlayers.Values)
+            foreach (var player in Match.AllPlayers)
             {
                 foreach (var victory in Victories)
                 {

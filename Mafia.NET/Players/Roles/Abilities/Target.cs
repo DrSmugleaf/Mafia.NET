@@ -1,5 +1,5 @@
-﻿using Mafia.NET.Matches;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Mafia.NET.Matches;
 
 #nullable enable
 
@@ -7,8 +7,16 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class Target
     {
+        public Target(IPlayer user, TargetFilter filter, TargetNotification? message = null)
+        {
+            User = user;
+            Filter = filter;
+            Message = message ?? TargetNotification.Empty;
+        }
+
         public IPlayer User { get; }
         private IPlayer? _targeted { get; set; }
+
         public IPlayer? Targeted
         {
             get => _targeted;
@@ -46,15 +54,9 @@ namespace Mafia.NET.Players.Roles.Abilities
                 }
             }
         }
+
         public TargetFilter Filter { get; }
         public TargetNotification Message { get; set; }
-
-        public Target(IPlayer user, TargetFilter filter, TargetNotification? message = null)
-        {
-            User = user;
-            Filter = filter;
-            Message = message ?? TargetNotification.Empty;
-        }
 
         public bool Try(out IPlayer? target)
         {
@@ -62,10 +64,19 @@ namespace Mafia.NET.Players.Roles.Abilities
             return target != null;
         }
 
-        public void Set(IPlayer? target) => Targeted = target;
+        public void Set(IPlayer? target)
+        {
+            Targeted = target;
+        }
 
-        public void ForceSet(IPlayer? target) => _targeted = target;
+        public void ForceSet(IPlayer? target)
+        {
+            _targeted = target;
+        }
 
-        public IReadOnlyDictionary<int, IPlayer> ValidTargets(IMatch match) => Filter.Filter(match.AllPlayers);
+        public IReadOnlyList<IPlayer> ValidTargets(IMatch match)
+        {
+            return Filter.Filter(match.AllPlayers);
+        }
     }
 }

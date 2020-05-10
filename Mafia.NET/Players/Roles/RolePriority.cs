@@ -1,33 +1,29 @@
-﻿using Mafia.NET.Matches;
-using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Abilities.Town;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Mafia.NET.Matches;
+using Mafia.NET.Players.Roles.Abilities;
 
 namespace Mafia.NET.Players.Roles
 {
     public class RolePriority
     {
         private static readonly Lazy<RolePriority> Lazy = new Lazy<RolePriority>(() => new RolePriority());
-        public static RolePriority Instance { get => Lazy.Value; }
+        public static RolePriority Instance => Lazy.Value;
 
         public IList<T> Abilities<T>(IEnumerable<IPlayer> players) where T : IAbility
         {
             var abilities = new List<T>();
 
             foreach (var player in players)
-            {
-                if (player.Role.Ability is T ability) abilities.Add(ability);
-            }
+                if (player.Role.Ability is T ability)
+                    abilities.Add(ability);
 
             return abilities;
         }
 
         public void OnNightStart(IMatch match)
         {
-            var living = match.LivingPlayers.Values;
+            var living = match.LivingPlayers;
 
             foreach (var chatter in Abilities<INightChatter>(living)) chatter.Chat();
             foreach (var detainer in Abilities<IDetainer>(living)) detainer.Try(detainer.Detain);
@@ -35,7 +31,7 @@ namespace Mafia.NET.Players.Roles
 
         public void OnNightEnd(IMatch match)
         {
-            var living = match.LivingPlayers.Values;
+            var living = match.LivingPlayers;
 
             foreach (var vest in Abilities<IVest>(living)) vest.Vest();
             foreach (var switcher in Abilities<ISwitcher>(living)) switcher.Switch();

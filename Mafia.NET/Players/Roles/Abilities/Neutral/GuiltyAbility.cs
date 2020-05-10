@@ -2,6 +2,9 @@
 {
     public abstract class GuiltyAbility<T> : BaseAbility<T> where T : IAbilitySetup, new()
     {
-        protected override string GuiltyName() => Name;
+        protected override string GuiltyName()
+        {
+            return Name;
+        }
     }
 }

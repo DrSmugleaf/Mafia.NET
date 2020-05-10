@@ -12,11 +12,6 @@ namespace Mafia.NET.Matches.Chats
 
     public class ChatParticipant : IChatParticipant
     {
-        public IPlayer Owner { get; }
-        public string Name { get; set; }
-        public bool Muted { get; set; }
-        public bool Deaf { get; set; }
-
         public ChatParticipant(IPlayer owner, string name, bool muted = false, bool deaf = false)
         {
             Owner = owner;
@@ -25,8 +20,14 @@ namespace Mafia.NET.Matches.Chats
             Deaf = deaf;
         }
 
-        public ChatParticipant(IPlayer owner, bool muted = false, bool deaf = false) : this(owner, owner.Name, muted, deaf)
+        public ChatParticipant(IPlayer owner, bool muted = false, bool deaf = false) : this(owner, owner.Name, muted,
+            deaf)
         {
         }
+
+        public IPlayer Owner { get; }
+        public string Name { get; set; }
+        public bool Muted { get; set; }
+        public bool Deaf { get; set; }
     }
 }

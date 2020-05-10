@@ -1,8 +1,8 @@
-﻿using Mafia.NET.Matches;
+﻿using System;
+using System.Drawing;
+using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles;
-using System;
-using System.Drawing;
 
 namespace Mafia.NET.Players
 {
@@ -27,6 +27,19 @@ namespace Mafia.NET.Players
 
     public class Player : IPlayer
     {
+        public Player(IMatch match, int id, string name, IRole role)
+        {
+            Match = match;
+            Id = id;
+            Name = name;
+            Role = role;
+            Tint = IdToColor(id);
+            LastWill = new Note(Match, this);
+            DeathNote = new Note(Match, this);
+            Blackmailed = false;
+            Crimes = new Crimes(this);
+        }
+
         public IMatch Match { get; }
         public int Id { get; }
         public string Name { get; set; }
@@ -40,17 +53,15 @@ namespace Mafia.NET.Players
         public event EventHandler<Notification> Notification;
         public event EventHandler<Message> Message;
 
-        public Player(IMatch match, int id, string name, IRole role)
+        public virtual void OnNotification(Notification e)
         {
-            Match = match;
-            Id = id;
-            Name = name;
-            Role = role;
-            Tint = IdToColor(id);
-            LastWill = new Note(Match, this);
-            DeathNote = new Note(Match, this);
-            Blackmailed = false;
-            Crimes = new Crimes(this);
+            if (e.Text.Length == 0) return;
+            Notification?.Invoke(this, e);
+        }
+
+        public virtual void OnMessage(Message e)
+        {
+            Message?.Invoke(this, e);
         }
 
         public static Color IdToColor(int id)
@@ -75,15 +86,7 @@ namespace Mafia.NET.Players
                 _ => PlayerColors.DEFAULT
             };
 
-            return Color.FromArgb((int)color);
+            return Color.FromArgb((int) color);
         }
-
-        public virtual void OnNotification(Notification e)
-        {
-            if (e.Text.Length == 0) return;
-            Notification?.Invoke(this, e);
-        }
-
-        public virtual void OnMessage(Message e) => Message?.Invoke(this, e);
     }
 }

@@ -10,29 +10,34 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
     {
         public static readonly string NightChatName = "Mafia";
 
-        public void Chat() => Match.Chat.Open(NightChatName, User);
-
-        protected bool NoGodfather()
+        public void Chat()
         {
-            return !Match.LivingPlayers.Values.Any(player => player.Role.Ability is Godfather);
+            Match.Chat.Open(NightChatName, User);
         }
 
-        public override bool DetectableBy(ISheriffSetup setup) => setup.DetectsMafiaTriad;
-
-        protected override string GuiltyName() => "Mafia";
+        public override bool DetectableBy(ISheriffSetup setup)
+        {
+            return setup.DetectsMafiaTriad;
+        }
 
         public sealed override void OnDayStart()
         {
             if (Setup is MafiaMinionSetup mafiaSetup && mafiaSetup.BecomesMafiosoIfAlone && AloneTeam())
-            {
-                User.Role.Ability = Match.Abilities.Ability<Mafioso>(Match, User);
-            }
-            else if (Setup is MafiaSuperMinionSetup superMafiaSetup && superMafiaSetup.ReplacesGodfather && NoGodfather())
-            {
-                User.Role.Ability = Match.Abilities.Ability<Godfather>(Match, User);
-            }
+                User.Role.Ability = Match.Setup.Roles.Abilities.Ability<Mafioso>();
+            else if (Setup is MafiaSuperMinionSetup superMafiaSetup && superMafiaSetup.ReplacesGodfather &&
+                     NoGodfather()) User.Role.Ability = Match.Setup.Roles.Abilities.Ability<Godfather>();
 
             base.OnDayStart();
+        }
+
+        protected bool NoGodfather()
+        {
+            return !Match.LivingPlayers.Any(player => player.Role.Ability is Godfather);
+        }
+
+        protected override string GuiltyName()
+        {
+            return "Mafia";
         }
     }
 

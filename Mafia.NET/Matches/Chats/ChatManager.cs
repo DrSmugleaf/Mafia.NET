@@ -1,19 +1,20 @@
-﻿using Mafia.NET.Players;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
 {
     public class ChatManager
     {
         public const string MainName = "Main Chat";
-        private Dictionary<string, IChat> _chats { get; }
-        public IReadOnlyDictionary<string, IChat> Chats { get => _chats; }
 
         public ChatManager()
         {
             _chats = new Dictionary<string, IChat>();
         }
+
+        private Dictionary<string, IChat> _chats { get; }
+        public IReadOnlyDictionary<string, IChat> Chats => _chats;
 
         public IChat Open(IChat chat)
         {
@@ -21,18 +22,13 @@ namespace Mafia.NET.Matches.Chats
             {
                 var old = _chats[chat.Name];
 
-                foreach (var participant in chat.Participants)
-                {
-                    old.Participants.Add(participant);
-                }
+                foreach (var participant in chat.Participants) old.Participants.Add(participant);
 
                 return old;
             }
-            else
-            {
-                _chats[chat.Name] = chat;
-                return chat;
-            }
+
+            _chats[chat.Name] = chat;
+            return chat;
         }
 
         public IChat Open(IEnumerable<IPlayer> players, bool muted = false, string name = MainName)
@@ -88,7 +84,10 @@ namespace Mafia.NET.Matches.Chats
             UnDeafen();
         }
 
-        public IChat Main() => Chats[MainName];
+        public IChat Main()
+        {
+            return Chats[MainName];
+        }
 
         public void Send(Message message)
         {

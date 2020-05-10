@@ -3,29 +3,15 @@
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
     [RegisterAbility("Godfather", typeof(GodfatherSetup))]
-    public class Godfather : MafiaAbility<GodfatherSetup>, ISwitcher, IKiller // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
+    public class
+        Godfather : MafiaAbility<GodfatherSetup>, ISwitcher,
+            IKiller // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
     {
-        protected bool TryMafioso(out IPlayer mafioso)
+        public void Kill(IPlayer target)
         {
-            mafioso = Match.LivingPlayers.Values
-                .Where(player => player.Role.Affiliation == User.Role.Affiliation &&
-                player.Role.Ability is Mafioso)
-                .FirstOrDefault();
-
-            return mafioso != null;
-        }
-
-        protected override void _onNightStart()
-        {
-            if (Setup.CanKillWithoutMafioso || TryMafioso(out _))
-            {
-                AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification()
-                {
-                    UserAddMessage = (target) => $"You will kill {target.Name}.",
-                    UserRemoveMessage = (target) => $"You won't kill anyone.",
-                    UserChangeMessage = (old, _new) => $"You will instead kill {_new.Name}."
-                });
-            }
+            if (!Setup.CanKillWithoutMafioso) return;
+            User.Crimes.Add("Trespassing");
+            Attack(target);
         }
 
         public void Switch()
@@ -37,19 +23,33 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             }
         }
 
-        public void Kill(IPlayer target)
+        protected bool TryMafioso(out IPlayer mafioso)
         {
-            if (!Setup.CanKillWithoutMafioso) return;
-            User.Crimes.Add("Trespassing");
-            Attack(target);
+            mafioso = Match.LivingPlayers
+                .Where(player => player.Role.Affiliation == User.Role.Affiliation &&
+                                 player.Role.Ability is Mafioso)
+                .FirstOrDefault();
+
+            return mafioso != null;
+        }
+
+        protected override void _onNightStart()
+        {
+            if (Setup.CanKillWithoutMafioso || TryMafioso(out _))
+                AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification
+                {
+                    UserAddMessage = target => $"You will kill {target.Name}.",
+                    UserRemoveMessage = target => "You won't kill anyone.",
+                    UserChangeMessage = (old, current) => $"You will instead kill {current.Name}."
+                });
         }
     }
 
     public class GodfatherSetup : IMafiaSetup, INightImmune, IRoleBlockImmune, IDetectionImmune
     {
+        public bool CanKillWithoutMafioso { get; set; } = true;
+        public bool DetectionImmune { get; set; } = true;
         public bool NightImmune { get; set; } = true;
         public bool RoleBlockImmune { get; set; } = false;
-        public bool DetectionImmune { get; set; } = true;
-        public bool CanKillWithoutMafioso { get; set; } = true;
     }
 }

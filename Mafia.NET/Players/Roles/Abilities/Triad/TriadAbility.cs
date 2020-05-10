@@ -8,11 +8,20 @@
     {
         public static readonly string NightChatName = "Triad";
 
-        public void Chat() => Match.Chat.Open(NightChatName, User);
+        public void Chat()
+        {
+            Match.Chat.Open(NightChatName, User);
+        }
 
-        public override bool DetectableBy(ISheriffSetup setup) => setup.DetectsMafiaTriad;
+        public override bool DetectableBy(ISheriffSetup setup)
+        {
+            return setup.DetectsMafiaTriad;
+        }
 
-        protected override string GuiltyName() => "Triad";
+        protected override string GuiltyName()
+        {
+            return "Triad";
+        }
     }
 
     public interface ITriadSetup : IAbilitySetup

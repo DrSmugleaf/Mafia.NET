@@ -2,7 +2,10 @@
 {
     public class MassMurderer : GuiltyAbility<MassMurdererSetup>
     {
-        public override bool DetectableBy(ISheriffSetup setup) => setup.DetectsMassMurderer;
+        public override bool DetectableBy(ISheriffSetup setup)
+        {
+            return setup.DetectsMassMurderer;
+        }
     }
 
     public class MassMurdererSetup : IAbilitySetup, IDetectionImmune

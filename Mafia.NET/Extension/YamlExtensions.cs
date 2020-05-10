@@ -10,8 +10,7 @@ namespace Mafia.NET.Extension
     {
         public static YamlNode Get(this YamlMappingNode node, string key)
         {
-            var keyNode = new YamlScalarNode(key);
-            return node[keyNode];
+            return node[new YamlScalarNode(key)];
         }
 
         public static bool IsNull(this YamlNode node)
@@ -29,22 +28,50 @@ namespace Mafia.NET.Extension
             }
         }
 
-        public static bool Contains(this YamlMappingNode node, string key) => node.Children.ContainsKey(key);
+        public static bool Contains(this YamlMappingNode node, string key)
+        {
+            return node.Children.ContainsKey(key);
+        }
 
-        public static string AsString(this YamlNode node) => ((YamlScalarNode)node).Value;
+        public static bool Try(this YamlNode root, string key, out YamlNode node)
+        {
+            node = null;
+            var mapping = root as YamlMappingNode;
+            if (mapping == null || !mapping.Contains(key)) return false;
 
-        public static int AsInt(this YamlNode node) => int.Parse(((YamlScalarNode)node).Value);
+            node = mapping[key];
+            return true;
+        }
 
-        public static Color AsColor(this YamlNode node) => ColorTranslator.FromHtml(node.AsString());
+        public static string AsString(this YamlNode node)
+        {
+            return ((YamlScalarNode) node).Value;
+        }
+
+        public static int AsInt(this YamlNode node)
+        {
+            return int.Parse(((YamlScalarNode) node).Value);
+        }
+
+        public static Color AsColor(this YamlNode node)
+        {
+            return ColorTranslator.FromHtml(node.AsString());
+        }
 
         public static bool AsBool(this YamlNode node)
         {
-            bool.TryParse(node.AsString(), out bool result);
-            return result;
+            if (bool.TryParse(node.AsString(), out var result)) return result;
+            throw new ArgumentException($"{node.AsString()} isn't a valid boolean value.");
         }
 
-        public static T AsEnum<T>(this YamlNode node) => (T)Enum.Parse(typeof(T), node.AsString(), true);
+        public static T AsEnum<T>(this YamlNode node)
+        {
+            return (T) Enum.Parse(typeof(T), node.AsString(), true);
+        }
 
-        public static List<string> AsStringList(this YamlNode node) => node.AllNodes.Select(value => value.AsString()).ToList();
+        public static List<string> AsStringList(this YamlSequenceNode node)
+        {
+            return node.Children.Select(value => value.AsString()).ToList();
+        }
     }
 }

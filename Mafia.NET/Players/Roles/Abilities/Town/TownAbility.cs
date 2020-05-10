@@ -6,9 +6,15 @@
 
     public abstract class TownAbility<T> : BaseAbility<T>, ITownAbility where T : ITownSetup, new()
     {
-        public override bool DetectableBy(ISheriffSetup setup) => true;
+        public override bool DetectableBy(ISheriffSetup setup)
+        {
+            return true;
+        }
 
-        protected override string GuiltyName() => "Not Suspicious";
+        protected override string GuiltyName()
+        {
+            return "Not Suspicious";
+        }
     }
 
     public interface ITownSetup : IAbilitySetup

@@ -9,17 +9,17 @@ namespace Mafia.NET.Matches.Phases
         {
         }
 
-        public override IPhase NextPhase() => new AccusePhase(Match);
+        public override IPhase NextPhase()
+        {
+            return new AccusePhase(Match);
+        }
 
         public override void Start()
         {
-            ChatManager.Open(Match.LivingPlayers.Values);
+            ChatManager.Open(Match.LivingPlayers);
             var notification = Notification.Popup($"Day {Match.Phase.Day}");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
         }

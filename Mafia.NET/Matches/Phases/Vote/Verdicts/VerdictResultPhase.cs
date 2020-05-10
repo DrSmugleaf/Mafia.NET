@@ -4,12 +4,13 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
     public class VerdictResultPhase : BasePhase
     {
-        private VerdictManager Verdicts { get; }
-
-        public VerdictResultPhase(IMatch match, VerdictManager verdicts, uint duration = 10) : base(match, "Vote Recount", duration)
+        public VerdictResultPhase(IMatch match, VerdictManager verdicts, uint duration = 10) : base(match,
+            "Vote Recount", duration)
         {
             Verdicts = verdicts;
         }
+
+        private VerdictManager Verdicts { get; }
 
         public override IPhase NextPhase()
         {
@@ -22,7 +23,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             var decision = Verdicts.Decision();
             var messages = Verdicts.Votes();
 
-            foreach (var player in Match.AllPlayers.Values)
+            foreach (var player in Match.AllPlayers)
             {
                 player.OnNotification(trialOver);
                 player.OnNotification(decision);

@@ -6,9 +6,6 @@ namespace Mafia.NET.Matches.Chats
 {
     public class Notification : EventArgs, INotification
     {
-        public NotificationType Type { get; }
-        public string Text { get; }
-
         public Notification(NotificationType type, string text)
         {
             Type = type;
@@ -21,12 +18,22 @@ namespace Mafia.NET.Matches.Chats
             Text = string.Join(Environment.NewLine, notifications.Select(notification => notification.Text)).Trim();
         }
 
-        public Notification(NotificationType type, params Notification[] notifications) : this(type, notifications.AsEnumerable())
+        public Notification(NotificationType type, params Notification[] notifications) : this(type,
+            notifications.AsEnumerable())
         {
         }
 
-        public static Notification Chat(string text) => new Notification(NotificationType.CHAT, text);
+        public NotificationType Type { get; }
+        public string Text { get; }
 
-        public static Notification Popup(string text) => new Notification(NotificationType.POPUP, text);
+        public static Notification Chat(string text)
+        {
+            return new Notification(NotificationType.CHAT, text);
+        }
+
+        public static Notification Popup(string text)
+        {
+            return new Notification(NotificationType.POPUP, text);
+        }
     }
 }

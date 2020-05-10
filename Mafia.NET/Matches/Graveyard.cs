@@ -1,18 +1,13 @@
-﻿using Mafia.NET.Players;
-using Mafia.NET.Players.Deaths;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mafia.NET.Players;
+using Mafia.NET.Players.Deaths;
 
 namespace Mafia.NET.Matches
 {
     public class Graveyard
     {
-        public IMatch Match { get; }
-        public List<IDeath> PublicDeaths { get; }
-        public List<IDeath> UndisclosedDeaths { get; }
-        public List<IDeath> Threats { get; }
-
         public Graveyard(IMatch match)
         {
             Match = match;
@@ -20,7 +15,15 @@ namespace Mafia.NET.Matches
             UndisclosedDeaths = new List<IDeath>();
         }
 
-        public IReadOnlyList<IDeath> AllDeaths() => PublicDeaths.Union(UndisclosedDeaths).ToList();
+        public IMatch Match { get; }
+        public List<IDeath> PublicDeaths { get; }
+        public List<IDeath> UndisclosedDeaths { get; }
+        public List<IDeath> Threats { get; }
+
+        public IReadOnlyList<IDeath> AllDeaths()
+        {
+            return PublicDeaths.Union(UndisclosedDeaths).ToList();
+        }
 
         public void Disclose()
         {
@@ -57,8 +60,14 @@ namespace Mafia.NET.Matches
             return AllDeaths().Any(death => death.Day == day && death.Cause == cause);
         }
 
-        public bool DiedToday(DeathCause cause) => DiedOn(Match.Phase.Day, cause);
+        public bool DiedToday(DeathCause cause)
+        {
+            return DiedOn(Match.Phase.Day, cause);
+        }
 
-        public bool LynchedToday() => DiedToday(DeathCause.LYNCH);
+        public bool LynchedToday()
+        {
+            return DiedToday(DeathCause.LYNCH);
+        }
     }
 }

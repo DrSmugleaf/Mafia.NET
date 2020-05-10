@@ -1,8 +1,8 @@
-﻿using Mafia.NET.Matches.Chats;
-using Mafia.NET.Players;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players;
 
 #nullable enable
 
@@ -10,13 +10,6 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class Accuser
     {
-        public IPlayer Player { get; set; }
-        protected IPlayer? Target { get; set; }
-        public string Name { get; set; }
-        public bool AnonymousVote { get; set; }
-        public int Power { get; set; }
-        public bool Active { get; set; }
-
         public Accuser(IPlayer player, bool anonymousVote)
         {
             Player = player;
@@ -27,7 +20,17 @@ namespace Mafia.NET.Matches.Phases.Vote
             Active = true;
         }
 
-        public IPlayer? Accusing() => Target;
+        public IPlayer Player { get; set; }
+        protected IPlayer? Target { get; set; }
+        public string Name { get; set; }
+        public bool AnonymousVote { get; set; }
+        public int Power { get; set; }
+        public bool Active { get; set; }
+
+        public IPlayer? Accusing()
+        {
+            return Target;
+        }
 
         public bool Accuse(IPlayer target, out Notification? notification)
         {
@@ -40,24 +43,16 @@ namespace Mafia.NET.Matches.Phases.Vote
             if (change)
             {
                 if (AnonymousVote)
-                {
-                    notification = Notification.Chat($"Someone has changed their vote to someone else.");
-                }
+                    notification = Notification.Chat("Someone has changed their vote to someone else.");
                 else
-                {
                     notification = Notification.Chat($"{Player.Name} has changed their vote to {target.Name}.");
-                }
             }
             else
             {
                 if (AnonymousVote)
-                {
                     notification = Notification.Chat("Someone has voted to try someone.");
-                }
                 else
-                {
                     notification = Notification.Chat($"{Player.Name} has voted to try {target.Name}.");
-                }
             }
 
             return true;
@@ -71,13 +66,9 @@ namespace Mafia.NET.Matches.Phases.Vote
             Target = null;
 
             if (AnonymousVote)
-            {
                 notification = Notification.Chat("Someone has cancelled their vote.");
-            }
             else
-            {
                 notification = Notification.Chat($"{Player.Name} has cancelled their vote.");
-            }
 
             return true;
         }
@@ -85,20 +76,6 @@ namespace Mafia.NET.Matches.Phases.Vote
 
     public class AccuseManager
     {
-        public IMatch Match { get; set; }
-        protected IDictionary<IPlayer, Accuser> Accusers { get; set; }
-        protected Action<IPlayer> EnoughVotes { get; }
-        private bool _active { get; set; }
-        public bool Active
-        {
-            get => _active;
-            set
-            {
-                _active = value;
-                foreach (var accuser in Accusers.Values) accuser.Active = true;
-            }
-        }
-
         public AccuseManager(IMatch match, Action<IPlayer> enoughVotes)
         {
             Match = match;
@@ -106,9 +83,22 @@ namespace Mafia.NET.Matches.Phases.Vote
             EnoughVotes = enoughVotes;
             Active = true;
 
-            foreach (var player in Match.LivingPlayers.Values)
-            {
+            foreach (var player in Match.LivingPlayers)
                 Accusers[player] = new Accuser(player, match.Setup.AnonymousVoting);
+        }
+
+        public IMatch Match { get; set; }
+        protected IDictionary<IPlayer, Accuser> Accusers { get; set; }
+        protected Action<IPlayer> EnoughVotes { get; }
+        private bool _active { get; set; }
+
+        public bool Active
+        {
+            get => _active;
+            set
+            {
+                _active = value;
+                foreach (var accuser in Accusers.Values) accuser.Active = true;
             }
         }
 
@@ -120,10 +110,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
             if (accused)
             {
-                foreach (var player in Match.AllPlayers.Values)
-                {
-                    player.OnNotification(notification);
-                }
+                foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
                 if (VotesAgainst(target) >= RequiredVotes())
                 {
@@ -133,7 +120,10 @@ namespace Mafia.NET.Matches.Phases.Vote
             }
         }
 
-        public Accuser Get(IPlayer accuser) => Accusers[accuser];
+        public Accuser Get(IPlayer accuser)
+        {
+            return Accusers[accuser];
+        }
 
         public void Unaccuse(IPlayer accuser)
         {
@@ -142,12 +132,8 @@ namespace Mafia.NET.Matches.Phases.Vote
             var unaccused = Accusers[accuser].Unaccuse(out var notification);
 
             if (unaccused)
-            {
-                foreach (var player in Match.AllPlayers.Values)
-                {
+                foreach (var player in Match.AllPlayers)
                     player.OnNotification(notification);
-                }
-            }
         }
 
         public IList<Accuser> GetAccusers(IPlayer player)
@@ -155,10 +141,19 @@ namespace Mafia.NET.Matches.Phases.Vote
             return Accusers.Values.Where(accuser => accuser.Accusing() == player).ToList();
         }
 
-        public int VotesAgainst(IPlayer player) => GetAccusers(player).Count;
+        public int VotesAgainst(IPlayer player)
+        {
+            return GetAccusers(player).Count;
+        }
 
-        public int TotalVotes() => Accusers.Values.Select(accuser => accuser.Power).Sum();
+        public int TotalVotes()
+        {
+            return Accusers.Count;
+        }
 
-        public int RequiredVotes() => TotalVotes() / 2 + 1;
+        public int RequiredVotes()
+        {
+            return TotalVotes() / 2 + 1;
+        }
     }
 }

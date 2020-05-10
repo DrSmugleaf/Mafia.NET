@@ -1,13 +1,21 @@
-﻿using Mafia.NET.Matches;
-using System;
+﻿using System;
+using Mafia.NET.Matches;
 
 namespace Mafia.NET.Players
 {
     public class Note
     {
+        public Note(IMatch match, IPlayer player)
+        {
+            Match = match;
+            Owner = player;
+            _text = "";
+        }
+
         public IMatch Match { get; }
         public IPlayer Owner { get; }
         public string _text { get; set; }
+
         public string Text
         {
             get => _text;
@@ -19,13 +27,9 @@ namespace Mafia.NET.Players
             }
         }
 
-        public Note(IMatch match, IPlayer player)
+        public static implicit operator string(Note note)
         {
-            Match = match;
-            Owner = player;
-            _text = "";
+            return note.Text;
         }
-
-        public static implicit operator string(Note note) => note.Text;
     }
 }

@@ -4,6 +4,14 @@ namespace Mafia.NET.Matches.Phases
 {
     public class Clock : Timer
     {
+        public Clock()
+        {
+        }
+
+        public Clock(double interval) : base(interval)
+        {
+        }
+
         public new double Interval
         {
             get => base.Interval;
@@ -14,14 +22,6 @@ namespace Mafia.NET.Matches.Phases
                 base.Interval = value;
                 Enabled = old;
             }
-        }
-
-        public Clock() : base()
-        {
-        }
-
-        public Clock(double interval) : base(interval)
-        {
         }
 
         public void Start(double interval)

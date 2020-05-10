@@ -5,21 +5,19 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class AccusePhase : BasePhase
     {
-        public AccuseManager AccuseManager { get; protected set; }
-        public bool Trial { get; set; }
-        public int Lynches { get; set; }
-
         public AccusePhase(IMatch match, uint duration = 80) : base(match, "Time Left", duration, true)
         {
             Trial = match.Setup.Trial;
             Lynches = 1;
         }
 
+        public AccuseManager AccuseManager { get; protected set; }
+        public bool Trial { get; set; }
+        public int Lynches { get; set; }
+
         protected void StartTrial(IPlayer accused)
         {
-            IPhase phase = Trial ?
-                (IPhase)new TrialPhase(Match, accused) :
-                new ImmediateExecutionPhase(Match, accused);
+            var phase = Trial ? (IPhase) new TrialPhase(Match, accused) : new ImmediateExecutionPhase(Match, accused);
 
             Match.Phase.SupersedePhase(phase);
         }
@@ -32,19 +30,14 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             AccuseManager = new AccuseManager(Match, StartTrial);
-            ChatManager.Open(Match.AllPlayers.Values);
+            ChatManager.Open(Match.AllPlayers);
 
             var notification = Notification.Popup("Today's public vote and trial will begin now.");
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
-            notification = Notification.Popup($"{Match.LivingPlayers.Count / 2 + 1} votes are needed to send someone to trial.");
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            notification =
+                Notification.Popup($"{Match.LivingPlayers.Count / 2 + 1} votes are needed to send someone to trial.");
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
         }
@@ -62,10 +55,8 @@ namespace Mafia.NET.Matches.Phases.Vote
                 AccuseManager = new AccuseManager(Match, StartTrial);
                 return base.Resume();
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
 
         public override void End()

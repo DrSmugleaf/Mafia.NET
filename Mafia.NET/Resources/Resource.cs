@@ -6,12 +6,12 @@ namespace Mafia.NET.Resources
 {
     public class Resource
     {
-        private string ResourcePath { get; }
-
         public Resource(string path)
         {
             ResourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", path);
         }
+
+        private string ResourcePath { get; }
 
         public static string GetResourcesDirectory()
         {
@@ -26,12 +26,12 @@ namespace Mafia.NET.Resources
         public static List<Resource> FromDirectory(string directory, string pattern)
         {
             directory = GetResourcesDirectory(directory);
-            List<Resource> resources = new List<Resource>();
+            var resources = new List<Resource>();
             var files = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
 
             foreach (var file in files)
             {
-                Resource resource = new Resource(file);
+                var resource = new Resource(file);
                 resources.Add(resource);
             }
 
@@ -43,9 +43,12 @@ namespace Mafia.NET.Resources
             using var reader = new StreamReader(resource.ResourcePath);
             var yaml = new YamlStream();
             yaml.Load(reader);
-            return (YamlSequenceNode)yaml.Documents[0].RootNode;
+            return (YamlSequenceNode) yaml.Documents[0].RootNode;
         }
 
-        public static explicit operator YamlMappingNode(Resource resource) => (YamlMappingNode)((YamlSequenceNode)resource)[0];
+        public static explicit operator YamlMappingNode(Resource resource)
+        {
+            return (YamlMappingNode) ((YamlSequenceNode) resource)[0];
+        }
     }
 }

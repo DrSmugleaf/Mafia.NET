@@ -26,7 +26,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public CrierChat(IMatch match) : base(Crier.NightChatName)
         {
-            foreach (var player in match.AllPlayers.Values)
+            foreach (var player in match.AllPlayers)
             {
                 var participant = new ChatParticipant(player, true);
                 if (player.Role.Ability is Crier)

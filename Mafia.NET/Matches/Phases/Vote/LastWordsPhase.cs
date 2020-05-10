@@ -5,25 +5,25 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class LastWordsPhase : BasePhase
     {
-        public IPlayer Player { get; }
-
         public LastWordsPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Last Words", duration)
         {
             Player = player;
         }
 
-        public override IPhase NextPhase() => new ExecutionPhase(Match, Player);
+        public IPlayer Player { get; }
+
+        public override IPhase NextPhase()
+        {
+            return new ExecutionPhase(Match, Player);
+        }
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers.Values, true);
+            ChatManager.Open(Match.AllPlayers, true);
             ChatManager.Main().Participants[Player].Muted = false;
-            Notification notification = Notification.Popup("Do you have any last words?");
+            var notification = Notification.Popup("Do you have any last words?");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
         }

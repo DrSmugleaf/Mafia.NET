@@ -1,7 +1,7 @@
-﻿using Mafia.NET.Extension;
-using Mafia.NET.Resources;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using Mafia.NET.Extension;
+using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Teams
@@ -15,8 +15,6 @@ namespace Mafia.NET.Players.Teams
     public class Team : ITeam
     {
         public static readonly IReadOnlyDictionary<string, Team> Teams = LoadAll();
-        public string Name { get; }
-        public Color Tint { get; }
 
         private Team(string name, Color tint)
         {
@@ -24,7 +22,13 @@ namespace Mafia.NET.Players.Teams
             Tint = tint;
         }
 
-        public static explicit operator Team(string name) => Teams[name];
+        public string Name { get; }
+        public Color Tint { get; }
+
+        public static explicit operator Team(string name)
+        {
+            return Teams[name];
+        }
 
         private static Dictionary<string, Team> LoadAll()
         {

@@ -19,12 +19,12 @@ namespace Mafia.NET.Players.Roles.Categories
         {
             return goal switch
             {
-                Goal.TOWN => new Goal[] { Goal.MAFIA, Goal.TRIAD, Goal.EVIL, Goal.KILLING, Goal.CULT },
-                Goal.MAFIA => new Goal[] { Goal.TOWN, Goal.TRIAD, Goal.KILLING, Goal.CULT },
-                Goal.TRIAD => new Goal[] { Goal.TOWN, Goal.MAFIA, Goal.KILLING, Goal.CULT },
-                Goal.KILLING => new Goal[] { Goal.TOWN, Goal.MAFIA, Goal.TRIAD, Goal.KILLING, Goal.CULT },
-                Goal.CULT => new Goal[] { Goal.TOWN, Goal.MAFIA, Goal.TRIAD, Goal.KILLING },
-                Goal.EVIL => new Goal[] { Goal.TOWN },
+                Goal.TOWN => new[] {Goal.MAFIA, Goal.TRIAD, Goal.EVIL, Goal.KILLING, Goal.CULT},
+                Goal.MAFIA => new[] {Goal.TOWN, Goal.TRIAD, Goal.KILLING, Goal.CULT},
+                Goal.TRIAD => new[] {Goal.TOWN, Goal.MAFIA, Goal.KILLING, Goal.CULT},
+                Goal.KILLING => new[] {Goal.TOWN, Goal.MAFIA, Goal.TRIAD, Goal.KILLING, Goal.CULT},
+                Goal.CULT => new[] {Goal.TOWN, Goal.MAFIA, Goal.TRIAD, Goal.KILLING},
+                Goal.EVIL => new[] {Goal.TOWN},
                 _ => new Goal[] { }
             };
         }
@@ -38,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Categories
                 Goal.TRIAD => "The Triad have won!",
                 Goal.BENIGN => $"The {player.Role.Name} has won!",
                 Goal.KILLING => $"The {player.Role.Name} has won!",
-                Goal.CULT => $"The Cult has won!",
+                Goal.CULT => "The Cult has won!",
                 Goal.EVIL => $"The {player.Role.Name} has won!",
                 _ => ""
             });

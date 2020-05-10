@@ -2,7 +2,10 @@
 {
     public class SerialKiller : GuiltyAbility<SerialKillerSetup>
     {
-        public override bool DetectableBy(ISheriffSetup setup) => setup.DetectsSerialKiller;
+        public override bool DetectableBy(ISheriffSetup setup)
+        {
+            return setup.DetectsSerialKiller;
+        }
     }
 
     public class SerialKillerSetup : IAbilitySetup, IDetectionImmune

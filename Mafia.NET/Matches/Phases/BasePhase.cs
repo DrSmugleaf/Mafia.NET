@@ -1,5 +1,5 @@
-﻿using Mafia.NET.Matches.Chats;
-using System;
+﻿using System;
+using Mafia.NET.Matches.Chats;
 
 #nullable enable
 
@@ -7,6 +7,16 @@ namespace Mafia.NET.Matches.Phases
 {
     public abstract class BasePhase : IPhase
     {
+        public BasePhase(IMatch match, string name, uint duration, bool skippable = false, bool actionable = true)
+        {
+            Match = match;
+            Name = name;
+            Duration = duration * 1000;
+            Skippable = skippable;
+            ChatManager = new ChatManager();
+            Actionable = actionable;
+        }
+
         public IMatch Match { get; }
         public string Name { get; }
         public double Duration { get; protected set; }
@@ -18,19 +28,12 @@ namespace Mafia.NET.Matches.Phases
         public ChatManager ChatManager { get; }
         public bool Actionable { get; }
 
-        public BasePhase(IMatch match, string name, uint duration, bool skippable = false, bool actionable = true)
-        {
-            Match = match;
-            Name = name;
-            Duration = duration * 1000;
-            Skippable = skippable;
-            ChatManager = new ChatManager();
-            Actionable = actionable;
-        }
-
         public abstract IPhase NextPhase();
 
-        public virtual void Start() => StartTime = DateTime.Now;
+        public virtual void Start()
+        {
+            StartTime = DateTime.Now;
+        }
 
         public virtual void Pause()
         {
@@ -45,6 +48,9 @@ namespace Mafia.NET.Matches.Phases
             return Math.Max(0, Duration - Elapsed);
         }
 
-        public virtual void End() => ChatManager.Close();
+        public virtual void End()
+        {
+            ChatManager.Close();
+        }
     }
 }

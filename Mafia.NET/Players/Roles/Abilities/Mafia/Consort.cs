@@ -5,16 +5,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Consort", typeof(ConsortSetup))]
     public class Consort : MafiaAbility<ConsortSetup>, IRoleBlocker
     {
-        protected override void _onNightStart()
-        {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification()
-            {
-                UserAddMessage = (target) => $"You will role-block {target.Name}.",
-                UserRemoveMessage = (target) => $"You won't role-block anyone.",
-                UserChangeMessage = (old, _new) => $"You will instead role-block {_new.Name}."
-            });
-        }
-
         public void Block(IPlayer target)
         {
             User.Crimes.Add("Soliciting");
@@ -27,11 +17,21 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 User.OnNotification(notification);
             }
         }
+
+        protected override void _onNightStart()
+        {
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification
+            {
+                UserAddMessage = target => $"You will role-block {target.Name}.",
+                UserRemoveMessage = target => "You won't role-block anyone.",
+                UserChangeMessage = (old, current) => $"You will instead role-block {current.Name}."
+            });
+        }
     }
 
     public class ConsortSetup : MafiaMinionSetup, IRoleBlockImmune
     {
-        public bool RoleBlockImmune { get; set; } = false;
         public bool DetectsBlockImmunity = false;
+        public bool RoleBlockImmune { get; set; } = false;
     }
 }

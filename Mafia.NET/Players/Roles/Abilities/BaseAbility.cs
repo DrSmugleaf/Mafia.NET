@@ -1,10 +1,10 @@
-﻿using Mafia.NET.Matches;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles.Categories;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
@@ -24,7 +24,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         int Cooldown { get; set; }
         int Uses { get; set; }
 
-        void Initialize();
+        void Initialize(IMatch match);
         bool TryVictory(out IVictory victory);
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
@@ -46,49 +46,53 @@ namespace Mafia.NET.Players.Roles.Abilities
 
     public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup, new()
     {
-        public IMatch Match { get; set; }
-        public IPlayer User { get; set; }
-        public string Name { get; set; }
-        public MessageRandomizer MurderDescriptions { get; set; }
-        public TargetManager TargetManager { get; set; }
-        public IAbilitySetup AbilitySetup { get; set; }
-        public T Setup { get => (T)AbilitySetup; }
-        public bool Active { get; set; }
-        public bool RoleBlockImmune { get; }
-        public bool DeathImmune { get; }
-        public bool CurrentlyDeathImmune { get; set; }
-        public bool DetectionImmune { get; }
-        private int _cooldown { get; set; }
-        public int Cooldown
-        {
-            get => _cooldown;
-            set => _cooldown = value >= 0 ? value : 0;
-        }
-        private int _uses { get; set; }
-        public int Uses
-        {
-            get => _uses;
-            set => _uses = value >= 0 ? value : 0;
-        }
-
         public BaseAbility()
         {
             Active = true;
-            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup ? rbImmuneSetup.RoleBlockImmune : false;
+            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
             DeathImmune = false;
             CurrentlyDeathImmune = DeathImmune;
             Cooldown = 0;
             Uses = 0;
         }
 
-        public virtual void Initialize()
+        public T Setup => (T) AbilitySetup;
+        private int _cooldown { get; set; }
+        private int _uses { get; set; }
+        public IMatch Match { get; set; }
+        public IPlayer User { get; set; }
+        public string Name { get; set; }
+        public MessageRandomizer MurderDescriptions { get; set; }
+        public TargetManager TargetManager { get; set; }
+        public IAbilitySetup AbilitySetup { get; set; }
+        public bool Active { get; set; }
+        public bool RoleBlockImmune { get; }
+        public bool DeathImmune { get; }
+        public bool CurrentlyDeathImmune { get; set; }
+        public bool DetectionImmune { get; }
+
+        public int Cooldown
         {
-            AbilitySetup = Match.Abilities.Setup<T>();
+            get => _cooldown;
+            set => _cooldown = value >= 0 ? value : 0;
+        }
+
+        public int Uses
+        {
+            get => _uses;
+            set => _uses = value >= 0 ? value : 0;
+        }
+
+        public virtual void Initialize(IMatch match)
+        {
+            Match = match;
+            AbilitySetup = Match.Setup.Roles.Abilities.Setup<T>();
+            TargetManager = new TargetManager(Match, User);
         }
 
         public virtual bool TryVictory(out IVictory victory)
         {
-            var living = Match.LivingPlayers.Values;
+            var living = Match.LivingPlayers;
             var enemies = User.Role.Enemies();
             victory = null;
 
@@ -98,7 +102,10 @@ namespace Mafia.NET.Players.Roles.Abilities
             return true;
         }
 
-        public virtual Notification VictoryNotification() => User.Role.Categories[0].Goal.VictoryNotification(User);
+        public virtual Notification VictoryNotification()
+        {
+            return User.Role.Categories[0].Goal.VictoryNotification(User);
+        }
 
         public void AddTarget(TargetFilter filter, TargetNotification message)
         {
@@ -121,7 +128,10 @@ namespace Mafia.NET.Players.Roles.Abilities
             Active = false;
         }
 
-        public void PiercingDisable() => Active = false;
+        public void PiercingDisable()
+        {
+            Active = false;
+        }
 
         public virtual void Attack(IPlayer victim)
         {
@@ -143,8 +153,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             return !DetectableBy(setup) || DetectionImmune ? "Not Suspicious" : GuiltyName();
         }
 
-        protected abstract string GuiltyName();
-
         public bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null)
         {
             target = null;
@@ -157,9 +165,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public bool AloneTeam()
         {
-            return Match.LivingPlayers.Values
-                .Where(player => player.Role.Affiliation == User.Role.Affiliation)
-                .Count() == 1;
+            return Match.LivingPlayers
+                .Count(player => player.Role.Affiliation == User.Role.Affiliation) == 1;
         }
 
         public virtual void OnDayStart()
@@ -189,11 +196,22 @@ namespace Mafia.NET.Players.Roles.Abilities
             Cooldown--;
         }
 
-        protected virtual void _onDayStart() => Expression.Empty();
+        protected abstract string GuiltyName();
 
-        protected virtual void _onDayEnd() => Expression.Empty();
+        protected virtual void _onDayStart()
+        {
+            Expression.Empty();
+        }
 
-        protected virtual void _onNightStart() => Expression.Empty();
+        protected virtual void _onDayEnd()
+        {
+            Expression.Empty();
+        }
+
+        protected virtual void _onNightStart()
+        {
+            Expression.Empty();
+        }
     }
 
     public interface ICooldownSetup
@@ -259,7 +277,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         public void Switch();
     }
-    
+
     public interface IRoleBlocker : IAbility
     {
         public void Block(IPlayer target);

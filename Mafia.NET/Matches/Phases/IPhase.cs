@@ -1,5 +1,5 @@
-﻿using Mafia.NET.Matches.Chats;
-using System;
+﻿using System;
+using Mafia.NET.Matches.Chats;
 
 #nullable enable
 

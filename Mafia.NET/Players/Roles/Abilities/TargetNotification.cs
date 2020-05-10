@@ -1,19 +1,13 @@
-﻿using Mafia.NET.Matches.Chats;
-using System;
+﻿using System;
+using Mafia.NET.Matches.Chats;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetNotification
     {
         public static readonly TargetNotification Empty = new TargetNotification();
-        public static readonly Func<IPlayer, string> Default = (player) => "";
+        public static readonly Func<IPlayer, string> Default = player => "";
         public static readonly Func<IPlayer, IPlayer, string> DefaultChange = (old, _new) => "";
-        public Func<IPlayer, string> UserAddMessage { get; set; }
-        public Func<IPlayer, string> UserRemoveMessage { get; set; }
-        public Func<IPlayer, IPlayer, string> UserChangeMessage { get; set; }
-        public Func<IPlayer, string> TargetAddMessage { get; set; }
-        public Func<IPlayer, string> TargetRemoveMessage { get; set; }
-        public Func<IPlayer, IPlayer, string> TargetChangeMessage { get; set; }
 
         public TargetNotification(
             Func<IPlayer, string> userAdd = null,
@@ -31,16 +25,41 @@ namespace Mafia.NET.Players.Roles.Abilities
             TargetChangeMessage = targetChange ?? DefaultChange;
         }
 
-        public Notification UserAdd(IPlayer target) => Notification.Chat(UserAddMessage(target));
+        public Func<IPlayer, string> UserAddMessage { get; set; }
+        public Func<IPlayer, string> UserRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, string> UserChangeMessage { get; set; }
+        public Func<IPlayer, string> TargetAddMessage { get; set; }
+        public Func<IPlayer, string> TargetRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, string> TargetChangeMessage { get; set; }
 
-        public Notification UserRemove(IPlayer target) => Notification.Chat(UserRemoveMessage(target));
+        public Notification UserAdd(IPlayer target)
+        {
+            return Notification.Chat(UserAddMessage(target));
+        }
 
-        public Notification UserChange(IPlayer old, IPlayer _new) => Notification.Chat(UserChangeMessage(old, _new));
+        public Notification UserRemove(IPlayer target)
+        {
+            return Notification.Chat(UserRemoveMessage(target));
+        }
 
-        public Notification TargetAdd(IPlayer target) => Notification.Chat(TargetAddMessage(target));
+        public Notification UserChange(IPlayer old, IPlayer _new)
+        {
+            return Notification.Chat(UserChangeMessage(old, _new));
+        }
 
-        public Notification TargetRemove(IPlayer target) => Notification.Chat(TargetRemoveMessage(target));
+        public Notification TargetAdd(IPlayer target)
+        {
+            return Notification.Chat(TargetAddMessage(target));
+        }
 
-        public Notification TargetChange(IPlayer old, IPlayer _new) => Notification.Chat(TargetChangeMessage(old, _new));
+        public Notification TargetRemove(IPlayer target)
+        {
+            return Notification.Chat(TargetRemoveMessage(target));
+        }
+
+        public Notification TargetChange(IPlayer old, IPlayer current)
+        {
+            return Notification.Chat(TargetChangeMessage(old, current));
+        }
     }
 }

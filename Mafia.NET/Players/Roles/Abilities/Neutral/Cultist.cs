@@ -2,11 +2,13 @@
 {
     public class Cultist : GuiltyAbility<CultistSetup>
     {
-        public override bool DetectableBy(ISheriffSetup setup) => setup.DetectsCult;
+        public override bool DetectableBy(ISheriffSetup setup)
+        {
+            return setup.DetectsCult;
+        }
     }
 
     public class CultistSetup : IAbilitySetup
     {
-
     }
 }

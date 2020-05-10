@@ -8,17 +8,17 @@ namespace Mafia.NET.Matches.Phases
         {
         }
 
-        public override IPhase NextPhase() => new DeathsPhase(Match);
+        public override IPhase NextPhase()
+        {
+            return new DeathsPhase(Match);
+        }
 
         public override void Start()
         {
             Match.Phase.CurrentTime = Time.NIGHT;
             var notification = Notification.Popup($"Night {Match.Phase.Day}");
 
-            foreach (var player in Match.AllPlayers.Values)
-            {
-                player.OnNotification(notification);
-            }
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
         }

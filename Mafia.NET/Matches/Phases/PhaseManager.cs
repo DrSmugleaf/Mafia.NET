@@ -16,12 +16,6 @@
 
     public class PhaseManager : IPhaseManager
     {
-        public IMatch Match { get; }
-        public int Day { get; set; }
-        public Time CurrentTime { get; set; }
-        public IPhase CurrentPhase { get; set; }
-        public Clock Clock { get; }
-
         public PhaseManager(IMatch match)
         {
             Match = match;
@@ -30,6 +24,12 @@
             CurrentPhase = new PresentationPhase(Match);
             Clock = new Clock();
         }
+
+        public IMatch Match { get; }
+        public int Day { get; set; }
+        public Time CurrentTime { get; set; }
+        public IPhase CurrentPhase { get; set; }
+        public Clock Clock { get; }
 
         public void Start()
         {
@@ -59,13 +59,9 @@
             }
 
             if (duration > 0)
-            {
                 Clock.Start(next.Duration);
-            }
             else
-            {
                 AdvancePhase();
-            }
         }
 
         public void SupersedePhase(IPhase newPhase)
