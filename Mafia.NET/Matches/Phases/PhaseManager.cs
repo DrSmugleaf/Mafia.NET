@@ -58,6 +58,8 @@
                 duration = next.Duration;
             }
 
+            CurrentPhase = next;
+
             if (duration > 0)
                 Clock.Start(next.Duration);
             else

@@ -9,6 +9,21 @@ using Mafia.NET.Players.Controllers;
 
 namespace Mafia.NET.Matches
 {
+    public interface IMatch
+    {
+        ISetup Setup { get; }
+        IReadOnlyList<IPlayer> AllPlayers { get; }
+        IReadOnlyList<IPlayer> LivingPlayers { get; }
+        Graveyard Graveyard { get; }
+        PhaseManager Phase { get; set; }
+        ChatManager Chat { get; }
+        Random Random { get; }
+
+        void Start();
+        void Skip();
+        void End();
+    }
+    
     public class Match : IMatch
     {
         public Match(ISetup setup, IList<IController> controllers)
@@ -30,9 +45,14 @@ namespace Mafia.NET.Matches
 
         public void Start()
         {
-            foreach (var player in AllPlayers) player.Role.Ability.Initialize(this);
+            foreach (var player in AllPlayers) player.Role.Ability.Initialize(this, player);
 
             Phase.Start();
+        }
+
+        public void Skip()
+        {
+            Phase.AdvancePhase();
         }
 
         public void End()

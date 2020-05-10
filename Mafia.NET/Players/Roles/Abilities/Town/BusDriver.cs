@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public void Switch()
         {
-            if (TargetManager.Try(out var first) && TargetManager.Try(out var second))
+            if (TargetManager.Try(out var first) && TargetManager.Try(1, out var second))
             {
                 var notification1 = SwitchNotification(first);
                 first.OnNotification(notification1);

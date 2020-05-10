@@ -24,7 +24,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         int Cooldown { get; set; }
         int Uses { get; set; }
 
-        void Initialize(IMatch match);
+        void Initialize(IMatch match, IPlayer user);
         bool TryVictory(out IVictory victory);
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
@@ -50,7 +50,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             Active = true;
             RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
-            DeathImmune = false;
+            DeathImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
             CurrentlyDeathImmune = DeathImmune;
             Cooldown = 0;
             Uses = 0;
@@ -83,9 +83,10 @@ namespace Mafia.NET.Players.Roles.Abilities
             set => _uses = value >= 0 ? value : 0;
         }
 
-        public virtual void Initialize(IMatch match)
+        public virtual void Initialize(IMatch match, IPlayer user)
         {
             Match = match;
+            User = user;
             AbilitySetup = Match.Setup.Roles.Abilities.Setup<T>();
             TargetManager = new TargetManager(Match, User);
         }
@@ -260,61 +261,61 @@ namespace Mafia.NET.Players.Roles.Abilities
 
     public interface INightChatter : IAbility
     {
-        public void Chat();
+        void Chat();
     }
 
     public interface IDetainer : IAbility
     {
-        public void Detain(IPlayer prisoner);
+        void Detain(IPlayer prisoner);
     }
 
     public interface IVest : IAbility
     {
-        public void Vest();
+        void Vest();
     }
 
     public interface ISwitcher : IAbility
     {
-        public void Switch();
+        void Switch();
     }
 
     public interface IRoleBlocker : IAbility
     {
-        public void Block(IPlayer target);
+        void Block(IPlayer target);
     }
 
     public interface IMisc : IAbility
     {
-        public void Misc(IPlayer target);
+        void Misc(IPlayer target);
     }
 
     public interface IKiller : IAbility
     {
-        public void Kill(IPlayer target);
+        void Kill(IPlayer target);
     }
 
     public interface ICleaner : IAbility
     {
-        public void Clean(IPlayer target);
+        void Clean(IPlayer target);
     }
 
     public interface IDetector : IAbility
     {
-        public void Detect(IPlayer target);
+        void Detect(IPlayer target);
     }
 
     public interface IDisguiser : IAbility
     {
-        public void Disguise(IPlayer target);
+        void Disguise(IPlayer target);
     }
 
     public interface IMasonRecruiter : IAbility
     {
-        public void MasonRecruit(IPlayer target);
+        void MasonRecruit(IPlayer target);
     }
 
     public interface ICultRecruiter : IAbility
     {
-        public void CultRecruit(IPlayer target);
+        void CultRecruit(IPlayer target);
     }
 }

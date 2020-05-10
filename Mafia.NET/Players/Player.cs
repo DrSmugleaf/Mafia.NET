@@ -34,6 +34,7 @@ namespace Mafia.NET.Players
             Name = name;
             Role = role;
             Tint = IdToColor(id);
+            Alive = true;
             LastWill = new Note(Match, this);
             DeathNote = new Note(Match, this);
             Blackmailed = false;

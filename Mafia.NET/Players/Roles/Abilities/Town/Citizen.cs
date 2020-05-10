@@ -6,9 +6,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Citizen", typeof(CitizenSetup))]
     public class Citizen : TownAbility<CitizenSetup>, IVest
     {
-        public override void Initialize(IMatch match)
+        public override void Initialize(IMatch match, IPlayer user)
         {
-            base.Initialize(match);
+            base.Initialize(match, user);
             Uses = Setup.OneBulletproofVest ? 1 : 0;
         }
 

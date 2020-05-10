@@ -6,10 +6,9 @@ using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players.Teams;
 
-#nullable enable
-
 namespace Mafia.NET.Players.Roles.Abilities
 {
+#nullable enable
     public class TargetManager
     {
         public IMatch Match { get; }

@@ -13,6 +13,7 @@ namespace Mafia.NET.Matches
             Match = match;
             PublicDeaths = new List<IDeath>();
             UndisclosedDeaths = new List<IDeath>();
+            Threats = new List<IDeath>();
         }
 
         public IMatch Match { get; }

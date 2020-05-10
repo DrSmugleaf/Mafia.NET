@@ -8,9 +8,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
     public class Kidnapper : MafiaAbility<KidnapperSetup>, IDetainer, IRoleBlocker, IKiller
     {
-        public override void Initialize(IMatch match)
+        public override void Initialize(IMatch match, IPlayer user)
         {
-            base.Initialize(match);
+            base.Initialize(match, user);
             Uses = Match.Setup.Roles.Abilities.Setup<JailorSetup>().Charges;
         }
 
