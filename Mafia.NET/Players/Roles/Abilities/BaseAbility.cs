@@ -167,7 +167,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public bool AloneTeam()
         {
             return Match.LivingPlayers
-                .Count(player => player.Role.Affiliation == User.Role.Affiliation) == 1;
+                .Count(player => player.Role.Team == User.Role.Team) == 1;
         }
 
         public virtual void OnDayStart()

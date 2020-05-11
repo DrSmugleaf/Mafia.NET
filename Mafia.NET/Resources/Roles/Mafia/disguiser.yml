@@ -1,5 +1,5 @@
 ﻿- name: Disguiser
-  affiliation: Mafia
+  team: Mafia
   summary: "A master spy and forger, working for organized crime."
   goal: "Kill off the Town and everyone else who would oppose you."
   categories:

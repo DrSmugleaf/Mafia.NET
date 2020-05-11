@@ -11,7 +11,7 @@
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
             {
                 UserAddMessage = target => $"You suggest to kill {target.Name}.",
                 UserRemoveMessage = target => "You won't suggest anyone.",

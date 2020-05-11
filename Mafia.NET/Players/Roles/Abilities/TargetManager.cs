@@ -265,7 +265,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             return new TargetFilter(dictionary =>
             {
                 dictionary = Filter(dictionary);
-                return dictionary.Where(entry => entry.Role.Affiliation != team).ToList();
+                return dictionary.Where(entry => entry.Role.Team != team).ToList();
             });
         }
 

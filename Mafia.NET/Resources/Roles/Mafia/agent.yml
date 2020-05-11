@@ -1,5 +1,5 @@
 ﻿- name: Agent
-  affiliation: Mafia
+  team: Mafia
   summary: "One of the many Caporegime the Don employs, this shady individual gathers information for the Mafia."
   goal: "Kill off the Town and everyone else who would oppose you."
   categories:

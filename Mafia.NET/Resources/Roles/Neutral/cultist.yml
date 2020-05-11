@@ -1,5 +1,5 @@
 ﻿- name: Cultist
-  affiliation: Neutral
+  team: Neutral
   summary: "A believer of a shadowy cult, secretly attempting to convert the town to darkness."
   goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
   categories:

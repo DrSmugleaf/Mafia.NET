@@ -1,5 +1,5 @@
 ﻿- name: Doctor
-  affiliation: Town
+  team: Town
   summary: "A secret surgeon skilled in trauma care."
   goal: "Lynch every criminal and evildoer."
   categories:

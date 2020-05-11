@@ -17,26 +17,29 @@ namespace Mafia.NET.Players.Roles
             string summary,
             string goal,
             string abilities,
-            ITeam affiliation,
+            ITeam team,
             IList<ICategory> categories,
-            Color tint)
+            Color color,
+            Color originalColor)
         {
             Name = name;
             Summary = summary;
             Goal = goal;
             Abilities = abilities;
-            Affiliation = affiliation;
+            Team = team;
             Categories = categories.ToImmutableList();
-            Tint = tint;
+            Color = color;
+            OriginalColor = originalColor;
         }
 
         public string Name { get; }
         public string Summary { get; }
         public string Goal { get; }
         public string Abilities { get; }
-        public ITeam Affiliation { get; }
+        public ITeam Team { get; }
         public IImmutableList<ICategory> Categories { get; }
-        public Color Tint { get; }
+        public Color Color { get; }
+        public Color OriginalColor { get; }
     }
 
     public class RoleRegistry
@@ -53,7 +56,7 @@ namespace Mafia.NET.Players.Roles
                 var name = yaml["name"].AsString();
                 Console.WriteLine($"Parsing role {name}");
 
-                var affiliation = (Team) yaml["affiliation"].AsString();
+                var team = (Team) yaml["team"].AsString();
                 var categories = new List<ICategory>();
                 var categoriesNode = yaml["categories"];
 
@@ -70,12 +73,13 @@ namespace Mafia.NET.Players.Roles
                     throw new InvalidOperationException("Unrecognized type for yamlCategories");
                 }
 
-                var tint = yaml["color"].AsColor();
+                var color = yaml["color"].AsColor();
+                var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;
                 var summary = yaml["summary"].AsString();
                 var goal = yaml["goal"].AsString();
                 var abilities = yaml["ability"]["description"].AsString();
 
-                var role = new RoleEntry(name, summary, goal, abilities, affiliation, categories, tint);
+                var role = new RoleEntry(name, summary, goal, abilities, team, categories, color, originalColor);
                 roles.Add(name, role);
             }
 

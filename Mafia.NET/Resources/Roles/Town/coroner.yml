@@ -1,5 +1,5 @@
 ﻿- name: Coroner
-  affiliation: Town
+  team: Town
   summary: "A discrete medical professional skilled in autopsies."
   goal: "Lynch every criminal and evildoer."
   categories:

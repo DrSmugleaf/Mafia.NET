@@ -1,5 +1,5 @@
 ﻿- name: Veteran
-  affiliation: Town
+  team: Town
   summary: "A paranoid, retired admiral who will shoot anyone who bothers him."
   goal: "Lynch every criminal and evildoer."
   categories:

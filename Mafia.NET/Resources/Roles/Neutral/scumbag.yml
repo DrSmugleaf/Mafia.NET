@@ -1,5 +1,5 @@
 ﻿- name: Scumbag
-  affiliation: Neutral
+  team: Neutral
   summary: "You are a Scumbag."
   goal: "Survive and see the Town lose the game."
   categories:

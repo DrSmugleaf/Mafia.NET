@@ -1,5 +1,5 @@
 ﻿- name: Arsonist
-  affiliation: Neutral
+  team: Neutral
   summary: "A pyromaniac who only wants to see the world burn."
   goal: "Be the last person left alive."
   categories:

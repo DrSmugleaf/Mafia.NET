@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
@@ -20,8 +19,8 @@ namespace Mafia.NET.Tests.Matches
         {
             var roleRegistry = RoleRegistry.Default;
             var roleNames =
-                ("Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Mafioso,Mafioso,Mafioso"
-                ).Split(",");
+                "Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Mafioso,Mafioso,Mafioso"
+                    .Split(",");
             var roles = roleRegistry.Get(roleNames);
             var roleSetup = new RoleSetup(roles);
             var setup = new Setup(roleSetup);
@@ -54,12 +53,12 @@ namespace Mafia.NET.Tests.Matches
             Assert.That(match.Phase.CurrentPhase, Is.TypeOf<DeathsPhase>());
             match.Skip();
             Assert.That(match.Phase.CurrentPhase, Is.TypeOf<DiscussionPhase>());
-            
+
             Assert.That(match.AllPlayers, Has.None.Null);
             Assert.That(match.AllPlayers.Count, Is.EqualTo(roleNames.Length));
             Assert.That(match.LivingPlayers.Count, Is.EqualTo(roleNames.Length));
             Assert.That(match.Graveyard.AllDeaths(), Is.Empty);
-            
+
             foreach (var player in match.AllPlayers)
             {
                 Assert.That(player.Name, Is.EqualTo("Bot " + player.Id));

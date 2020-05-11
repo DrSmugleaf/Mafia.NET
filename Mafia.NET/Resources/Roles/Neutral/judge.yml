@@ -1,5 +1,5 @@
 ﻿- name: Judge
-  affiliation: Neutral
+  team: Neutral
   summary: "A corrupt court minister who uses his power and connections to manipulate the trials."
   goal: "Survive and see the town lose the game."
   categories:

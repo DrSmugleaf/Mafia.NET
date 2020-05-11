@@ -1,5 +1,5 @@
 ﻿- name: Marshall
-  affiliation: Town
+  team: Town
   summary: "The leader of the town militia."
   goal: "Lynch every criminal and evildoer."
   categories:

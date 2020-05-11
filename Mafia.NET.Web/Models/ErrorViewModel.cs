@@ -1,5 +1,3 @@
-using System;
-
 namespace Mafia.NET.Web.Models
 {
     public class ErrorViewModel

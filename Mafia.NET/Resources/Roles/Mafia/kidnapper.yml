@@ -1,5 +1,5 @@
 ﻿- name: Kidnapper
-  affiliation: Mafia
+  team: Mafia
   summary: "A sgarrista goodfella with a basement dungeon, working with a mafia family."
   goal: "Kill off the Town and everyone else who would oppose you."
   categories:

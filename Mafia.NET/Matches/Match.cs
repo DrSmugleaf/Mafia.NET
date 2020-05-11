@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches
         void Skip();
         void End();
     }
-    
+
     public class Match : IMatch
     {
         public Match(ISetup setup, IList<IController> controllers)

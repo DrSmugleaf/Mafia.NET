@@ -26,7 +26,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         protected bool TryMafioso(out IPlayer mafioso)
         {
             mafioso = Match.LivingPlayers
-                .Where(player => player.Role.Affiliation == User.Role.Affiliation &&
+                .Where(player => player.Role.Team == User.Role.Team &&
                                  player.Role.Ability is Mafioso)
                 .FirstOrDefault();
 
@@ -36,7 +36,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         protected override void _onNightStart()
         {
             if (Setup.CanKillWithoutMafioso || TryMafioso(out _))
-                AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification
+                AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
                 {
                     UserAddMessage = target => $"You will kill {target.Name}.",
                     UserRemoveMessage = target => "You won't kill anyone.",

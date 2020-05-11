@@ -38,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             var filter = Setup.CanHideBehindMafia
                 ? TargetFilter.Living(Match).Except(User)
-                : TargetFilter.Living(Match).Except(User.Role.Affiliation);
+                : TargetFilter.Living(Match).Except(User.Role.Team);
 
             AddTarget(filter, new TargetNotification
             {

@@ -8,7 +8,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public void Block(IPlayer target)
         {
             User.Crimes.Add("Soliciting");
-            if (target.Role.Affiliation.Name == "Town") User.Crimes.Add("Disturbing the peace");
+            if (target.Role.Team.Name == "Town") User.Crimes.Add("Disturbing the peace");
 
             target.Role.Ability.Disable();
             if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
@@ -20,7 +20,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Affiliation), new TargetNotification
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
             {
                 UserAddMessage = target => $"You will role-block {target.Name}.",
                 UserRemoveMessage = target => "You won't role-block anyone.",

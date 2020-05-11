@@ -1,5 +1,5 @@
 ﻿- name: Escort
-  affiliation: Town
+  team: Town
   summary: "A scantily-clad escort, working in secret."
   goal: "Lynch every criminal and evildoer."
   categories:

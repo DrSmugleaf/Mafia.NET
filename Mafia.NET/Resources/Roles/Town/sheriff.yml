@@ -1,5 +1,5 @@
 ﻿- name: Sheriff
-  affiliation: Town
+  team: Town
   summary: "A member of law enforcement, forced into hiding because of the threat of murder."
   goal: "Lynch every criminal and evildoer."
   categories:

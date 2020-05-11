@@ -1,5 +1,5 @@
 ﻿- name: Vigilante
-  affiliation: Town
+  team: Town
   summary: "A dirty cop who will ignore the law and order to enact justice."
   goal: "Lynch every criminal and evildoer."
   categories:

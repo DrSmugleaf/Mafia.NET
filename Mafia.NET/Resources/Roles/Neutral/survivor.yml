@@ -1,5 +1,5 @@
 ﻿- name: Survivor
-  affiliation: Neutral
+  team: Neutral
   summary: "An apathetic individual who just wants to stay alive."
   goal: "Survive to the end of the game, regardless of whether or not the Town or Mafia win."
   categories:

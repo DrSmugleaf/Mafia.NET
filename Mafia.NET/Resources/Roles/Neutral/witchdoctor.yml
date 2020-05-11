@@ -1,5 +1,5 @@
 ﻿- name: Witch Doctor
-  affiliation: Neutral
+  team: Neutral
   summary: "A hedge psychic, using his powers of healing to operate as the leader of a group of cultists."
   goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
   categories:

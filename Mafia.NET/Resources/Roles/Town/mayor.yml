@@ -1,5 +1,5 @@
 ﻿- name: Mayor
-  affiliation: Town
+  team: Town
   summary: "The governor of the town."
   goal: "Lynch every criminal and evildoer."
   categories:

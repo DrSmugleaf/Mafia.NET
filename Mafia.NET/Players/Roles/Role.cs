@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles
         string Summary { get; }
         string Goal { get; }
         string Abilities { get; }
-        ITeam Affiliation { get; }
+        ITeam Team { get; }
         IReadOnlyList<ICategory> Categories { get; }
         Color Tint { get; }
         IAbility Ability { get; set; }
@@ -31,9 +31,9 @@ namespace Mafia.NET.Players.Roles
             Summary = role.Summary;
             Goal = role.Goal;
             Abilities = role.Abilities;
-            Affiliation = role.Affiliation;
+            Team = role.Team;
             Categories = role.Categories;
-            Tint = role.Tint;
+            Tint = role.Color;
             Ability = ability;
         }
 
@@ -41,7 +41,7 @@ namespace Mafia.NET.Players.Roles
         public string Summary { get; }
         public string Goal { get; }
         public string Abilities { get; }
-        public ITeam Affiliation { get; }
+        public ITeam Team { get; }
         public IReadOnlyList<ICategory> Categories { get; }
         public Color Tint { get; }
         public IAbility Ability { get; set; }

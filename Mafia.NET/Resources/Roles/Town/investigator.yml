@@ -1,5 +1,5 @@
 ﻿- name: Investigator
-  affiliation: Town
+  team: Town
   summary: "A private sleuth, discreetly aiding the townsfolk."
   goal: "Lynch every criminal and evildoer."
   categories:

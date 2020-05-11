@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             jailor.Name = "Jailor";
 
             var allies = Match.LivingPlayers.Where(player =>
-                player.Role.Affiliation == User.Role.Affiliation && player != User);
+                player.Role.Team == User.Role.Team && player != User);
             jail.Add(allies, true);
 
             AddTarget(prisoner, new TargetNotification
@@ -36,7 +36,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             prisoner.Role.Ability.CurrentlyDeathImmune = true;
 
-            if (prisoner.Role.Affiliation != User.Role.Affiliation) Match.Chat.DisableExcept(prisoner, jail);
+            if (prisoner.Role.Team != User.Role.Team) Match.Chat.DisableExcept(prisoner, jail);
 
             prisoner.Role.Ability.PiercingDisable();
         }
@@ -57,7 +57,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         protected override void _onDayStart()
         {
             var filter = TargetFilter.Living(Match);
-            if (!Setup.CanKidnapMafiaMembers) filter = filter.Except(User.Role.Affiliation);
+            if (!Setup.CanKidnapMafiaMembers) filter = filter.Except(User.Role.Team);
 
             AddTarget(filter, new TargetNotification
             {
