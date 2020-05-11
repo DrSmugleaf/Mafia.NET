@@ -86,3 +86,24 @@ hr {
           0 -1px 0 black,
           -1px 0 0 black;
 }
+
+.role-border {
+  border: 1px solid grey;
+}
+
+.role-link {
+  color: inherit;
+}
+
+.roles {
+  background-color: grey;
+}
+
+.role-header {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.role-separator {
+  border-color: grey;
+}

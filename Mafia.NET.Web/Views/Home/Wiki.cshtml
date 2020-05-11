@@ -1,14 +1,17 @@
 ﻿@using System.Drawing
 @using Mafia.NET.Players.Roles
+@using Mafia.NET.Players.Teams
 @{
     var role = (RoleEntry) ViewData["Role"];
     ViewData["Title"] = role.Name;
     var roleColor = ColorTranslator.ToHtml(role.Color);
-    var teamColor = ColorTranslator.ToHtml(role.Team.Tint);
+    var teamColor = ColorTranslator.ToHtml(role.Team.Color);
+    var teams = new string[] {"Town", "Mafia", "Triad", "Neutral"}.Select(name => Team.Teams[name]);
+    var teamRoles = teams.Select(team => RoleRegistry.Default.Team(team));
 }
 
 <h2>@role.Name</h2>
-<hr class="my-4"/>
+<hr class="mb-5"/>
 <div>
     <div class="row">
         <div class="float-left col-sm"></div>
@@ -43,6 +46,46 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </div>
+    <hr class="my-4 role-separator"/>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center roles role-name">
+                <h3 class="role-header">
+                    Roles
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var team in teams)
+            {
+                var thisTeamColor = ColorTranslator.ToHtml(team.Color);
+                <div class="col role-name role-border" style="background-color: @thisTeamColor">
+                    @team.Name
+                </div>
+            }
+        </div>
+        <div class="row">
+            @foreach (var team in teams)
+            {
+                var thisTeamColor = ColorTranslator.ToHtml(team.Color);
+                <div class="col">
+                    <div>
+                        @foreach (var teamRole in RoleRegistry.Default.Team(team))
+                        {
+                            var teamRoleColor = ColorTranslator.ToHtml(teamRole.Color);
+                            <div class="row">
+                                <a class="w-100 text-decoration-none role-link" href="Wiki?query=@teamRole.Name">
+                                    <div class="col role-name role-border" style="background-color: @teamRoleColor">
+                                        @teamRole.Name
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@ namespace Mafia.NET.Players.Roles
         string Abilities { get; }
         ITeam Team { get; }
         IReadOnlyList<ICategory> Categories { get; }
-        Color Tint { get; }
+        Color Color { get; }
         IAbility Ability { get; set; }
 
         bool IsCategory(string name);
@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles
             Abilities = role.Abilities;
             Team = role.Team;
             Categories = role.Categories;
-            Tint = role.Color;
+            Color = role.Color;
             Ability = ability;
         }
 
@@ -43,7 +43,7 @@ namespace Mafia.NET.Players.Roles
         public string Abilities { get; }
         public ITeam Team { get; }
         public IReadOnlyList<ICategory> Categories { get; }
-        public Color Tint { get; }
+        public Color Color { get; }
         public IAbility Ability { get; set; }
 
         public bool IsCategory(string name)

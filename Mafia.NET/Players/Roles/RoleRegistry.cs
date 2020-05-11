@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Drawing;
+using System.Linq;
 using Mafia.NET.Extension;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
@@ -48,7 +49,7 @@ namespace Mafia.NET.Players.Roles
 
         private RoleRegistry()
         {
-            var roles = new Dictionary<string, RoleEntry>();
+            var names = new Dictionary<string, RoleEntry>();
             var yamlRoles = Resource.FromDirectory("Roles", "*.yml");
 
             foreach (YamlMappingNode yaml in yamlRoles)
@@ -80,10 +81,10 @@ namespace Mafia.NET.Players.Roles
                 var abilities = yaml["ability"]["description"].AsString();
 
                 var role = new RoleEntry(name, summary, goal, abilities, team, categories, color, originalColor);
-                roles.Add(name, role);
+                names.Add(name, role);
             }
 
-            Names = roles.ToImmutableDictionary();
+            Names = names.ToImmutableDictionary();
         }
 
         public static RoleRegistry Default => Lazy.Value;
@@ -100,6 +101,11 @@ namespace Mafia.NET.Players.Roles
             }
 
             return roles;
+        }
+
+        public List<RoleEntry> Team(ITeam team)
+        {
+            return Names.Values.Where(role => role.Team == team).OrderBy(role => role.Name).ToList();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Mafia.NET.Players
         int Id { get; }
         string Name { get; set; }
         IRole Role { get; set; }
-        Color Tint { get; }
+        Color Color { get; }
         bool Alive { get; set; }
         Note LastWill { get; }
         Note DeathNote { get; }
@@ -33,7 +33,7 @@ namespace Mafia.NET.Players
             Id = id;
             Name = name;
             Role = role;
-            Tint = IdToColor(id);
+            Color = IdToColor(id);
             Alive = true;
             LastWill = new Note(Match, this);
             DeathNote = new Note(Match, this);
@@ -45,7 +45,7 @@ namespace Mafia.NET.Players
         public int Id { get; }
         public string Name { get; set; }
         public IRole Role { get; set; }
-        public Color Tint { get; }
+        public Color Color { get; }
         public bool Alive { get; set; }
         public Note LastWill { get; }
         public Note DeathNote { get; }
