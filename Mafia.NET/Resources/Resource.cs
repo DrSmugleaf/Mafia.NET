@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Resources
@@ -8,14 +10,14 @@ namespace Mafia.NET.Resources
     {
         public Resource(string path)
         {
-            ResourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", path);
+            ResourcePath = path;
         }
 
         private string ResourcePath { get; }
 
         public static string GetResourcesDirectory()
         {
-            return Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources");
         }
 
         public static string GetResourcesDirectory(string directory)
