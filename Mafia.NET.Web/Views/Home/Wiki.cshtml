@@ -3,42 +3,46 @@
 @{
   var role = (RoleEntry) ViewData["Role"];
   ViewData["Title"] = role.Name;
-  var color = ColorTranslator.ToHtml(role.Tint);
+  var roleColor = ColorTranslator.ToHtml(role.Tint);
+  var teamColor = ColorTranslator.ToHtml(role.Affiliation.Tint);
 }
 
-<h3>@role.Name</h3>
-<hr class="my-4" style="border-color: #dee2e6"/>
+<h2>@role.Name</h2>
+<hr class="my-4"/>
 <div>
-  <div class="float-left"></div>
-  <div class="float-right">
-    <div class="card">
-      <h3 class="card-header text-center" style="background-color: @color">@role.Name</h3>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-sm-3">Summary</div>
-            <div class="col-md">@role.Summary</div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-sm-3">Goal</div>
-            <div class="col-md">@role.Goal</div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-sm-3">Abilities</div>
-            <div class="col-md">@role.Abilities</div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-sm-3">Team</div>
-            <div class="col-md">@role.Affiliation.Name</div>
-          </div>
-        </li>
-      </ul>
+  <div class="row">
+    <div class="float-left col-sm"></div>
+    <div class="float-right col-sm">
+      <div class="card">
+        <h3 class="card-header text-center role-name" style="background-color: @roleColor">@role.Name</h3>
+        <h4 class="card-header text-center role-name" style="background-color: @teamColor">@role.Affiliation.Name</h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">Summary</div>
+              <div class="col-sm">@role.Summary</div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">Goal</div>
+              <div class="col-sm">@role.Goal</div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">Abilities</div>
+              <div class="col-sm">@role.Abilities</div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-sm-3">Categories</div>
+              <div class="col-sm">@string.Join(", ", role.Categories.Select(category => category.Name))</div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
