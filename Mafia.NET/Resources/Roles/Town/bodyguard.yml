@@ -1,7 +1,7 @@
 ﻿- name: Bodyguard
   affiliation: Town
   summary: "A war veteran who secretly makes a living by selling protection."
-  goal: "A war veteran who secretly makes a living by selling protection."
+  goal: "Lynch every criminal and evildoer."
   categories:
   - Town Protective
   - Town Killing
