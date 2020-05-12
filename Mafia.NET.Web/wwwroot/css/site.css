@@ -118,7 +118,7 @@ hr {
   border: 1px solid grey;
 }
 
-.row-m-t200 {
+.row-m-chat {
   margin-top: 378px !important;
   margin-bottom: 0 !important;
 }
@@ -139,4 +139,13 @@ hr {
 .game-body {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.player-list {
+  max-height: 40vh;
+}
+
+.player-entry {
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
