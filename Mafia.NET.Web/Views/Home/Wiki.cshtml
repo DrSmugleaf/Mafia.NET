@@ -6,7 +6,7 @@
     ViewData["Title"] = role.Name;
     var roleColor = ColorTranslator.ToHtml(role.Color);
     var teamColor = ColorTranslator.ToHtml(role.Team.Color);
-    var teams = new string[] {"Town", "Mafia", "Triad", "Neutral"}.Select(name => Team.Teams[name]);
+    var teams = new[] {"Town", "Mafia", "Triad", "Neutral"}.Select(name => Team.Teams[name]);
     var teamRoles = teams.Select(team => RoleRegistry.Default.Team(team));
 }
 

@@ -1,0 +1,21 @@
+﻿@model CreateGameViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <form class="form-game" asp-controller="Game">
+        <label asp-for="Name" class="sr-only"></label>
+        <input asp-for="Name" type="text" id="inputName" class="form-control" placeholder="Primo Bruno" required autofocus/>
+        <label asp-for="Game" class="sr-only"></label>
+        <input asp-for="Game" type="text" id="inputGame" class="form-control" placeholder="" required/>
+        <div class="row">
+            <div class="col-sm">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" asp-action="Create">Create Game</button>
+            </div>
+            <div class="col-sm">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" asp-action="Join">Join Game</button>
+            </div>
+        </div>
+    </form>
+</div>

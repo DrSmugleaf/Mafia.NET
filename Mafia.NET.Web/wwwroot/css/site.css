@@ -118,7 +118,7 @@ hr {
   border: 1px solid grey;
 }
 
-.row-m-chat {
+.row-game-chat {
   margin-top: 378px !important;
   margin-bottom: 0 !important;
 }
@@ -148,4 +148,44 @@ hr {
 .player-entry {
   padding-top: 1px;
   padding-bottom: 1px;
+}
+
+.form-game {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-game .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-game .form-control:focus {
+  z-index: 2;
+}
+
+.form-game #inputName {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-game #inputGame {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.row-lobby-chat {
+  margin-top: 370px !important;
+  margin-bottom: 0 !important;
+}
+
+.button-start {
+  width: 200px;
 }

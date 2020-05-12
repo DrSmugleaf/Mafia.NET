@@ -1,0 +1,132 @@
+﻿@model GameSettingsModel
+@{
+    ViewData["Title"] = "Lobby";
+}
+
+<div>
+    <form asp-controller="Game">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label asp-for="DayLength">Day Length</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input asp-for="DayLength" name="DayLength" type="range" value="100" min="60" max="120" oninput="DayLengthOutput.value = DayLength.value"/>
+                        <output name="DayLengthOutput">100</output> seconds
+                    </div>
+                    <div class="col-sm-2">
+                        <label asp-for="DayType">Day Type</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <select asp-for="DayType">
+                            <option>Majority</option>
+                            <option>Trial</option>
+                            <option>Ballot</option>
+                            <option>Ballot+Trial</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="ChooseNames" name="ChooseNames" type="checkbox" class="custom-control-input"/>
+                            <label asp-for="ChooseNames" class="custom-control-label">Choose Names</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label asp-for="NightLength">Night Length</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input asp-for="NightLength" name="NightLength" type="range" value="30" min="15" max="45" oninput="NightLengthOutput.value = NightLength.value"/>
+                        <output name="NightLengthOutput">30</output> seconds
+                    </div>
+                    <div class="col-sm-2">
+                        <label asp-for="NightType">Night Type</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <select asp-for="NightType">
+                            <option>Night Sequence</option>
+                            <option>Death Descriptions</option>
+                            <option>Classic Night</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="LastWillAllowed" name="LastWillAllowed" type="checkbox" class="custom-control-input"/>
+                            <label asp-for="LastWillAllowed" class="custom-control-label">Last Will Allowed</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label asp-for="DiscussionTime">Discussion Time</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input asp-for="DiscussionTime" name="DiscussionTime" type="range" value="48" min="30" max="120" oninput="DiscussionTimeOutput.value = DiscussionTime.value"/>
+                        <output name="DiscussionTimeOutput">48</output> seconds
+                    </div>
+                    <div class="col-sm-2">
+                        <label asp-for="StartGameAt">Start Game At</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <select asp-for="StartGameAt">
+                            <option>Day</option>
+                            <option>Day/No Lynch</option>
+                            <option>Night</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="Discussion" name="Discussion" type="checkbox" class="custom-control-input"/>
+                            <label asp-for="Discussion" class="custom-control-label">Discussion</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label asp-for="TrialLength">Trial Length</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input asp-for="TrialLength" name="TrialLength" type="range" value="60" min="30" max="120" oninput="TrialLengthOutput.value = TrialLength.value"/>
+                        <output name="TrialLengthOutput">60</output> seconds
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="TrialPausesDay" name="TrialPausesDay" type="checkbox" class="custom-control-input"/>
+                            <label asp-for="TrialPausesDay" class="custom-control-label">Trial Pauses Day</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="TrialDefense" name="TrialDefense" type="checkbox" class="custom-control-input"/>
+                            <label asp-for="TrialDefense" class="custom-control-label">Trial Defense</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="custom-control custom-checkbox">
+                            <input asp-for="PmAllowed" name="PmAllowed" type="checkbox" class="custom-control-input"/>
+                            <label asp-for="PmAllowed" class="custom-control-label">PM Allowed</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-lobby-chat">
+            <div class="col-sm-3 align-self-end">
+                <div id="messages" class="container overflow-auto">
+                </div>
+                <div>
+                    <input id="tb-message" type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-5 align-self-end">
+                <button class="btn btn-lg btn-primary button-start">Start</button>
+            </div>
+        </div>
+    </form>
+</div>
