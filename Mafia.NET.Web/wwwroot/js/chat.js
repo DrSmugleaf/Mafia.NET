@@ -1,8 +1,7 @@
 ﻿"use strict"
 
 const divMessages = document.querySelector("#messages");
-const tbMessage = document.querySelector("#tbMessage");
-const btnSend = document.querySelector("#btnSend");
+const tbMessage = document.querySelector("#tb-message");
 const username = new Date().getTime();
 
 const connection = new signalR.HubConnectionBuilder()
