@@ -47,11 +47,6 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-      <Content Update="src\tsconfig.json">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
       <Content Update="wwwroot\js\chat.js">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -77,10 +72,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Mafia.NET\Mafia.NET.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <TypeScriptCompile Include="src\index.ts" />
     </ItemGroup>
 
 </Project>
