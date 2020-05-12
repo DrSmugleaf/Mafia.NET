@@ -1,3 +1,4 @@
+using Mafia.NET.Web.Chat;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,7 @@ namespace Mafia.NET.Web
         {
             services.AddControllersWithViews();
             services.AddSession();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +42,8 @@ namespace Mafia.NET.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
@@ -50,6 +54,7 @@ namespace Mafia.NET.Web
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/hub");
             });
         }
     }

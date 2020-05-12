@@ -107,3 +107,30 @@ hr {
 .role-separator {
   border-color: grey;
 }
+
+#messages {
+  height: 25vh !important;
+  border: 1px solid grey;
+}
+
+#tb-message {
+  border-radius: 0;
+  border: 1px solid grey;
+}
+
+.row-m-t200 {
+  margin-top: 200px !important;
+}
+
+.dropdown-list {
+  position: absolute;
+  max-height: 36vh;
+  top: 100%;
+  width: 100%;
+  z-index: 3210;
+}
+
+.list-entry {
+  padding-top: 0;
+  padding-bottom: 0;
+}

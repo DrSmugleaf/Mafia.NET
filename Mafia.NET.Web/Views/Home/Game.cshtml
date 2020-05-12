@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Game";
+    Layout = "_GameLayout";
+}
+
+<div>
+    <div style="padding: 1rem">
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-2">
+                <h3>Day 1</h3>
+            </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">
+                <h5 class="border">Discussion: 0:27</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="card no-unclick">
+                    <button class="btn btn-secondary card-header dropdown-toggle keep_open" data-target="#graveyard-list">
+                        Graveyard
+                    </button>
+                    <div id="graveyard-list" class="collapse overflow-auto dropdown-list">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="card no-unclick">
+                    <button class="btn btn-secondary card-header dropdown-toggle keep_open" data-target="#role-list">
+                        Role List
+                    </button>
+                    <div id="role-list" class="collapse overflow-auto dropdown-list">
+                    </div>
+                </div>
+            </div>
+            <div class=col-sm-4></div>
+            <div class="col-sm-4 float-right">
+                <div class="card">
+                    <h4 class="card-header text-center role-name">Lorem ipsum</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-4">Summary</div>
+                                <div class="col-sm">Lorem ipsum dolor sit amet</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5 row-m-t200">
+            <div class="col-sm-4 align-self-end">
+                <div id="messages" class="container overflow-auto"></div>
+                <div>
+                    <input id="tb-message" type="text" class="form-control"/>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <div id="players">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            1 Confirmed Jester
+                        </li>
+                        <li class="list-group-item">
+                            2 Piero
+                        </li>
+                        <li class="list-group-item">
+                            3 Ercole The Weak
+                        </li>
+                        <li class="list-group-item">
+                            4 Ciro Rizzo
+                        </li>
+                        <li class="list-group-item">
+                            5 Mister Guy
+                        </li>
+                        <li class="list-group-item">
+                            6 The Town Cat
+                        </li>
+                        <li class="list-group-item">
+                            7 Guido DeVito
+                        </li>
+                        <li class="list-group-item">
+                            8 Primo Bruno
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script type="module" src="~/js/chat.js"></script>
