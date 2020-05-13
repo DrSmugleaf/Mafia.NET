@@ -139,6 +139,11 @@ hr {
 .game-body {
   margin-top: 0;
   margin-bottom: 0;
+  height: 100vh;
+}
+
+.game-body-section {
+  height: inherit;
 }
 
 .player-list {
@@ -181,11 +186,20 @@ hr {
   border-top-right-radius: 0;
 }
 
-.row-lobby-chat {
-  margin-top: 370px !important;
-  margin-bottom: 0 !important;
-}
-
 .button-start {
   width: 200px;
+}
+
+.row-bottom {
+  position: absolute;
+  bottom: 0;
+}
+
+.w-99 {
+  width: 99% !important;
+}
+
+.lobby-screen {
+  height: 80vh;
+  position: relative;
 }

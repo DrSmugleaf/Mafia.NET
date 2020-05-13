@@ -43,7 +43,6 @@ namespace Mafia.NET.Web
 
             app.UseRouting();
             app.UseDefaultFiles();
-            app.UseStaticFiles();
 
             app.UseAuthorization();
 
