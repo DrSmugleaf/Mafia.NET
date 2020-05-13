@@ -4,8 +4,8 @@ namespace Mafia.NET.Matches.Options
 {
     public interface ISetup
     {
-        bool Trial { get; }
-        bool AnonymousVoting { get; }
-        RoleSetup Roles { get; }
+        bool Trial { get; set; }
+        bool AnonymousVoting { get; set; }
+        RoleSetup Roles { get; set; }
     }
 }

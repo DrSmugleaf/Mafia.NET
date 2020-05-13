@@ -5,7 +5,7 @@ const tbMessage = document.querySelector("#tb-message");
 const username = new Date().getTime();
 
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/hub")
+    .withUrl("/LobbyChat")
     .build();
 
 connection.on("messageReceived", (username, message) => {
@@ -35,6 +35,6 @@ tbMessage.addEventListener("keyup", (e) => {
 });
 
 function send() {
-    connection.send("NewMessage", username, tbMessage.value)
+    connection.send("NewMessage", tbMessage.value)
         .then(() => tbMessage.value = "");
 }

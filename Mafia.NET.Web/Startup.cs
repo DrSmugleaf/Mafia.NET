@@ -20,6 +20,7 @@ namespace Mafia.NET.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc();
             services.AddSession();
             services.AddSignalR();
         }
@@ -53,7 +54,8 @@ namespace Mafia.NET.Web
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<ChatHub>("/hub");
+                endpoints.MapHub<LobbyChat>("/LobbyChat");
+                endpoints.MapHub<GameChat>("/GameChat");
             });
         }
     }

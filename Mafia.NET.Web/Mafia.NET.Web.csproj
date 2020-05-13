@@ -39,7 +39,7 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
-      <Content Update="wwwroot\js\chat.js">
+      <Content Update="wwwroot\js\lobbychat.js">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
@@ -79,6 +79,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
       <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     </ItemGroup>
 

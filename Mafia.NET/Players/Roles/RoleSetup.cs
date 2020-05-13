@@ -71,7 +71,7 @@ namespace Mafia.NET.Players.Roles
             return roles;
         }
 
-        public List<IPlayer> Randomize(IList<IController> controllers, IMatch match)
+        public List<IPlayer> Randomize(IList<IPlayerController> controllers, IMatch match)
         {
             var players = new List<IPlayer>();
             var roles = Randomize();

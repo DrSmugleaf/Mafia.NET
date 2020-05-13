@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mafia.NET.Matches;
-using Mafia.NET.Web.Chat;
 using Mafia.NET.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,10 +8,8 @@ namespace Mafia.NET.Web.Controllers
 {
     public class GameController : Controller
     {
+        public static readonly EntityManager<Guid> Entities = new EntityManager<Guid>();
         private readonly ILogger<HomeController> _logger;
-        private readonly Dictionary<string, SessionPlayer> Players = new Dictionary<string, SessionPlayer>();
-        private readonly Dictionary<string, ILobby> Lobbies = new Dictionary<string, ILobby>();
-        private readonly Dictionary<string, IMatch> Matches = new Dictionary<string, IMatch>();
         
         public GameController(ILogger<HomeController> logger)
         {
@@ -25,31 +21,49 @@ namespace Mafia.NET.Web.Controllers
             return View();
         }
         
-        public IActionResult Game()
+        public IActionResult Index()
         {
-            var id = HttpContext.Session.Id;
-            if (Lobbies.ContainsKey(id)) throw new NotImplementedException();
-            if (Matches.ContainsKey(id)) return View();
+            if (HttpContext.Session.TryGetValue("id", out var id))
+            {
+                var guid = new Guid(id);
+                
+                if (Entities.Lobbies.ContainsKey(guid)) return Lobby();
+                if (Entities.Matches.ContainsKey(guid)) return View("Game");
+            }
             
             return View("Join");
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateGameViewModel model)
+        public IActionResult Create(JoinGameViewModel model)
         {
-            if (!ModelState.IsValid) return View("Join");
+            if (!ModelState.IsValid || !model.IsValidCreate()) return View("Join");
 
-            return View("Join");
+            var lobby = new Lobby(model.Name);
+            Entities.Lobbies.AddOrUpdate(new Guid(), lobby, (_, _2) => lobby);
+            
+            var playerId = Guid.NewGuid();
+            HttpContext.Session.Set("id", playerId.ToByteArray());
+            
+            var host = lobby.Host;
+            Entities.Controllers.TryAdd(playerId, host);
+            
+            return View("Lobby");
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Join(CreateGameViewModel model)
+        public IActionResult Join(JoinGameViewModel model)
         {
-            if (!ModelState.IsValid) return View("Join");
+            if (!ModelState.IsValid || !model.IsValidJoin() || !Entities.Lobbies.ContainsKey(model.GameGuid())) return View("Join");
+            
+            var lobby = Entities.Lobbies[model.GameGuid()];
+            var player = lobby.Add(model.Name);
+            var playerId = Guid.NewGuid();
+            Entities.Controllers.TryAdd(playerId, player);
 
-            return View("Join");
+            return View("Lobby");
         }
     }
 }

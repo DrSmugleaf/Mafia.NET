@@ -24,10 +24,13 @@ namespace Mafia.NET.Tests.Matches
             var roles = roleRegistry.Get(roleNames);
             var roleSetup = new RoleSetup(roles);
             var setup = new Setup(roleSetup);
-            var controllers = new List<IController>();
-            for (var i = 0; i < 15; i++) controllers.Add(new Controller($"Bot {i + 1}"));
+            var hostName = "Bot 1";
+            var lobby = new Lobby(hostName, setup);
+            for (var i = 0; i < 15; i++) lobby.Add($"Bot {i + 1}");
 
-            var match = new Lobby(setup, controllers).Start();
+            Assert.That(lobby.Host.Name, Is.EqualTo(hostName));
+
+            var match = lobby.Start();
             match.Start();
 
             Assert.That(match.AllPlayers, Has.None.Null);

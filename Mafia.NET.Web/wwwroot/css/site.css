@@ -202,4 +202,5 @@ hr {
 .lobby-screen {
   height: 80vh;
   position: relative;
+  padding: 1rem;
 }

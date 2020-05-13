@@ -3,7 +3,7 @@ using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Players.Controllers
 {
-    public interface IController
+    public interface IPlayerController
     {
         string Name { get; set; }
         ILobby Lobby { get; set; }
@@ -11,11 +11,12 @@ namespace Mafia.NET.Players.Controllers
         public IPlayer Player(IMatch match, int id, IRole role);
     }
 
-    public class Controller : IController
+    public class PlayerController : IPlayerController
     {
-        public Controller(string name)
+        public PlayerController(string name, ILobby lobby)
         {
             Name = name;
+            Lobby = lobby;
         }
 
         public string Name { get; set; }

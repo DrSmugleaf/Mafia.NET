@@ -7,7 +7,6 @@
     var roleColor = ColorTranslator.ToHtml(role.Color);
     var teamColor = ColorTranslator.ToHtml(role.Team.Color);
     var teams = new[] {"Town", "Mafia", "Triad", "Neutral"}.Select(name => Team.Teams[name]);
-    var teamRoles = teams.Select(team => RoleRegistry.Default.Team(team));
 }
 
 <h2>@role.Name</h2>
@@ -69,7 +68,6 @@
         <div class="row">
             @foreach (var team in teams)
             {
-                var thisTeamColor = ColorTranslator.ToHtml(team.Color);
                 <div class="col">
                     <div>
                         @foreach (var teamRole in RoleRegistry.Default.Team(team))

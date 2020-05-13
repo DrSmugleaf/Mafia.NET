@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Mafia.NET.Web.Chat
 {
-    public class ChatHub : Hub
+    public class GameChat : Hub
     {
         public async Task NewMessage(long username, string message)
         {

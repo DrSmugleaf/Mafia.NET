@@ -26,7 +26,7 @@ namespace Mafia.NET.Matches
 
     public class Match : IMatch
     {
-        public Match(ISetup setup, IList<IController> controllers)
+        public Match(ISetup setup, IList<IPlayerController> controllers)
         {
             Setup = setup;
             AllPlayers = setup.Roles.Randomize(controllers, this);

@@ -8,25 +8,38 @@ namespace Mafia.NET.Matches
     public interface ILobby
     {
         Setup Setup { get; set; }
-        List<IController> Controllers { get; set; }
+        IPlayerController Host { get; set; }
+        IReadOnlyList<IPlayerController> Controllers { get; }
 
+        IPlayerController Add(string name);
         IMatch Start();
     }
 
     public class Lobby : ILobby
     {
-        public Lobby(Setup setup, IList<IController> controllers)
+        private readonly List<IPlayerController> _controllers;
+
+        public Lobby(string hostName, Setup setup = null)
         {
-            Setup = setup;
-            Controllers = controllers.ToList();
+            Setup = setup ?? new Setup();
+            Host = new PlayerController(hostName, this);
+            _controllers = new List<IPlayerController>();
         }
-
+        
         public Setup Setup { get; set; }
-        public List<IController> Controllers { get; set; }
+        public IPlayerController Host { get; set; }
+        public IReadOnlyList<IPlayerController> Controllers => _controllers;
 
+        public IPlayerController Add(string name)
+        {
+            var controller = new PlayerController(name, this);
+            _controllers.Add(controller);
+            return controller;
+        }
+        
         public IMatch Start()
         {
-            return new Match(Setup, Controllers);
+            return new Match(Setup, _controllers);
         }
     }
 }
