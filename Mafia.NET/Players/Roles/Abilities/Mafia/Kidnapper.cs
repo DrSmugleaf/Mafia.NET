@@ -25,8 +25,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             var allies = Match.LivingPlayers.Where(player =>
                 player.Role.Team == User.Role.Team && player != User);
             jail.Add(allies, true);
-
-            AddTarget(prisoner, new TargetNotification
+            
+            AddTarget(prisoner.Role.Team == User.Role.Team ? null : prisoner, new TargetNotification
             {
                 UserAddMessage = target => $"You will execute {target.Name}.",
                 UserRemoveMessage = target => "You changed your mind.",
