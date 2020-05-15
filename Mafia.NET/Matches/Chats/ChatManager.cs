@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Players;
 
@@ -13,7 +14,7 @@ namespace Mafia.NET.Matches.Chats
             _chats = new Dictionary<string, IChat>();
         }
 
-        private Dictionary<string, IChat> _chats { get; }
+        private readonly Dictionary<string, IChat> _chats;
         public IReadOnlyDictionary<string, IChat> Chats => _chats;
 
         public IChat Open(IChat chat)
@@ -89,9 +90,17 @@ namespace Mafia.NET.Matches.Chats
             return Chats[MainName];
         }
 
-        public void Send(Message message)
+        public List<MessageOut> Send(IPlayer player, string text)
         {
-            foreach (var chat in _chats.Values) chat.Send(message);
+            var messages = new List<MessageOut>();
+            
+            foreach (var chat in _chats.Values)
+            {
+                var message = chat.Send(player, text);
+                messages.Add(message);
+            }
+            
+            return messages;
         }
 
         public void Pause()

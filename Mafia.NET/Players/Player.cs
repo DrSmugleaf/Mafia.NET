@@ -2,14 +2,17 @@
 using System.Drawing;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Players
 {
     public interface IPlayer
     {
+        IPlayerController Controller { get; set; }
         IMatch Match { get; }
-        int Id { get; }
+        int Number { get; }
+        string Id { get; }
         string Name { get; set; }
         IRole Role { get; set; }
         Color Color { get; }
@@ -19,21 +22,20 @@ namespace Mafia.NET.Players
         bool Blackmailed { get; set; }
         Crimes Crimes { get; }
         event EventHandler<Notification> Notification;
-        event EventHandler<Message> Message;
 
         void OnNotification(Notification e);
-        void OnMessage(Message e);
     }
 
     public class Player : IPlayer
     {
-        public Player(IMatch match, int id, string name, IRole role)
+        public Player(IMatch match, int number, string id, string name, IRole role)
         {
             Match = match;
+            Number = number;
             Id = id;
             Name = name;
             Role = role;
-            Color = IdToColor(id);
+            Color = PlayerColorsExtensions.From(number).Color();
             Alive = true;
             LastWill = new Note(Match, this);
             DeathNote = new Note(Match, this);
@@ -41,8 +43,10 @@ namespace Mafia.NET.Players
             Crimes = new Crimes(this);
         }
 
+        public IPlayerController Controller { get; set; }
         public IMatch Match { get; }
-        public int Id { get; }
+        public int Number { get; }
+        public string Id { get; }
         public string Name { get; set; }
         public IRole Role { get; set; }
         public Color Color { get; }
@@ -52,42 +56,11 @@ namespace Mafia.NET.Players
         public bool Blackmailed { get; set; }
         public Crimes Crimes { get; }
         public event EventHandler<Notification> Notification;
-        public event EventHandler<Message> Message;
 
         public virtual void OnNotification(Notification e)
         {
             if (e.Text.Length == 0) return;
             Notification?.Invoke(this, e);
-        }
-
-        public virtual void OnMessage(Message e)
-        {
-            Message?.Invoke(this, e);
-        }
-
-        public static Color IdToColor(int id)
-        {
-            var color = id switch
-            {
-                1 => PlayerColors.RED,
-                2 => PlayerColors.BLUE,
-                3 => PlayerColors.TEAL,
-                4 => PlayerColors.PURPLE,
-                5 => PlayerColors.YELLOW,
-                6 => PlayerColors.ORANGE,
-                7 => PlayerColors.GREEN,
-                8 => PlayerColors.LIGHT_PINK,
-                9 => PlayerColors.VIOLET,
-                10 => PlayerColors.GREY,
-                11 => PlayerColors.DARK_GREEN,
-                12 => PlayerColors.BROWN,
-                13 => PlayerColors.LIGHT_GREEN,
-                14 => PlayerColors.BLACK,
-                15 => PlayerColors.PINK,
-                _ => PlayerColors.DEFAULT
-            };
-
-            return Color.FromArgb((int) color);
         }
     }
 }

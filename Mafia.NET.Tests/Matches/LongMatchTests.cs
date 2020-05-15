@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
@@ -25,8 +26,8 @@ namespace Mafia.NET.Tests.Matches
             var roleSetup = new RoleSetup(roles);
             var setup = new Setup(roleSetup);
             var hostName = "Bot 1";
-            var lobby = new Lobby(hostName, setup);
-            for (var i = 0; i < 15; i++) lobby.Add($"Bot {i + 1}");
+            var lobby = new Lobby(Guid.NewGuid().ToString("N"), hostName, "1", setup);
+            for (var i = 0; i < 15; i++) lobby.Add($"Bot {i + 1}", $"{i + 1}");
 
             Assert.That(lobby.Host.Name, Is.EqualTo(hostName));
 
@@ -40,9 +41,9 @@ namespace Mafia.NET.Tests.Matches
 
             foreach (var player in match.AllPlayers)
             {
-                Assert.That(player.Name, Is.EqualTo("Bot " + player.Id));
+                Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
-                Assert.That(player.Role.Name, Is.EqualTo(roleNames[player.Id - 1]));
+                Assert.That(player.Role.Name, Is.EqualTo(roleNames[player.Number - 1]));
             }
 
             Assert.That(match.Phase.CurrentPhase, Is.TypeOf<PresentationPhase>());
@@ -64,9 +65,9 @@ namespace Mafia.NET.Tests.Matches
 
             foreach (var player in match.AllPlayers)
             {
-                Assert.That(player.Name, Is.EqualTo("Bot " + player.Id));
+                Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
-                Assert.That(player.Role.Name, Is.EqualTo(roleNames[player.Id - 1]));
+                Assert.That(player.Role.Name, Is.EqualTo(roleNames[player.Number - 1]));
             }
         }
     }

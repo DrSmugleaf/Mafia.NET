@@ -204,3 +204,8 @@ hr {
   position: relative;
   padding: 1rem;
 }
+
+.notification-div {
+  position: absolute;
+  top: 0;
+}

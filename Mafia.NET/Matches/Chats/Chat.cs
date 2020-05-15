@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
@@ -11,8 +12,9 @@ namespace Mafia.NET.Matches.Chats
 
         IChat Add(IDictionary<IPlayer, IChatParticipant> players);
         IChat Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false);
-        bool CanSend(Message message);
-        bool Send(Message message);
+        bool CanSend(MessageIn messageIn);
+        MessageOut Send(MessageIn messageIn);
+        [CanBeNull] MessageOut Send(IPlayer player, string message);
         void Close();
     }
 
@@ -30,7 +32,7 @@ namespace Mafia.NET.Matches.Chats
             _participants = participants;
         }
 
-        private Dictionary<IPlayer, IChatParticipant> _participants { get; }
+        private readonly Dictionary<IPlayer, IChatParticipant> _participants;
         public string Name { get; }
         public IDictionary<IPlayer, IChatParticipant> Participants => _participants;
         public bool Paused { get; set; }
@@ -59,23 +61,35 @@ namespace Mafia.NET.Matches.Chats
             return Add(participants);
         }
 
-        public bool CanSend(Message message)
+        public bool CanSend(MessageIn messageIn)
         {
             return !Paused &&
-                   _participants.ContainsKey(message.Sender.Owner) &&
-                   !message.Sender.Muted &&
-                   message.Text.Length > 0;
+                   _participants.ContainsKey(messageIn.Sender.Owner) &&
+                   !messageIn.Sender.Muted &&
+                   messageIn.Text.Length > 0;
         }
 
-        public bool Send(Message message)
+        public MessageOut Send(MessageIn messageIn)
         {
-            if (!CanSend(message)) return false;
+            if (!CanSend(messageIn)) return new MessageOut(messageIn);
 
+            var listeners = new HashSet<IPlayer>();
+            
             foreach (var participant in _participants.Values)
                 if (!participant.Deaf)
-                    participant.Owner.OnMessage(message);
+                    listeners.Add(participant.Owner);
 
-            return true;
+            return new MessageOut(messageIn, listeners);
+        }
+
+        public MessageOut Send(IPlayer player, string text)
+        {
+            if (!_participants.ContainsKey(player)) return null;
+            
+            var participant = _participants[player];
+            var message = new MessageIn(participant, text);
+            
+            return Send(message);
         }
 
         public void Close()

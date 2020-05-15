@@ -71,7 +71,7 @@ namespace Mafia.NET.Players.Roles
             return roles;
         }
 
-        public List<IPlayer> Randomize(IList<IPlayerController> controllers, IMatch match)
+        public List<IPlayer> Randomize(IList<ILobbyController> controllers, IMatch match)
         {
             var players = new List<IPlayer>();
             var roles = Randomize();
@@ -86,7 +86,9 @@ namespace Mafia.NET.Players.Roles
                 var roleEntry = roles[i];
                 var ability = Abilities.Names[roleEntry.Name].Build();
                 var role = new Role(roleEntry, ability);
-                var player = controller.Player(match, i + 1, role);
+                var player = new Player(match, i + 1, controller.Id, controller.Name, role);
+                var playerController = controller.Player(player);
+                player.Controller = playerController;
                 players.Add(player);
             }
 

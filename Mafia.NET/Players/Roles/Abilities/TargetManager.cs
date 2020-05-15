@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             User = user;
             Phases = phases;
         }
-#nullable disable
+        #nullable disable
         public TargetManager(IMatch match, IPlayer user)
         {
             Match = match;
@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             Phases = phases;
         }
-#nullable enable
+        #nullable enable
         public PhaseTargeting Get()
         {
             return Phases[Match.Phase.CurrentTime];
@@ -210,7 +210,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
 
-        private Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> _filter { get; }
+        private readonly Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> _filter;
 
         public static TargetFilter Living(IMatch match)
         {
@@ -226,12 +226,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             if (player == null) return None();
 
-            return new TargetFilter(() => new List<IPlayer> {[player.Id] = player});
+            return new TargetFilter(() => new List<IPlayer> {[player.Number] = player});
         }
 
         public static TargetFilter None()
         {
-            return new TargetFilter(() => ImmutableList.Create<IPlayer>());
+            return new TargetFilter(ImmutableList.Create<IPlayer>);
         }
 
         public static TargetFilter Of(IEnumerable<IPlayer> players)
@@ -248,7 +248,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public bool Valid(IPlayer target)
         {
-            return _filter.Invoke(new List<IPlayer> {[target.Id] = target}).Count > 0;
+            return _filter.Invoke(new List<IPlayer> {[target.Number] = target}).Count > 0;
         }
 
         public TargetFilter Except(IPlayer player)

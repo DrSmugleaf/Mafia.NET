@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mafia.NET.Matches;
+using Mafia.NET.Web.Extensions;
 using Mafia.NET.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Mafia.NET.Web.Controllers
@@ -23,25 +26,39 @@ namespace Mafia.NET.Web.Controllers
         
         public IActionResult Index()
         {
-            if (HttpContext.Session.TryGetValue("id", out var id))
-            {
-                var guid = new Guid(id);
-                
-                if (Entities.Lobbies.ContainsKey(guid)) return Lobby();
-                if (Entities.Matches.ContainsKey(guid)) return View("Game");
-            }
-            
+            if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
+            if (Entities.Controllers.ContainsKey(guid)) return Lobby();
+            if (Entities.Matches.ContainsKey(guid)) return View("Game");
+
             return View("Join");
+        }
+        
+        public IActionResult TestLobby()
+        {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != Environments.Development)
+                return View("Join");
+
+            var name = "Test Player";
+            var hostId = Guid.NewGuid();
+            var lobbyId = Guid.NewGuid();
+            var lobby = new Lobby(lobbyId.ToString("N"), name, hostId.ToString("N"));
+            Entities.Lobbies[lobbyId] = lobby;
+            Entities.Controllers[hostId] = lobby.Host;
+            HttpContext.Session.Set("id", hostId.ToByteArray());
+            
+            return View("Lobby");
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(JoinGameViewModel model)
         {
-            if (!ModelState.IsValid || !model.IsValidCreate()) return View("Join");
+            var hasId = HttpContext.Session.TryGuid(out var guid);
+            if (!ModelState.IsValid || !model.IsValidCreate() || !hasId) return View("Join");
 
-            var lobby = new Lobby(model.Name);
-            Entities.Lobbies.AddOrUpdate(new Guid(), lobby, (_, _2) => lobby);
+            var lobbyId = Guid.NewGuid();
+            var lobby = new Lobby(lobbyId.ToString("N"), model.Name, guid.ToString("N"));
+            Entities.Lobbies.AddOrUpdate(lobbyId, lobby, (_, _2) => lobby);
             
             var playerId = Guid.NewGuid();
             HttpContext.Session.Set("id", playerId.ToByteArray());
@@ -51,19 +68,32 @@ namespace Mafia.NET.Web.Controllers
             
             return View("Lobby");
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Join(JoinGameViewModel model)
         {
-            if (!ModelState.IsValid || !model.IsValidJoin() || !Entities.Lobbies.ContainsKey(model.GameGuid())) return View("Join");
-            
+            if (!ModelState.IsValid || !model.IsValidJoin())
+                return View("Join");
+
             var lobby = Entities.Lobbies[model.GameGuid()];
-            var player = lobby.Add(model.Name);
             var playerId = Guid.NewGuid();
-            Entities.Controllers.TryAdd(playerId, player);
+            var player = lobby.Add(model.Name, playerId.ToString("N"));
+            
+            Entities.Controllers[playerId] = player;
+            HttpContext.Session.Set("id", playerId.ToByteArray());
 
             return View("Lobby");
+        }
+
+        public IActionResult Start(StartGameModel model)
+        {
+            if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
+            var host = Entities.Controllers[guid];
+            var lobby = host.Lobby;
+            lobby.Start();
+            
+            return View("Game");
         }
     }
 }
