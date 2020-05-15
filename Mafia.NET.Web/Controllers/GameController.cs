@@ -21,13 +21,13 @@ namespace Mafia.NET.Web.Controllers
 
         public IActionResult Lobby()
         {
-            return View();
+            return View("Lobby");
         }
         
         public IActionResult Index()
         {
             if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
-            if (Entities.Controllers.ContainsKey(guid)) return Lobby();
+            if (Entities.Controllers.ContainsKey(guid)) return View("Lobby");
             if (Entities.Matches.ContainsKey(guid)) return View("Game");
 
             return View("Join");

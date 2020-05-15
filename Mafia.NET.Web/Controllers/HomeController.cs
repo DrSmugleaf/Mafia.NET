@@ -25,7 +25,7 @@ namespace Mafia.NET.Web.Controllers
             if (query == null) return View();
             if (!RoleRegistry.Default.Names.ContainsKey(query)) return NotFound();
             ViewData["Role"] = RoleRegistry.Default.Names[query];
-            return View();
+            return View("Wiki");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
