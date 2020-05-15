@@ -24,6 +24,7 @@ connection.on("Start", () => {
 })
 
 connection.start().then(() => {
+    $(messageInput).prop("disabled", false);
     $(buttonStart).prop("disabled", false);
 }).catch(err => document.write(err));
 
@@ -39,9 +40,10 @@ function send() {
 }
 
 $(document).ready(() => {
-    
     $(buttonStart).click(() => {
-        connection.send("Start")
-            .then($(buttonStart).prop("disabled", true))
+        connection.send("Start").then(() => {
+            $(messageInput).prop("disabled", true);
+            $(buttonStart).prop("disabled", true);
+        })
     })
 })
