@@ -209,3 +209,15 @@ hr {
   position: absolute;
   top: 0;
 }
+
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
+li.disabled {
+  cursor: not-allowed;
+}
+li.disabled a {
+  pointer-events: none;
+}

@@ -2,6 +2,7 @@
 
 const divMessages = document.querySelector("#messages");
 const messageInput = document.querySelector("#message-input");
+const buttonStart = document.querySelector("#lobby-start");
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/LobbyChat")
@@ -22,7 +23,9 @@ connection.on("Start", () => {
     $(location).attr("href", "Game")
 })
 
-connection.start().catch(err => document.write(err));
+connection.start().then(() => {
+    $(buttonStart).prop("disabled", false);
+}).catch(err => document.write(err));
 
 messageInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
@@ -36,7 +39,9 @@ function send() {
 }
 
 $(document).ready(() => {
-    $("#lobby-start").click(() => {
+    
+    $(buttonStart).click(() => {
         connection.send("Start")
+            .then($(buttonStart).prop("disabled", true))
     })
 })
