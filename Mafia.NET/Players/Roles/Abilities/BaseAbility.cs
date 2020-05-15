@@ -52,6 +52,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
             DeathImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
             CurrentlyDeathImmune = DeathImmune;
+            DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
             Cooldown = 0;
             Uses = 0;
         }
@@ -69,7 +70,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public bool RoleBlockImmune { get; }
         public bool DeathImmune { get; }
         public bool CurrentlyDeathImmune { get; set; }
-        public bool DetectionImmune { get; }
+        public bool DetectionImmune { get; set; }
 
         public int Cooldown
         {

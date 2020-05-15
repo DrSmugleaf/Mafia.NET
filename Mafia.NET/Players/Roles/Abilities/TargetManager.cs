@@ -92,9 +92,19 @@ namespace Mafia.NET.Players.Roles.Abilities
             return Try(Time.DAY, index, out target);
         }
 
+        public bool TryDay(out IPlayer? target)
+        {
+            return TryDay(0, out target);
+        }
+
         public bool TryNight(int index, out IPlayer? target)
         {
             return Try(Time.NIGHT, index, out target);
+        }
+
+        public bool TryNight(out IPlayer? target)
+        {
+            return TryNight(0, out target);
         }
 
         public void Add(Target target)

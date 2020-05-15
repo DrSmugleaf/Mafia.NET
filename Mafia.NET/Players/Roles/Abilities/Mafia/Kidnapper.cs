@@ -43,7 +43,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Kill(IPlayer target)
         {
-            if (Uses == 0) return;
+            if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
 
             Uses--;
             PiercingAttack(target);
