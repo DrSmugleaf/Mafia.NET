@@ -54,10 +54,13 @@ namespace Mafia.NET.Web.Chat
             return base.OnDisconnectedAsync(exception);
         }
 
-        public Task NewMessage(string text)
+        public async Task NewMessage(string text)
         {
+            text = text.Trim().Substring(0, Math.Min(text.Length, 500));
+            if (text.Length == 0) return;
+
             if (!Context.GetHttpContext().Session.TryGuid(out var guid) ||
-                !GameController.Entities.Players.TryGetValue(guid, out var player)) return Task.CompletedTask;
+                !GameController.Entities.Players.TryGetValue(guid, out var player)) return;
             
             var messages = player.Player.Match.Chat.Send(player.Player, text);
 
@@ -66,11 +69,9 @@ namespace Mafia.NET.Web.Chat
                 foreach (var listener in message.Listeners)
                 {
                     var user = Users[listener.Guid()];
-                    Clients.Client(user.Connection).SendAsync("Message", message.Formatted);
+                    await Clients.Client(user.Connection).SendAsync("Message", message.Formatted);
                 }
             }
-
-            return Task.CompletedTask;
         }
     }
 }

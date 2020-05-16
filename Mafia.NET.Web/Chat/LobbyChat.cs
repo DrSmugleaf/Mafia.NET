@@ -48,9 +48,10 @@ namespace Mafia.NET.Web.Chat
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task NewMessage(string message)
+        public async Task NewMessage(string text)
         {
-            if (message.Trim().Length == 0) return;
+            text = text.Trim().Substring(0, Math.Min(text.Length, 500));
+            if (text.Length == 0) return;
             
             if (Context.GetHttpContext().Session.TryGuid(out var guid) && GameController.Entities.Controllers.TryGetValue(guid, out var sender))
             {
@@ -59,7 +60,7 @@ namespace Mafia.NET.Web.Chat
                     .ToList()
                     .AsReadOnly();
 
-                await Clients.Clients(users).SendAsync("Message", $"{sender.Name}: {message}");
+                await Clients.Clients(users).SendAsync("Message", $"{sender.Name}: {text}");
             }
         }
 
