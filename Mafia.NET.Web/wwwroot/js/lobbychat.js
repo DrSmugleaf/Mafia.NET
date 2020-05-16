@@ -44,6 +44,9 @@ $(document).ready(() => {
         connection.send("Start").then(() => {
             $(messageInput).prop("disabled", true);
             $(buttonStart).prop("disabled", true);
+            $(".catalog-team").prop("disabled", true);
         })
     })
+})
+
 })

@@ -111,6 +111,7 @@ hr {
 #messages {
   height: 25vh !important;
   border: 1px solid grey;
+  background-color: #333333;
 }
 
 #tb-message {
@@ -218,6 +219,68 @@ button:disabled {
 li.disabled {
   cursor: not-allowed;
 }
+
 li.disabled a {
   pointer-events: none;
+}
+
+#setup-role-list {
+  border: 1px solid grey;
+  background-color: #333333;
+  height: 50vh;
+  width: inherit;
+  box-sizing: border-box;
+}
+
+#settings-top {
+  border: 1px solid grey;
+}
+
+@font-face {
+  font-family: "Corleone";
+  src: url("../font/Corleone.ttf");
+}
+
+@font-face {
+  font-family: "Corleone Due";
+  src: url("../font/CorleoneDue.ttf");
+}
+
+#mafia-header {
+  font-family: "Corleone Due", "Helvetica Neue", serif;
+  font-size: 2rem;
+}
+
+#lobby-start {
+  width: inherit;
+}
+
+#catalog-teams {
+  border: 1px solid grey;
+  background-color: #333333;
+  height: 15vh;
+  width: inherit;
+  box-sizing: border-box;
+}
+
+#catalog-roles {
+  border: 1px solid grey;
+  background-color: #333333;
+  height: 35vh;
+  width: inherit;
+  box-sizing: border-box;
+}
+
+.catalog-team {
+  text-shadow:
+          -1px -1px 0 black,
+          1px -1px 0 black,
+          -1px 1px 0 black,
+          1px 1px 0 black,
+          0 1px 0 black,
+          1px 0 0 black,
+          0 -1px 0 black,
+          -1px 0 0 black;
+  text-decoration: none !important;
+  color: inherit;
 }

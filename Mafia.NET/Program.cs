@@ -10,7 +10,7 @@ namespace Mafia.NET
     {
         public static void Main(string[] args)
         {
-            var teams = Team.Teams;
+            var teams = Team.All;
             var roles = RoleRegistry.Default;
             var categories = Category.Categories;
             var abilities = AbilityRegistry.Default;

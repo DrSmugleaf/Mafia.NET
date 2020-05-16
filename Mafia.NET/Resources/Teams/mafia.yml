@@ -1,2 +1,3 @@
 ﻿- name: Mafia
   color: "#FA8072"
+  order: 1

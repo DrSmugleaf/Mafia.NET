@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mafia.NET.Matches;
 using Mafia.NET.Web.Extensions;
 using Mafia.NET.Web.Models;
@@ -21,13 +22,17 @@ namespace Mafia.NET.Web.Controllers
 
         public IActionResult Lobby()
         {
+            if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
+            var lobbyId = Entities.Controllers[guid].Lobby.Guid().ToString("N");
+            ViewData["LobbyId"] = lobbyId;
+            
             return View("Lobby");
         }
         
         public IActionResult Index()
         {
             if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
-            if (Entities.Controllers.ContainsKey(guid)) return View("Lobby");
+            if (Entities.Controllers.ContainsKey(guid)) return Lobby();
             if (Entities.Matches.ContainsKey(guid)) return View("Game");
 
             return View("Join");
@@ -45,7 +50,8 @@ namespace Mafia.NET.Web.Controllers
             Entities.Lobbies[lobbyId] = lobby;
             Entities.Controllers[hostId] = lobby.Host;
             HttpContext.Session.Set("id", hostId.ToByteArray());
-            
+            ViewData["LobbyId"] = lobbyId.ToString("N");
+
             return View("Lobby");
         }
         
@@ -58,7 +64,7 @@ namespace Mafia.NET.Web.Controllers
 
             var lobbyId = Guid.NewGuid();
             var lobby = new Lobby(lobbyId.ToString("N"), model.Name, guid.ToString("N"));
-            Entities.Lobbies.AddOrUpdate(lobbyId, lobby, (_, _2) => lobby);
+            Entities.Lobbies.AddOrUpdate(lobbyId, lobby, delegate { return lobby; });
             
             var playerId = Guid.NewGuid();
             HttpContext.Session.Set("id", playerId.ToByteArray());
@@ -83,13 +89,16 @@ namespace Mafia.NET.Web.Controllers
             Entities.Controllers[playerId] = player;
             HttpContext.Session.Set("id", playerId.ToByteArray());
 
-            return View("Lobby");
+            return Lobby();
         }
 
         public IActionResult Start(StartGameModel model)
         {
             if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
+            
             var host = Entities.Controllers[guid];
+            if (host.Guid() != guid) return Lobby();
+            
             var lobby = host.Lobby;
             lobby.Start();
             

@@ -41,6 +41,11 @@ namespace Mafia.NET.Players.Roles
         public IImmutableList<ICategory> Categories { get; }
         public Color Color { get; }
         public Color OriginalColor { get; }
+
+        public string ColorHtml()
+        {
+            return ColorTranslator.ToHtml(Color);
+        }
     }
 
     public class RoleRegistry
@@ -55,8 +60,6 @@ namespace Mafia.NET.Players.Roles
             foreach (YamlMappingNode yaml in yamlRoles)
             {
                 var name = yaml["name"].AsString();
-                Console.WriteLine($"Parsing role {name}");
-
                 var team = (Team) yaml["team"].AsString();
                 var categories = new List<ICategory>();
                 var categoriesNode = yaml["categories"];
