@@ -46,6 +46,10 @@ $(document).ready(() => {
             $(messageInput).prop("disabled", true);
             $(buttonStart).prop("disabled", true);
             $(".catalog-team").prop("disabled", true);
+            $(".catalog-role").prop("disabled", true);
+            $(".setup-role").prop("disabled", true);
+            $("input").prop("disabled", true);
+            $("select").prop("disabled", true);
         })
     })
 })
