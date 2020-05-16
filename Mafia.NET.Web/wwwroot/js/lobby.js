@@ -3,6 +3,7 @@
 const divMessages = document.querySelector("#messages");
 const messageInput = document.querySelector("#message-input");
 const buttonStart = document.querySelector("#lobby-start");
+const setupRoleList = document.querySelector("#setup-role-list")
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/LobbyChat")
@@ -49,8 +50,19 @@ $(document).ready(() => {
     })
 })
 
-$(".catalog-team").click(function(e) {
+$(".catalog-team").click(function() {
     const team = $(this).data("team");
     $(".catalog-roles-list").addClass("d-none");
     $('*[data-team="' + team + '"]').removeClass("d-none");
+})
+
+$(".catalog-role").click(function() {
+    const name = $(this).data("name");
+    const color = $(this).data("color");
+    
+    $(setupRoleList).append('<button type="button" class="btn btn-sm list-group-item setup-role" style="color: ' + color + '">' + name + '</button>')
+    
+    $(".setup-role").click(function() {
+        $(this).remove();
+    })
 })

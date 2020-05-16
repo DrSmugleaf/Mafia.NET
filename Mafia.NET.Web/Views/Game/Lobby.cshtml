@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-8"></div>
+            <div class="col-sm-6"></div>
             <div class="col-sm-2">
                 <div class="row mb-2">
                     <div class="col">
@@ -152,7 +152,7 @@
                                 <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
                                     @foreach (var role in team.Roles())
                                     {
-                                        <li class="list-group-item catalog-role" style="color: @role.ColorHtml()">@role.Name</li>
+                                        <button type="button" class="btn btn-sm list-group-item catalog-role" data-name="@role.Name" data-color="@role.ColorHtml()" style="color: @role.ColorHtml()">@role.Name</button>
                                     }
                                 </ul>
                             }
@@ -162,11 +162,12 @@
             </div>
             <div class="col-sm-2">
                 Role List
-                <div id="setup-role-list">
-                    <ul class="list-group list-group-flush overflow-auto">
+                <div id="setup-roles">
+                    <ul id="setup-role-list" class="list-group list-group-flush overflow-auto">
                     </ul>
                 </div>
             </div>
+            <div class="col-sm-2"></div>
         </div>
     </form>
     <div class="row row-bottom w-25">
@@ -182,4 +183,4 @@
 </div>
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script type="module" src="~/js/lobbychat.js"></script>
+<script type="module" src="~/js/lobby.js"></script>

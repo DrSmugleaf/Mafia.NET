@@ -24,6 +24,10 @@ a {
   border-color: #1861ac;
 }
 
+.navbar-mafia {
+  padding: 0.5rem;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -223,7 +227,7 @@ li.disabled a {
 #setup-role-list {
   border: 1px solid grey;
   background-color: #333333;
-  height: 50vh;
+  height: 64vh;
   width: inherit;
   box-sizing: border-box;
 }
@@ -254,30 +258,33 @@ li.disabled a {
 #catalog-teams {
   border: 1px solid grey;
   background-color: #333333;
-  height: 15vh;
-  width: inherit;
-  box-sizing: border-box;
-}
-
-#catalog-roles {
-  border: 1px solid grey;
-  background-color: #333333;
-  height: 35vh;
+  height: 17vh;
   width: inherit;
   box-sizing: border-box;
 }
 
 .catalog-team {
   text-align: left;
-  text-decoration: none !important;
-  color: inherit;
   padding: 0.5rem;
+  font-size: 1rem;
 }
 
 .catalog-role {
+  text-align: left;
   padding: 0.5rem;
+  font-size: 1rem;
 }
 
-.navbar-mafia {
+#catalog-roles {
+  border: 1px solid grey;
+  background-color: #333333;
+  height: 46vh;
+  width: inherit;
+  box-sizing: border-box;
+}
+
+.setup-role {
+  text-align: left;
   padding: 0.5rem;
+  font-size: 1rem;
 }
