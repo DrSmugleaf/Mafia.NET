@@ -79,7 +79,7 @@ namespace Mafia.NET.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Join(JoinGameViewModel model)
         {
-            if (!ModelState.IsValid || !model.IsValidJoin())
+            if (!ModelState.IsValid || !model.IsValidJoin() || !Entities.Lobbies.ContainsKey(model.GameGuid()))
                 return View("Join");
 
             var lobby = Entities.Lobbies[model.GameGuid()];
