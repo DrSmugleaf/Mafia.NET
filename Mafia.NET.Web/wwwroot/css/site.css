@@ -196,10 +196,6 @@ hr {
   bottom: 0;
 }
 
-.w-99 {
-  width: 99% !important;
-}
-
 .lobby-screen {
   height: 80vh;
   position: relative;
@@ -272,15 +268,12 @@ li.disabled a {
 }
 
 .catalog-team {
-  text-shadow:
-          -1px -1px 0 black,
-          1px -1px 0 black,
-          -1px 1px 0 black,
-          1px 1px 0 black,
-          0 1px 0 black,
-          1px 0 0 black,
-          0 -1px 0 black,
-          -1px 0 0 black;
+  text-align: left;
   text-decoration: none !important;
   color: inherit;
+  padding: 0.5rem;
+}
+
+.catalog-role {
+  padding: 0.5rem;
 }

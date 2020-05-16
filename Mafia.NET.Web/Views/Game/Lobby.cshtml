@@ -135,10 +135,10 @@
                     <div class="col">
                         Catalog
                         <div id="catalog-teams" class="overflow-auto">
-                            <ul id="catalog-teams-list" class="list-group list-group-flush">
+                            <ul class="list-group list-group-flush">
                                 @foreach (var team in teams)
                                 {
-                                    <button type="button" class="list-group-item catalog-team" data-team="@team.Name" style="background-color: @team.ColorHtml()">@team.Name</button>
+                                    <button type="button" class="btn btn-sm list-group-item catalog-team" data-team="@team.Name" style="color: @team.ColorHtml()">@team.Name</button>
                                 }
                             </ul>
                         </div>
@@ -146,13 +146,13 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div id="catalog-roles">
+                        <div id="catalog-roles" class="overflow-auto">
                             @foreach (var team in teams)
                             {
-                                <ul id="catalog-roles-list" class="list-group list-group-flush overflow-auto d-none" data-team="@team.Name">
+                                <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
                                     @foreach (var role in team.Roles())
                                     {
-                                        <li class="list-group-item role-name" style="background-color: @team.ColorHtml()">@role.Name</li>
+                                        <li class="list-group-item catalog-role" style="color: @role.ColorHtml()">@role.Name</li>
                                     }
                                 </ul>
                             }
@@ -169,9 +169,9 @@
             </div>
         </div>
     </form>
-    <div class="row row-bottom w-99">
-        <div class="col-sm-3">
             <div id="messages" class="container overflow-auto">
+    <div class="row row-bottom w-25">
+        <div class="col">
             </div>
             <div>
                 <input id="message-input" type="text" class="form-control" autocomplete="off" disabled/>

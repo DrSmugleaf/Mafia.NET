@@ -49,4 +49,8 @@ $(document).ready(() => {
     })
 })
 
+$(".catalog-team").click(function(e) {
+    const team = $(this).data("team");
+    $(".catalog-roles-list").addClass("d-none");
+    $('*[data-team="' + team + '"]').removeClass("d-none");
 })
