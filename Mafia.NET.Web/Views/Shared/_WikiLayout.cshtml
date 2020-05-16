@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Mafia.NET.Players.Teams
+@{
+    var teams = Team.All;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -7,9 +12,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
-<body>
+<body class="game-body">
 <header>
-    <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
         <div class="container">
             <a id="mafia-header" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mafia</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -35,14 +40,43 @@
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
+        <div class="row">
+            <div class="col text-center roles role-name">
+                <h3 class="role-header">
+                    Roles
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var team in teams)
+            {
+                <div class="col role-name role-border" style="background-color: @team.ColorHtml()">
+                    <h4 class="role-header">@team.Name</h4>
+                </div>
+            }
+        </div>
+        <div class="row">
+            @foreach (var team in teams)
+            {
+                <div class="col">
+                    <div>
+                        @foreach (var teamRole in team.Roles())
+                        {
+                            <div class="row">
+                                <a class="w-100 text-decoration-none role-link" href="Wiki?query=@teamRole.Name">
+                                    <div class="col role-name role-border" style="background-color: @teamRole.ColorHtml()">
+                                        @teamRole.Name
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2020 - <a href="https://github.com/DrSmugleaf">DrSmugleaf</a>
-    </div>
-</footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>

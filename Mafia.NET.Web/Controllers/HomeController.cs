@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace Mafia.NET.Web.Controllers
 
         public IActionResult Wiki(string query)
         {
-            if (query == null) return View();
+            if (query == null) return View("WikiIndex");
             if (!RoleRegistry.Default.Names.ContainsKey(query)) return NotFound();
             ViewData["Role"] = RoleRegistry.Default.Names[query];
             return View("Wiki");

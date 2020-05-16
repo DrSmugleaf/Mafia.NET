@@ -1,15 +1,14 @@
 ﻿@using System.Drawing
 @using Mafia.NET.Players.Roles
-@using Mafia.NET.Players.Teams
 @{
     var role = (RoleEntry) ViewData["Role"];
     ViewData["Title"] = role.Name;
+    Layout = "_WikiLayout";
     var roleColor = ColorTranslator.ToHtml(role.Color);
-    var teams = Team.All;
 }
 
 <h2>@role.Name</h2>
-<hr class="mb-5"/>
+<hr class="mb-4"/>
 <div>
     <div class="row">
         <div class="float-left col-sm"></div>
@@ -46,41 +45,5 @@
             </div>
         </div>
     </div>
-    <hr class="my-4 role-separator"/>
-    <div class="container">
-        <div class="row">
-            <div class="col text-center roles role-name">
-                <h3 class="role-header">
-                    Roles
-                </h3>
-            </div>
-        </div>
-        <div class="row">
-            @foreach (var team in teams)
-            {
-                <div class="col role-name role-border" style="background-color: @team.ColorHtml()">
-                    <h4 class="role-header">@team.Name</h4>
-                </div>
-            }
-        </div>
-        <div class="row">
-            @foreach (var team in teams)
-            {
-                <div class="col">
-                    <div>
-                        @foreach (var teamRole in team.Roles())
-                        {
-                            <div class="row">
-                                <a class="w-100 text-decoration-none role-link" href="Wiki?query=@teamRole.Name">
-                                    <div class="col role-name role-border" style="background-color: @teamRole.ColorHtml()">
-                                        @teamRole.Name
-                                    </div>
-                                </a>
-                            </div>
-                        }
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
 </div>
+<hr class="my-4 role-separator"/>
