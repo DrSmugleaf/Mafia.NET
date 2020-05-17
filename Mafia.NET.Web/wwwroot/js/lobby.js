@@ -43,11 +43,7 @@ function send() {
 $(document).ready(() => {
     $(buttonStart).click(() => {
         connection.send("Start").then(() => {
-            $(messageInput).prop("disabled", true);
-            $(buttonStart).prop("disabled", true);
-            $(".catalog-team").prop("disabled", true);
-            $(".catalog-role").prop("disabled", true);
-            $(".setup-role").prop("disabled", true);
+            $(".disable-on-start").prop("disabled", true);
             $("input").prop("disabled", true);
             $("select").prop("disabled", true);
         })
@@ -64,7 +60,7 @@ $(".catalog-role").click(function() {
     const name = $(this).data("name");
     const color = $(this).data("color");
     
-    $(setupRoleList).append('<button type="button" class="btn btn-sm list-group-item setup-role" style="color: ' + color + '">' + name + '</button>')
+    $(setupRoleList).append('<button type="button" class="btn btn-sm list-group-item setup-role disable-on-start" style="color: ' + color + '">' + name + '</button>')
     
     $(".setup-role").click(function() {
         $(this).remove();

@@ -125,7 +125,7 @@
                 </div>
             </div>
             <div class="col-sm-2">
-                <button id="lobby-start" type="button" class="btn btn-lg btn-primary button-start" disabled>Start</button>
+                <button id="lobby-start" type="button" class="btn btn-lg btn-primary button-start disable-on-start" disabled>Start</button>
             </div>
         </div>
         <div class="row">
@@ -135,7 +135,7 @@
                         <div id="presets" class="overflow-auto">
                             Presets
                             <ul id="preset-list" class="list-group list-group-flush">
-                                <button type="button" class="btn btn-sm list-group-item preset-entry">Custom</button>
+                                <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start">Custom</button>
                             </ul>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                         <div id="lobby-messages" class="container overflow-auto text-break">
                         </div>
                         <div>
-                            <input form="" id="message-input" name="" type="text" class="form-control" autocomplete="off" maxlength="500" disabled/>
+                            <input form="" id="message-input" name="" type="text" class="form-control disable-on-start" autocomplete="off" maxlength="500" disabled/>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                             <ul class="list-group list-group-flush">
                                 @foreach (var team in teams)
                                 {
-                                    <button type="button" class="btn btn-sm list-group-item catalog-team" data-team="@team.Name" style="color: @team.ColorHtml()">@team.Name</button>
+                                    <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@team.Name" style="color: @team.ColorHtml()">@team.Name</button>
                                 }
                             </ul>
                         </div>
@@ -173,7 +173,7 @@
                                 <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
                                     @foreach (var role in team.Roles())
                                     {
-                                        <button type="button" class="btn btn-sm list-group-item catalog-role" data-name="@role.Name" data-color="@role.ColorHtml()" style="color: @role.ColorHtml()">@role.Name</button>
+                                        <button type="button" class="btn btn-sm list-group-item catalog-role disable-on-start" data-name="@role.Name" data-color="@role.ColorHtml()" style="color: @role.ColorHtml()">@role.Name</button>
                                     }
                                 </ul>
                             }
