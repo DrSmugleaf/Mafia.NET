@@ -1,6 +1,6 @@
 ﻿"use strict"
 
-const divMessages = document.querySelector("#messages");
+const divMessages = document.querySelector("#lobby-messages");
 const messageInput = document.querySelector("#message-input");
 const buttonStart = document.querySelector("#lobby-start");
 const setupRoleList = document.querySelector("#setup-role-list")

@@ -112,7 +112,13 @@ hr {
   border-color: grey;
 }
 
-#messages {
+#game-messages {
+  height: 25vh !important;
+  border: 1px solid grey;
+  background-color: #333333;
+}
+
+#lobby-messages {
   height: 25vh !important;
   border: 1px solid grey;
   background-color: #333333;
@@ -234,6 +240,7 @@ li.disabled a {
 
 #settings-top {
   border: 1px solid grey;
+  background-color: #333333;
 }
 
 @font-face {
@@ -284,6 +291,22 @@ li.disabled a {
 }
 
 .setup-role {
+  text-align: left;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+#message-input {
+  border-radius: 0 0;
+  border: 1px solid grey;
+}
+
+#preset-list {
+  height: 33vh;
+  border: 1px solid grey;
+}
+
+.preset-entry {
   text-align: left;
   padding: 0.5rem;
   font-size: 1rem;

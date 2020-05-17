@@ -129,7 +129,28 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6"></div>
+            <div class="col-sm-2">
+                <div class="row container-fluid pb-3">
+                    <div class="col p-0">
+                        <div id="presets" class="overflow-auto">
+                            Presets
+                            <ul id="preset-list" class="list-group list-group-flush">
+                                <button type="button" class="btn btn-sm list-group-item preset-entry">Custom</button>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row container-fluid">
+                    <div class="col p-0">
+                        <div id="lobby-messages" class="container overflow-auto text-break">
+                        </div>
+                        <div>
+                            <input form="" id="message-input" name="" type="text" class="form-control" autocomplete="off" maxlength="500" disabled/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
             <div class="col-sm-2">
                 <div class="row mb-2">
                     <div class="col">
@@ -170,16 +191,6 @@
             <div class="col-sm-2"></div>
         </div>
     </form>
-    <div class="row row-bottom w-25">
-        <div class="col">
-            <div id="messages" class="container overflow-auto text-break">
-            </div>
-            <div>
-                <input id="message-input" type="text" class="form-control" autocomplete="off" maxlength="500" disabled/>
-            </div>
-        </div>
-        <div class="col-sm-4"></div>
-    </div>
 </div>
 
 <script src="~/js/signalr/dist/browser/signalr.js"></script>

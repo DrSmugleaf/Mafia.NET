@@ -1,6 +1,6 @@
 ﻿"use strict"
 
-const divMessages = document.querySelector("#messages");
+const divMessages = document.querySelector("#game-messages");
 const headerNotification = document.querySelector("#notification");
 const inputMessage = document.querySelector("#message-input");
 const divGraveyard = document.querySelector("#graveyard-list");
