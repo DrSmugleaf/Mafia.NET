@@ -1,21 +1,11 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+/* Navbar */
 a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
-}
-
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -28,8 +18,29 @@ a {
   padding: 0.5rem;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+#mafia-header {
+  font-family: "Corleone Due", "Helvetica Neue", serif;
+  font-size: 2rem;
+}
+
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+
+/* Sticky footer styles */
 html {
   font-size: 14px;
 }
@@ -42,12 +53,9 @@ html {
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
@@ -55,8 +63,8 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+
+/* Sticky footer styles */
 html {
   position: relative;
   min-height: 100%;
@@ -66,6 +74,7 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -74,11 +83,12 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 
-
 hr {
   border-color: #dee2e6;
 }
 
+
+/* Roles */
 .role-name {
   text-shadow: 
           -1px -1px 0 black,
@@ -112,60 +122,8 @@ hr {
   border-color: grey;
 }
 
-#game-messages {
-  height: 25vh !important;
-  border: 1px solid grey;
-  background-color: #333333;
-}
 
-#lobby-messages {
-  height: 25vh !important;
-  border: 1px solid grey;
-  background-color: #333333;
-}
-
-#tb-message {
-  border-radius: 0;
-  border: 1px solid grey;
-}
-
-.row-game-chat {
-  margin-top: 378px !important;
-  margin-bottom: 0 !important;
-}
-
-.dropdown-list {
-  position: absolute;
-  max-height: 36vh;
-  top: 100%;
-  width: 100%;
-  z-index: 3210;
-}
-
-.list-entry {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-.game-body {
-  margin-top: 0;
-  margin-bottom: 0;
-  height: 100vh;
-}
-
-.game-body-section {
-  height: inherit;
-}
-
-.player-list {
-  max-height: 40vh;
-}
-
-.player-entry {
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
+/* Join */
 .form-game {
   width: 100%;
   max-width: 400px;
@@ -197,37 +155,27 @@ hr {
   border-top-right-radius: 0;
 }
 
-.button-start {
-  width: 200px;
+.notification-div {
+  position: absolute;
+  top: 0;
 }
 
-.row-bottom {
-  position: absolute;
-  bottom: 0;
+
+/* Lobby */
+#lobby-messages {
+  height: 25vh !important;
+  border: 1px solid grey;
+  background-color: #333333;
+}
+
+.button-start {
+  width: 200px;
 }
 
 .lobby-screen {
   height: 80vh;
   position: relative;
   padding: 1rem;
-}
-
-.notification-div {
-  position: absolute;
-  top: 0;
-}
-
-button:disabled {
-  cursor: not-allowed;
-  pointer-events: all !important;
-}
-
-li.disabled {
-  cursor: not-allowed;
-}
-
-li.disabled a {
-  pointer-events: none;
 }
 
 #setup-role-list {
@@ -241,21 +189,6 @@ li.disabled a {
 #settings-top {
   border: 1px solid grey;
   background-color: #333333;
-}
-
-@font-face {
-  font-family: "Corleone";
-  src: url("../font/Corleone.ttf");
-}
-
-@font-face {
-  font-family: "Corleone Due";
-  src: url("../font/CorleoneDue.ttf");
-}
-
-#mafia-header {
-  font-family: "Corleone Due", "Helvetica Neue", serif;
-  font-size: 2rem;
 }
 
 #lobby-start {
@@ -310,4 +243,71 @@ li.disabled a {
   text-align: left;
   padding: 0.5rem;
   font-size: 1rem;
+}
+
+
+/* Game */
+#game-messages {
+  height: 25vh !important;
+  border: 1px solid grey;
+  background-color: #333333;
+}
+
+.row-game-chat {
+  margin-top: 378px !important;
+  margin-bottom: 0 !important;
+}
+
+.dropdown-list {
+  position: absolute;
+  max-height: 36vh;
+  top: 100%;
+  width: 100%;
+  z-index: 3210;
+}
+
+.game-body {
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 100vh;
+}
+
+.game-body-section {
+  height: inherit;
+}
+
+.player-list {
+  max-height: 40vh;
+}
+
+.player-entry {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+
+/* Fix for disabled buttons in bootstrap */
+button:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+
+li.disabled {
+  cursor: not-allowed;
+}
+
+li.disabled a {
+  pointer-events: none;
+}
+
+
+/* Corleone Font */
+@font-face {
+  font-family: "Corleone";
+  src: url("../font/Corleone.ttf");
+}
+
+@font-face {
+  font-family: "Corleone Due";
+  src: url("../font/CorleoneDue.ttf");
 }
