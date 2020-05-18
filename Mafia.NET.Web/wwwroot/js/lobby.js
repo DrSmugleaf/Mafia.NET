@@ -97,3 +97,22 @@ $(removeRoleButton).click(function() {
     const role = $('.setup-role[data-name="' + roleName + '"]').last();
     role.remove();
 })
+
+$(".preset-entry").click(function() {
+    $(".catalog-role").removeClass("d-none");
+    const disabledRoles = $(this).data("disabled-roles");
+    if (!disabledRoles) return;
+    
+    for (const role of disabledRoles) {
+        $('.catalog-role[data-name="' + role + '"]').addClass("d-none");
+        $('.setup-role[data-name="' + role + '"]').remove();
+        
+        const selectedRole = $("#role-name");
+        if (!selectedRole.text()) continue;
+
+        selectedRole.text("").css("color", "");
+        $("#role-summary").text("");
+        $("#role-abilities").text("");
+        $("#role-goal").text("");
+    }
+})
