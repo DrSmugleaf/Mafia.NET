@@ -1,4 +1,8 @@
-﻿namespace Mafia.NET.Web.Models
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mafia.NET.Players.Roles;
+
+namespace Mafia.NET.Web.Models
 {
     public class GameSettingsModel
     {
@@ -16,5 +20,10 @@
         public bool ChooseNames { get; set; }
         public int TrialLength { get; set; }
         public string[] Roles { get; set; }
+
+        public List<RoleEntry> RoleEntries()
+        {
+            return Roles.Select(role => RoleRegistry.Default.Names[role]).ToList();
+        }
     }
 }

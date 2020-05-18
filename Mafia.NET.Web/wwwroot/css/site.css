@@ -235,7 +235,7 @@ hr {
 }
 
 #preset-list {
-  height: 33vh;
+  height: 31vh;
   border: 1px solid grey;
 }
 
@@ -264,7 +264,6 @@ hr {
 #players {
   border: 1px solid grey;
   background-color: #333333;
-  height: 64vh;
 }
 
 .add-button {
@@ -285,14 +284,14 @@ hr {
 
 /* Game */
 #game-messages {
-  height: 25vh !important;
+  height: 40vh !important;
   border: 1px solid grey;
   background-color: #333333;
 }
 
 .row-game-chat {
-  margin-top: 378px !important;
-  margin-bottom: 0 !important;
+  margin-top: 3vh !important;
+  margin-bottom: 1vh !important;
 }
 
 .dropdown-list {
@@ -314,12 +313,12 @@ hr {
 }
 
 .player-list {
-  max-height: 40vh;
+  height: 51vh;
 }
 
 .player-entry {
   text-align: left;
-  padding: 0.5rem;
+  padding: 0.25rem;
   font-size: 1rem;
 }
 

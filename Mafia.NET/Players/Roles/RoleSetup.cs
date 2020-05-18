@@ -34,8 +34,13 @@ namespace Mafia.NET.Players.Roles
 
         public RoleRegistry Roles { get; }
         public AbilityRegistry Abilities { get; }
-        public List<RoleEntry> MandatoryRoles { get; }
-        public List<ICategory> MandatoryCategories { get; }
+        public List<RoleEntry> MandatoryRoles { get; set; }
+        public List<ICategory> MandatoryCategories { get; set; }
+
+        public List<RoleEntry> RoleList()
+        {
+            return MandatoryRoles.ToList(); // TODO: Add categories too
+        }
 
         public int Players()
         {
@@ -48,7 +53,7 @@ namespace Mafia.NET.Players.Roles
             foreach (var category in MandatoryCategories)
             {
                 var categoryRoles = Roles.Names.Values
-                    .Where(role => role.Categories.Contains(category));
+                    .Where(cRole => cRole.Categories.Contains(category));
                 var roles = categoryRoles.ToList();
                 var role = roles[Random.Next(roles.Count())];
 

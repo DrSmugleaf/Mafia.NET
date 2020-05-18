@@ -1,7 +1,11 @@
-﻿@{
+﻿@using Mafia.NET.Players.Roles
+@using Mafia.NET.Players
+@{
     ViewData["Title"] = "Game";
     Layout = "_GameLayout";
-    var players = ViewData["Players"];
+    var players = (IReadOnlyList<IPlayer>) ViewData["Players"];
+    var role = (IRole) ViewData["Role"];
+    var roleList = (List<RoleEntry>) ViewData["RoleList"];
 }
 
 <div>
@@ -34,25 +38,42 @@
                         Role List
                     </button>
                     <div id="role-list" class="collapse overflow-auto dropdown-list">
+                        @foreach (var roleEntry in roleList)
+                        {
+                            <div class="list-group-item" style="color: @roleEntry.ColorHtml()">@roleEntry.Name</div>
+                        }
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4 float-right">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-3 float-right">
                 <div class="card">
-                    <h4 class="card-header text-center role-name">Lorem ipsum</h4>
+                    <h3 class="card-header text-center role-name" style="color: @role.ColorHtml()">@role.Name</h3>
+                    <h4 class="card-header text-center role-name" style="color: @role.Team.ColorHtml()">@role.Team.Name</h4>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-sm-4">Summary</div>
-                                <div class="col-sm">Lorem ipsum dolor sit amet</div>
+                                <div class="col-sm">@role.Summary</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-4">Abilities</div>
+                                <div class="col-sm">@role.Abilities</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-sm-4">Goal</div>
+                                <div class="col-sm">@role.Goal</div>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="row my-5 row-game-chat">
+        <div class="row row-game-chat">
             <div class="col-sm-4 align-self-end">
                 <div id="game-messages" class="container overflow-auto text-break"></div>
                 <div>
@@ -62,52 +83,13 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <div id="players">
-                    <ul class="list-group list-group-flush overflow-auto player-list">
-                        <li class="list-group-item player-entry">
-                            1 Confirmed Jester
-                        </li>
-                        <li class="list-group-item player-entry">
-                            2 Piero
-                        </li>
-                        <li class="list-group-item player-entry">
-                            3 Ercole The Weak
-                        </li>
-                        <li class="list-group-item player-entry">
-                            4 Ciro Rizzo
-                        </li>
-                        <li class="list-group-item player-entry">
-                            5 Mister Guy
-                        </li>
-                        <li class="list-group-item player-entry">
-                            6 The Town Cat
-                        </li>
-                        <li class="list-group-item player-entry">
-                            7 Guido DeVito
-                        </li>
-                        <li class="list-group-item player-entry">
-                            8 Primo Bruno
-                        </li>
-                        <li class="list-group-item player-entry">
-                            9
-                        </li>
-                        <li class="list-group-item player-entry">
-                            10
-                        </li>
-                        <li class="list-group-item player-entry">
-                            11
-                        </li>
-                        <li class="list-group-item player-entry">
-                            12
-                        </li>
-                        <li class="list-group-item player-entry">
-                            13
-                        </li>
-                        <li class="list-group-item player-entry">
-                            14
-                        </li>
-                        <li class="list-group-item player-entry">
-                            15
-                        </li>
+                    <ul class="list-group list-group-flush player-list overflow-auto">
+                        @foreach (var player in players)
+                        {
+                            <li data-player-number="@player.Number" class="list-group-item player-entry">
+                                @player.Number @Html.Encode(player.Name)
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

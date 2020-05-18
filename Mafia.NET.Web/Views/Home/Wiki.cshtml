@@ -1,10 +1,8 @@
-﻿@using System.Drawing
-@using Mafia.NET.Players.Roles
+﻿@using Mafia.NET.Players.Roles
 @{
     var role = (RoleEntry) ViewData["Role"];
     ViewData["Title"] = role.Name;
     Layout = "_WikiLayout";
-    var roleColor = ColorTranslator.ToHtml(role.Color);
 }
 
 <h2>@role.Name</h2>
@@ -14,7 +12,7 @@
         <div class="float-left col-sm"></div>
         <div class="float-right col-sm">
             <div class="card">
-                <h3 class="card-header text-center role-name" style="background-color: @roleColor">@role.Name</h3>
+                <h3 class="card-header text-center role-name" style="background-color: @role.ColorHtml()">@role.Name</h3>
                 <h4 class="card-header text-center role-name" style="background-color: @role.Team.ColorHtml()">@role.Team.Name</h4>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">

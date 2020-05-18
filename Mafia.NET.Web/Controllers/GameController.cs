@@ -32,7 +32,7 @@ namespace Mafia.NET.Web.Controllers
         public IActionResult Index()
         {
             if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
-            if (Entities.Matches.ContainsKey(guid)) return View("Game");
+            if (Entities.Matches.ContainsKey(guid)) return Play();
             if (Entities.Controllers.ContainsKey(guid)) return Lobby();
 
             return View("Join");
@@ -53,6 +53,20 @@ namespace Mafia.NET.Web.Controllers
             ViewData["LobbyId"] = lobbyId.ToString("N");
 
             return View("Lobby");
+        }
+
+        public IActionResult Play()
+        {
+            if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
+            if (!Entities.Players.ContainsKey(guid)) return View("Join");
+            
+            var player = Entities.Players[guid].Player;
+            
+            ViewData["Players"] = player.Match.LivingPlayers;
+            ViewData["Role"] = player.Role;
+            ViewData["RoleList"] = player.Match.Setup.Roles.RoleList();
+
+            return View("Game");
         }
         
         [HttpPost]
@@ -103,9 +117,18 @@ namespace Mafia.NET.Web.Controllers
             if (host.Guid() != guid) return Lobby();
 
             var lobby = host.Lobby;
-            lobby.Start();
+            lobby.Setup.Roles.MandatoryRoles = model.RoleEntries();
+            var match = lobby.Start();
+            Entities.Lobbies.TryRemove(lobby.Guid(), out _);
+            Entities.Matches[lobby.Guid()] = match;
             
-            return View("Game");
+            foreach (var controller in lobby.Controllers)
+                Entities.Controllers.TryRemove(controller.Guid(), out _);
+            
+            foreach (var player in match.AllPlayers)
+                Entities.Players[player.Guid()] = player.Controller;
+            
+            return Play();
         }
     }
 }
