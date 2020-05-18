@@ -31,15 +31,19 @@ connection.on("Start", () => {
     $(location).attr("href", "Game");
 })
 
-connection.on("Players", (users) => {
+connection.on("Players", names => {
     $(listPlayers).children().remove();
     
-    for (const user of users) {
+    for (const name of names) {
         const player = $('<li class="list-group-item player-entry"></li>');
-        player.text(user);
-        console.log(player);
+        player.text(name);
         $(listPlayers).append(player);
     }
+})
+
+connection.on("HostPlayer", host => {
+    $(listPlayers).children().removeClass("active");
+    $('li.player-entry:contains("' + host + '")').addClass("active");
 })
 
 connection.on("Host", () => {
@@ -50,8 +54,14 @@ connection.on("Unhost", () => {
     $(".host-only").prop("disabled", true);
 })
 
+connection.on("Join", name => {
+    const player = $('<li class="list-group-item player-entry"></li>');
+    player.text(name);
+    $(listPlayers).append(player);
+})
+
 connection.on("Leave", name => {
-    
+    $('li.player-entry:contains("' + name + '")').first().remove();
 })
 
 connection.start().then(function () {

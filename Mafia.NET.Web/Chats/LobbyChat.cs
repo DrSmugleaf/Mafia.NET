@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mafia.NET.Players.Controllers;
@@ -25,33 +26,50 @@ namespace Mafia.NET.Web.Chats
     
     public class LobbyChat : Hub
     {
-        private static readonly ConcurrentDictionary<Guid, LobbyUser> Users = new ConcurrentDictionary<Guid, LobbyUser>();
+        public static readonly ConcurrentDictionary<Guid, LobbyUser> Users = new ConcurrentDictionary<Guid, LobbyUser>();
         
-        public override Task OnConnectedAsync()
+        public override async Task OnConnectedAsync()
         {
-            if (!Context.GetHttpContext().Session.TryGuid(out var guid)) throw new NullReferenceException();
+            if (!Context.GetHttpContext().Session.TryGuid(out var guid))
+                throw new NullReferenceException();
+            
             var connection = Context.ConnectionId;
             var controller = GameController.Entities.Controllers[guid];
-            var user = new LobbyUser(guid, connection, controller);
-            Users[guid] = user;
-            
-            var users = user.Player.Lobby.Controllers
-                .Select(lobbyController => Users[lobbyController.Guid()].Player.Name)
-                .ToArray();
-            
-            Clients.Client(user.Connection).SendAsync("Players", users);
+            var connected = new LobbyUser(guid, connection, controller);
+            Users[guid] = connected;
 
-            if (user.Player.Lobby.Host == user.Player)
-                Clients.Client(user.Connection).SendAsync("Host");
+            var lobby = controller.Lobby;
+            var all = lobby.All().ToArray();
             
-            return base.OnConnectedAsync();
+            if (connected.Player.Lobby.Host == connected.Player)
+                await Clients.Client(connected.Connection).SendAsync("Host");
+
+            var names = all.Select(user => user.Player.Name);
+            await Clients.Client(connected.Connection)
+                .SendAsync("Players", names);
+
+            var others = lobby
+                .Except(connected.Player)
+                .Select(user => user.Connection)
+                .ToArray();
+            await Clients.Clients(others).SendAsync("Join", connected.Player.Name);
+
+            var allConnections = all.Select(user => user.Connection).ToArray();
+            await Clients.Clients(allConnections).SendAsync("HostPlayer", connected.Player.Lobby.Host.Name);
+
+            await base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            if (Context.GetHttpContext().Session.TryGuid(out var guid))
+            if (Context.GetHttpContext().Session.TryGuid(out var guid) && Users.TryRemove(guid, out var user))
             {
-                Users.TryRemove(guid, out _);
+                var player = user.Player;
+                var others = player.Lobby.Except(player)
+                    .Select(other => other.Connection)
+                    .ToArray();
+
+                Clients.Clients(others).SendAsync("Leave", player.Name);
             }
 
             return base.OnDisconnectedAsync(exception);
