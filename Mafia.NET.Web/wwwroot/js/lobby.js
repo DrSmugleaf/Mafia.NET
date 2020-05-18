@@ -80,14 +80,24 @@ function send() {
 }
 
 $(document).ready(() => {
+    (function($){
+        $.event.special.destroyed = {
+            remove: function(o) {
+                if (o.handler) {
+                    o.handler.apply(this, arguments);
+                }
+            }
+        }
+    })(jQuery);
+    
     $(".host-only").prop("disabled", true);
     
     $(buttonStart).click(() => {
-        connection.send("Start").then(() => {
-            $(".disable-on-start").prop("disabled", true);
-            $("input").prop("disabled", true);
-            $("select").prop("disabled", true);
-        })
+        // connection.send("Start").then(() => {
+        //     $(".disable-on-start").prop("disabled", true);
+        //     $("input").prop("disabled", true);
+        //     $("select").prop("disabled", true);
+        // })
     })
 })
 
@@ -122,11 +132,38 @@ $(addRoleButton).click(function() {
     if (!roleName) return;
     
     const color = roleEntry.css("color");
-    const role = $('<button type="button" class="btn btn-sm list-group-item setup-role disable-on-start host-only" data-name="' + roleName + '" style="color: ' + color + '">' + roleName + '</button>');
-    $(setupRoleList).append(role);
+    const newIndex = $(setupRoleList).children("button.setup-role").length;
     
-    role.click(function() {
+    const newRole = $('<button type="button" class="btn btn-sm list-group-item setup-role disable-on-start host-only" data-index="' + newIndex + '" data-name="' + roleName + '" style="color: ' + color + '">' + roleName + '</button>');
+    $(setupRoleList).append(newRole);
+    
+    const input = $('<input type="hidden" data-index="' + newIndex + '" data-role="' + roleName + '" id="Roles_' + newIndex + '_" name="Roles[' + newIndex + ']">')
+    input.val(roleName);
+    $(setupRoleList).append(input);
+    
+    newRole.click(function() {
         $(this).remove();
+    })
+    
+    $(newRole).bind("destroyed", function() {
+        input.remove();
+        
+        const index = $(this).attr("data-index");
+        const roles = $(setupRoleList).children("button.setup-role");
+        let i = 0;
+        for (const role of roles) {
+            const oldRole = $(role);
+            const oldIndex = oldRole.attr("data-index");
+            if (oldIndex === index) continue;
+
+            const oldInput = $('input[type=hidden][data-index="' + oldIndex + '"]');
+            oldRole.attr("data-index", i);
+            oldInput.attr("data-index", i);
+            oldInput.attr("id", "Roles_" + i + "_");
+            oldInput.attr("name", "Roles[" + i + "]");
+            
+            i++;
+        }
     })
 })
 

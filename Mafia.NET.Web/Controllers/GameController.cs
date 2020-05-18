@@ -32,8 +32,8 @@ namespace Mafia.NET.Web.Controllers
         public IActionResult Index()
         {
             if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
-            if (Entities.Controllers.ContainsKey(guid)) return Lobby();
             if (Entities.Matches.ContainsKey(guid)) return View("Game");
+            if (Entities.Controllers.ContainsKey(guid)) return Lobby();
 
             return View("Join");
         }
@@ -93,13 +93,15 @@ namespace Mafia.NET.Web.Controllers
             return Lobby();
         }
 
-        public IActionResult Start(StartGameModel model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Start(GameSettingsModel model)
         {
             if (!HttpContext.Session.TryGuid(out var guid)) return View("Join");
             
             var host = Entities.Controllers[guid];
             if (host.Guid() != guid) return Lobby();
-            
+
             var lobby = host.Lobby;
             lobby.Start();
             

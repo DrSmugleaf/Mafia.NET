@@ -15,5 +15,6 @@
         public bool TrialDefense { get; set; }
         public bool ChooseNames { get; set; }
         public int TrialLength { get; set; }
+        public string[] Roles { get; set; }
     }
 }

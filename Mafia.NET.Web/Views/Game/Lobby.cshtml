@@ -125,7 +125,7 @@
                 </div>
             </div>
             <div class="col-sm-2">
-                <button id="lobby-start" type="button" class="btn btn-lg btn-primary button-start disable-on-start host-only" disabled>Start</button>
+                <button asp-action="Start" id="lobby-start" type="submit" class="btn btn-lg btn-primary button-start disable-on-start host-only" disabled>Start</button>
             </div>
         </div>
         <div class="row">
@@ -225,8 +225,7 @@
             <div class="col-sm-2">
                 Role List
                 <div id="setup-roles">
-                    <ul id="setup-role-list" class="list-group list-group-flush overflow-auto">
-                    </ul>
+                    <ul id="setup-role-list" class="list-group list-group-flush overflow-auto"></ul>
                 </div>
             </div>
             <div class="col-sm-2">
