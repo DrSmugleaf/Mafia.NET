@@ -50,7 +50,8 @@ namespace Mafia.NET.Web.Chat
 
         public async Task NewMessage(string text)
         {
-            text = text.Trim().Substring(0, Math.Min(text.Length, 500));
+            text = text.Trim();
+            text = text.Substring(0, Math.Min(text.Length, 500));
             if (text.Length == 0) return;
             
             if (Context.GetHttpContext().Session.TryGuid(out var guid) && GameController.Entities.Controllers.TryGetValue(guid, out var sender))
