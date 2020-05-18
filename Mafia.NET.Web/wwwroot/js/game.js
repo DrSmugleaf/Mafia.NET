@@ -9,7 +9,7 @@ const connection = new signalR.HubConnectionBuilder()
     .withUrl("/GameChat")
     .build();
 
-connection.on("Message", (message) => {
+connection.on("Message", message => {
     message = sanitizeHtml(message);
     let m = document.createElement("div");
 
@@ -20,11 +20,11 @@ connection.on("Message", (message) => {
     divMessages.scrollTop = divMessages.scrollHeight;
 });
 
-connection.on("Notification", (message) => {
+connection.on("Notification", message => {
     $(headerNotification).text(message);
 });
 
-connection.on("Death", (message) => {
+connection.on("Death", message => {
     message = sanitizeHtml(message);
     let m = document.createElement("div");
 
@@ -32,11 +32,12 @@ connection.on("Death", (message) => {
         `<div class="dropdown-item">${message}</div>`;
 
     divGraveyard.appendChild(m);
+    divMessages.scrollTop = divMessages.scrollHeight;
 });
 
-connection.start().catch(err => document.write(err));
+connection.start().then(() => {});
 
-inputMessage.addEventListener("keyup", (e) => {
+inputMessage.addEventListener("keyup", e => {
     if (e.key === "Enter") {
         send();
     }

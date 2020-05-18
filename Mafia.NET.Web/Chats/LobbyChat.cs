@@ -7,7 +7,7 @@ using Mafia.NET.Web.Controllers;
 using Mafia.NET.Web.Extensions;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Mafia.NET.Web.Chat
+namespace Mafia.NET.Web.Chats
 {
     public class LobbyUser
     {
@@ -34,6 +34,12 @@ namespace Mafia.NET.Web.Chat
             var controller = GameController.Entities.Controllers[guid];
             var user = new LobbyUser(guid, connection, controller);
             Users[guid] = user;
+            
+            var users = user.Player.Lobby.Controllers
+                .Select(lobbyController => Users[lobbyController.Guid()].Player.Name)
+                .ToArray();
+            
+            Clients.Client(user.Connection).SendAsync("Players", users);
             
             return base.OnConnectedAsync();
         }

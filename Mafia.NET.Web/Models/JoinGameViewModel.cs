@@ -9,7 +9,7 @@ namespace Mafia.NET.Web.Models
 
         public Guid GameGuid()
         {
-            return Guid.Parse(Game);
+            return Guid.Parse(Game.Trim());
         }
         
         public bool IsValidCreate()

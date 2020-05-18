@@ -261,6 +261,12 @@ hr {
   color: #BBAA99;
 }
 
+#players {
+  border: 1px solid grey;
+  background-color: #333333;
+  height: 64vh;
+}
+
 
 /* Game */
 #game-messages {
@@ -297,8 +303,9 @@ hr {
 }
 
 .player-entry {
-  padding-top: 1px;
-  padding-bottom: 1px;
+  text-align: left;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
 

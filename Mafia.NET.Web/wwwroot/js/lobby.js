@@ -10,12 +10,13 @@ const divSetupInformation = document.querySelector("#preset-information");
 const divSetupName = document.querySelector("#preset-name");
 const divSetupDescription = document.querySelector("#preset-description");
 const buttonPresetUse = document.querySelector("#preset-use");
+const listPlayers = document.querySelector("#player-list");
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/LobbyChat")
     .build();
 
-connection.on("Message", (message) => {
+connection.on("Message", message => {
     message = sanitizeHtml(message);
     let m = document.createElement("div");
 
@@ -27,13 +28,28 @@ connection.on("Message", (message) => {
 });
 
 connection.on("Start", () => {
-    $(location).attr("href", "Game")
+    $(location).attr("href", "Game");
 })
 
-connection.start().then(() => {
+connection.on("Players", (users) => {
+    $(listPlayers).children().remove();
+    
+    for (const user of users) {
+        const player = $('<li class="list-group-item player-entry"></li>');
+        player.text(user);
+        console.log(player);
+        $(listPlayers).append(player);
+    }
+})
+
+connection.on("Leave", name => {
+    
+})
+
+connection.start().then(function () {
     $(messageInput).prop("disabled", false);
     $(buttonStart).prop("disabled", false);
-}).catch(err => document.write(err));
+})
 
 messageInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Mafia.NET.Players;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Web.Controllers;
 using Mafia.NET.Web.Extensions;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Mafia.NET.Web.Chat
+namespace Mafia.NET.Web.Chats
 {
     public class GameUser
     {

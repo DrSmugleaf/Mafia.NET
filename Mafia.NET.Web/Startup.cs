@@ -1,4 +1,4 @@
-using Mafia.NET.Web.Chat;
+using Mafia.NET.Web.Chats;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

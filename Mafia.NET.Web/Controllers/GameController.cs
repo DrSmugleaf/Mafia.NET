@@ -83,8 +83,9 @@ namespace Mafia.NET.Web.Controllers
                 return View("Join");
 
             var lobby = Entities.Lobbies[model.GameGuid()];
+            var playerName = model.Name.Trim();
             var playerId = Guid.NewGuid();
-            var player = lobby.Add(model.Name, playerId.ToString("N"));
+            var player = lobby.Add(playerName, playerId.ToString("N"));
             
             Entities.Controllers[playerId] = player;
             HttpContext.Session.Set("id", playerId.ToByteArray());
