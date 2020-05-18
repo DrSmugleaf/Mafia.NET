@@ -273,6 +273,9 @@ hr {
   border-bottom-color: rgb(68, 68, 68);
   border-bottom-style: solid;
   border-bottom-width: 1px !important;
+  border-left-color: rgb(68, 68, 68);
+  border-left-style: solid;
+  border-left-width: 1px !important;
 }
 
 .role-group {
