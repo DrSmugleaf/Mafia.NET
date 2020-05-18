@@ -107,12 +107,18 @@ $(".catalog-team").click(function() {
     $('*[data-team="' + team + '"]').removeClass("d-none");
 })
 
-$(".catalog-role").click(function() {
-    const name = $(this).data("name");
-    const color = $(this).data("color");
-    const summary = $(this).data("summary");
-    const abilities = $(this).data("abilities");
-    const goal = $(this).data("goal");
+$(".setup-role").click(function() {
+    $(this).remove();
+})
+
+function showRoleInformation(roleButton) {
+    roleButton = $(roleButton);
+    
+    const name = roleButton.data("name");
+    const color = roleButton.data("color");
+    const summary = roleButton.data("summary");
+    const abilities = roleButton.data("abilities");
+    const goal = roleButton.data("goal");
     
     $("#role-name").text(name).css("color", color);
     $("#role-summary").text(summary);
@@ -120,34 +126,39 @@ $(".catalog-role").click(function() {
     $("#role-goal").text(goal);
     $(addRoleButton).removeClass("d-none");
     $(removeRoleButton).removeClass("d-none");
-    
-    $(".setup-role").click(function() {
-        $(this).remove();
-    })
+}
+
+$(".catalog-role").click(function() {
+    showRoleInformation(this);
 })
 
-$(addRoleButton).click(function() {
-    const roleEntry = $("#role-name");
-    const roleName = roleEntry.text();
+$(".add-button").click(function() {
+    const roleName = $(this).attr("data-name");
+    const mainButton = $('button.catalog-role.main-button[data-name="' + roleName + '"]')
+    const color = mainButton.css("color");
+    
+    addRole(roleName, color);
+})
+
+function addRole(roleName, color) {
     if (!roleName) return;
     
-    const color = roleEntry.css("color");
     const newIndex = $(setupRoleList).children("button.setup-role").length;
-    
+
     const newRole = $('<button type="button" class="btn btn-sm list-group-item setup-role disable-on-start host-only" data-index="' + newIndex + '" data-name="' + roleName + '" style="color: ' + color + '">' + roleName + '</button>');
     $(setupRoleList).append(newRole);
-    
+
     const input = $('<input type="hidden" data-index="' + newIndex + '" data-role="' + roleName + '" id="Roles_' + newIndex + '_" name="Roles[' + newIndex + ']">')
     input.val(roleName);
     $(setupRoleList).append(input);
-    
+
     newRole.click(function() {
         $(this).remove();
     })
-    
+
     $(newRole).bind("destroyed", function() {
         input.remove();
-        
+
         const index = $(this).attr("data-index");
         const roles = $(setupRoleList).children("button.setup-role");
         let i = 0;
@@ -161,10 +172,18 @@ $(addRoleButton).click(function() {
             oldInput.attr("data-index", i);
             oldInput.attr("id", "Roles_" + i + "_");
             oldInput.attr("name", "Roles[" + i + "]");
-            
+
             i++;
         }
     })
+}
+
+$(addRoleButton).click(function() {
+    const roleEntry = $("#role-name");
+    const roleName = roleEntry.text();
+    const color = roleEntry.css("color");
+    
+    addRole(roleName, color);
 })
 
 $(removeRoleButton).click(function() {

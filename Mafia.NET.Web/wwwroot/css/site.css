@@ -267,6 +267,18 @@ hr {
   height: 64vh;
 }
 
+.add-button {
+  margin: 0 !important;
+  width: 25%;
+  border-bottom-color: rgb(68, 68, 68);
+  border-bottom-style: solid;
+  border-bottom-width: 1px !important;
+}
+
+.role-group {
+  margin: 0 !important;
+}
+
 
 /* Game */
 #game-messages {

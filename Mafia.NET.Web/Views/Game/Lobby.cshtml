@@ -135,7 +135,7 @@
                         <div id="presets" class="overflow-auto">
                             Presets
                             <ul id="preset-list" class="list-group list-group-flush">
-                                <button type="button" class="btn btn-sm btn-primary list-group-item preset-entry disable-on-start" data-preset="custom" data-description="All options are available to change.">Custom</button>
+                                <button type="button" class="btn btn-sm btn-primary list-group-item preset-entry disable-on-start" data-preset="custom" data-description="All options are available to change.">Default</button>
                                 <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start" data-preset="voice-chat" data-disabled-roles='["Disguiser", "Informant"]' data-description="Disables the Disguiser and Informant roles.">Voice Chat</button>
                             </ul>
                         </div>
@@ -212,7 +212,10 @@
                                         <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
                                             @foreach (var role in team.Roles())
                                             {
-                                                <button type="button" class="btn btn-sm list-group-item catalog-role disable-on-start" data-name="@role.Name" data-color="@role.ColorHtml()" data-summary="@role.Summary" data-abilities="@role.Abilities" data-goal="@role.Goal" style="color: @role.ColorHtml()">@role.Name</button>
+                                                <div class="btn-group btn-block role-group" role="group" aria-label="@role.Name">
+                                                    <button type="button" class="btn btn-sm btn-block list-group-item catalog-role disable-on-start main-button" data-name="@role.Name" data-color="@role.ColorHtml()" data-summary="@role.Summary" data-abilities="@role.Abilities" data-goal="@role.Goal" style="color: @role.ColorHtml()">@role.Name</button>
+                                                    <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start add-button" data-name="@role.Name">+</button>
+                                                </div>
                                             }
                                         </ul>
                                     }
