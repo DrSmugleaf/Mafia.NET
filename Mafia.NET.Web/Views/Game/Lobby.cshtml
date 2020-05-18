@@ -129,20 +129,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-2 pr-md-0">
                 <div class="row container-fluid pb-3">
-                    <div class="col p-0">
+                    <div class="col p-md-0">
                         <div id="presets" class="overflow-auto">
                             Presets
                             <ul id="preset-list" class="list-group list-group-flush">
-                                <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start">Custom</button>
-                                <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start" data-disabled-roles='["Disguiser", "Informant"]'>Voice Chat</button>
+                                <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start" data-preset="custom" data-description="All options are available to change.">Custom</button>
+                                <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start" data-preset="voice-chat" data-disabled-roles='["Disguiser", "Informant"]' data-description="Disables the Disguiser and Informant roles.">Voice Chat</button>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="row container-fluid">
-                    <div class="col p-0">
+                    <div class="col p-md-0">
                         <div id="lobby-messages" class="container overflow-auto text-break">
                         </div>
                         <div>
@@ -153,7 +153,16 @@
             </div>
             <div class="col-sm-4">
                 <div class="row">
-                    <div id="setup-description" class="col"></div>
+                    <div id="preset-information" class="col pl-sm-2 pl-md-0">
+                        <h2 id="preset-name" class="mt-5"></h2>
+                        <div id="preset-description"></div>
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <button id="preset-use" type="button" class="btn btn-lg btn-primary btn-block disable-on-start d-none">Use Preset</button>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-5"></div>

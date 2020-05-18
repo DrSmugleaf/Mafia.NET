@@ -3,9 +3,13 @@
 const divMessages = document.querySelector("#lobby-messages");
 const messageInput = document.querySelector("#message-input");
 const buttonStart = document.querySelector("#lobby-start");
-const setupRoleList = document.querySelector("#setup-role-list")
-const addRoleButton = document.querySelector("#add-role-button")
-const removeRoleButton = document.querySelector("#remove-role-button")
+const setupRoleList = document.querySelector("#setup-role-list");
+const addRoleButton = document.querySelector("#add-role-button");
+const removeRoleButton = document.querySelector("#remove-role-button");
+const divSetupInformation = document.querySelector("#preset-information");
+const divSetupName = document.querySelector("#preset-name");
+const divSetupDescription = document.querySelector("#preset-description");
+const buttonPresetUse = document.querySelector("#preset-use");
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/LobbyChat")
@@ -101,22 +105,37 @@ $(removeRoleButton).click(function() {
 })
 
 $(".preset-entry").click(function() {
-    $(".catalog-role").removeClass("d-none");
-    const disabledRoles = $(this).data("disabled-roles");
-    if (!disabledRoles) return;
+    const setupName = $(this).text();
+    $(divSetupName).text(setupName);
     
-    for (const role of disabledRoles) {
-        $('.catalog-role[data-name="' + role + '"]').addClass("d-none");
-        $('.setup-role[data-name="' + role + '"]').remove();
-        
-        const selectedRole = $("#role-name");
-        if (selectedRole.text() !== role) continue;
+    const setupDescription = $(this).data("description");
+    $(divSetupDescription).text(setupDescription);
+    
+    $(buttonPresetUse).removeClass("d-none");
+    
+    const setupId = $(this).data("preset");
+    $(divSetupInformation).data("preset", setupId);
+})
 
-        selectedRole.text("").css("color", "");
-        $("#role-summary").text("");
-        $("#role-abilities").text("");
-        $("#role-goal").text("");
-        $(addRoleButton).addClass("d-none");
-        $(removeRoleButton).addClass("d-none");
+$(buttonPresetUse).click(function() {
+    const presetId = $(divSetupInformation).data("preset");
+    
+    $(".catalog-role").removeClass("d-none");
+    const disabledRoles = $('button[data-preset="'+ presetId + '"]').first().data("disabled-roles");
+    if (disabledRoles) {
+        for (const role of disabledRoles) {
+            $('.catalog-role[data-name="' + role + '"]').addClass("d-none");
+            $('.setup-role[data-name="' + role + '"]').remove();
+
+            const selectedRole = $("#role-name");
+            if (selectedRole.text() !== role) continue;
+
+            selectedRole.text("").css("color", "");
+            $("#role-summary").text("");
+            $("#role-abilities").text("");
+            $("#role-goal").text("");
+            $(addRoleButton).addClass("d-none");
+            $(removeRoleButton).addClass("d-none");
+        }
     }
 })
