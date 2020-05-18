@@ -42,13 +42,20 @@ connection.on("Players", (users) => {
     }
 })
 
+connection.on("Host", () => {
+    $(".host-only").prop("disabled", false);
+})
+
+connection.on("Unhost", () => {
+    $(".host-only").prop("disabled", true);
+})
+
 connection.on("Leave", name => {
     
 })
 
 connection.start().then(function () {
     $(messageInput).prop("disabled", false);
-    $(buttonStart).prop("disabled", false);
 })
 
 messageInput.addEventListener("keyup", (e) => {
@@ -63,6 +70,8 @@ function send() {
 }
 
 $(document).ready(() => {
+    $(".host-only").prop("disabled", true);
+    
     $(buttonStart).click(() => {
         connection.send("Start").then(() => {
             $(".disable-on-start").prop("disabled", true);
@@ -103,7 +112,7 @@ $(addRoleButton).click(function() {
     if (!roleName) return;
     
     const color = roleEntry.css("color");
-    const role = $('<button type="button" class="btn btn-sm list-group-item setup-role disable-on-start" data-name="' + roleName + '" style="color: ' + color + '">' + roleName + '</button>');
+    const role = $('<button type="button" class="btn btn-sm list-group-item setup-role disable-on-start host-only" data-name="' + roleName + '" style="color: ' + color + '">' + roleName + '</button>');
     $(setupRoleList).append(role);
     
     role.click(function() {

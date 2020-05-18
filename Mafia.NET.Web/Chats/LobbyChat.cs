@@ -40,6 +40,9 @@ namespace Mafia.NET.Web.Chats
                 .ToArray();
             
             Clients.Client(user.Connection).SendAsync("Players", users);
+
+            if (user.Player.Lobby.Host == user.Player)
+                Clients.Client(user.Connection).SendAsync("Host");
             
             return base.OnConnectedAsync();
         }
