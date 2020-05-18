@@ -121,7 +121,8 @@ $(buttonPresetUse).click(function() {
     const presetId = $(divSetupInformation).data("preset");
     
     $(".catalog-role").removeClass("d-none");
-    const disabledRoles = $('button[data-preset="'+ presetId + '"]').first().data("disabled-roles");
+    const presetButton = $('button[data-preset="'+ presetId + '"]').first();
+    const disabledRoles = presetButton.data("disabled-roles");
     if (disabledRoles) {
         for (const role of disabledRoles) {
             $('.catalog-role[data-name="' + role + '"]').addClass("d-none");
@@ -138,4 +139,7 @@ $(buttonPresetUse).click(function() {
             $(removeRoleButton).addClass("d-none");
         }
     }
+    
+    $("button.preset-entry").removeClass("btn-primary");
+    presetButton.addClass("btn-primary");
 })
