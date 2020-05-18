@@ -69,6 +69,8 @@ $(".catalog-role").click(function() {
     $("#role-summary").text(summary);
     $("#role-abilities").text(abilities);
     $("#role-goal").text(goal);
+    $(addRoleButton).removeClass("d-none");
+    $(removeRoleButton).removeClass("d-none");
     
     $(".setup-role").click(function() {
         $(this).remove();
@@ -108,11 +110,13 @@ $(".preset-entry").click(function() {
         $('.setup-role[data-name="' + role + '"]').remove();
         
         const selectedRole = $("#role-name");
-        if (!selectedRole.text()) continue;
+        if (selectedRole.text() !== role) continue;
 
         selectedRole.text("").css("color", "");
         $("#role-summary").text("");
         $("#role-abilities").text("");
         $("#role-goal").text("");
+        $(addRoleButton).addClass("d-none");
+        $(removeRoleButton).addClass("d-none");
     }
 })
