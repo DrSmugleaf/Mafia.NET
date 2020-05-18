@@ -15,7 +15,7 @@ a.navbar-brand {
 }
 
 .navbar-mafia {
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
 }
 
 .box-shadow {
@@ -243,6 +243,14 @@ hr {
   text-align: left;
   padding: 0.5rem;
   font-size: 1rem;
+}
+
+#setup-description {
+  height: 25vh;
+}
+
+#role-information {
+  height: 20vh;
 }
 
 

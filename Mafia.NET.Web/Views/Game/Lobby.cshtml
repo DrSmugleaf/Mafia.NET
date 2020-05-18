@@ -150,33 +150,64 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
+                <div class="row">
+                    <div id="setup-description" class="col"></div>
+                </div>
                 <div class="row mb-2">
+                    <div class="col-5"></div>
                     <div class="col">
-                        Catalog
-                        <div id="catalog-teams" class="overflow-auto">
-                            <ul class="list-group list-group-flush">
-                                @foreach (var team in teams)
-                                {
-                                    <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@team.Name" style="color: @team.ColorHtml()">@team.Name</button>
-                                }
-                            </ul>
+                        <div id="role-information" class="overflow-auto">
+                            <div id="role-name"></div>
+                            <div id="role-summary"></div>
+                            <div id="role-abilities"></div>
+                            <div id="role-goal"></div>
                         </div>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col-5"></div>
+                    <div class="col">
+                        <button id="add-role-button" type="button" class="btn btn-lg btn-primary btn-block">Add</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5"></div>
+                    <div class="col">
+                        <button id="remove-role-button" type="button" class="btn btn-lg btn-danger btn-block">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
                 <div class="row">
                     <div class="col">
-                        <div id="catalog-roles" class="overflow-auto">
-                            @foreach (var team in teams)
-                            {
-                                <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
-                                    @foreach (var role in team.Roles())
+                        <div class="row mb-2">
+                            <div class="col">
+                                Catalog
+                                <div id="catalog-teams" class="overflow-auto">
+                                    <ul class="list-group list-group-flush">
+                                        @foreach (var team in teams)
+                                        {
+                                            <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@team.Name" style="color: @team.ColorHtml()">@team.Name</button>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="catalog-roles" class="overflow-auto">
+                                    @foreach (var team in teams)
                                     {
-                                        <button type="button" class="btn btn-sm list-group-item catalog-role disable-on-start" data-name="@role.Name" data-color="@role.ColorHtml()" style="color: @role.ColorHtml()">@role.Name</button>
+                                        <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
+                                            @foreach (var role in team.Roles())
+                                            {
+                                                <button type="button" class="btn btn-sm list-group-item catalog-role disable-on-start" data-name="@role.Name" data-color="@role.ColorHtml()" data-summary="@role.Summary" data-abilities="@role.Abilities" data-goal="@role.Goal" style="color: @role.ColorHtml()">@role.Name</button>
+                                            }
+                                        </ul>
                                     }
-                                </ul>
-                            }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
