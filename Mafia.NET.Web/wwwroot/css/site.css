@@ -250,7 +250,15 @@ hr {
 }
 
 #role-information {
-  height: 20vh;
+  height: 25vh;
+}
+
+#role-abilities {
+  color: #BBDDFF;
+}
+
+#role-goal {
+  color: #AA9988;
 }
 
 
