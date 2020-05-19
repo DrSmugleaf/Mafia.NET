@@ -29,7 +29,7 @@ namespace Mafia.NET.Web.Controllers
             if (!Session.TryLobbyController(out var controller)) return View("Join");
 
             var lobbyId = controller.Lobby.Id;
-            ViewData["LobbyId"] = lobbyId;
+            ViewData["LobbyId"] = lobbyId.ToString("N");
 
             return View("Lobby");
         }
