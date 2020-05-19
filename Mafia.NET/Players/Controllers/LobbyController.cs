@@ -1,20 +1,20 @@
-﻿using Mafia.NET.Matches;
-using Mafia.NET.Players.Roles;
+﻿using System;
+using Mafia.NET.Matches;
 
 namespace Mafia.NET.Players.Controllers
 {
     public interface ILobbyController
     {
         string Name { get; set; }
-        string Id { get; set; }
+        Guid Id { get; set; }
         ILobby Lobby { get; set; }
 
         IPlayerController Player(IPlayer player);
     }
-    
+
     public class LobbyController : ILobbyController
     {
-        public LobbyController(string name, string id, ILobby lobby)
+        public LobbyController(string name, Guid id, ILobby lobby)
         {
             Name = name;
             Id = id;
@@ -22,7 +22,7 @@ namespace Mafia.NET.Players.Controllers
         }
 
         public string Name { get; set; }
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public ILobby Lobby { get; set; }
 
         public IPlayerController Player(IPlayer player)

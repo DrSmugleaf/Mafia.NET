@@ -50,6 +50,7 @@ namespace Mafia.NET.Players.Roles
         public HashSet<RoleEntry> Possible()
         {
             var possible = new HashSet<RoleEntry>(MandatoryRoles);
+
             foreach (var category in MandatoryCategories)
             {
                 var categoryRoles = Roles.Names.Values
@@ -66,10 +67,12 @@ namespace Mafia.NET.Players.Roles
         public List<RoleEntry> Randomize()
         {
             var roles = new List<RoleEntry>(MandatoryRoles);
+
             foreach (var category in MandatoryCategories)
             {
-                var categoryRoles = Roles.Names.Values.Where(role => role.Categories.Contains(category));
+                var categoryRoles = Roles.Names.Values.Where(cRole => cRole.Categories.Contains(category)).ToList();
                 var role = categoryRoles.ElementAt(Random.Next(categoryRoles.Count()));
+
                 roles.Add(role);
             }
 
@@ -91,9 +94,7 @@ namespace Mafia.NET.Players.Roles
                 var roleEntry = roles[i];
                 var ability = Abilities.Names[roleEntry.Name].Build();
                 var role = new Role(roleEntry, ability);
-                var player = new Player(match, i + 1, controller.Id, controller.Name, role);
-                var playerController = controller.Player(player);
-                player.Controller = playerController;
+                var player = new Player(controller, match, i + 1, controller.Name, role);
                 players.Add(player);
             }
 

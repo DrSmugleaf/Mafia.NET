@@ -30,7 +30,7 @@ namespace Mafia.NET.Matches.Chats
             listeners)
         {
         }
-        
+
         public IChatParticipant Sender { get; }
         public string Text { get; }
         public IImmutableSet<IPlayer> Listeners { get; }

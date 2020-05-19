@@ -1,77 +1,51 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mafia.NET.Players.Controllers;
-using Mafia.NET.Web.Controllers;
 using Mafia.NET.Web.Extensions;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Mafia.NET.Web.Chats
 {
-    public class LobbyUser
+    public class LobbyChat : Chat
     {
-        public readonly Guid Id;
-        public readonly string Connection;
-        public readonly ILobbyController Player;
-
-        public LobbyUser(Guid id, string connection, ILobbyController player)
-        {
-            Id = id;
-            Connection = connection;
-            Player = player;
-        }
-    }
-    
-    public class LobbyChat : Hub
-    {
-        public static readonly ConcurrentDictionary<Guid, LobbyUser> Users = new ConcurrentDictionary<Guid, LobbyUser>();
-        
         public override async Task OnConnectedAsync()
         {
-            if (!Context.GetHttpContext().Session.TryGuid(out var guid))
-                throw new NullReferenceException();
-            
-            var connection = Context.ConnectionId;
-            var controller = GameController.Entities.Controllers[guid];
-            var connected = new LobbyUser(guid, connection, controller);
-            Users[guid] = connected;
+            if (!Session.TryLobbyController(out var connected))
+            {
+                Context.Abort();
+                throw new InvalidOperationException("No lobby controller found for connection" + Context.ConnectionId);
+            }
 
-            var lobby = controller.Lobby;
-            var all = lobby.All().ToArray();
-            
-            if (connected.Player.Lobby.Host == connected.Player)
-                await Clients.Client(connected.Connection).SendAsync("Host");
+            var connection = Context.UserIdentifier;
+            Session.Connection(connection);
 
-            var names = all.Select(user => user.Player.Name);
-            await Clients.Client(connected.Connection)
-                .SendAsync("Players", names);
+            var lobby = connected.Lobby;
 
-            var others = lobby
-                .Except(connected.Player)
-                .Select(user => user.Connection)
-                .ToArray();
-            await Clients.Clients(others).SendAsync("Join", connected.Player.Name);
+            if (connected.Lobby.Host == connected)
+                await Clients.User(connection).SendAsync("Host");
 
-            var allConnections = all.Select(user => user.Connection).ToArray();
-            await Clients.Clients(allConnections).SendAsync("HostPlayer", connected.Player.Lobby.Host.Name);
+            var names = lobby.Controllers
+                .Select(user => user.Name);
+            await Clients.Client(connection).SendAsync("Players", names);
+
+            var others = lobby.IdsExcept(connected);
+            await Clients.Clients(others).SendAsync("Join", connected.Name);
+
+            var allConnections = connected.Lobby.ControllerIds();
+            await Clients.Clients(allConnections).SendAsync("HostPlayer", connected.Lobby.Host.Name);
 
             await base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            if (Context.GetHttpContext().Session.TryGuid(out var guid) && Users.TryRemove(guid, out var user))
+            if (Session.TryLobbyController(out var controller))
             {
-                var player = user.Player;
-                var others = player.Lobby.Except(player)
-                    .Select(other => other.Connection)
-                    .ToArray();
-
-                Clients.Clients(others).SendAsync("Leave", player.Name);
+                var others = controller.Lobby.IdsExcept(controller);
+                Clients.Clients(others).SendAsync("Leave", controller.Name);
             }
 
+            Session.Connection(null);
             return base.OnDisconnectedAsync(exception);
         }
 
@@ -79,47 +53,28 @@ namespace Mafia.NET.Web.Chats
         {
             text = text.Trim();
             text = text.Substring(0, Math.Min(text.Length, 500));
-            if (text.Length == 0) return;
-            
-            if (Context.GetHttpContext().Session.TryGuid(out var guid) && GameController.Entities.Controllers.TryGetValue(guid, out var sender))
-            {
-                var users = sender.Lobby.Controllers
-                    .Select(controller => Users[controller.Guid()].Connection)
-                    .ToList()
-                    .AsReadOnly();
+            if (text.Length == 0 || !Session.TryLobbyController(out var sender)) return;
 
-                await Clients.Clients(users).SendAsync("Message", $"{sender.Name}: {text}");
-            }
+            var users = sender.Lobby.ControllerIds();
+            await Clients.Users(users).SendAsync("Message", $"{sender.Name}: {text}");
         }
 
         public async Task Start()
         {
-            if (!Context.GetHttpContext().Session.TryGuid(out var guid)) return;
+            if (Session.TryLobbyController(out var host)) return;
 
-            var host = GameController.Entities.Controllers[guid];
             var lobby = host.Lobby;
-            if (lobby.Started) return;
-            
-            var users = lobby.Controllers
-                .Select(controller => Users[controller.Guid()].Connection)
-                .ToList()
-                .AsReadOnly();
+            if (lobby.Started || host != lobby.Host) return;
 
             var match = lobby.Start();
-            GameController.Entities.Lobbies.TryRemove(lobby.Guid(), out _);
-            GameController.Entities.Matches[lobby.Guid()] = match;
-            
-            foreach (var controller in lobby.Controllers)
-            {
-                GameController.Entities.Controllers.TryRemove(controller.Guid(), out _);
-            }
-            
-            foreach (var player in match.AllPlayers)
-            {
-                GameController.Entities.Players[player.Guid()] = player.Controller;
-            }
 
-            await Clients.Clients(users).SendAsync("Start");
+            foreach (var controller in lobby.Controllers)
+                SessionExtensions.LobbyControllers.TryRemove(controller.Id, out _);
+
+            foreach (var player in match.AllPlayers)
+                SessionExtensions.PlayerControllers[player.Id] = player.Controller;
+
+            await Clients.Clients(lobby.ControllerIds()).SendAsync("Start");
         }
     }
 }

@@ -1,6 +1,7 @@
 using Mafia.NET.Web.Chats;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,7 @@ namespace Mafia.NET.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IUserIdProvider, SessionIdProvider>();
             services.AddControllersWithViews();
             services.AddMvc();
             services.AddSession();

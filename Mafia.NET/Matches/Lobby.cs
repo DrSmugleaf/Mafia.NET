@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Matches.Options;
@@ -9,13 +9,14 @@ namespace Mafia.NET.Matches
 {
     public interface ILobby
     {
-        string Id { get; }
+        Guid Id { get; }
         Setup Setup { get; set; }
         ILobbyController Host { get; set; }
         IReadOnlyList<ILobbyController> Controllers { get; }
         bool Started { get; }
 
-        ILobbyController Add(string name, string id);
+        IEnumerable<ILobbyController> Except(ILobbyController controller);
+        ILobbyController Add(string name, Guid id);
         IMatch Start();
     }
 
@@ -23,7 +24,7 @@ namespace Mafia.NET.Matches
     {
         private readonly List<ILobbyController> _controllers;
 
-        public Lobby(string id, string hostName, string hostId, Setup setup = null)
+        public Lobby(Guid id, string hostName, Guid hostId, Setup setup = null)
         {
             Id = id;
             Setup = setup ?? new Setup();
@@ -32,24 +33,30 @@ namespace Mafia.NET.Matches
             Started = false;
         }
 
-        public string Id { get; }
+        [CanBeNull] protected IMatch Match { get; set; }
+
+        public Guid Id { get; }
         public Setup Setup { get; set; }
         public ILobbyController Host { get; set; }
         public IReadOnlyList<ILobbyController> Controllers => _controllers;
         public bool Started { get; protected set; }
-        [CanBeNull] protected IMatch Match { get; set; }
 
-        public ILobbyController Add(string name, string id)
+        public IEnumerable<ILobbyController> Except(ILobbyController except)
+        {
+            return Controllers.Where(controller => controller != except);
+        }
+
+        public ILobbyController Add(string name, Guid id)
         {
             var controller = new LobbyController(name, id, this);
             _controllers.Add(controller);
             return controller;
         }
-        
+
         public IMatch Start()
         {
             if (Started) return Match;
-            
+
             Started = true;
             Match = new Match(Setup, _controllers);
             return Match;

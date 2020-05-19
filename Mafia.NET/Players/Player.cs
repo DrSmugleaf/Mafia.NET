@@ -12,7 +12,7 @@ namespace Mafia.NET.Players
         IPlayerController Controller { get; set; }
         IMatch Match { get; }
         int Number { get; }
-        string Id { get; }
+        Guid Id { get; }
         string Name { get; set; }
         IRole Role { get; set; }
         Color Color { get; }
@@ -28,11 +28,11 @@ namespace Mafia.NET.Players
 
     public class Player : IPlayer
     {
-        public Player(IMatch match, int number, string id, string name, IRole role)
+        public Player(ILobbyController controller, IMatch match, int number, string name, IRole role)
         {
             Match = match;
             Number = number;
-            Id = id;
+            Id = controller.Id;
             Name = name;
             Role = role;
             Color = PlayerColorsExtensions.From(number).Color();
@@ -41,12 +41,13 @@ namespace Mafia.NET.Players
             DeathNote = new Note(Match, this);
             Blackmailed = false;
             Crimes = new Crimes(this);
+            Controller = controller.Player(this);
         }
 
         public IPlayerController Controller { get; set; }
         public IMatch Match { get; }
         public int Number { get; }
-        public string Id { get; }
+        public Guid Id { get; }
         public string Name { get; set; }
         public IRole Role { get; set; }
         public Color Color { get; }

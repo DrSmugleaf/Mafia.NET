@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             User = user;
             Phases = phases;
         }
-        #nullable disable
+#nullable disable
         public TargetManager(IMatch match, IPlayer user)
         {
             Match = match;
@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             Phases = phases;
         }
-        #nullable enable
+#nullable enable
         public PhaseTargeting Get()
         {
             return Phases[Match.Phase.CurrentTime];
@@ -211,6 +211,8 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         public static readonly TargetFilter Any = new TargetFilter(dictionary => dictionary);
 
+        private readonly Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> _filter;
+
         private TargetFilter(Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> filter)
         {
             _filter = filter;
@@ -219,8 +221,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         private TargetFilter(Func<IReadOnlyList<IPlayer>> supplier) : this(_ => supplier.Invoke())
         {
         }
-
-        private readonly Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> _filter;
 
         public static TargetFilter Living(IMatch match)
         {

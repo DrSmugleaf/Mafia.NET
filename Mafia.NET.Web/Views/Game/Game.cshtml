@@ -87,7 +87,7 @@
                         @foreach (var player in players)
                         {
                             <li data-player-number="@player.Number" class="list-group-item player-entry">
-                                @player.Number @Html.Encode(player.Name)
+                                @player.Number @player.Name
                             </li>
                         }
                     </ul>

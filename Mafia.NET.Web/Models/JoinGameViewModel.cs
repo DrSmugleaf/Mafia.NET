@@ -5,13 +5,13 @@ namespace Mafia.NET.Web.Models
     public class JoinGameViewModel
     {
         public string Name { get; set; }
-        public string Game { get; set; }
+        public string Lobby { get; set; }
 
-        public Guid GameGuid()
+        public Guid LobbyGuid()
         {
-            return Guid.Parse(Game.Trim());
+            return Guid.Parse(Lobby.Trim());
         }
-        
+
         public bool IsValidCreate()
         {
             return Name.Length < 31 && Name.Length > 2;
@@ -19,7 +19,7 @@ namespace Mafia.NET.Web.Models
 
         public bool IsValidJoin()
         {
-            return IsValidCreate() && Guid.TryParse(Game, out _);
+            return IsValidCreate() && Guid.TryParse(Lobby, out _);
         }
     }
 }

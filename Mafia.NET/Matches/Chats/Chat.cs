@@ -14,12 +14,17 @@ namespace Mafia.NET.Matches.Chats
         IChat Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false);
         bool CanSend(MessageIn messageIn);
         MessageOut Send(MessageIn messageIn);
-        [CanBeNull] MessageOut Send(IPlayer player, string message);
+
+        [CanBeNull]
+        MessageOut Send(IPlayer player, string message);
+
         void Close();
     }
 
     public class Chat : IChat
     {
+        private readonly Dictionary<IPlayer, IChatParticipant> _participants;
+
         public Chat(string name)
         {
             Name = name;
@@ -32,7 +37,6 @@ namespace Mafia.NET.Matches.Chats
             _participants = participants;
         }
 
-        private readonly Dictionary<IPlayer, IChatParticipant> _participants;
         public string Name { get; }
         public IDictionary<IPlayer, IChatParticipant> Participants => _participants;
         public bool Paused { get; set; }
@@ -74,7 +78,7 @@ namespace Mafia.NET.Matches.Chats
             if (!CanSend(messageIn)) return new MessageOut(messageIn);
 
             var listeners = new HashSet<IPlayer>();
-            
+
             foreach (var participant in _participants.Values)
                 if (!participant.Deaf)
                     listeners.Add(participant.Owner);
@@ -85,10 +89,10 @@ namespace Mafia.NET.Matches.Chats
         public MessageOut Send(IPlayer player, string text)
         {
             if (!_participants.ContainsKey(player)) return null;
-            
+
             var participant = _participants[player];
             var message = new MessageIn(participant, text);
-            
+
             return Send(message);
         }
 
