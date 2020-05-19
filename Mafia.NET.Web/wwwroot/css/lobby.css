@@ -1,0 +1,122 @@
+﻿#lobby-messages {
+    height: 25vh !important;
+    border: 1px solid grey;
+    background-color: #333333;
+}
+
+.button-start {
+    width: 200px;
+}
+
+.lobby-screen {
+    height: 80vh;
+    position: relative;
+    padding: 1rem;
+}
+
+#setup-role-list {
+    border: 1px solid grey;
+    background-color: #333333;
+    height: 64vh;
+    width: inherit;
+    box-sizing: border-box;
+}
+
+#settings-top {
+    border: 1px solid grey;
+    background-color: #333333;
+}
+
+#lobby-start {
+    width: inherit;
+}
+
+#catalog-teams {
+    border: 1px solid grey;
+    background-color: #333333;
+    height: 17vh;
+    width: inherit;
+    box-sizing: border-box;
+}
+
+.catalog-team {
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.catalog-role {
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+#catalog-roles {
+    border: 1px solid grey;
+    background-color: #333333;
+    height: 46vh;
+    width: inherit;
+    box-sizing: border-box;
+}
+
+.setup-role {
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+#message-input {
+    border-radius: 0 0;
+    border: 1px solid grey;
+}
+
+#preset-list {
+    height: 31vh;
+    border: 1px solid grey;
+}
+
+.preset-entry {
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+#preset-information {
+    height: 25vh;
+}
+
+#role-information {
+    height: 27vh;
+}
+
+#role-abilities {
+    color: #BBDDFF;
+}
+
+#role-goal {
+    color: #BBAA99;
+}
+
+#players {
+    border: 1px solid grey;
+    background-color: #333333;
+}
+
+.player-list {
+    height: 64vh;
+}
+
+.add-button {
+    margin: 0 !important;
+    width: 25%;
+    border-bottom-color: rgb(68, 68, 68);
+    border-bottom-style: solid;
+    border-bottom-width: 1px !important;
+    border-left-color: rgb(68, 68, 68);
+    border-left-style: solid;
+    border-left-width: 1px !important;
+}
+
+.role-group {
+    margin: 0 !important;
+}

@@ -1,0 +1,43 @@
+﻿#game-messages {
+    height: 40vh !important;
+    border: 1px solid grey;
+    background-color: #333333;
+}
+
+.row-game-chat {
+    margin-top: 3vh !important;
+    margin-bottom: 1vh !important;
+}
+
+.dropdown-list {
+    position: absolute;
+    max-height: 36vh;
+    top: 100%;
+    width: 100%;
+    z-index: 3210;
+}
+
+.game-body {
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100vh;
+}
+
+.game-body-section {
+    height: inherit;
+}
+
+.player-list {
+    height: 51vh;
+}
+
+.player-entry {
+    text-align: left;
+    padding: 0.25rem;
+    font-size: 1rem;
+}
+
+.notification-div {
+    position: absolute;
+    top: 0;
+}
