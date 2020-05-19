@@ -26,13 +26,13 @@ namespace Mafia.NET.Web.Chats
 
             var names = lobby.Controllers
                 .Select(user => user.Name);
-            await Clients.Client(connection).SendAsync("Players", names);
+            await Clients.User(connection).SendAsync("Players", names);
 
             var others = lobby.IdsExcept(connected);
-            await Clients.Clients(others).SendAsync("Join", connected.Name);
+            await Clients.Users(others).SendAsync("Join", connected.Name);
 
             var allConnections = connected.Lobby.ControllerIds();
-            await Clients.Clients(allConnections).SendAsync("HostPlayer", connected.Lobby.Host.Name);
+            await Clients.Users(allConnections).SendAsync("HostPlayer", connected.Lobby.Host.Name);
 
             await base.OnConnectedAsync();
         }
@@ -42,7 +42,7 @@ namespace Mafia.NET.Web.Chats
             if (Session.TryLobbyController(out var controller))
             {
                 var others = controller.Lobby.IdsExcept(controller);
-                Clients.Clients(others).SendAsync("Leave", controller.Name);
+                Clients.Users(others).SendAsync("Leave", controller.Name);
             }
 
             Session.Connection(null);
@@ -74,7 +74,7 @@ namespace Mafia.NET.Web.Chats
             foreach (var player in match.AllPlayers)
                 SessionExtensions.PlayerControllers[player.Id] = player.Controller;
 
-            await Clients.Clients(lobby.ControllerIds()).SendAsync("Start");
+            await Clients.Users(lobby.ControllerIds()).SendAsync("Start");
         }
     }
 }

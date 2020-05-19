@@ -106,6 +106,12 @@
     height: 64vh;
 }
 
+.player-entry {
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
 .add-button {
     margin: 0 !important;
     width: 25%;
