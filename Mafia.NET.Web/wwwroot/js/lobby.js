@@ -212,11 +212,13 @@ $(buttonPresetUse).click(function() {
     const presetId = $(divSetupInformation).data("preset");
     
     $(".catalog-role").removeClass("d-none");
+    $(".add-button").removeClass("d-none");
     const presetButton = $('button[data-preset="'+ presetId + '"]').first();
     const disabledRoles = presetButton.data("disabled-roles");
     if (disabledRoles) {
         for (const role of disabledRoles) {
             $('.catalog-role[data-name="' + role + '"]').addClass("d-none");
+            $('.add-button[data-name="' + role + '"]').addClass("d-none");
             $('.setup-role[data-name="' + role + '"]').remove();
 
             const selectedRole = $("#role-name");
