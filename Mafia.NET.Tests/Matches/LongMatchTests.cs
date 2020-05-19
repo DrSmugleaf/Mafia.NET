@@ -27,7 +27,7 @@ namespace Mafia.NET.Tests.Matches
             var setup = new Setup(roleSetup);
             var hostName = "Bot 1";
             var lobby = new Lobby(Guid.NewGuid(), hostName, Guid.NewGuid(), setup);
-            for (var i = 0; i < 15; i++) lobby.Add($"Bot {i + 1}", Guid.NewGuid());
+            for (var i = 1; i < 15; i++) lobby.Add($"Bot {i + 1}", Guid.NewGuid());
 
             Assert.That(lobby.Host.Name, Is.EqualTo(hostName));
 
