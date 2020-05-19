@@ -11,6 +11,7 @@ namespace Mafia.NET.Matches
 {
     public interface IMatch
     {
+        Guid Id { get; }
         ISetup Setup { get; }
         IReadOnlyList<IPlayerController> Controllers { get; }
         IReadOnlyList<IPlayer> AllPlayers { get; }
@@ -19,16 +20,19 @@ namespace Mafia.NET.Matches
         PhaseManager Phase { get; set; }
         ChatManager Chat { get; }
         Random Random { get; }
+        event EventHandler<MatchEnd> MatchEnd;
 
         void Start();
         void Skip();
         void End();
+        void OnEnd();
     }
 
     public class Match : IMatch
     {
-        public Match(ISetup setup, IList<ILobbyController> controllers)
+        public Match(Guid id, ISetup setup, IList<ILobbyController> controllers)
         {
+            Id = id;
             Setup = setup;
             AllPlayers = setup.Roles.Randomize(controllers, this);
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
@@ -37,6 +41,7 @@ namespace Mafia.NET.Matches
             Random = new Random();
         }
 
+        public Guid Id { get; }
         public ISetup Setup { get; }
         public IReadOnlyList<IPlayerController> Controllers { get; }
         public IReadOnlyList<IPlayer> AllPlayers { get; }
@@ -45,6 +50,7 @@ namespace Mafia.NET.Matches
         public PhaseManager Phase { get; set; }
         public ChatManager Chat => Phase.CurrentPhase.ChatManager;
         public Random Random { get; }
+        public event EventHandler<MatchEnd> MatchEnd;
 
         public void Start()
         {
@@ -61,6 +67,12 @@ namespace Mafia.NET.Matches
         public void End()
         {
             Phase.Close();
+            OnEnd();
+        }
+
+        public void OnEnd()
+        {
+            MatchEnd?.Invoke(this, new MatchEnd(this));
         }
     }
 }

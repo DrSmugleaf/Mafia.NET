@@ -44,12 +44,11 @@
     font-size: 1rem;
 }
 
-.notification-div {
-    position: absolute;
-    top: 0;
-}
-
 .interface-element {
     border: 1px solid grey !important;
     background-color: #333333 !important;
+}
+
+#clock {
+    padding: 0.25rem;
 }

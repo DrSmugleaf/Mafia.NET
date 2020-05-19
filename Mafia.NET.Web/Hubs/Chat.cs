@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Mafia.NET.Web.Chats
+namespace Mafia.NET.Web.Hubs
 {
     public abstract class Chat : Hub
     {

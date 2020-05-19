@@ -29,7 +29,7 @@ connection.on("Message", message => {
 
 connection.on("Start", () => {
     $(location).attr("href", "Game");
-})
+});
 
 connection.on("Players", names => {
     $(listPlayers).children().remove();
@@ -39,34 +39,34 @@ connection.on("Players", names => {
         player.text(name);
         $(listPlayers).append(player);
     }
-})
+});
 
 connection.on("HostPlayer", host => {
     $(listPlayers).children().removeClass("active");
     $('li.player-entry:contains("' + host + '")').addClass("active");
-})
+});
 
 connection.on("Host", () => {
     $(".host-only").prop("disabled", false);
-})
+});
 
 connection.on("Unhost", () => {
     $(".host-only").prop("disabled", true);
-})
+});
 
 connection.on("Join", name => {
     const player = $('<li class="list-group-item player-entry"></li>');
     player.text(name);
     $(listPlayers).append(player);
-})
+});
 
 connection.on("Leave", name => {
     $('li.player-entry:contains("' + name + '")').first().remove();
-})
+});
 
 connection.start().then(function () {
     $(messageInput).prop("disabled", false);
-})
+});
 
 messageInput.addEventListener("keyup", (e) => {
     if (e.key === "Enter") {
@@ -99,17 +99,17 @@ $(document).ready(() => {
         //     $("select").prop("disabled", true);
         // })
     })
-})
+});
 
 $(".catalog-team").click(function() {
     const team = $(this).data("team");
     $(".catalog-roles-list").addClass("d-none");
     $('*[data-team="' + team + '"]').removeClass("d-none");
-})
+});
 
 $(".setup-role").click(function() {
     $(this).remove();
-})
+});
 
 function showRoleInformation(roleButton) {
     roleButton = $(roleButton);
@@ -130,7 +130,7 @@ function showRoleInformation(roleButton) {
 
 $(".catalog-role").click(function() {
     showRoleInformation(this);
-})
+});
 
 $(".add-button").click(function() {
     const roleName = $(this).attr("data-name");
@@ -138,7 +138,7 @@ $(".add-button").click(function() {
     const color = mainButton.css("color");
     
     addRole(roleName, color);
-})
+});
 
 function addRole(roleName, color) {
     if (!roleName) return;
@@ -184,7 +184,7 @@ $(addRoleButton).click(function() {
     const color = roleEntry.css("color");
     
     addRole(roleName, color);
-})
+});
 
 $(removeRoleButton).click(function() {
     const roleEntry = $("#role-name");
@@ -193,7 +193,7 @@ $(removeRoleButton).click(function() {
     
     const role = $('.setup-role[data-name="' + roleName + '"]').last();
     role.remove();
-})
+});
 
 $(".preset-entry").click(function() {
     const setupName = $(this).text();
@@ -206,7 +206,7 @@ $(".preset-entry").click(function() {
     
     const setupId = $(this).data("preset");
     $(divSetupInformation).data("preset", setupId);
-})
+});
 
 $(buttonPresetUse).click(function() {
     const presetId = $(divSetupInformation).data("preset");
@@ -235,4 +235,4 @@ $(buttonPresetUse).click(function() {
     
     $("button.preset-entry").removeClass("btn-primary");
     presetButton.addClass("btn-primary");
-})
+});

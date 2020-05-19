@@ -58,7 +58,7 @@ namespace Mafia.NET.Matches
             if (Started) return Match;
 
             Started = true;
-            Match = new Match(Setup, _controllers);
+            Match = new Match(Id, Setup, _controllers);
             return Match;
         }
     }

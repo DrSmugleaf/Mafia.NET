@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Mafia.NET.Web.Extensions;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Mafia.NET.Web.Chats
+namespace Mafia.NET.Web.Hubs
 {
     public class GameChat : Chat
     {

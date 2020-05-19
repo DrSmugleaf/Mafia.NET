@@ -1,27 +1,47 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Mafia.NET.Matches;
+using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players;
+using Mafia.NET.Players.Controllers;
 using Mafia.NET.Web.Extensions;
+using Mafia.NET.Web.Hubs;
 using Mafia.NET.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Mafia.NET.Web.Controllers
 {
+    public class WebMatchManager : MatchManager
+    {
+        private readonly IHubContext<GameChat> Hub;
+        
+        public WebMatchManager(IHubContext<GameChat> hub)
+        {
+            Hub = hub;
+        }
+        
+        public override void OnNotification(object sender, Notification notification)
+        {
+            var player = (IPlayer)sender;
+            
+            Hub.Clients.User(player.Id.ToString()).SendAsync("Notification", notification.Text);
+        }
+    }
+    
     public class GameController : BaseController
     {
         public static readonly ConcurrentDictionary<Guid, ILobby> Lobbies =
             new ConcurrentDictionary<Guid, ILobby>();
+        
+        private readonly IHubContext<GameChat> _gameContext;
+        public readonly WebMatchManager Matches;
 
-        public static readonly ConcurrentDictionary<Guid, IMatch> Matches =
-            new ConcurrentDictionary<Guid, IMatch>();
-
-        private readonly ILogger<HomeController> _logger;
-
-        public GameController(ILogger<HomeController> logger)
+        public GameController(IHubContext<GameChat> gameContext)
         {
-            _logger = logger;
+            _gameContext = gameContext;
+            Matches = new WebMatchManager(gameContext);
         }
 
         public IActionResult Lobby()
@@ -111,7 +131,7 @@ namespace Mafia.NET.Web.Controllers
 
             lobby.Setup.Roles.MandatoryRoles = model.RoleEntries();
             var match = lobby.Start();
-            Matches[lobby.Id] = match;
+            Matches.Add(match);
 
             foreach (var controller in lobby.Controllers)
                 SessionExtensions.LobbyControllers.TryRemove(controller.Id, out _);

@@ -1,4 +1,4 @@
-using Mafia.NET.Web.Chats;
+using Mafia.NET.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SignalR;
