@@ -16,7 +16,7 @@ namespace Mafia.NET.Web.Chats
                 throw new InvalidOperationException("No player controller found for connection" + Context.ConnectionId);
             }
 
-            var connection = Context.ConnectionId;
+            var connection = Context.UserIdentifier;
             Session.Connection(connection);
 
             return base.OnConnectedAsync();
