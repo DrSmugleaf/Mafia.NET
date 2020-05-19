@@ -2,9 +2,6 @@ language: csharp
 solution: Mafia.NET.sln
 mono: none
 dotnet: 3.1.300
-install:
-  - nuget restore Mafia.NET.sln
-  - nuget install NUNit.Console -Version 3.9.0 -OutputDirectory testrunner
 script:
   - dotnet restore
   - dotnet test ../Mafia.NET.Tests/Mafia.NET.Tests.csproj
