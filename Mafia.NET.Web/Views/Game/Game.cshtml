@@ -24,20 +24,20 @@
         </div>
         <div class="row">
             <div class="col-sm-2">
-                <div class="card no-unclick">
+                <div id="graveyard" class="card no-unclick interface-element">
                     <button class="btn btn-secondary card-header dropdown-toggle keep_open" data-target="#graveyard-list">
                         Graveyard
                     </button>
-                    <div id="graveyard-list" class="collapse overflow-auto dropdown-list">
+                    <div id="graveyard-list" class="collapse overflow-auto dropdown-list interface-element">
                     </div>
                 </div>
             </div>
             <div class="col-sm-2">
-                <div class="card no-unclick">
+                <div id="roles" class="card no-unclick interface-element">
                     <button class="btn btn-secondary card-header dropdown-toggle keep_open" data-target="#role-list">
                         Role List
                     </button>
-                    <div id="role-list" class="collapse overflow-auto dropdown-list">
+                    <div id="role-list" class="collapse overflow-auto dropdown-list interface-element">
                         @foreach (var roleEntry in roleList)
                         {
                             <div class="list-group-item" style="color: @roleEntry.ColorHtml()">@roleEntry.Name</div>
@@ -47,7 +47,7 @@
             </div>
             <div class="col-sm-5"></div>
             <div class="col-sm-3 float-right">
-                <div class="card">
+                <div class="card interface-element">
                     <h3 class="card-header text-center role-name" style="color: @role.ColorHtml()">@role.Name</h3>
                     <h4 class="card-header text-center role-name" style="color: @role.Team.ColorHtml()">@role.Team.Name</h4>
                     <ul class="list-group list-group-flush">
@@ -75,7 +75,7 @@
         </div>
         <div class="row row-game-chat">
             <div class="col-sm-4 align-self-end">
-                <div id="game-messages" class="container overflow-auto text-break"></div>
+                <div id="game-messages" class="container overflow-auto text-break interface-element"></div>
                 <div>
                     <input id="message-input" type="text" class="form-control" autocomplete="off" maxlength="500"/>
                 </div>
@@ -83,7 +83,7 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4">
                 <div id="players">
-                    <ul class="list-group list-group-flush player-list overflow-auto">
+                    <ul class="list-group list-group-flush player-list overflow-auto interface-element">
                         @foreach (var player in players)
                         {
                             <li data-player-number="@player.Number" class="list-group-item player-entry">

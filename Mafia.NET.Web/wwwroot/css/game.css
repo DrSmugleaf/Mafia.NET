@@ -1,7 +1,10 @@
 ﻿#game-messages {
     height: 40vh !important;
+}
+
+#message-input {
+    border-radius: 0 0;
     border: 1px solid grey;
-    background-color: #333333;
 }
 
 .row-game-chat {
@@ -27,8 +30,12 @@
     height: inherit;
 }
 
+#players {
+    height: 52vh;
+}
+
 .player-list {
-    height: 51vh;
+    max-height: 52vh;
 }
 
 .player-entry {
@@ -40,4 +47,9 @@
 .notification-div {
     position: absolute;
     top: 0;
+}
+
+.interface-element {
+    border: 1px solid grey !important;
+    background-color: #333333 !important;
 }
