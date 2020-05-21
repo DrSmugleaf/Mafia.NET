@@ -219,50 +219,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
-    public interface ICooldownSetup
-    {
-        int NightsBetweenUses { get; set; }
-    }
-
-    public interface IChargeSetup
-    {
-        int Charges { get; set; }
-    }
-
-    public interface INightImmune
-    {
-        bool NightImmune { get; set; }
-    }
-
-    public interface IRoleBlockImmune
-    {
-        bool RoleBlockImmune { get; set; }
-    }
-
-    public interface IDetectionImmune
-    {
-        bool DetectionImmune { get; set; }
-    }
-
-    public interface IIgnoresDetectionImmunity
-    {
-        bool IgnoresDetectionImmunity { get; set; }
-    }
-
-    public interface ISheriffSetup
-    {
-        bool DetectsMafiaTriad { get; set; }
-        bool DetectsSerialKiller { get; set; }
-        bool DetectsArsonist { get; set; }
-        bool DetectsCult { get; set; }
-        bool DetectsMassMurderer { get; set; }
-    }
-
-    public interface IRandomExcluded
-    {
-        bool ExcludedFromRandoms { get; set; }
-    }
-
     public interface INightChatter : IAbility
     {
         void Chat();

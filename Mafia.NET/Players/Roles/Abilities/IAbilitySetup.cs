@@ -3,4 +3,48 @@
     public interface IAbilitySetup
     {
     }
+
+    public interface ICooldownSetup : IAbilitySetup
+    {
+        int NightsBetweenUses { get; set; }
+    }
+
+    public interface IChargeSetup : IAbilitySetup
+    {
+        int Charges { get; set; }
+    }
+
+    public interface INightImmune : IAbilitySetup
+    {
+        bool NightImmune { get; set; }
+    }
+
+    public interface IRoleBlockImmune : IAbilitySetup
+    {
+        bool RoleBlockImmune { get; set; }
+    }
+
+    public interface IDetectionImmune : IAbilitySetup
+    {
+        bool DetectionImmune { get; set; }
+    }
+
+    public interface IIgnoresDetectionImmunity : IAbilitySetup
+    {
+        bool IgnoresDetectionImmunity { get; set; }
+    }
+
+    public interface ISheriffSetup : IAbilitySetup
+    {
+        bool DetectsMafiaTriad { get; set; }
+        bool DetectsSerialKiller { get; set; }
+        bool DetectsArsonist { get; set; }
+        bool DetectsCult { get; set; }
+        bool DetectsMassMurderer { get; set; }
+    }
+
+    public interface IRandomExcluded : IAbilitySetup
+    {
+        bool ExcludedFromRandoms { get; set; }
+    }
 }
