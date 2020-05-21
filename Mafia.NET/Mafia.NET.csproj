@@ -28,46 +28,46 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\Categories\Mafia\support.yml">
+    <None Update="Resources\Categories\Mafia\mafiasupport.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Mafia\killing.yml">
+    <None Update="Resources\Categories\Mafia\mafiakilling.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Mafia\deception.yml">
+    <None Update="Resources\Categories\Mafia\mafiadeception.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Neutral\killing.yml">
+    <None Update="Resources\Categories\Neutral\neutralkilling.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Neutral\evil.yml">
+    <None Update="Resources\Categories\Neutral\neutralevil.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Neutral\benign.yml">
+    <None Update="Resources\Categories\Neutral\neutralbenign.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Town\government.yml">
+    <None Update="Resources\Categories\Town\towngovernment.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Town\investigative.yml">
+    <None Update="Resources\Categories\Town\towninvestigative.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Town\killing.yml">
+    <None Update="Resources\Categories\Town\townkilling.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Town\power.yml">
+    <None Update="Resources\Categories\Town\townpower.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Town\protective.yml">
+    <None Update="Resources\Categories\Town\townprotective.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Triad\deception.yml">
+    <None Update="Resources\Categories\Triad\triaddeception.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Triad\killing.yml">
+    <None Update="Resources\Categories\Triad\triadkilling.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Categories\Triad\support.yml">
+    <None Update="Resources\Categories\Triad\triadsupport.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Locale\en-US\day.yml">
@@ -419,6 +419,48 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\Locale\en-US\Roles\Neutral\witchdoctor.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Mafia\mafiadeception.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Mafia\mafiakilling.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Mafia\mafiasupport.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Neutral\neutralbenign.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Neutral\neutralevil.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Neutral\neutralkilling.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Town\towngovernment.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Town\towninvestigative.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Town\townkilling.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Town\townpower.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Town\townprotective.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Triad\triaddeception.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Triad\triadkilling.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Locale\en-US\Categories\Triad\triadsupport.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -12,17 +12,13 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetManager
     {
-        public IMatch Match { get; }
-        public IPlayer User { get; }
-        public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
-
         public TargetManager(IMatch match, IPlayer user, IReadOnlyDictionary<Time, PhaseTargeting> phases)
         {
             Match = match;
             User = user;
             Phases = phases;
         }
-        
+
         public TargetManager(IMatch match, IPlayer user)
         {
             Match = match;
@@ -34,7 +30,25 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             Phases = phases;
         }
-        
+
+        public IMatch Match { get; }
+        public IPlayer User { get; }
+        public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
+
+        [CanBeNull]
+        public IPlayer this[Time phase, int index]
+        {
+            get => Phases[phase][index]?.Targeted;
+            set => Phases[phase][index]?.Set(value);
+        }
+
+        [CanBeNull]
+        public IPlayer this[int index]
+        {
+            get => Get()[index]?.Targeted;
+            set => Get()[index]?.Set(value);
+        }
+
         public PhaseTargeting Get()
         {
             return Phases[Match.Phase.CurrentTime];
@@ -62,50 +76,38 @@ namespace Mafia.NET.Players.Roles.Abilities
             return this[Time.Night, index];
         }
 
-        [CanBeNull] public IPlayer this[Time phase, int index]
-        {
-            get => Phases[phase][index]?.Targeted;
-            set => Phases[phase][index]?.Set(value);
-        }
-
-        [CanBeNull] public IPlayer this[int index]
-        {
-            get => Get()[index]?.Targeted;
-            set => Get()[index]?.Set(value);
-        }
-
-        public bool Try(Time phase, int index, [CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool Try(Time phase, int index, [CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             target = this[phase, index];
             return target != null;
         }
 
-        public bool Try(int index, [CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool Try(int index, [CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             return Try(Match.Phase.CurrentTime, index, out target);
         }
 
-        public bool Try([CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool Try([CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             return Try(0, out target);
         }
 
-        public bool TryDay(int index, [CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool TryDay(int index, [CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             return Try(Time.Day, index, out target);
         }
 
-        public bool TryDay([CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool TryDay([CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             return TryDay(0, out target);
         }
 
-        public bool TryNight(int index, [CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool TryNight(int index, [CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             return Try(Time.Night, index, out target);
         }
 
-        public bool TryNight([CanBeNull, NotNullWhen(true)] out IPlayer target)
+        public bool TryNight([CanBeNull] [NotNullWhen(true)] out IPlayer target)
         {
             return TryNight(0, out target);
         }
@@ -161,7 +163,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         public Time Phase { get; }
         public IList<Target> Targets { get; set; }
 
-        [CanBeNull] public Target this[int index]
+        [CanBeNull]
+        public Target this[int index]
         {
             get => index < Targets.Count ? Targets[index] : null;
             set

@@ -19,7 +19,7 @@ namespace Mafia.NET.Players.Roles
         IReadOnlyList<ICategory> Categories { get; }
         IAbility Ability { get; set; }
 
-        bool IsCategory(string name);
+        bool IsCategory(string id);
         IReadOnlyList<Goal> Goals();
         IReadOnlyList<Goal> Enemies();
     }
@@ -47,9 +47,9 @@ namespace Mafia.NET.Players.Roles
         public Color Color { get; }
         public IAbility Ability { get; set; }
 
-        public bool IsCategory(string name)
+        public bool IsCategory(string id)
         {
-            return Categories.Any(category => category.Name == name);
+            return Categories.Any(category => category.Id == id);
         }
 
         public IReadOnlyList<Goal> Goals()
@@ -62,14 +62,14 @@ namespace Mafia.NET.Players.Roles
             return Categories.SelectMany(category => category.Goal.Enemies()).ToList();
         }
 
-        public override string ToString()
-        {
-            return Name.Localize();
-        }
-
         public string Localize(CultureInfo culture)
         {
             return Name.Localize(culture);
+        }
+
+        public override string ToString()
+        {
+            return Name.Localize();
         }
     }
 }

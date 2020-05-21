@@ -25,7 +25,7 @@ namespace Mafia.NET.Matches
             {
                 player.Chat -= OnChat;
                 player.Chat += OnChat;
-                
+
                 player.Popup -= OnPopup;
                 player.Popup += OnPopup;
             }

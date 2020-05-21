@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mafia.NET.Extension;
+using Mafia.NET.Localization;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
@@ -7,8 +8,9 @@ namespace Mafia.NET.Players.Roles.Categories
 {
     public interface ICategory
     {
-        string Name { get; }
-        string Description { get; }
+        string Id { get; }
+        Key Name { get; }
+        Key Description { get; }
         Goal Goal { get; }
     }
 
@@ -16,20 +18,22 @@ namespace Mafia.NET.Players.Roles.Categories
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
 
-        public Category(string name, string description, Goal goal)
+        public Category(string name, Goal goal)
         {
-            Name = name;
-            Description = description;
+            Id = name;
+            Name = new Key($"{name}name");
+            Description = new Key($"{name}description");
             Goal = goal;
         }
 
-        public string Name { get; }
-        public string Description { get; }
+        public string Id { get; }
+        public Key Name { get; }
+        public Key Description { get; }
         public Goal Goal { get; }
 
-        public static explicit operator Category(string name)
+        public static explicit operator Category(string id)
         {
-            return Categories[name];
+            return Categories[id];
         }
 
         private static Dictionary<string, Category> LoadAll()
@@ -39,11 +43,10 @@ namespace Mafia.NET.Players.Roles.Categories
 
             foreach (YamlMappingNode yaml in yamlCategories)
             {
-                var name = yaml["name"].AsString();
-                var description = yaml["description"].AsString();
+                var id = yaml["id"].AsString();
                 var goal = yaml["goal"].AsEnum<Goal>();
-                var category = new Category(name, description, goal);
-                categories.Add(name, category);
+                var category = new Category(id, goal);
+                categories.Add(id, category);
             }
 
             return categories;

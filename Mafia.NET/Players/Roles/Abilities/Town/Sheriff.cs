@@ -10,9 +10,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         Triad,
         Cultist
     }
-    
+
     public class Sheriff
     {
-        
     }
 }

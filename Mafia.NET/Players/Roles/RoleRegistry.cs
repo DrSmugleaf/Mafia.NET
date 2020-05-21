@@ -45,7 +45,7 @@ namespace Mafia.NET.Players.Roles
         public IImmutableList<ICategory> Categories { get; }
         public Color OriginalColor { get; }
         public Color Color { get; }
-        
+
         public string Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);

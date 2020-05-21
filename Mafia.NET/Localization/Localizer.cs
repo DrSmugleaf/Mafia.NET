@@ -31,7 +31,7 @@ namespace Mafia.NET.Localization
         public Catalog Get([CanBeNull] CultureInfo culture = null)
         {
             culture ??= _defaultCulture;
-            
+
             if (!_catalogs.ContainsKey(culture))
                 _catalogs[culture] = Load(culture);
 
@@ -45,7 +45,7 @@ namespace Mafia.NET.Localization
             var catalog = Get(culture);
             var defaultString = catalog.GetStringDefault(key.Id, null);
             if (defaultString == null) throw new ArgumentException($"Key {key.Id} not found for culture {culture}");
-            
+
             var str = catalog.GetStringDefault(key.Id, defaultString);
 
             return str;
@@ -54,7 +54,7 @@ namespace Mafia.NET.Localization
         public Text Get(Notification notification, [CanBeNull] CultureInfo culture = null)
         {
             culture ??= _defaultCulture;
-            
+
             var key = notification.Key;
             var catalog = Get(culture);
             var defaultString = catalog.GetStringDefault(key, null);

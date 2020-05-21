@@ -55,7 +55,8 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             var innocent = count[Verdict.Innocent];
             var guilty = count[Verdict.Guilty];
 
-            return Notification.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Player, innocent, guilty);
+            return Notification.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Player, innocent,
+                guilty);
         }
 
         public EntryBundle Votes()

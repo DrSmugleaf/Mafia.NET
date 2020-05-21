@@ -20,7 +20,12 @@ namespace Mafia.NET.Localization
         }
 
         public string Id { get; }
-        
+
+        public string Localize(CultureInfo culture = null)
+        {
+            return Localizer.Default.Get(this, culture);
+        }
+
         public static implicit operator Key(Enum enumKey)
         {
             return new Key(enumKey);
@@ -34,11 +39,6 @@ namespace Mafia.NET.Localization
         public Notification Popup(params object[] args)
         {
             return Notification.Popup(Id, args);
-        }
-
-        public string Localize(CultureInfo culture = null)
-        {
-            return Localizer.Default.Get(this, culture);
         }
 
         public override string ToString()

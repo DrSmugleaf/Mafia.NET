@@ -34,7 +34,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             return Target;
         }
 
-        public bool Accuse(IPlayer target, [CanBeNull, NotNullWhen(true)] out Notification notification)
+        public bool Accuse(IPlayer target, [CanBeNull] [NotNullWhen(true)] out Notification notification)
         {
             notification = default;
             if (!Active || Target == target) return false;
@@ -43,14 +43,16 @@ namespace Mafia.NET.Matches.Phases.Vote
             Target = target;
 
             if (change)
-                notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player, target);
+                notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player,
+                    target);
             else
-                notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
+                notification =
+                    Notification.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
 
             return notification != default;
         }
 
-        public bool Unaccuse([CanBeNull, NotNullWhen(true)] out Notification notification)
+        public bool Unaccuse([CanBeNull] [NotNullWhen(true)] out Notification notification)
         {
             notification = default;
             if (!Active || Target == null) return false;

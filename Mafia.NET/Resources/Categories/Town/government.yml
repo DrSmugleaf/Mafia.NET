@@ -1,3 +1,0 @@
-﻿name: Town Government
-description: "Town Government roles are another broad category consisting of three different kinds of roles. The first are those roles which may self-confirm and have an impact on either voting, lynches, or night chat (Mayor, Marshall, and Crier). The second are the roles which know each other's identity, share a special night chat, and which may recruit Citizens to their cause (Mason, Mason Leader). Finally, there is the Citizen who is the most basic role in Mafia -- a player without a night role and whose chief function is to participate in daytime discussion and help the Town vote to lynch the Mafia / Triad or Neutral Killing / Neutral Evils."
-goal: Town

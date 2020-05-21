@@ -1,5 +1,4 @@
 ﻿using System;
-using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -8,7 +7,9 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         public static readonly TargetNotification Empty = new TargetNotification();
         public static readonly Func<IPlayer, Notification> Default = player => Notification.Empty;
-        public static readonly Func<IPlayer, IPlayer, Notification> DefaultChange = (old, current) => Notification.Empty;
+
+        public static readonly Func<IPlayer, IPlayer, Notification>
+            DefaultChange = (old, current) => Notification.Empty;
 
         public TargetNotification(
             Func<IPlayer, Notification> userAdd = null,
@@ -45,7 +46,6 @@ namespace Mafia.NET.Players.Roles.Abilities
             Func<IPlayer, Notification> targetRemove = null;
             Func<IPlayer, IPlayer, Notification> targetChange = null;
             foreach (T key in names)
-            {
                 switch (key.ToString())
                 {
                     case "UserAddMessage":
@@ -67,7 +67,6 @@ namespace Mafia.NET.Players.Roles.Abilities
                         targetChange = (old, current) => Notification.Chat(key, old, current);
                         break;
                 }
-            }
 
             return new TargetNotification(userAdd, userRemove, userChange, targetAdd, targetRemove, targetChange);
         }
