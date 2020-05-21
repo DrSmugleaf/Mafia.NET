@@ -1,7 +1,8 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
@@ -20,18 +21,19 @@ namespace Mafia.NET.Matches.Phases.Vote
         }
 
         public IPlayer Player { get; set; }
-        protected IPlayer? Target { get; set; }
+        [CanBeNull] protected IPlayer Target { get; set; }
         public string Name { get; set; }
         public bool AnonymousVote { get; set; }
         public int Power { get; set; }
         public bool Active { get; set; }
 
-        public IPlayer? Accusing()
+        [CanBeNull]
+        public IPlayer Accusing()
         {
             return Target;
         }
 
-        public bool Accuse(IPlayer target, out Entry? notification)
+        public bool Accuse(IPlayer target, [CanBeNull, NotNullWhen(true)] out Entry notification)
         {
             notification = default;
             if (!Active || Target == target) return false;
@@ -47,7 +49,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             return notification != default;
         }
 
-        public bool Unaccuse(out Entry? notification)
+        public bool Unaccuse([CanBeNull, NotNullWhen(true)] out Entry notification)
         {
             notification = default;
             if (!Active || Target == null) return false;

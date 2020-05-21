@@ -24,6 +24,9 @@ namespace Mafia.NET.Matches
             foreach (var player in match.AllPlayers)
             {
                 player.Chat -= OnChat;
+                player.Chat += OnChat;
+                
+                player.Popup -= OnPopup;
                 player.Popup += OnPopup;
             }
 

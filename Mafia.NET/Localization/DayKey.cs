@@ -3,7 +3,6 @@
     [RegisterKey]
     public enum DayKey
     {
-        // Day
         MoveIntoTown,
         YourRole,
 

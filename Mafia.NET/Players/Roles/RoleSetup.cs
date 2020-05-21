@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles.Abilities;
@@ -8,7 +9,6 @@ using Mafia.NET.Players.Roles.Categories;
 
 namespace Mafia.NET.Players.Roles
 {
-#nullable enable
     public class RoleSetup
     {
         private static readonly Random Random = new Random();
@@ -16,8 +16,8 @@ namespace Mafia.NET.Players.Roles
         public RoleSetup(
             RoleRegistry roles,
             AbilityRegistry abilities,
-            IEnumerable<RoleEntry>? mandatoryRoles = null,
-            IEnumerable<ICategory>? mandatoryCategories = null)
+            [CanBeNull] IEnumerable<RoleEntry> mandatoryRoles = null,
+            [CanBeNull] IEnumerable<ICategory> mandatoryCategories = null)
         {
             Roles = roles;
             Abilities = abilities;
@@ -26,8 +26,8 @@ namespace Mafia.NET.Players.Roles
         }
 
         public RoleSetup(
-            IEnumerable<RoleEntry>? mandatoryRoles = null,
-            IEnumerable<ICategory>? mandatoryCategories = null) :
+            [CanBeNull] IEnumerable<RoleEntry> mandatoryRoles = null,
+            [CanBeNull] IEnumerable<ICategory> mandatoryCategories = null) :
             this(RoleRegistry.Default, AbilityRegistry.Default, mandatoryRoles, mandatoryCategories)
         {
         }

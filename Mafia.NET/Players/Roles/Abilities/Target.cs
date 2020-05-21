@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 using Mafia.NET.Matches;
-
-#nullable enable
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
     public class Target
     {
-        public Target(IPlayer user, TargetFilter filter, TargetNotification? message = null)
+        public Target(IPlayer user, TargetFilter filter, [CanBeNull] TargetNotification message = null)
         {
             User = user;
             Filter = filter;
@@ -15,9 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         public IPlayer User { get; }
-        private IPlayer? _targeted { get; set; }
+        [CanBeNull] private IPlayer _targeted { get; set; }
 
-        public IPlayer? Targeted
+        [CanBeNull]
+        public IPlayer Targeted
         {
             get => _targeted;
             set
@@ -58,18 +59,18 @@ namespace Mafia.NET.Players.Roles.Abilities
         public TargetFilter Filter { get; }
         public TargetNotification Message { get; set; }
 
-        public bool Try(out IPlayer? target)
+        public bool Try([CanBeNull, NotNullWhen(true)] out IPlayer target)
         {
             target = Targeted;
             return target != null;
         }
 
-        public void Set(IPlayer? target)
+        public void Set([CanBeNull] IPlayer target)
         {
             Targeted = target;
         }
 
-        public void ForceSet(IPlayer? target)
+        public void ForceSet([CanBeNull] IPlayer target)
         {
             _targeted = target;
         }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
@@ -9,7 +10,6 @@ using Mafia.NET.Players.Roles.Abilities.Triad;
 
 namespace Mafia.NET.Players.Roles
 {
-#nullable enable
     public class Crimes
     {
         public static readonly IImmutableSet<string> All = ImmutableHashSet.Create(
@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles
         }
 
         protected ISet<string> Committed { get; }
-        public Framing? Framing { get; set; }
+        [CanBeNull] public Framing Framing { get; set; }
 
         public void Add(string crime)
         {
@@ -72,7 +72,8 @@ namespace Mafia.NET.Players.Roles
                 .Where(role =>
                     role.Ability is IMafiaAbility || role.Ability is ITriadAbility ||
                     role.IsCategory("Neutral Killing") || role.Ability is Cultist || role.Ability is WitchDoctor)
-                .Select(role => role.Name);
+                .Select(role => role.Name)
+                .ToList();
 
             RoleName = roles.ElementAt(match.Random.Next(roles.Count()));
         }

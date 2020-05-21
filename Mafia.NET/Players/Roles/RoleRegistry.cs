@@ -66,7 +66,8 @@ namespace Mafia.NET.Players.Roles
                 }
                 else if (categoriesNode is YamlSequenceNode yamlCategories)
                 {
-                    foreach (var category in yamlCategories) categories.Add((Category) category.AsString());
+                    foreach (var category in yamlCategories)
+                        categories.Add((Category) category.AsString());
                 }
                 else
                 {

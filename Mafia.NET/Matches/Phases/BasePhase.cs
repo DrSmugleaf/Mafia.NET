@@ -1,7 +1,6 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Mafia.NET.Matches.Chats;
-
-#nullable enable
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -22,8 +21,8 @@ namespace Mafia.NET.Matches.Phases
         public double Duration { get; protected set; }
         public DateTime StartTime { get; protected set; }
         public double Elapsed { get; protected set; }
-        public IPhase? Supersedes { get; set; }
-        public IPhase? SupersededBy { get; set; }
+        public IPhase Supersedes { get; set; }
+        public IPhase SupersededBy { get; set; }
         public bool Skippable { get; }
         public ChatManager ChatManager { get; }
         public bool Actionable { get; }
