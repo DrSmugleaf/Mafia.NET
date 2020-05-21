@@ -28,7 +28,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             Cooldown = Setup.NightsBetweenUses;
 
-            User.Crimes.Add("Trespassing"); // TODO: Localize
+            User.Crimes.Add(CrimeKey.Trespassing);
 
             var targetVisitMessage = Notification.Chat(AgentKey.TargetInactive);
             if (target.Role.Ability.DetectTarget(out var targetVisit))

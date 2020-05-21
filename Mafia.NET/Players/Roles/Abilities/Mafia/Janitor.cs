@@ -22,8 +22,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             if (targetThreats.Any())
             {
-                User.Crimes.Add("Trespassing");
-                User.Crimes.Add("Destruction of property");
+                User.Crimes.Add(CrimeKey.Trespassing);
+                User.Crimes.Add(CrimeKey.DestructionOfProperty);
                 Uses--;
 
                 var threat = targetThreats.First();

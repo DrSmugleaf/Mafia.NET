@@ -15,7 +15,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         public void Misc(IPlayer target)
         {
-            User.Crimes.Add("Trespassing");
+            User.Crimes.Add(CrimeKey.Trespassing);
             target.Crimes.Framing = new Framing(Match);
         }
 

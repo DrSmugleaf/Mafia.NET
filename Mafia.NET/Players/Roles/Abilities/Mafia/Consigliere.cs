@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         public void Detect(IPlayer target)
         {
-            User.Crimes.Add("Trespassing");
+            User.Crimes.Add(CrimeKey.Trespassing);
 
             // TODO: Target switch
             var message = Setup.ExactDetection

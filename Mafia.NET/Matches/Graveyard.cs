@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
+using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Matches
 {
@@ -46,7 +47,7 @@ namespace Mafia.NET.Matches
                 else
                 {
                     threat.Victim.Alive = false;
-                    threat.Killer?.Crimes.Add("Murder"); // TODO do after murders, before investigations
+                    threat.Killer?.Crimes.Add(CrimeKey.Murder); // TODO do after murders, before investigations
                     // TODO Give murder crime to every killer involved, not just the first
                     victims[victim] = threat;
                 }

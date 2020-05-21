@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public void Detect(IPlayer target)
         {
-            User.Crimes.Add("Trespassing");
+            User.Crimes.Add(CrimeKey.Trespassing);
 
             Notification notification;
             if (target.Role.Ability.DetectTarget(out var visited, Setup))

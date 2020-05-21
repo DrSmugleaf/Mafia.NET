@@ -475,6 +475,9 @@
     <None Update="Resources\Locale\en-US\Teams\triad.yml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Locale\en-US\crime.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

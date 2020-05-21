@@ -22,7 +22,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             if (TargetManager.Try(out var target) && Uses > 0)
             {
                 Uses--;
-                User.Crimes.Add("Trespassing");
+                User.Crimes.Add(CrimeKey.Trespassing);
 
                 foreach (var player in Match.LivingPlayers)
                 {

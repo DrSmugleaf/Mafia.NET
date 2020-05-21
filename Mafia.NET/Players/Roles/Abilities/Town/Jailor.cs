@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public void Detain(IPlayer prisoner)
         {
-            User.Crimes.Add("Kidnapping");
+            User.Crimes.Add(CrimeKey.Kidnapping);
 
             var jail = Match.Chat.Open("Jailor", User, prisoner);
             var jailor = jail.Participants[User];

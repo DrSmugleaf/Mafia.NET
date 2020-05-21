@@ -29,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
         public void Detain(IPlayer prisoner)
         {
-            User.Crimes.Add("Kidnapping");
+            User.Crimes.Add(CrimeKey.Kidnapping);
 
             var jail = Match.Chat.Open("Jailor", User, prisoner); // TODO: Localize "Jailor"
             var detainer = jail.Participants[User];

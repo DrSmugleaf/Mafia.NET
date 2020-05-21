@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using JetBrains.Annotations;
@@ -11,40 +12,59 @@ using Mafia.NET.Players.Roles.Abilities.Triad;
 
 namespace Mafia.NET.Players.Roles
 {
+    [RegisterKey]
+    public enum CrimeKey
+    {
+        Trespassing,
+        Kidnapping,
+        Corruption,
+        IdentityTheft,
+        Soliciting,
+        Murder,
+        DisturbingThePeace,
+        Conspiracy,
+        DestructionOfProperty,
+        Arson
+    }
+
     public class Crimes
     {
-        public static readonly IImmutableSet<string> All = ImmutableHashSet.Create(
-            "Trespassing",
-            "Kidnapping",
-            "Corruption",
-            "Identity theft",
-            "Soliciting",
-            "Murder",
-            "Disturbing the peace",
-            "Conspiracy",
-            "Destruction of property",
-            "Arson");
+        public static readonly IImmutableSet<Key> All = Key.Enum<CrimeKey>().ToImmutableHashSet();
+        public static readonly Key NoCrime = new Key("CrimeNoCrime");
 
         public IPlayer Player;
 
         public Crimes(IPlayer player)
         {
             Player = player;
-            Committed = new HashSet<string>();
+            Committed = new HashSet<CrimeKey>();
         }
 
-        protected ISet<string> Committed { get; }
+        protected ISet<CrimeKey> Committed { get; }
         [CanBeNull] public Framing Framing { get; set; }
 
-        public void Add(string crime)
+        public static IImmutableSet<CrimeKey> LoadAll()
+        {
+            var crimes = new HashSet<Key>();
+            
+            foreach (CrimeKey crime in Enum.GetValues(typeof(CrimeKey)))
+            {
+                var key = new Key(crime);
+                crimes.Add(key);
+            }
+
+            return ImmutableHashSet.Create((CrimeKey[]) Enum.GetValues(typeof(CrimeKey)));
+        }
+
+        public void Add(CrimeKey crime)
         {
             Committed.Add(crime);
         }
 
-        public string Crime() // TODO: Localize
+        public Key Crime()
         {
             if (Framing != null) return Framing.Crime;
-            if (Committed.Count == 0 || Player.Role.Ability.DetectionImmune) return "No crime.";
+            if (Committed.Count == 0 || Player.Role.Ability.DetectionImmune) return NoCrime;
             return Committed.ElementAt(Player.Match.Random.Next(Committed.Count));
         }
 
@@ -79,7 +99,7 @@ namespace Mafia.NET.Players.Roles
             RoleName = roles.ElementAt(match.Random.Next(roles.Count()));
         }
 
-        public string Crime { get; }
+        public Key Crime { get; }
         public Key RoleName { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Mafia.NET.Notifications;
 
@@ -16,7 +17,7 @@ namespace Mafia.NET.Localization
         public Key(Enum key)
         {
             Id = (key.GetType().Name.ToLower().Replace("key", "") +
-                  Enum.GetName(key.GetType(), key)).ToLower().Replace(" ", "");
+                  System.Enum.GetName(key.GetType(), key)).ToLower().Replace(" ", "");
         }
 
         public string Id { get; }
@@ -24,6 +25,20 @@ namespace Mafia.NET.Localization
         public string Localize(CultureInfo culture = null)
         {
             return Localizer.Default.Get(this, culture);
+        }
+
+        public static List<Key> Enum<T>() where T : Enum
+        {
+            var list = new List<Key>();
+            var type = typeof(T);
+
+            foreach (T value in System.Enum.GetValues(type))
+            {
+                var key = new Key(value);
+                list.Add(key);
+            }
+
+            return list;
         }
 
         public static implicit operator Key(Enum enumKey)

@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public void Kill(IPlayer target)
         {
             if (!Setup.CanKillWithoutMafioso) return;
-            User.Crimes.Add("Trespassing");
+            User.Crimes.Add(CrimeKey.Trespassing);
             Attack(target);
         }
 
