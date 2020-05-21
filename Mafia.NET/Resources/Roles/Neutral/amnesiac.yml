@@ -1,4 +1,4 @@
-﻿name: Amnesiac
+﻿id: Amnesiac
 team: Neutral
 summary: "A person who recently recovered from a head injury and forgot who he was."
 goal: "If the Amnesiac does not convert to another role, survive. If the Amnesiac converts to another role, then the win condition of the role the Amnesiac converted to."

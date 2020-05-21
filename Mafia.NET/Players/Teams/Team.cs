@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
@@ -10,9 +11,10 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Teams
 {
-    public interface ITeam : IColorizable
+    public interface ITeam : IColorizable, ILocalizable
     {
-        string Name { get; }
+        string Id { get; }
+        Key Name { get; }
         int Order { get; }
 
         List<RoleEntry> Roles();
@@ -22,14 +24,16 @@ namespace Mafia.NET.Players.Teams
     {
         public static readonly IImmutableList<Team> All = LoadAll();
 
-        private Team(string name, Color color, int order)
+        private Team(string id, Color color, int order)
         {
-            Name = name;
+            Id = id;
+            Name = new Key($"{id}name");
             Color = color;
             Order = order;
         }
 
-        public string Name { get; }
+        public string Id { get; }
+        public Key Name { get; }
         public Color Color { get; }
         public int Order { get; }
 
@@ -38,9 +42,9 @@ namespace Mafia.NET.Players.Teams
             return RoleRegistry.Default.Team(this);
         }
 
-        public static explicit operator Team(string name)
+        public static explicit operator Team(string id)
         {
-            return All.First(team => team.Name == name);
+            return All.First(team => team.Id == id);
         }
 
         private static ImmutableList<Team> LoadAll()
@@ -50,14 +54,24 @@ namespace Mafia.NET.Players.Teams
 
             foreach (YamlMappingNode yaml in yamlTeams)
             {
-                var name = yaml["name"].AsString();
+                var id = yaml["id"].AsString();
                 var color = yaml["color"].AsColor();
                 var order = yaml["order"].AsInt();
-                var team = new Team(name, color, order);
+                var team = new Team(id, color, order);
                 teams.Add(team);
             }
 
             return teams.OrderBy(team => team.Order).ToImmutableList();
+        }
+
+        public string Localize(CultureInfo culture = null)
+        {
+            return Name.Localize(culture);
+        }
+
+        public override string ToString()
+        {
+            return Localize();
         }
     }
 }

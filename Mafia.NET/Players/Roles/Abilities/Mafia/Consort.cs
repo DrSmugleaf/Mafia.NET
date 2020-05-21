@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public void Block(IPlayer target)
         {
             User.Crimes.Add("Soliciting");
-            if (target.Role.Team.Name == "Town") User.Crimes.Add("Disturbing the peace");
+            if (target.Role.Team.Id == "Town") User.Crimes.Add("Disturbing the peace");
 
             target.Role.Ability.Disable();
             if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)

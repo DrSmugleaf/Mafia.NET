@@ -11,15 +11,15 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class AbilityEntry
     {
-        public AbilityEntry(string name, Type ability, Type setup, MessageRandomizer murderDescriptions)
+        public AbilityEntry(string id, Type ability, Type setup, MessageRandomizer murderDescriptions)
         {
-            Name = name;
+            Id = id;
             Ability = ability;
             Setup = setup;
             MurderDescriptions = murderDescriptions;
         }
 
-        public string Name { get; }
+        public string Id { get; }
         public Type Ability { get; }
         public Type Setup { get; }
         public MessageRandomizer MurderDescriptions { get; }
@@ -29,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             var ability = (IAbility) Activator.CreateInstance(Ability);
             if (ability == null) throw new NullReferenceException();
 
-            ability.Name = Name;
+            ability.Name = Id;
             ability.MurderDescriptions = MurderDescriptions;
 
             return ability;
@@ -63,12 +63,12 @@ namespace Mafia.NET.Players.Roles.Abilities
             var roles = Resource.FromDirectory("Roles", "*.yml");
             foreach (YamlMappingNode yaml in roles)
             {
-                var name = yaml["name"].AsString();
-                if (!attributes.ContainsKey(name)) continue; // TODO
+                var id = yaml["id"].AsString();
+                if (!attributes.ContainsKey(id)) continue; // TODO: Remove after all abilities are done
 
-                var type = attributes[name].Item1;
+                var type = attributes[id].Item1;
                 var ability = type;
-                var setup = attributes[name].Item2.Setup;
+                var setup = attributes[id].Item2.Setup;
                 var murderDescriptions = DefaultMurderDescriptions;
                 var abilityYaml = yaml["ability"];
                 if (abilityYaml.Try("murder_descriptions", out var node))
@@ -77,9 +77,9 @@ namespace Mafia.NET.Players.Roles.Abilities
                     murderDescriptions = new MessageRandomizer(descriptions.AsStringList());
                 }
 
-                var entry = new AbilityEntry(name, ability, setup, murderDescriptions);
+                var entry = new AbilityEntry(id, ability, setup, murderDescriptions);
 
-                names[name] = entry;
+                names[id] = entry;
                 types[type] = entry;
             }
 
@@ -105,7 +105,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             var entry = Entry<T>();
             var ability = new T
             {
-                Name = entry.Name,
+                Name = entry.Id,
                 MurderDescriptions = entry.MurderDescriptions
             };
 

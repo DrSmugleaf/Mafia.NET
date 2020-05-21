@@ -62,14 +62,14 @@ namespace Mafia.NET.Players.Roles
             return Categories.SelectMany(category => category.Goal.Enemies()).ToList();
         }
 
-        public string Localize(CultureInfo culture)
+        public string Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
         }
 
         public override string ToString()
         {
-            return Name.Localize();
+            return Localize();
         }
     }
 }

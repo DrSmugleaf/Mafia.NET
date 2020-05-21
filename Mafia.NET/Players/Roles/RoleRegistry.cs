@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles
     public class RoleEntry : IColorizable, ILocalizable
     {
         public RoleEntry(
-            string name,
+            string id,
             string summary,
             string goal,
             string abilities,
@@ -25,8 +25,8 @@ namespace Mafia.NET.Players.Roles
             Color color,
             Color originalColor)
         {
-            Id = name;
-            Name = new Key($"{name}name");
+            Id = id;
+            Name = new Key($"{id}name");
             Summary = summary;
             Goal = goal;
             Abilities = abilities;
@@ -50,6 +50,11 @@ namespace Mafia.NET.Players.Roles
         {
             return Name.Localize(culture);
         }
+
+        public override string ToString()
+        {
+            return Localize();
+        }
     }
 
     public class RoleRegistry
@@ -63,7 +68,7 @@ namespace Mafia.NET.Players.Roles
 
             foreach (YamlMappingNode yaml in yamlRoles)
             {
-                var name = yaml["name"].AsString();
+                var id = yaml["id"].AsString();
                 var team = (Team) yaml["team"].AsString();
                 var categories = new List<ICategory>();
                 var categoriesNode = yaml["categories"];
@@ -88,8 +93,8 @@ namespace Mafia.NET.Players.Roles
                 var goal = yaml["goal"].AsString();
                 var abilities = yaml["ability"]["description"].AsString();
 
-                var role = new RoleEntry(name, summary, goal, abilities, team, categories, color, originalColor);
-                names.Add(name, role);
+                var role = new RoleEntry(id, summary, goal, abilities, team, categories, color, originalColor);
+                names.Add(id, role);
             }
 
             Names = names.ToImmutableDictionary();

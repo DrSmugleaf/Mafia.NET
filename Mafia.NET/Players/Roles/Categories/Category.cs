@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
 using Mafia.NET.Resources;
@@ -6,7 +7,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles.Categories
 {
-    public interface ICategory
+    public interface ICategory : ILocalizable
     {
         string Id { get; }
         Key Name { get; }
@@ -18,11 +19,11 @@ namespace Mafia.NET.Players.Roles.Categories
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
 
-        public Category(string name, Goal goal)
+        public Category(string id, Goal goal)
         {
-            Id = name;
-            Name = new Key($"{name}name");
-            Description = new Key($"{name}description");
+            Id = id;
+            Name = new Key($"{id}name");
+            Description = new Key($"{id}description");
             Goal = goal;
         }
 
@@ -50,6 +51,16 @@ namespace Mafia.NET.Players.Roles.Categories
             }
 
             return categories;
+        }
+
+        public string Localize(CultureInfo culture = null)
+        {
+            return Name.Localize(culture);
+        }
+
+        public override string ToString()
+        {
+            return Localize();
         }
     }
 }
