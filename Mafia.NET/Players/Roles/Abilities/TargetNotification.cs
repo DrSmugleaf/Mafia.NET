@@ -1,21 +1,21 @@
 ﻿using System;
-using Mafia.NET.Matches.Chats;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetNotification
     {
         public static readonly TargetNotification Empty = new TargetNotification();
-        public static readonly Func<IPlayer, string> Default = player => "";
-        public static readonly Func<IPlayer, IPlayer, string> DefaultChange = (old, _new) => "";
+        public static readonly Func<IPlayer, Entry> Default = player => Entry.Empty;
+        public static readonly Func<IPlayer, IPlayer, Entry> DefaultChange = (old, current) => Entry.Empty;
 
         public TargetNotification(
-            Func<IPlayer, string> userAdd = null,
-            Func<IPlayer, string> userRemove = null,
-            Func<IPlayer, IPlayer, string> userChange = null,
-            Func<IPlayer, string> targetAdd = null,
-            Func<IPlayer, string> targetRemove = null,
-            Func<IPlayer, IPlayer, string> targetChange = null)
+            Func<IPlayer, Entry> userAdd = null,
+            Func<IPlayer, Entry> userRemove = null,
+            Func<IPlayer, IPlayer, Entry> userChange = null,
+            Func<IPlayer, Entry> targetAdd = null,
+            Func<IPlayer, Entry> targetRemove = null,
+            Func<IPlayer, IPlayer, Entry> targetChange = null)
         {
             UserAddMessage = userAdd ?? Default;
             UserRemoveMessage = userRemove ?? Default;
@@ -25,41 +25,80 @@ namespace Mafia.NET.Players.Roles.Abilities
             TargetChangeMessage = targetChange ?? DefaultChange;
         }
 
-        public Func<IPlayer, string> UserAddMessage { get; set; }
-        public Func<IPlayer, string> UserRemoveMessage { get; set; }
-        public Func<IPlayer, IPlayer, string> UserChangeMessage { get; set; }
-        public Func<IPlayer, string> TargetAddMessage { get; set; }
-        public Func<IPlayer, string> TargetRemoveMessage { get; set; }
-        public Func<IPlayer, IPlayer, string> TargetChangeMessage { get; set; }
+        public Func<IPlayer, Entry> UserAddMessage { get; set; }
+        public Func<IPlayer, Entry> UserRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, Entry> UserChangeMessage { get; set; }
+        public Func<IPlayer, Entry> TargetAddMessage { get; set; }
+        public Func<IPlayer, Entry> TargetRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, Entry> TargetChangeMessage { get; set; }
 
-        public Notification UserAdd(IPlayer target)
+        public static TargetNotification Enum<T>() where T : Enum
         {
-            return Notification.Chat(UserAddMessage(target));
+            var type = typeof(T);
+            var names = System.Enum.GetValues(type);
+
+            Func<IPlayer, Entry> userAdd = null;
+            Func<IPlayer, Entry> userRemove = null;
+            Func<IPlayer, IPlayer, Entry> userChange = null;
+            Func<IPlayer, Entry> targetAdd = null;
+            Func<IPlayer, Entry> targetRemove = null;
+            Func<IPlayer, IPlayer, Entry> targetChange = null;
+            foreach (T key in names)
+            {
+                switch (key.ToString())
+                {
+                    case "UserAddMessage":
+                        userAdd = target => Entry.Chat(key, target);
+                        break;
+                    case "UserRemoveMessage":
+                        userRemove = target => Entry.Chat(key, target);
+                        break;
+                    case "UserChangeMessage":
+                        userChange = (old, current) => Entry.Chat(key, old, current);
+                        break;
+                    case "TargetAddMessage":
+                        targetAdd = target => Entry.Chat(key, target);
+                        break;
+                    case "TargetRemoveMessage":
+                        targetRemove = target => Entry.Chat(key, target);
+                        break;
+                    case "TargetChangeMessage":
+                        targetChange = (old, current) => Entry.Chat(key, old, current);
+                        break;
+                }
+            }
+
+            return new TargetNotification(userAdd, userRemove, userChange, targetAdd, targetRemove, targetChange);
         }
 
-        public Notification UserRemove(IPlayer target)
+        public Entry UserAdd(IPlayer target)
         {
-            return Notification.Chat(UserRemoveMessage(target));
+            return UserAddMessage(target);
         }
 
-        public Notification UserChange(IPlayer old, IPlayer _new)
+        public Entry UserRemove(IPlayer target)
         {
-            return Notification.Chat(UserChangeMessage(old, _new));
+            return UserRemoveMessage(target);
         }
 
-        public Notification TargetAdd(IPlayer target)
+        public Entry UserChange(IPlayer old, IPlayer current)
         {
-            return Notification.Chat(TargetAddMessage(target));
+            return UserChangeMessage(old, current);
         }
 
-        public Notification TargetRemove(IPlayer target)
+        public Entry TargetAdd(IPlayer target)
         {
-            return Notification.Chat(TargetRemoveMessage(target));
+            return TargetAddMessage(target);
         }
 
-        public Notification TargetChange(IPlayer old, IPlayer current)
+        public Entry TargetRemove(IPlayer target)
         {
-            return Notification.Chat(TargetChangeMessage(old, current));
+            return TargetRemoveMessage(target);
+        }
+
+        public Entry TargetChange(IPlayer old, IPlayer current)
+        {
+            return TargetChangeMessage(old, current);
         }
     }
 }

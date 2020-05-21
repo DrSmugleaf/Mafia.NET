@@ -1,8 +1,8 @@
-﻿- name: Stump
-  team: Town
-  summary: "You are a Stump."
-  goal: "Lynch every criminal and evildoer."
-  categories: null
-  color: "#01FF10"
-  ability:
-    description: "None."
+﻿name: Stump
+team: Town
+summary: "A Stump."
+goal: "Lynch every criminal and evildoer."
+categories: null
+color: "#01FF10"
+ability:
+  description: "None."

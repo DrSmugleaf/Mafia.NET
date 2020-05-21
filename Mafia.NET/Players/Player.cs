@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches;
-using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Players
 {
-    public interface IPlayer
+    public interface IPlayer : IColorizable
     {
         IPlayerController Controller { get; set; }
         IMatch Match { get; }
@@ -15,20 +16,23 @@ namespace Mafia.NET.Players
         Guid Id { get; }
         string Name { get; set; }
         IRole Role { get; set; }
-        Color Color { get; }
         bool Alive { get; set; }
         Note LastWill { get; }
         Note DeathNote { get; }
         bool Blackmailed { get; set; }
         Crimes Crimes { get; }
-        event EventHandler<Notification> Notification;
+        CultureInfo Culture { get; }
+        event EventHandler<Text> Chat;
+        event EventHandler<Text> Popup;
 
-        void OnNotification(Notification e);
+        void OnNotification(Entry entry);
+        void OnNotification(EntryBundle bundle);
     }
 
     public class Player : IPlayer
     {
-        public Player(ILobbyController controller, IMatch match, int number, string name, IRole role)
+        public Player(ILobbyController controller, IMatch match, int number, string name, IRole role,
+            CultureInfo culture = null)
         {
             Match = match;
             Number = number;
@@ -42,6 +46,7 @@ namespace Mafia.NET.Players
             Blackmailed = false;
             Crimes = new Crimes(this);
             Controller = controller.Player(this);
+            Culture = culture ?? new CultureInfo("en-US");
         }
 
         public IPlayerController Controller { get; set; }
@@ -56,12 +61,36 @@ namespace Mafia.NET.Players
         public Note DeathNote { get; }
         public bool Blackmailed { get; set; }
         public Crimes Crimes { get; }
-        public event EventHandler<Notification> Notification;
+        public CultureInfo Culture { get; }
+        public event EventHandler<Text> Chat;
+        public event EventHandler<Text> Popup;
 
-        public virtual void OnNotification(Notification e)
+        public void OnNotification(Entry entry)
         {
-            if (e.Text.Length == 0) return;
-            Notification?.Invoke(this, e);
+            var text = Localizer.Default.Get(entry, Culture);
+
+            switch (text.Location)
+            {
+                case NotificationLocation.Chat:
+                    Chat?.Invoke(this, text);
+                    break;
+                case NotificationLocation.Popup:
+                    Popup?.Invoke(this, text);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public void OnNotification(EntryBundle bundle)
+        {
+            foreach (var entry in bundle.Entries)
+                OnNotification(entry);
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

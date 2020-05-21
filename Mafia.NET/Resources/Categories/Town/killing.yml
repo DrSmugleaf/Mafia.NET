@@ -1,3 +1,3 @@
-﻿- name: Town Killing
-  description: "Town Killing roles are able to take actions to neutralize / kill other players who may be members of the Mafia or Triad or Neutral Killing / Neutral Evil roles. Their actions range from intercepting and killing the attacker of a guarded player, imprisoning, interrogating, and executing a suspicious player, killing anyone who visits one's house at night, and shooting another player who may be a member of the Mafia / Triad."
-  goal: Town
+﻿name: Town Killing
+description: "Town Killing roles are able to take actions to neutralize / kill other players who may be members of the Mafia or Triad or Neutral Killing / Neutral Evil roles. Their actions range from intercepting and killing the attacker of a guarded player, imprisoning, interrogating, and executing a suspicious player, killing anyone who visits one's house at night, and shooting another player who may be a member of the Mafia / Triad."
+goal: Town

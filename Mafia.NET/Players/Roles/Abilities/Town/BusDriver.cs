@@ -1,8 +1,18 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
-    [RegisterAbility("Bus Driver", typeof(BusDriverSetup))]
+    [RegisterKey]
+    public enum BusDriverKey
+    {
+        NoTargets,
+        OneTarget,
+        TwoTargets,
+        SelfRide,
+        OtherRide
+    }
+
+    [RegisterAbility("Bus Driver", typeof(BusDriverSetup))] // TODO: Localize role names
     public class BusDriver : TownAbility<BusDriverSetup>, ISwitcher // TODO Murder crime
     {
         public void Switch()
@@ -28,28 +38,28 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             }
         }
 
-        public Notification SwitchNotification(IPlayer target)
+        public Entry SwitchNotification(IPlayer target)
         {
             return target == User
-                ? Notification.Chat("You gave yourself a ride to someplace else. You were switched!")
-                : Notification.Chat("Someone gave you a ride to someplace else. You were switched!");
+                ? Entry.Chat(BusDriverKey.SelfRide)
+                : Entry.Chat(BusDriverKey.OtherRide);
         }
 
-        public string GetMessage()
+        public Entry GetMessage()
         {
             var target1 = TargetManager[0];
             var target2 = TargetManager[0];
 
-            if (target1 == null && target2 == null) return "You won't pick up anyone.";
-            if (target1 != null && target2 != null) return $"You will swap {target1.Name} with {target2.Name}";
-            if (target1 != null) return $"You will pick up {target1.Name}.";
-            return $"You will pick up {target2.Name}";
+            if (target1 == null && target2 == null) return Entry.Chat(BusDriverKey.NoTargets);
+            if (target1 != null && target2 != null) return Entry.Chat(BusDriverKey.TwoTargets, target1, target2);
+            if (target1 != null) return Entry.Chat(BusDriverKey.OneTarget, target1);
+            return Entry.Chat(BusDriverKey.OneTarget, target2);
         }
 
         protected override void _onNightStart()
         {
             var filter = TargetFilter.Living(Match);
-            if (!Setup.CanTargetSelf) filter = filter.Except(User);
+            if (!Setup.CanTargetSelf) filter = filter.Except(User); // TODO Except already targeted
 
             AddTarget(filter, new TargetNotification
             {

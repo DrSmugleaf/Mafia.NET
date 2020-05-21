@@ -1,8 +1,18 @@
-﻿using System;
-using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
+    [RegisterKey]
+    public enum CoronerKey
+    {
+        StillAlive,
+        AutopsyRole,
+        AutopsyLastWill,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Coroner", typeof(CoronerSetup))]
     public class Coroner : TownAbility<CoronerSetup>, IDetector
     {
@@ -10,26 +20,21 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (target.Alive)
             {
-                User.OnNotification(Notification.Chat("Your target is still alive."));
+                User.OnNotification(Entry.Chat(CoronerKey.StillAlive));
                 return;
             }
 
-            var message = $"{target.Name}'s role was {target.Role}.";
+            var message = new EntryBundle();
+            message.Chat(CoronerKey.AutopsyRole, target, target.Role);
             if (Setup.DiscoverLastWill && target.LastWill.Text.Length > 0)
-                message += $"{Environment.NewLine}Their last will was:{Environment.NewLine}{target.LastWill}";
+                message.Chat(CoronerKey.AutopsyLastWill, target.LastWill);
 
-            var notification = Notification.Chat(message);
-            User.OnNotification(notification);
+            User.OnNotification(message);
         }
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Dead(Match), new TargetNotification
-            {
-                UserAddMessage = target => $"You will perform an autopsy on {target.Name}.",
-                UserRemoveMessage = target => "You won't perform an autopsy tonight.",
-                UserChangeMessage = (old, current) => $"You will instead perform an autopsy on {current.Name}."
-            });
+            AddTarget(TargetFilter.Dead(Match), TargetNotification.Enum<CoronerKey>());
         }
     }
 

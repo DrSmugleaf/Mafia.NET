@@ -1,9 +1,9 @@
-﻿- name: Incense Master
-  team: Triad
-  summary: '432 - "Incense Master" - Proxy for the Mountain (Dragon Master), this Triad member sanitizes those who dare to decline membership.'
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Triad Deception
-  color: "#5B84FF"
-  ability:
-    description: "Sanitize one player each night."
+﻿name: Incense Master
+team: Triad
+summary: '432 - "Incense Master" - Proxy for the Mountain (Dragon Master), this Triad member sanitizes those who dare to decline membership.'
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Triad Deception
+color: "#5B84FF"
+ability:
+  description: "Sanitize one player each night."

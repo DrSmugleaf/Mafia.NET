@@ -1,9 +1,9 @@
-﻿- name: Witch Doctor
-  team: Neutral
-  summary: "A hedge psychic, using his powers of healing to operate as the leader of a group of cultists."
-  goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
-  categories:
-  - Neutral Evil
-  color: "#AA55FF"
-  ability:
-    description: "Save a player, protecting him from death and converting him to the Cult if he was attacked that night. Also, may speak with the Cult at night in the Cultist night chat."
+﻿name: Witch Doctor
+team: Neutral
+summary: "A hedge psychic, using his powers of healing to operate as the leader of a group of cultists."
+goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
+categories:
+- Neutral Evil
+color: "#AA55FF"
+ability:
+  description: "Save a player, protecting him from death and converting him to the Cult if he was attacked that night. Also, may speak with the Cult at night in the Cultist night chat."

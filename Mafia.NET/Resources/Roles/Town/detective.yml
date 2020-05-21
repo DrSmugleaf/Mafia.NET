@@ -1,9 +1,9 @@
-﻿- name: Detective
-  team: Town
-  summary: "A skilled tracker, learning important information on behalf of the town."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Investigative
-  color: "#00FF44"
-  ability:
-    description: "Track one person's activity each night."
+﻿name: Detective
+team: Town
+summary: "A skilled tracker, learning important information on behalf of the town."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Investigative
+color: "#00FF44"
+ability:
+  description: "Track one person's activity each night."

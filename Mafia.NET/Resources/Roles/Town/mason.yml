@@ -1,9 +1,9 @@
-﻿- name: Mason
-  team: Town
-  summary: "A member of a secret society."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Government
-  color: "#00FF44"
-  ability:
-    description: "Collaborate with other Masons at night through the secret Mason night chat."
+﻿name: Mason
+team: Town
+summary: "A member of a secret society."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Government
+color: "#00FF44"
+ability:
+  description: "Collaborate with other Masons at night through the secret Mason night chat."

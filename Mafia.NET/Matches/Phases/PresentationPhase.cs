@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -18,16 +16,16 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            var names = string.Join(Environment.NewLine,
-                Match.AllPlayers.Select(player => $"{player.Name} has moved into town."));
-            var namesNotification = Notification.Chat(names);
+            var names = new EntryBundle();
+            foreach (var player in Match.AllPlayers)
+                names.Chat(DayKey.MoveIntoTown, player.Name);
 
             foreach (var player in Match.AllPlayers)
             {
-                var role = Notification.Popup(
-                    $"Your role is {player.Role.Name}{Environment.NewLine}{player.Role.Summary}"); // Todo role abilities and information
+                var role = Entry.Popup(DayKey.YourRole, player.Role,
+                    player.Role.Summary); // Todo role abilities and information
 
-                player.OnNotification(namesNotification);
+                player.OnNotification(names);
                 player.OnNotification(role);
             }
         }

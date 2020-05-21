@@ -1,3 +1,3 @@
-﻿- name: Neutral Evil
-  description: "Neutral Evil roles all share a goal of needing to see the Town lose the game in order to win themselves."
-  goal: Evil
+﻿name: Neutral Evil
+description: "Neutral Evil roles all share a goal of needing to see the Town lose the game in order to win themselves."
+goal: Evil

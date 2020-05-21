@@ -14,14 +14,14 @@ namespace Mafia.NET.Players
 
         public IMatch Match { get; }
         public IPlayer Owner { get; }
-        public string _text { get; set; }
+        private string _text { get; set; }
 
         public string Text
         {
             get => _text;
             set
             {
-                if (value == null) value = "";
+                value ??= "";
                 if (!Owner.Alive || !Match.Phase.CurrentPhase.Actionable) return;
                 _text = value.Trim().Substring(0, Math.Min(value.Length, 500));
             }
@@ -30,6 +30,11 @@ namespace Mafia.NET.Players
         public static implicit operator string(Note note)
         {
             return note.Text;
+        }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

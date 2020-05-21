@@ -1,12 +1,12 @@
-﻿- name: Jailor
-  team: Town
-  summary: "A jail guard officer, secretly detaining suspects."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Killing	
-  - Town Power
-  color: "#66CC00"
-  ability:
-    description: "Jail and roleblock one player each night following a day where no lynch occurred. Speak anonymously with the jailed player at night, and optionally execute that player."
-    murder_descriptions:
-    - "They were executed in a jail cell."
+﻿name: Jailor
+team: Town
+summary: "A jail guard officer, secretly detaining suspects."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Killing	
+- Town Power
+color: "#66CC00"
+ability:
+  description: "Jail and roleblock one player each night following a day where no lynch occurred. Speak anonymously with the jailed player at night, and optionally execute that player."
+  murder_descriptions:
+  - "They were executed in a jail cell."

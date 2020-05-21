@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Mafia.NET.Matches.Chats;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -24,23 +23,21 @@ namespace Mafia.NET.Matches.Phases
             ChatManager.Open(Match.AllPlayers);
             ChatManager.UnMuteUnDeafen();
 
-            var popup = Notification.Popup("We have come to a conclusion...");
-            var roles = Match.AllPlayers
-                .Select(player => $"{player.Name} was the {player.Role.Name}")
-                .Select(message => Notification.Chat(message))
-                .ToList();
-            var rolesNotification = new Notification(NotificationType.CHAT, roles);
+            var conclusion = Entry.Popup(DayKey.Conclusion);
+            var roles = new EntryBundle();
+            foreach (var player in Match.AllPlayers)
+                roles.Chat(DayKey.ConclusionRoleReveal, player, player.Role);
 
             foreach (var player in Match.AllPlayers)
             {
                 foreach (var victory in Victories)
                 {
-                    player.OnNotification(popup);
+                    player.OnNotification(conclusion);
                     player.OnNotification(victory.Popup);
                     player.OnNotification(victory.WinnersList);
                 }
 
-                player.OnNotification(rolesNotification);
+                player.OnNotification(roles);
             }
 
             base.Start();

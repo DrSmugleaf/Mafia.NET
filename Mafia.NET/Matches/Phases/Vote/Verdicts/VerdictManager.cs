@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mafia.NET.Matches.Chats;
+using Mafia.NET.Localization;
 using Mafia.NET.Players;
-using Mafia.NET.Players.Votes;
 
 namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
@@ -15,7 +14,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             Player = player;
             Active = true;
             Verdicts = match.LivingPlayers.Where(voter => voter != player)
-                .ToDictionary(voter => voter, voter => Verdict.ABSTAIN);
+                .ToDictionary(voter => voter, voter => Verdict.Abstain);
         }
 
         public IMatch Match { get; }
@@ -30,17 +29,17 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             var oldVerdict = Verdicts[voter];
             Verdicts[voter] = verdict;
 
-            string message;
-            if (verdict != Verdict.ABSTAIN && oldVerdict == Verdict.ABSTAIN)
-                message = $"{voter} has voted.";
-            else if (verdict == Verdict.ABSTAIN && oldVerdict != Verdict.ABSTAIN)
-                message = $"{voter} has removed their vote.";
-            else if (verdict != Verdict.ABSTAIN && oldVerdict != Verdict.ABSTAIN)
-                message = $"{voter} has changed their vote.";
+            DayKey key;
+            if (verdict != Verdict.Abstain && oldVerdict == Verdict.Abstain)
+                key = DayKey.VoteAdd;
+            else if (verdict == Verdict.Abstain && oldVerdict != Verdict.Abstain)
+                key = DayKey.VoteRemove;
+            else if (verdict != Verdict.Abstain && oldVerdict != Verdict.Abstain)
+                key = DayKey.VoteChange;
             else
                 return;
 
-            var notification = Notification.Chat(message);
+            var notification = Entry.Chat(key, voter);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
         }
 
@@ -49,38 +48,40 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             return Verdicts.Values.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
         }
 
-        public Notification Decision()
+        public Entry Decision()
         {
             var count = VerdictCount();
-            var innocent = count[Verdict.INNOCENT];
-            var guilty = count[Verdict.GUILTY];
-            var decision = Innocent()
-                ? $"The town has decided to pardon {Player.Name} by a vote of {innocent} to {guilty}"
-                : $"The town has decided to lynch {Player.Name} by a vote of {guilty} to {innocent}";
+            var innocent = count[Verdict.Innocent];
+            var guilty = count[Verdict.Guilty];
 
-            return Notification.Popup(decision);
+            return Entry.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Player, innocent, guilty);
         }
 
-        public Notification Votes()
+        public EntryBundle Votes()
         {
-            var message = "";
+            var message = new EntryBundle();
 
-            foreach (var verdict in Verdicts)
-                message += $"[{verdict.Key.Name} " + verdict.Value switch
+            foreach (var pair in Verdicts)
+            {
+                var player = pair.Key;
+                var verdict = pair.Value;
+
+                message.Chat(verdict switch
                 {
-                    Verdict.ABSTAIN => "abstained",
-                    Verdict.INNOCENT => "voted Innocent",
-                    Verdict.GUILTY => "voted Guilty",
+                    Verdict.Abstain => DayKey.VerdictAbstain,
+                    Verdict.Innocent => DayKey.VerdictInnocent,
+                    Verdict.Guilty => DayKey.VerdictGuilty,
                     _ => throw new NotImplementedException()
-                } + $"]{Environment.NewLine}";
+                }, player);
+            }
 
-            return Notification.Chat(message);
+            return message;
         }
 
         public bool Innocent()
         {
             var votes = VerdictCount();
-            return votes[Verdict.INNOCENT] > votes[Verdict.GUILTY];
+            return votes[Verdict.Innocent] > votes[Verdict.Guilty];
         }
 
         public void End()

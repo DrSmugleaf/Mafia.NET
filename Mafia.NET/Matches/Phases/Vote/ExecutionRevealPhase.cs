@@ -1,5 +1,4 @@
-﻿using System;
-using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -22,16 +21,20 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             ChatManager.Open(Match.AllPlayers);
-            var role = Notification.Popup($"{Player.Name}'s role was {Player.Role.Name}.");
+            var role = Entry.Popup(DayKey.ExecutionRole, Player, Player.Role);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(role);
 
             if (Player.LastWill.Text.Length == 0) return;
 
-            var lastWill =
-                Notification.Chat($"{Player.Name} left us his last will:{Environment.NewLine}{Player.LastWill}");
+            var lastWill1 = Entry.Chat(DayKey.LastWillAuthor, Player);
+            var lastWill2 = Entry.Chat(DayKey.LastWillContent, Player.LastWill.Text);
 
-            foreach (var player in Match.AllPlayers) player.OnNotification(lastWill);
+            foreach (var player in Match.AllPlayers)
+            {
+                player.OnNotification(lastWill1);
+                player.OnNotification(lastWill2);
+            }
 
             base.Start();
         }
@@ -40,8 +43,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             base.End();
 
-            var notification = Notification.Popup("Let us reconvene tomorrow.");
-
+            var notification = Entry.Popup(DayKey.DayEnd);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
         }
     }

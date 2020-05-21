@@ -1,7 +1,16 @@
 ﻿using System.Linq;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
+    [RegisterKey]
+    public enum BodyguardKey
+    {
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Bodyguard", typeof(BodyguardSetup))]
     public class
         Bodyguard : TownAbility<BodyguardSetup>,
@@ -31,12 +40,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User), new TargetNotification
-            {
-                UserAddMessage = target => $"You will guard {target.Name}.",
-                UserRemoveMessage = target => "You won't guard anyone.",
-                UserChangeMessage = (old, current) => $"You will instead guard {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User), TargetNotification.Enum<BodyguardKey>());
         }
     }
 

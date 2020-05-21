@@ -1,4 +1,4 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -19,9 +19,9 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            var notification = Notification.Popup($"The town has decided to put {Player.Name} to trial.");
+            var entry = Entry.Popup(DayKey.PutToTrial);
 
-            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+            foreach (var player in Match.AllPlayers) player.OnNotification(entry);
 
             base.Start();
         }

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
-using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
 using NUnit.Framework;
 

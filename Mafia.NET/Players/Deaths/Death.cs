@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Deaths
             Description = description;
         }
 
-        public Death(IAbility ability, IPlayer victim) : this(victim.Match.Phase.Day, victim, DeathCause.MURDER,
+        public Death(IAbility ability, IPlayer victim) : this(victim.Match.Phase.Day, victim, DeathCause.Murder,
             ability.MurderDescriptions.Get(), ability.User)
         {
         }
@@ -36,6 +36,11 @@ namespace Mafia.NET.Players.Deaths
         public IDeath WithVictim(IPlayer player)
         {
             return new Death(Day, player, Cause, Description, Killer);
+        }
+
+        public override string ToString()
+        {
+            return VictimName;
         }
     }
 }

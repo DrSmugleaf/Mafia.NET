@@ -6,7 +6,7 @@
         int Day { get; set; }
         IPlayer Victim { get; }
         string VictimName { get; set; }
-        string? VictimRole { get; set; }
+        string? VictimRole { get; set; } // TODO
         DeathCause Cause { get; set; }
         IPlayer? Killer { get; set; }
         string LastWill { get; set; }

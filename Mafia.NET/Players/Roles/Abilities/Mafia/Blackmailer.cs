@@ -1,5 +1,15 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Mafia
+﻿using Mafia.NET.Localization;
+
+namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum BlackmailerKey
+    {
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Blackmailer", typeof(BlackmailerSetup))]
     public class Blackmailer : MafiaAbility<BlackmailerSetup>, IMisc
     {
@@ -10,12 +20,8 @@
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
-            {
-                UserAddMessage = target => $"You will blackmail {target.Name}.",
-                UserRemoveMessage = target => "You won't blackmail anyone.",
-                UserChangeMessage = (old, current) => $"You will instead blackmail {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team),
+                TargetNotification.Enum<BlackmailerKey>());
         }
     }
 

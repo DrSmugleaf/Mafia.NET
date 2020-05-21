@@ -1,9 +1,9 @@
-﻿- name: Judge
-  team: Neutral
-  summary: "A corrupt court minister who uses his power and connections to manipulate the trials."
-  goal: "Survive and see the town lose the game."
-  categories:
-  - Neutral Evil
-  color: "#BB6655"
-  ability:
-    description: "May call court during the day, stopping all discussion and forcing an anonymous ballot vote where the Judge has additional votes. Also, can speak to the entire town at night, anonymously."
+﻿name: Judge
+team: Neutral
+summary: "A corrupt court minister who uses his power and connections to manipulate the trials."
+goal: "Survive and see the town lose the game."
+categories:
+- Neutral Evil
+color: "#BB6655"
+ability:
+  description: "May call court during the day, stopping all discussion and forcing an anonymous ballot vote where the Judge has additional votes. Also, can speak to the entire town at night, anonymously."

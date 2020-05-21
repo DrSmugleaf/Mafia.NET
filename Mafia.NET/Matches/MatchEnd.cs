@@ -8,7 +8,7 @@ namespace Mafia.NET.Matches
         {
             Match = match;
         }
-        
+
         public IMatch Match { get; }
     }
 }

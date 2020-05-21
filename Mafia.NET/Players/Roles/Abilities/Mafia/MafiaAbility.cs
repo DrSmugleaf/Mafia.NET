@@ -37,7 +37,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 
         protected override string GuiltyName()
         {
-            return "Mafia";
+            return "Mafia"; // TODO: Localize
         }
     }
 

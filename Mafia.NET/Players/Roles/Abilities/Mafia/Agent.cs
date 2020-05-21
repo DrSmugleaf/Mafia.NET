@@ -1,9 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum AgentKey
+    {
+        TargetInactive,
+        TargetVisitedSomeone,
+        SomeoneVisitedTarget,
+        NoneVisitedTarget,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Agent", typeof(AgentSetup))]
     public class Agent : MafiaAbility<AgentSetup>, IDetector
     {
@@ -17,40 +27,32 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             Cooldown = Setup.NightsBetweenUses;
 
-            User.Crimes.Add("Trespassing");
+            User.Crimes.Add("Trespassing"); // TODO: Localize
 
-            var targetVisitMessage = "Your target did not do anything tonight.";
+            var targetVisitMessage = Entry.Chat(AgentKey.TargetInactive);
             if (target.Role.Ability.DetectTarget(out var targetVisit))
-                targetVisitMessage = $"Your target visited {targetVisit.Name} tonight.";
+                targetVisitMessage = Entry.Chat(AgentKey.TargetVisitedSomeone, targetVisit);
 
-            var foreignVisits = new List<string>();
-            foreach (var player in Match.LivingPlayers)
+            var foreignVisits = new EntryBundle();
+            foreach (var other in Match.LivingPlayers)
             {
-                var foreignVisit = player.Role.Ability.TargetManager[0];
+                var foreignVisit = other.Role.Ability.TargetManager[0];
                 if (foreignVisit != target) continue;
 
-                foreignVisits.Add($"{player.Name} visited your target tonight.");
+                foreignVisits.Chat(AgentKey.SomeoneVisitedTarget, other);
             }
 
-            if (foreignVisits.Count == 0) foreignVisits.Add("Your target was not visited by anyone tonight.");
+            if (foreignVisits.Entries.Count == 0) foreignVisits.Chat(AgentKey.NoneVisitedTarget);
 
-            var targetNotification = Notification.Chat(targetVisitMessage);
-            var foreignNotification = Notification.Chat(string.Join(Environment.NewLine, foreignVisits));
-
-            User.OnNotification(targetNotification);
-            User.OnNotification(foreignNotification);
+            User.OnNotification(targetVisitMessage);
+            User.OnNotification(foreignVisits);
         }
 
         protected override void _onNightStart()
         {
             if (Cooldown > 0) return;
 
-            AddTarget(TargetFilter.Living(Match), new TargetNotification
-            {
-                UserAddMessage = target => $"You will watch {target.Name}.",
-                UserRemoveMessage = target => "You won't watch anyone.",
-                UserChangeMessage = (old, current) => $"You will instead watch {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match), TargetNotification.Enum<AgentKey>());
         }
     }
 

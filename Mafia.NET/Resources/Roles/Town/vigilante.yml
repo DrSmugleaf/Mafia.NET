@@ -1,14 +1,14 @@
-﻿- name: Vigilante
-  team: Town
-  summary: "A dirty cop who will ignore the law and order to enact justice."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Killing
-  color: "#88CC00"
-  ability:
-    description: "Kill one target at night"
-    murder_descriptions:
-    - "They were shot by a high-caliber gun."
-    - "They were ripped apart with several rounds from a high-caliber gun."
-    - "Their body had bruises and minor fractures. They were shot by a high-caliber gun."
-    - "Their body was severely battered with many broken bones. They were shot by a high-caliber gun."
+﻿name: Vigilante
+team: Town
+summary: "A dirty cop who will ignore the law and order to enact justice."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Killing
+color: "#88CC00"
+ability:
+  description: "Kill one target at night"
+  murder_descriptions:
+  - "They were shot by a high-caliber gun."
+  - "They were ripped apart with several rounds from a high-caliber gun."
+  - "Their body had bruises and minor fractures. They were shot by a high-caliber gun."
+  - "Their body was severely battered with many broken bones. They were shot by a high-caliber gun."

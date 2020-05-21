@@ -1,9 +1,9 @@
-﻿- name: Silencer
-  team: Triad
-  summary: '429 - "White Curtain" - A skulking predator armed with a camera and secret recording equipment.'
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Triad Support
-  color: "#2C58DD"
-  ability:
-    description: "Silence."
+﻿name: Silencer
+team: Triad
+summary: '429 - "White Curtain" - A skulking predator armed with a camera and secret recording equipment.'
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Triad Support
+color: "#2C58DD"
+ability:
+  description: "Silence."

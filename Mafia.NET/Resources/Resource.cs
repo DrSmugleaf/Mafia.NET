@@ -12,7 +12,7 @@ namespace Mafia.NET.Resources
             ResourcePath = path;
         }
 
-        private string ResourcePath { get; }
+        public string ResourcePath { get; }
 
         public static string GetResourcesDirectory()
         {
@@ -39,17 +39,24 @@ namespace Mafia.NET.Resources
             return resources;
         }
 
-        public static explicit operator YamlSequenceNode(Resource resource)
+        public YamlStream ToYamlStream()
         {
-            using var reader = new StreamReader(resource.ResourcePath);
+            using var reader = new StreamReader(ResourcePath);
             var yaml = new YamlStream();
             yaml.Load(reader);
+            return yaml;
+        }
+
+        public static explicit operator YamlSequenceNode(Resource resource)
+        {
+            var yaml = resource.ToYamlStream();
             return (YamlSequenceNode) yaml.Documents[0].RootNode;
         }
 
         public static explicit operator YamlMappingNode(Resource resource)
         {
-            return (YamlMappingNode) ((YamlSequenceNode) resource)[0];
+            var yaml = resource.ToYamlStream();
+            return (YamlMappingNode) yaml.Documents[0].RootNode;
         }
     }
 }

@@ -1,17 +1,17 @@
-﻿- name: Mafioso
-  team: Mafia
-  summary: "A lowly soldato for one of the Don's borgata."
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Mafia Killing
-  color: "#CC0000"
-  ability:
-    description: "Kill"
-    murder_descriptions:
-    - "They were shot at close range."
-    - "They were also riddled with bullets at close range."
-    - "There were signs of struggle. They were shot at close range."
-    - "There were signs of struggle. They were also riddled with bullets at close range."
-    - "There were signs of struggle. Their body was battered and had multiple bone fractures. They were shot at close range."
-    - "Their body had bruises and minor fractures. They were shot at close range."
-    - "Their body had bruises and minor fractures. They were also riddled with bullets at close range."
+﻿name: Mafioso
+team: Mafia
+summary: "A lowly soldato for one of the Don's borgata."
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Mafia Killing
+color: "#CC0000"
+ability:
+  description: "Kill"
+  murder_descriptions:
+  - "They were shot at close range."
+  - "They were also riddled with bullets at close range."
+  - "There were signs of struggle. They were shot at close range."
+  - "There were signs of struggle. They were also riddled with bullets at close range."
+  - "There were signs of struggle. Their body was battered and had multiple bone fractures. They were shot at close range."
+  - "Their body had bruises and minor fractures. They were shot at close range."
+  - "Their body had bruises and minor fractures. They were also riddled with bullets at close range."

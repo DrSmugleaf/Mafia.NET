@@ -1,8 +1,15 @@
-﻿using Mafia.NET.Matches;
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
+    [RegisterKey]
+    public enum CrierKey
+    {
+        MayTalk
+    }
+
     [RegisterAbility("Crier", typeof(CrierSetup))]
     public class Crier : TownAbility<CrierSetup>, INightChatter
     {
@@ -12,7 +19,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             Match.Chat.Open(new CrierChat(Match));
 
-            var notification = Notification.Chat("You may now talk to the town anonymously.");
+            var notification = Entry.Chat(CrierKey.MayTalk);
             User.OnNotification(notification);
         }
     }
@@ -31,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                 var participant = new ChatParticipant(player, true);
                 if (player.Role.Ability is Crier)
                 {
-                    participant.Name = "Crier";
+                    participant.Name = "Crier"; // TODO: Localize
                     participant.Muted = false;
                 }
 

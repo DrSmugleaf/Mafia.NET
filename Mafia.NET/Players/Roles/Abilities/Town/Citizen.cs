@@ -1,8 +1,19 @@
-﻿using Mafia.NET.Matches;
-using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
+    [RegisterKey]
+    public enum CitizenKey
+    {
+        UsesLeft,
+        UsesLeftPlural,
+        UsedUp,
+        UsedUpNow,
+        UserAddMessage,
+        UserRemoveMessage
+    }
+
     [RegisterAbility("Citizen", typeof(CitizenSetup))]
     public class Citizen : TownAbility<CitizenSetup>, IVest
     {
@@ -16,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (Uses == 0 || !TargetManager.Try(out _)) return;
 
-            var notification = Notification.Chat("Your bulletproof vest is now used up.");
+            var notification = Entry.Chat(CitizenKey.UsedUpNow);
             User.OnNotification(notification);
 
             CurrentlyDeathImmune = true;
@@ -26,19 +37,14 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (Uses == 0)
             {
-                User.OnNotification(Notification.Chat("Your bulletproof vest is used up."));
+                User.OnNotification(Entry.Chat(CitizenKey.UsedUp));
                 return;
             }
 
-            var notification =
-                Notification.Chat($"Your bulletproof vest has {Uses} {(Uses == 1 ? "use" : "uses")} left.");
-            User.OnNotification(notification);
+            var usesLeft = Entry.Chat(Uses == 1 ? CitizenKey.UsesLeft : CitizenKey.UsesLeftPlural);
+            User.OnNotification(usesLeft);
 
-            AddTarget(TargetFilter.Only(User), new TargetNotification
-            {
-                UserAddMessage = target => "You put on your bulletproof vest.",
-                UserRemoveMessage = target => "You take off your bulletproof vest."
-            });
+            AddTarget(TargetFilter.Only(User), TargetNotification.Enum<CitizenKey>());
         }
     }
 

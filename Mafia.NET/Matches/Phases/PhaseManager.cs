@@ -20,7 +20,7 @@
         {
             Match = match;
             Day = 1;
-            CurrentTime = Time.DAY;
+            CurrentTime = Time.Day;
             CurrentPhase = new PresentationPhase(Match);
             Clock = new Clock();
         }

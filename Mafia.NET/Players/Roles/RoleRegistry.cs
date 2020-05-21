@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
 using Mafia.NET.Extension;
+using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
@@ -11,7 +12,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
 {
-    public class RoleEntry
+    public class RoleEntry : IColorizable
     {
         public RoleEntry(
             string name,
@@ -39,13 +40,8 @@ namespace Mafia.NET.Players.Roles
         public string Abilities { get; }
         public ITeam Team { get; }
         public IImmutableList<ICategory> Categories { get; }
-        public Color Color { get; }
         public Color OriginalColor { get; }
-
-        public string ColorHtml()
-        {
-            return ColorTranslator.ToHtml(Color);
-        }
+        public Color Color { get; }
     }
 
     public class RoleRegistry

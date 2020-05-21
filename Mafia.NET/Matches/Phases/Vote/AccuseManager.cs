@@ -1,10 +1,9 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mafia.NET.Matches.Chats;
+using Mafia.NET.Localization;
 using Mafia.NET.Players;
-
-#nullable enable
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
@@ -32,45 +31,31 @@ namespace Mafia.NET.Matches.Phases.Vote
             return Target;
         }
 
-        public bool Accuse(IPlayer target, out Notification? notification)
+        public bool Accuse(IPlayer target, out Entry? notification)
         {
-            notification = null;
+            notification = default;
             if (!Active || Target == target) return false;
 
             var change = Target != null;
             Target = target;
 
             if (change)
-            {
-                if (AnonymousVote)
-                    notification = Notification.Chat("Someone has changed their vote to someone else.");
-                else
-                    notification = Notification.Chat($"{Player.Name} has changed their vote to {target.Name}.");
-            }
+                notification = Entry.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player, target);
             else
-            {
-                if (AnonymousVote)
-                    notification = Notification.Chat("Someone has voted to try someone.");
-                else
-                    notification = Notification.Chat($"{Player.Name} has voted to try {target.Name}.");
-            }
+                notification = Entry.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
 
-            return true;
+            return notification != default;
         }
 
-        public bool Unaccuse(out Notification? notification)
+        public bool Unaccuse(out Entry? notification)
         {
-            notification = null;
+            notification = default;
             if (!Active || Target == null) return false;
 
             Target = null;
+            notification = Entry.Chat(AnonymousVote ? DayKey.AnonymousTryRemove : DayKey.TryRemove, Player);
 
-            if (AnonymousVote)
-                notification = Notification.Chat("Someone has cancelled their vote.");
-            else
-                notification = Notification.Chat($"{Player.Name} has cancelled their vote.");
-
-            return true;
+            return notification != default;
         }
     }
 

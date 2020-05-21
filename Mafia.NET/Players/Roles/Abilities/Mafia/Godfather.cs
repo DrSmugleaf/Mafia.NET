@@ -1,7 +1,18 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using JetBrains.Annotations;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum GodfatherKey
+    {
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Godfather", typeof(GodfatherSetup))]
     public class
         Godfather : MafiaAbility<GodfatherSetup>, ISwitcher,
@@ -23,12 +34,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             }
         }
 
-        protected bool TryMafioso(out IPlayer mafioso)
+        protected bool TryMafioso([CanBeNull] [NotNullWhen(true)] out IPlayer mafioso)
         {
             mafioso = Match.LivingPlayers
-                .Where(player => player.Role.Team == User.Role.Team &&
-                                 player.Role.Ability is Mafioso)
-                .FirstOrDefault();
+                .FirstOrDefault(player => player.Role.Team == User.Role.Team && player.Role.Ability is Mafioso);
 
             return mafioso != null;
         }
@@ -36,12 +45,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         protected override void _onNightStart()
         {
             if (Setup.CanKillWithoutMafioso || TryMafioso(out _))
-                AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
-                {
-                    UserAddMessage = target => $"You will kill {target.Name}.",
-                    UserRemoveMessage = target => "You won't kill anyone.",
-                    UserChangeMessage = (old, current) => $"You will instead kill {current.Name}."
-                });
+                AddTarget(TargetFilter.Living(Match).Except(User.Role.Team),
+                    TargetNotification.Enum<GodfatherKey>());
         }
     }
 

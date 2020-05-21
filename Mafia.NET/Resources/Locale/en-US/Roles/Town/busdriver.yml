@@ -1,0 +1,5 @@
+﻿NoTargets: "You won't pick up anyone."
+OneTarget: "You will pick up <f c={0c}>{0}</f>."
+TwoTargets: "You will swap <f c={0c}>{0}</f> with <f c={1c}>{1}</f>."
+SelfRide: "You gave yourself a ride to someplace else. You were switched!"
+OtherRide: "Someone gave you a ride to someplace else. You were switched!"

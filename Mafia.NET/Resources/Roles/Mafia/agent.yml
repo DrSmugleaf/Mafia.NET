@@ -1,9 +1,9 @@
-﻿- name: Agent
-  team: Mafia
-  summary: "One of the many Caporegime the Don employs, this shady individual gathers information for the Mafia."
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Mafia Support
-  color: "#FF2244"
-  ability:
-    description: "See who one person visits and is visited by each night."
+﻿name: Agent
+team: Mafia
+summary: "One of the many Caporegime the Don employs, this shady individual gathers information for the Mafia."
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Mafia Support
+color: "#FF2244"
+ability:
+  description: "See who one person visits and is visited by each night."

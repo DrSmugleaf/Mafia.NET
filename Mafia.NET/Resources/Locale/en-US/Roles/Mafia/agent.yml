@@ -1,0 +1,7 @@
+﻿TargetInactive: "Your target did not do anything tonight."
+TargetVisitedSomeone: "Your target visited <f c={0c}>{0}</f> tonight."
+SomeoneVisitedTarget: "<f c={0c}>{0}</f> visited your target tonight."
+NoneVisitedTarget: "Your target was not visited by anyone tonight."
+UserAddMessage: "You will watch <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't watch anyone."
+UserChangeMessage: "You will instead watch <f c={1c}>{1}</f>."

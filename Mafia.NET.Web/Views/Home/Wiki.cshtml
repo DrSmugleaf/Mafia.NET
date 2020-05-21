@@ -1,4 +1,5 @@
-﻿@using Mafia.NET.Players.Roles
+﻿@using Mafia.NET.Extension
+@using Mafia.NET.Players.Roles
 @{
     var role = (RoleEntry) ViewData["Role"];
     ViewData["Title"] = role.Name;
@@ -12,8 +13,8 @@
         <div class="float-left col-sm"></div>
         <div class="float-right col-sm">
             <div class="card">
-                <h3 class="card-header text-center role-name" style="background-color: @role.ColorHtml()">@role.Name</h3>
-                <h4 class="card-header text-center role-name" style="background-color: @role.Team.ColorHtml()">@role.Team.Name</h4>
+                <h3 class="card-header text-center role-name" style="background-color: @role.Color.HexRgb()">@role.Name</h3>
+                <h4 class="card-header text-center role-name" style="background-color: @role.Team.Color.HexRgb()">@role.Team.Name</h4>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="row">

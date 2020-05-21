@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Mafia.NET.Matches.Chats;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Matches
 {
@@ -12,7 +12,7 @@ namespace Mafia.NET.Matches
         {
             Matches = new ConcurrentDictionary<Guid, IMatch>();
         }
-        
+
         protected ConcurrentDictionary<Guid, IMatch> Matches { get; }
 
         public void Add(IMatch match)
@@ -23,8 +23,8 @@ namespace Mafia.NET.Matches
 
             foreach (var player in match.AllPlayers)
             {
-                player.Notification -= OnNotification;
-                player.Notification += OnNotification;
+                player.Chat -= OnChat;
+                player.Popup += OnPopup;
             }
 
             Task.Delay(3000).ContinueWith(t => match.Start());
@@ -35,6 +35,14 @@ namespace Mafia.NET.Matches
             Matches.TryRemove(match.Match.Id, out _);
         }
 
-        public virtual void OnNotification(object sender, Notification notification) => Expression.Empty();
+        public virtual void OnChat(object sender, Text notification)
+        {
+            Expression.Empty();
+        }
+
+        public virtual void OnPopup(object sender, Text notification)
+        {
+            Expression.Empty();
+        }
     }
 }

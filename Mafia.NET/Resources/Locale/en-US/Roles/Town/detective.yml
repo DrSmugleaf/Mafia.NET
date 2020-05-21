@@ -1,0 +1,5 @@
+﻿TargetInactive: "Your target did not do anything tonight."
+TargetVisitedSomeone: "Your target visited <f c={0c}>{0}</f> tonight."
+UserAddMessage: "You will track <f c={0c}>{0}</f>'s activity."
+UserRemoveMessage: "You won't track anyone tonight."
+UserChangeMessage: "You will instead track <f c={1c}>{1}</f>'s activity."

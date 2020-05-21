@@ -1,7 +1,20 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
+    [RegisterKey]
+    public enum JailorKey
+    {
+        DayUserAddMessage,
+        DayUserRemoveMessage,
+        DayUserChangeMessage,
+        UnableToJail,
+        NightUserAddMessage,
+        NightUserRemoveMessage,
+        NightTargetAddMessage,
+        NightTargetRemoveMessage
+    }
+
     [RegisterAbility("Jailor", typeof(JailorSetup))]
     public class Jailor : TownAbility<JailorSetup>, IDetainer, IRoleBlocker, IKiller
     {
@@ -15,10 +28,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
             AddTarget(Uses > 0 ? prisoner : null, new TargetNotification
             {
-                UserAddMessage = target => $"You will execute {target.Name}.",
-                UserRemoveMessage = target => "You changed your mind.",
-                TargetAddMessage = target => $"{jailor.Name} will execute {target.Name}.",
-                TargetRemoveMessage = target => $"{jailor.Name} changed their mind."
+                UserAddMessage = target => Entry.Chat(JailorKey.NightUserAddMessage, target),
+                UserRemoveMessage = target => Entry.Chat(JailorKey.NightUserRemoveMessage),
+                TargetAddMessage = target => Entry.Chat(JailorKey.NightTargetAddMessage, target),
+                TargetRemoveMessage = target => Entry.Chat(JailorKey.NightTargetRemoveMessage)
             });
 
             prisoner.Role.Ability.CurrentlyDeathImmune = true;
@@ -44,9 +57,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             AddTarget(TargetFilter.Living(Match).Except(User), new TargetNotification
             {
-                UserAddMessage = target => $"You will jail {target.Name}.",
-                UserRemoveMessage = target => "You won't jail anyone.",
-                UserChangeMessage = (old, current) => $"You will instead jail {current.Name}."
+                UserAddMessage = target => Entry.Chat(JailorKey.DayUserAddMessage, target),
+                UserRemoveMessage = target => Entry.Chat(JailorKey.DayUserRemoveMessage),
+                UserChangeMessage = (old, current) => Entry.Chat(JailorKey.DayUserChangeMessage, old, current)
             });
         }
 
@@ -55,7 +68,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             if (Match.Graveyard.LynchedToday())
             {
                 TargetManager[0] = null;
-                User.OnNotification(Notification.Chat("You are unable to jail anyone due to today's lynch."));
+                User.OnNotification(Entry.Chat(JailorKey.UnableToJail));
             }
 
             TargetManager[0]?.Role.Ability.PiercingDisable();

@@ -1,7 +1,17 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum ConsigliereKey
+    {
+        ExactDetect,
+        Detect,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Consigliere", typeof(ConsigliereSetup))]
     public class Consigliere : MafiaAbility<ConsigliereSetup>, IDetector
     {
@@ -9,22 +19,18 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             User.Crimes.Add("Trespassing");
 
+            // TODO: Target switch
             var message = Setup.ExactDetection
-                ? $"{target.Name} is a {target.Crimes.RoleName()}."
-                : $"{target.Name} is guilty of {target.Crimes.Crime()}.";
-            var notification = Notification.Chat(message);
+                ? Entry.Chat(ConsigliereKey.ExactDetect, target, target.Crimes.RoleName())
+                : Entry.Chat(ConsigliereKey.Detect, target, target.Crimes.Crime());
 
-            User.OnNotification(notification);
+            User.OnNotification(message);
         }
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
-            {
-                UserAddMessage = target => $"You will investigate {target.Name}.",
-                UserRemoveMessage = target => "You won't investigate anyone.",
-                UserChangeMessage = (old, current) => $"You will instead investigate {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team),
+                TargetNotification.Enum<ConsigliereKey>());
         }
     }
 

@@ -1,0 +1,6 @@
+﻿UsesLeft: "Your bulletproof vest has 1 use left."
+UsesLeftPlural: "Your bulletproof vest has {0} uses left."
+UsedUp: "Your bulletproof vest is used up."
+UsedUpNow: "Your bulletproof vest is now used up."
+UserAddMessage: "You put on your bulletproof vest."
+UserRemoveMessage: "You take off your bulletproof vest."

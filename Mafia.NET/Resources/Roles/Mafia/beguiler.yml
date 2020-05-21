@@ -1,11 +1,11 @@
-﻿- name: Beguiler
-  team: Mafia
-  summary: "A stealthy sneak who uses manipulation and redirection to survive."
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Mafia Deception
-  color: "#BB3355"
-  ability:
-    description: "Hide."
-    murder_descriptions:
-    - "They were killed by Asphyxiation."
+﻿name: Beguiler
+team: Mafia
+summary: "A stealthy sneak who uses manipulation and redirection to survive."
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Mafia Deception
+color: "#BB3355"
+ability:
+  description: "Hide."
+  murder_descriptions:
+  - "They were killed by Asphyxiation."

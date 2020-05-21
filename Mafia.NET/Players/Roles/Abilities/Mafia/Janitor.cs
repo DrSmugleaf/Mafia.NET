@@ -1,15 +1,23 @@
-﻿using System;
-using System.Linq;
-using Mafia.NET.Matches.Chats;
+﻿using System.Linq;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum JanitorKey
+    {
+        LastWillReveal,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Janitor", typeof(JanitorSetup))]
     public class Janitor : MafiaAbility<JanitorSetup>, ICleaner
     {
         public void Clean(IPlayer target)
         {
-            var targetThreats = Match.Graveyard.Threats.Where(threat => threat.Victim == target);
+            var targetThreats = Match.Graveyard.Threats.Where(threat => threat.Victim == target).ToList();
 
             if (targetThreats.Any())
             {
@@ -18,13 +26,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 Uses--;
 
                 var threat = targetThreats.First();
-                var notification =
-                    Notification.Chat($"Your target's last will was:{Environment.NewLine}{threat.LastWill}");
+                var lastWill = Entry.Chat(JanitorKey.LastWillReveal, threat.LastWill);
 
                 threat.VictimRole = null;
                 threat.LastWill = "";
 
-                User.OnNotification(notification);
+                User.OnNotification(lastWill);
             }
         }
 
@@ -32,12 +39,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (Uses == 0) return;
 
-            AddTarget(TargetFilter.Living(Match), new TargetNotification
-            {
-                UserAddMessage = target => $"You will sanitize {target.Name}'s death.",
-                UserRemoveMessage = target => "You won't sanitize anyone's death.",
-                UserChangeMessage = (old, current) => $"You will instead sanitize {current.Name}'s death."
-            });
+            AddTarget(TargetFilter.Living(Match), TargetNotification.Enum<JanitorKey>());
         }
     }
 

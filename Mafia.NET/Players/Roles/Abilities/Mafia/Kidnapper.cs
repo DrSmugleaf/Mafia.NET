@@ -1,10 +1,23 @@
 ﻿using System.Linq;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches;
-using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum KidnapperKey
+    {
+        DayUserAddMessage,
+        DayUserRemoveMessage,
+        DayUserChangeMessage,
+        UnableToJail,
+        NightUserAddMessage,
+        NightUserRemoveMessage,
+        NightTargetAddMessage,
+        NightTargetRemoveMessage
+    }
+
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
     public class Kidnapper : MafiaAbility<KidnapperSetup>, IDetainer, IRoleBlocker, IKiller
     {
@@ -18,9 +31,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             User.Crimes.Add("Kidnapping");
 
-            var jail = Match.Chat.Open("Jailor", User, prisoner);
-            var jailor = jail.Participants[User];
-            jailor.Name = "Jailor";
+            var jail = Match.Chat.Open("Jailor", User, prisoner); // TODO: Localize "Jailor"
+            var detainer = jail.Participants[User];
+            detainer.Name = "Jailor";
 
             var allies = Match.LivingPlayers.Where(player =>
                 player.Role.Team == User.Role.Team && player != User);
@@ -28,10 +41,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             AddTarget(prisoner.Role.Team == User.Role.Team ? null : prisoner, new TargetNotification
             {
-                UserAddMessage = target => $"You will execute {target.Name}.",
-                UserRemoveMessage = target => "You changed your mind.",
-                TargetAddMessage = target => $"{jailor.Name} will execute {target.Name}.",
-                TargetRemoveMessage = target => $"{jailor.Name} changed their mind."
+                UserAddMessage = target => Entry.Chat(KidnapperKey.NightUserAddMessage, target),
+                UserRemoveMessage = target => Entry.Chat(KidnapperKey.NightUserRemoveMessage),
+                TargetAddMessage = target => Entry.Chat(KidnapperKey.NightTargetAddMessage, target),
+                TargetRemoveMessage = target => Entry.Chat(KidnapperKey.NightTargetRemoveMessage)
             });
 
             prisoner.Role.Ability.CurrentlyDeathImmune = true;
@@ -61,9 +74,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             AddTarget(filter, new TargetNotification
             {
-                UserAddMessage = target => $"You will jail {target.Name}.",
-                UserRemoveMessage = target => "You won't jail anyone.",
-                UserChangeMessage = (old, current) => $"You will instead jail {current.Name}."
+                UserAddMessage = target => Entry.Chat(KidnapperKey.DayUserAddMessage, target),
+                UserRemoveMessage = target => Entry.Chat(KidnapperKey.DayUserRemoveMessage),
+                UserChangeMessage = (old, current) => Entry.Chat(KidnapperKey.DayUserChangeMessage, old, current)
             });
         }
 
@@ -72,7 +85,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             if (Match.Graveyard.LynchedToday())
             {
                 TargetManager[0] = null;
-                User.OnNotification(Notification.Chat("You are unable to jail anyone due to today's lynch."));
+                User.OnNotification(Entry.Chat(KidnapperKey.UnableToJail));
             }
 
             TargetManager[0]?.Role.Ability.PiercingDisable();

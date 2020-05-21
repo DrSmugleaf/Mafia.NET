@@ -1,5 +1,6 @@
-﻿@using Mafia.NET.Players.Roles
+﻿@using Mafia.NET.Extension
 @using Mafia.NET.Players
+@using Mafia.NET.Players.Roles
 @{
     ViewData["Title"] = "Game";
     Layout = "_GameLayout";
@@ -28,7 +29,7 @@
                     <div id="role-list" class="collapse overflow-auto dropdown-list interface-element">
                         @foreach (var roleEntry in roleList)
                         {
-                            <div class="list-group-item" style="color: @roleEntry.ColorHtml()">@roleEntry.Name</div>
+                            <div class="list-group-item" style="color: @roleEntry.Color.HexRgb()">@roleEntry.Name</div>
                         }
                     </div>
                 </div>
@@ -53,8 +54,8 @@
             <div class="col-sm-1"></div>
             <div class="col-sm-3 float-right">
                 <div class="card interface-element">
-                    <h3 class="card-header text-center role-name" style="color: @role.ColorHtml()">@role.Name</h3>
-                    <h4 class="card-header text-center role-name" style="color: @role.Team.ColorHtml()">@role.Team.Name</h4>
+                    <h3 class="card-header text-center role-name" style="color: @role.Color.HexRgb()">@role.Name</h3>
+                    <h4 class="card-header text-center role-name" style="color: @role.Team.Color.HexRgb()">@role.Team.Name</h4>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <div class="row">
@@ -101,4 +102,3 @@
         </div>
     </div>
 </div>
-

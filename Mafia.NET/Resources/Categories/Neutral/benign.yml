@@ -1,3 +1,3 @@
-﻿- name: Neutral Benign
-  description: "Neutral Benign roles are distinguished by the fact that their win conditions do not depend on a Town victory or defeat, unlike the Neutral Evil and Neutral Killing roles, which require that the Town lose the game as part of their win conditions. Instead of being dependent on the outcome of the struggle between the Town, Mafia / Triad, and Neutral Killing role, each Neutral Benign has its own unique goal."
-  goal: Benign
+﻿name: Neutral Benign
+description: "Neutral Benign roles are distinguished by the fact that their win conditions do not depend on a Town victory or defeat, unlike the Neutral Evil and Neutral Killing roles, which require that the Town lose the game as part of their win conditions. Instead of being dependent on the outcome of the struggle between the Town, Mafia / Triad, and Neutral Killing role, each Neutral Benign has its own unique goal."
+goal: Benign

@@ -1,4 +1,4 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -32,11 +32,10 @@ namespace Mafia.NET.Matches.Phases.Vote
             AccuseManager = new AccuseManager(Match, StartTrial);
             ChatManager.Open(Match.AllPlayers);
 
-            var notification = Notification.Popup("Today's public vote and trial will begin now.");
+            var notification = Entry.Popup(DayKey.VotingBegin);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
-            notification =
-                Notification.Popup($"{Match.LivingPlayers.Count / 2 + 1} votes are needed to send someone to trial.");
+            notification = Entry.Popup(DayKey.VotesNeeded, Match.LivingPlayers.Count / 2 + 1);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();

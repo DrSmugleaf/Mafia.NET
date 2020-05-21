@@ -1,9 +1,9 @@
-﻿- name: Consort
-  team: Mafia
-  summary: "A dancer working for organized crime."
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Mafia Support
-  color: "#FF0000"
-  ability:
-    description: "Roleblock one player each night."
+﻿name: Consort
+team: Mafia
+summary: "A dancer working for organized crime."
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Mafia Support
+color: "#FF0000"
+ability:
+  description: "Roleblock one player each night."

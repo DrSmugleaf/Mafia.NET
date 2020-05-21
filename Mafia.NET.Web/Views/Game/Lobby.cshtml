@@ -1,4 +1,5 @@
-﻿@using Mafia.NET.Players.Teams
+﻿@using Mafia.NET.Extension
+@using Mafia.NET.Players.Teams
 @model GameSettingsModel
 @{
     ViewData["Title"] = "Lobby";
@@ -7,237 +8,237 @@
 }
 
 <div class="lobby-screen container-fluid">
-    <form asp-controller="Game">
-        <div class="row">
-            <div class="col-sm-10">
-                <div id="settings-top" class="p-2 mb-5">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <label asp-for="DayLength">Day Length</label>
-                        </div>
-                        <div class="col-sm-3">
-                            <input asp-for="DayLength" name="DayLength" type="range" class="custom-range host-only" value="100" min="60" max="120" oninput="DayLengthOutput.value = DayLength.value"/>
-                        </div>
-                        <div class="col-sm-1">
-                            <output name="DayLengthOutput">100</output> seconds
-                        </div>
-                        <div class="col-sm-2">
-                            <label asp-for="DayType">Day Type</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <select asp-for="DayType" class="custom-select-sm host-only" style="width: auto;">
-                                <option>Majority</option>
-                                <option>Trial</option>
-                                <option>Ballot</option>
-                                <option>Ballot+Trial</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2" data-toggle="tooltip" data-placement="top" title="Allows players to choose their own names before the start of the game, instead of using randomly assigned names.">
-                            <div class="custom-control custom-checkbox">
-                                <input asp-for="ChooseNames" name="ChooseNames" type="checkbox" class="custom-control-input host-only"/>
-                                <label asp-for="ChooseNames" class="custom-control-label">Choose Names</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <label asp-for="NightLength">Night Length</label>
-                        </div>
-                        <div class="col-sm-3">
-                            <input asp-for="NightLength" name="NightLength" type="range" class="custom-range host-only" value="30" min="15" max="45" oninput="NightLengthOutput.value = NightLength.value"/>
-                        </div>
-                        <div class="col-sm-1">
-                            <output name="NightLengthOutput">30</output> seconds
-                        </div>
-                        <div class="col-sm-2">
-                            <label asp-for="NightType">Night Type</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <select asp-for="NightType" class="custom-select-sm host-only">
-                                <option>Night Sequence</option>
-                                <option>Death Descriptions</option>
-                                <option>Classic Night</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="custom-control custom-checkbox">
-                                <input asp-for="LastWillAllowed" name="LastWillAllowed" type="checkbox" class="custom-control-input host-only"/>
-                                <label asp-for="LastWillAllowed" class="custom-control-label">Last Will Allowed</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <label asp-for="DiscussionTime">Discussion Time</label>
-                        </div>
-                        <div class="col-sm-3">
-                            <input asp-for="DiscussionTime" name="DiscussionTime" type="range" class="custom-range host-only" value="48" min="30" max="120" oninput="DiscussionTimeOutput.value = DiscussionTime.value"/>
-                        </div>
-                        <div class="col-sm-1">
-                            <output name="DiscussionTimeOutput">48</output> seconds
-                        </div>
-                        <div class="col-sm-2">
-                            <label asp-for="StartGameAt">Start Game At</label>
-                        </div>
-                        <div class="col-sm-2">
-                            <select asp-for="StartGameAt" class="custom-select-sm host-only">
-                                <option>Day</option>
-                                <option>Day/No Lynch</option>
-                                <option>Night</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="custom-control custom-checkbox">
-                                <input asp-for="Discussion" name="Discussion" type="checkbox" class="custom-control-input host-only"/>
-                                <label asp-for="Discussion" class="custom-control-label">Discussion</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <label asp-for="TrialLength">Trial Length</label>
-                        </div>
-                        <div class="col-sm-3">
-                            <input asp-for="TrialLength" name="TrialLength" type="range" class="custom-range host-only" value="60" min="30" max="120" oninput="TrialLengthOutput.value = TrialLength.value"/>
-                        </div>
-                        <div class="col-sm-1">
-                            <output name="TrialLengthOutput">60</output> seconds
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="custom-control custom-checkbox">
-                                <input asp-for="PmAllowed" name="PmAllowed" type="checkbox" class="custom-control-input host-only"/>
-                                <label asp-for="PmAllowed" class="custom-control-label">PM Allowed</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="custom-control custom-checkbox">
-                                <input asp-for="TrialPausesDay" name="TrialPausesDay" type="checkbox" class="custom-control-input host-only"/>
-                                <label asp-for="TrialPausesDay" class="custom-control-label">Trial Pauses Day</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="custom-control custom-checkbox">
-                                <input asp-for="TrialDefense" name="TrialDefense" type="checkbox" class="custom-control-input host-only"/>
-                                <label asp-for="TrialDefense" class="custom-control-label">Trial Defense</label>
-                            </div>
-                        </div>
+<form asp-controller="Game">
+<div class="row">
+    <div class="col-sm-10">
+        <div id="settings-top" class="p-2 mb-5">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="DayLength">Day Length</label>
+                </div>
+                <div class="col-sm-3">
+                    <input asp-for="DayLength" name="DayLength" type="range" class="custom-range host-only" value="100" min="60" max="120" oninput="DayLengthOutput.value = DayLength.value"/>
+                </div>
+                <div class="col-sm-1">
+                    <output name="DayLengthOutput">100</output> seconds
+                </div>
+                <div class="col-sm-2">
+                    <label asp-for="DayType">Day Type</label>
+                </div>
+                <div class="col-sm-2">
+                    <select asp-for="DayType" class="custom-select-sm host-only" style="width: auto;">
+                        <option>Majority</option>
+                        <option>Trial</option>
+                        <option>Ballot</option>
+                        <option>Ballot+Trial</option>
+                    </select>
+                </div>
+                <div class="col-sm-2" data-toggle="tooltip" data-placement="top" title="Allows players to choose their own names before the start of the game, instead of using randomly assigned names.">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="ChooseNames" name="ChooseNames" type="checkbox" class="custom-control-input host-only"/>
+                        <label asp-for="ChooseNames" class="custom-control-label">Choose Names</label>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2">
-                <button asp-action="Start" id="lobby-start" type="submit" class="btn btn-lg btn-primary button-start disable-on-start host-only" disabled>Start</button>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="NightLength">Night Length</label>
+                </div>
+                <div class="col-sm-3">
+                    <input asp-for="NightLength" name="NightLength" type="range" class="custom-range host-only" value="30" min="15" max="45" oninput="NightLengthOutput.value = NightLength.value"/>
+                </div>
+                <div class="col-sm-1">
+                    <output name="NightLengthOutput">30</output> seconds
+                </div>
+                <div class="col-sm-2">
+                    <label asp-for="NightType">Night Type</label>
+                </div>
+                <div class="col-sm-2">
+                    <select asp-for="NightType" class="custom-select-sm host-only">
+                        <option>Night Sequence</option>
+                        <option>Death Descriptions</option>
+                        <option>Classic Night</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="LastWillAllowed" name="LastWillAllowed" type="checkbox" class="custom-control-input host-only"/>
+                        <label asp-for="LastWillAllowed" class="custom-control-label">Last Will Allowed</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="DiscussionTime">Discussion Time</label>
+                </div>
+                <div class="col-sm-3">
+                    <input asp-for="DiscussionTime" name="DiscussionTime" type="range" class="custom-range host-only" value="48" min="30" max="120" oninput="DiscussionTimeOutput.value = DiscussionTime.value"/>
+                </div>
+                <div class="col-sm-1">
+                    <output name="DiscussionTimeOutput">48</output> seconds
+                </div>
+                <div class="col-sm-2">
+                    <label asp-for="StartGameAt">Start Game At</label>
+                </div>
+                <div class="col-sm-2">
+                    <select asp-for="StartGameAt" class="custom-select-sm host-only">
+                        <option>Day</option>
+                        <option>Day/No Lynch</option>
+                        <option>Night</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="Discussion" name="Discussion" type="checkbox" class="custom-control-input host-only"/>
+                        <label asp-for="Discussion" class="custom-control-label">Discussion</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="TrialLength">Trial Length</label>
+                </div>
+                <div class="col-sm-3">
+                    <input asp-for="TrialLength" name="TrialLength" type="range" class="custom-range host-only" value="60" min="30" max="120" oninput="TrialLengthOutput.value = TrialLength.value"/>
+                </div>
+                <div class="col-sm-1">
+                    <output name="TrialLengthOutput">60</output> seconds
+                </div>
+                <div class="col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="PmAllowed" name="PmAllowed" type="checkbox" class="custom-control-input host-only"/>
+                        <label asp-for="PmAllowed" class="custom-control-label">PM Allowed</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="TrialPausesDay" name="TrialPausesDay" type="checkbox" class="custom-control-input host-only"/>
+                        <label asp-for="TrialPausesDay" class="custom-control-label">Trial Pauses Day</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="TrialDefense" name="TrialDefense" type="checkbox" class="custom-control-input host-only"/>
+                        <label asp-for="TrialDefense" class="custom-control-label">Trial Defense</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <button asp-action="Start" id="lobby-start" type="submit" class="btn btn-lg btn-primary button-start disable-on-start host-only" disabled>Start</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2 pr-md-0">
+        <div class="row container-fluid pb-3">
+            <div class="col p-md-0">
+                <div id="presets" class="overflow-auto">
+                    Presets
+                    <ul id="preset-list" class="list-group list-group-flush">
+                        <button type="button" class="btn btn-sm btn-primary list-group-item preset-entry disable-on-start" data-preset="custom" data-description="All options are available to change.">Default</button>
+                        <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start" data-preset="voice-chat" data-disabled-roles='["Disguiser", "Informant"]' data-description="Disables the Disguiser and Informant roles.">Voice Chat</button>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row container-fluid">
+            <div class="col p-md-0">
+                Messages
+                <div id="lobby-messages" class="container overflow-auto text-break">
+                </div>
+                <div>
+                    <input form="" id="message-input" name="" type="text" class="form-control disable-on-start" autocomplete="off" maxlength="500" disabled/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <div id="preset-information" class="col pl-sm-2 pl-md-0">
+                <h2 id="preset-name" class="mt-5"></h2>
+                <div id="preset-description"></div>
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <button id="preset-use" type="button" class="btn btn-lg btn-primary btn-block disable-on-start d-none host-only">Use Preset</button>
+                    </div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-5"></div>
+            <div class="col">
+                <div id="role-information" class="overflow-auto">
+                    <h2 id="role-name" class="mb-2"></h2>
+                    <div id="role-summary" class="mb-2"></div>
+                    <div id="role-abilities" class="mb-2"></div>
+                    <div id="role-goal"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-5"></div>
+            <div class="col">
+                <button id="add-role-button" type="button" class="btn btn-lg btn-primary btn-block disable-on-start d-none host-only">Add</button>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2 pr-md-0">
-                <div class="row container-fluid pb-3">
-                    <div class="col p-md-0">
-                        <div id="presets" class="overflow-auto">
-                            Presets
-                            <ul id="preset-list" class="list-group list-group-flush">
-                                <button type="button" class="btn btn-sm btn-primary list-group-item preset-entry disable-on-start" data-preset="custom" data-description="All options are available to change.">Default</button>
-                                <button type="button" class="btn btn-sm list-group-item preset-entry disable-on-start" data-preset="voice-chat" data-disabled-roles='["Disguiser", "Informant"]' data-description="Disables the Disguiser and Informant roles.">Voice Chat</button>
+            <div class="col-5"></div>
+            <div class="col">
+                <button id="remove-role-button" type="button" class="btn btn-lg btn-danger btn-block disable-on-start d-none host-only">Remove</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="row">
+            <div class="col">
+                <div class="row mb-2">
+                    <div class="col">
+                        Catalog
+                        <div id="catalog-teams" class="overflow-auto">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var team in teams)
+                                {
+                                    <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@team.Name" style="color: @team.Color.HexRgb()">@team.Name</button>
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="row container-fluid">
-                    <div class="col p-md-0">
-                        Messages
-                        <div id="lobby-messages" class="container overflow-auto text-break">
-                        </div>
-                        <div>
-                            <input form="" id="message-input" name="" type="text" class="form-control disable-on-start" autocomplete="off" maxlength="500" disabled/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="row">
-                    <div id="preset-information" class="col pl-sm-2 pl-md-0">
-                        <h2 id="preset-name" class="mt-5"></h2>
-                        <div id="preset-description"></div>
-                        <div class="row mt-3">
-                            <div class="col-3">
-                                <button id="preset-use" type="button" class="btn btn-lg btn-primary btn-block disable-on-start d-none host-only">Use Preset</button>
-                            </div>
-                            <div class="col"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-5"></div>
-                    <div class="col">
-                        <div id="role-information" class="overflow-auto">
-                            <h2 id="role-name" class="mb-2"></h2>
-                            <div id="role-summary" class="mb-2"></div>
-                            <div id="role-abilities" class="mb-2"></div>
-                            <div id="role-goal"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-5"></div>
-                    <div class="col">
-                        <button id="add-role-button" type="button" class="btn btn-lg btn-primary btn-block disable-on-start d-none host-only">Add</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-5"></div>
-                    <div class="col">
-                        <button id="remove-role-button" type="button" class="btn btn-lg btn-danger btn-block disable-on-start d-none host-only">Remove</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
                 <div class="row">
                     <div class="col">
-                        <div class="row mb-2">
-                            <div class="col">
-                                Catalog
-                                <div id="catalog-teams" class="overflow-auto">
-                                    <ul class="list-group list-group-flush">
-                                        @foreach (var team in teams)
-                                        {
-                                            <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@team.Name" style="color: @team.ColorHtml()">@team.Name</button>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div id="catalog-roles" class="overflow-auto">
-                                    @foreach (var team in teams)
+                        <div id="catalog-roles" class="overflow-auto">
+                            @foreach (var team in teams)
+                            {
+                                <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
+                                    @foreach (var role in team.Roles())
                                     {
-                                        <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
-                                            @foreach (var role in team.Roles())
-                                            {
-                                                <div class="btn-group btn-block role-group" role="group" aria-label="@role.Name">
-                                                    <button type="button" class="btn btn-sm btn-block list-group-item catalog-role disable-on-start main-button" data-name="@role.Name" data-color="@role.ColorHtml()" data-summary="@role.Summary" data-abilities="@role.Abilities" data-goal="@role.Goal" style="color: @role.ColorHtml()">@role.Name</button>
-                                                    <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start add-button host-only" data-name="@role.Name">+</button>
-                                                </div>
-                                            }
-                                        </ul>
+                                        <div class="btn-group btn-block role-group" role="group" aria-label="@role.Name">
+                                            <button type="button" class="btn btn-sm btn-block list-group-item catalog-role disable-on-start main-button" data-name="@role.Name" data-color="@role.Color.HexRgb()" data-summary="@role.Summary" data-abilities="@role.Abilities" data-goal="@role.Goal" style="color: @role.Color.HexRgb()">@role.Name</button>
+                                            <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start add-button host-only" data-name="@role.Name">+</button>
+                                        </div>
                                     }
-                                </div>
-                            </div>
+                                </ul>
+                            }
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                Role List
-                <div id="setup-roles">
-                    <ul id="setup-role-list" class="list-group list-group-flush overflow-auto"></ul>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                Player List
-                <div id="players">
-                    <ul id="player-list" class="list-group list-group-flush overflow-auto player-list"></ul>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+    <div class="col-sm-2">
+        Role List
+        <div id="setup-roles">
+            <ul id="setup-role-list" class="list-group list-group-flush overflow-auto"></ul>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Player List
+        <div id="players">
+            <ul id="player-list" class="list-group list-group-flush overflow-auto player-list"></ul>
+        </div>
+    </div>
+</div>
+</form>
 </div>

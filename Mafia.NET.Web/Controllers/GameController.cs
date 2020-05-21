@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches;
-using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players;
-using Mafia.NET.Players.Controllers;
 using Mafia.NET.Web.Extensions;
 using Mafia.NET.Web.Hubs;
 using Mafia.NET.Web.Models;
@@ -15,26 +14,33 @@ namespace Mafia.NET.Web.Controllers
 {
     public class WebMatchManager : MatchManager
     {
-        private readonly IHubContext<GameChat> Hub;
-        
+        private readonly IHubContext<GameChat> _hub;
+
         public WebMatchManager(IHubContext<GameChat> hub)
         {
-            Hub = hub;
+            _hub = hub;
         }
-        
-        public override void OnNotification(object sender, Notification notification)
+
+        public override void OnChat(object sender, Text notification)
         {
-            var player = (IPlayer)sender;
-            
-            Hub.Clients.User(player.Id.ToString()).SendAsync("Notification", notification.Text);
+            var player = (IPlayer) sender;
+
+            _hub.Clients.User(player.Id.ToString()).SendAsync("Notification", notification); // TODO
+        }
+
+        public override void OnPopup(object sender, Text notification)
+        {
+            var player = (IPlayer) sender;
+
+            _hub.Clients.User(player.Id.ToString()).SendAsync("Notification", notification); // TODO
         }
     }
-    
+
     public class GameController : BaseController
     {
         public static readonly ConcurrentDictionary<Guid, ILobby> Lobbies =
             new ConcurrentDictionary<Guid, ILobby>();
-        
+
         private readonly IHubContext<GameChat> _gameContext;
         public readonly WebMatchManager Matches;
 

@@ -1,9 +1,9 @@
-﻿- name: Escort
-  team: Town
-  summary: "A scantily-clad escort, working in secret."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Protective
-  color: "#00FF00"
-  ability:
-    description: "Block someone's role at night, canceling their night abilities."
+﻿name: Escort
+team: Town
+summary: "A scantily-clad escort, working in secret."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Protective
+color: "#00FF00"
+ability:
+  description: "Block someone's role at night, canceling their night abilities."

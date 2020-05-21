@@ -1,9 +1,9 @@
-﻿- name: Lookout
-  team: Town
-  summary: "An eagle-eyed observer, stealthily camping outside houses to gain information."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Investigative
-  color: "#44FF00"
-  ability:
-    description: "See everyone who visits his target each night."
+﻿name: Lookout
+team: Town
+summary: "An eagle-eyed observer, stealthily camping outside houses to gain information."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Investigative
+color: "#44FF00"
+ability:
+  description: "See everyone who visits his target each night."

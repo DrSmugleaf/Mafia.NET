@@ -2,7 +2,7 @@
 {
     public enum Time
     {
-        DAY,
-        NIGHT
+        Day,
+        Night
     }
 }

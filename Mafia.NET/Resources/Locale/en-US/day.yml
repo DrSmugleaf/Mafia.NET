@@ -1,0 +1,74 @@
+﻿MoveIntoTown: "{0} has moved into town."
+YourRole: "Your role is <f c={0c}>{0}</f>\n<f s=0.75>You are {1}</f>"
+
+Day: "<f c=#F6CB00>Day {0}</f>"
+
+Deaths1: "<f c=#FEB3A9>One of us did not survive the night.</f>"
+Deaths3: "<f c=#FEB3A9>Some of us did not survive the night.</f>"
+Deaths5: "<f c=#FEB3A9>Many of us perished last night.</f>"
+Deaths7: "<f c=#FEB3A9>A mass quantity of people died last night.</f>"
+Deaths9: "<f c=#FEB3A9>Most of the entire town was wiped out last night.</f>"
+Deaths11: "<f c=#FEB3A9>A veritable Armageddon decimated the town last night.</f>"
+Deaths13: "<f c=#FEB3A9>Literally the entire town was obliterated last night.</f>"
+Deaths15: "<f c=#FEB3A9>Your setup is shit.</f>"
+
+DeathMorning: "<f c={0c}>{0}</f> didn't live to see the morning."
+DeathBrutal: "<f c={0c}>{0}</f> was brutally killed last night."
+DeathBeforeSunrise: "Before the sun rose, <f c={0c}>{0}</f> was already dead."
+DeathHeartAttack: "They apparently had a heart attack and died."
+DeathRoleReveal: "<f c={0c}>{0}</f>'s role was <f c={1c}>{1}</f>."
+DeathRoleUnknown: "We could not determine their role."
+LastWillAuthor: "<f c={0c}>{0}</f> <f c=#915A37>left us their last will:</f>"
+LastWillContent: "<bc=#8B8029>{0}"
+DeathNote: "We also found a death note next to their corpse:"
+DeathNoteContent: "<bc=#450B0B>{0}"
+
+VotingBegin: "Today's public vote and trial will begin now."
+VotesNeeded: "<f c=#FBC20F s=1.5>{0}</f> votes are needed to send someone to trial."
+
+TryAdd: "<bc={1c}><f c={0c}>{0}</f> has voted to try <f c={1c}>{1}</f>."
+AnonymousTryAdd: "Someone has voted to try someone."
+TryRemove: "<f c={0c}>{0}</f> has cancelled their vote."
+AnonymousTryRemove: "Someone has cancelled their vote."
+TryChange: "<bc={1c}><f c={0c}>{0}</f> has changed their vote to <f c={1c}>{1}</f>."
+AnonymousTryChange: "Someone has changed their vote to someone else."
+
+ImmediateExecution: "The town will execute <f c={0c} s=1.5>{0}</f> next."
+
+PutToTrial: "The town has decided to put <f c={0c} s=1.5>{0}</f> to trial."
+OnTrial: "<f c={0c}>{0}</f>, you are on trial for conspiracy against the town. <f c=#FFFC1A s=1.5>What is your defense?</f>"
+
+MayVote: "The town may now vote on the fate of <f c={0c} s=1.5>{0}</f>."
+
+VoteAdd: "<f c={0c}>{0}</f> has voted."
+VoteRemove: "<f c={0c}>{0}</f> has removed their vote."
+VoteChange: "<f c={0c}>{0}</f> has changed their vote."
+
+TrialOver: "The trial is over and the votes have been counted."
+
+VerdictAbstain: "<f c={0c}>{0}</f> abstained"
+VerdictInnocent: "<f c={0c}>{0}</f> voted <f c=Green>Innocent</f>"
+VerdictGuilty: "<f c={0c}>{0}</f> voted <f c=Red>Guilty</f>"
+
+DecisionPardon: "The town has decided to pardon <f c={0c} s=1.5>{0}</f> by a vote of <f c=Green>{1}</f> to <f c=Red>{2}</f>."
+DecisionGuilty: "The town has decided to lynch <f c={0c} s=1.5>{0}</f> by a vote of <f c=Red>{2}</f> to <f c=Green>{1}</f>."
+
+AnyLastWords: "Do you have any last words?"
+
+ExecutionMercy: "May God have mercy upon your soul,\n<f c={0c}>{0}</f>."
+
+ExecutionRole: "<f c={0c}>{0}</f>'s role was <f c={1c} s=1.5>{1}</f>."
+
+DayEnd: "Let us reconvene tomorrow."
+Night: "<f c=#3ACAFF>Night {0}</f>"
+
+Conclusion: "<f c=#EC2DBE>We have come to a conclusion...</f>"
+TownVictory: "The Town has won!"
+MafiaVictory: "The Mafia have won!"
+TriadVictory: "The Triad have won!"
+BenignVictory: "The <f c={0c}>{0}</f> has won!"
+KillingVictory: "The <f c={0c}>{0}</f> has won!"
+CultVictory: "The Cult has won!"
+EvilVictory: "The <f c={0c}>{0}</f> has won!"
+ConclusionRoleReveal: "{0p] was the <f c={1c}>{1}</f>."
+Congratulations: "Congratulations {0}"

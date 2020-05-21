@@ -1,9 +1,9 @@
-﻿namespace Mafia.NET.Players.Votes
+﻿namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
     public enum Verdict
     {
-        ABSTAIN,
-        INNOCENT,
-        GUILTY
+        Abstain,
+        Innocent,
+        Guilty
     }
 }

@@ -1,7 +1,16 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum ConsortKey
+    {
+        CantRoleBlock,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Consort", typeof(ConsortSetup))]
     public class Consort : MafiaAbility<ConsortSetup>, IRoleBlocker
     {
@@ -13,19 +22,14 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             target.Role.Ability.Disable();
             if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
             {
-                var notification = Notification.Chat("Your target couldn't be role-blocked!");
-                User.OnNotification(notification);
+                var message = Entry.Chat(ConsortKey.CantRoleBlock);
+                User.OnNotification(message);
             }
         }
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
-            {
-                UserAddMessage = target => $"You will role-block {target.Name}.",
-                UserRemoveMessage = target => "You won't role-block anyone.",
-                UserChangeMessage = (old, current) => $"You will instead role-block {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), TargetNotification.Enum<ConsortKey>());
         }
     }
 

@@ -1,9 +1,9 @@
-﻿- name: Coroner
-  team: Town
-  summary: "A discrete medical professional skilled in autopsies."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Investigative
-  color: "#00DD55"
-  ability:
-    description: "Discover the exact role of a dead player each night."
+﻿name: Coroner
+team: Town
+summary: "A discrete medical professional skilled in autopsies."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Investigative
+color: "#00DD55"
+ability:
+  description: "Discover the exact role of a dead player each night."

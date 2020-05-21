@@ -1,4 +1,5 @@
-﻿@using Mafia.NET.Players.Teams
+﻿@using Mafia.NET.Extension
+@using Mafia.NET.Players.Teams
 @{
     var teams = Team.All;
 }
@@ -50,7 +51,7 @@
         <div class="row">
             @foreach (var team in teams)
             {
-                <div class="col role-name role-border" style="background-color: @team.ColorHtml()">
+                <div class="col role-name role-border" style="background-color: @team.Color.HexRgb()">
                     <h4 class="role-header">@team.Name</h4>
                 </div>
             }
@@ -64,7 +65,7 @@
                         {
                             <div class="row">
                                 <a class="w-100 text-decoration-none role-link" href="Wiki?query=@teamRole.Name">
-                                    <div class="col role-name role-border" style="background-color: @teamRole.ColorHtml()">
+                                    <div class="col role-name role-border" style="background-color: @teamRole.Color.HexRgb()">
                                         @teamRole.Name
                                     </div>
                                 </a>

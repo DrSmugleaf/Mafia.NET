@@ -1,16 +1,16 @@
-﻿- name: Serial Killer
-  team: Neutral
-  summary: "A deranged criminal who hates the world."
-  goal: "Be the last person left alive."
-  categories:
-  - Neutral Evil
-  - Neutral Killing
-  original_color: "#FF00CC"
-  color: "#CC00A3"
-  ability:
-    description: "Kill one target at night."
-    murder_descriptions:
-    - "They had multiple stab wounds."
-    - "There were signs of a struggle. They had multiple stab wounds."
-    - "They had bruises and some bone fractures. They had multiple stab wounds."
-    - "Their body was severely battered with many broken bones. They had multiple stab wounds."
+﻿name: Serial Killer
+team: Neutral
+summary: "A deranged criminal who hates the world."
+goal: "Be the last person left alive."
+categories:
+- Neutral Evil
+- Neutral Killing
+original_color: "#FF00CC"
+color: "#CC00A3"
+ability:
+  description: "Kill one target at night."
+  murder_descriptions:
+  - "They had multiple stab wounds."
+  - "There were signs of a struggle. They had multiple stab wounds."
+  - "They had bruises and some bone fractures. They had multiple stab wounds."
+  - "Their body was severely battered with many broken bones. They had multiple stab wounds."

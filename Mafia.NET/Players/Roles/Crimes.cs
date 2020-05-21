@@ -40,7 +40,7 @@ namespace Mafia.NET.Players.Roles
             Committed.Add(crime);
         }
 
-        public string Crime()
+        public string Crime() // TODO: Localize
         {
             if (Framing != null) return Framing.Crime;
             if (Committed.Count == 0 || Player.Role.Ability.DetectionImmune) return "No crime.";

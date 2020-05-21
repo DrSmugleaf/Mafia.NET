@@ -1,9 +1,9 @@
-﻿- name: Executioner
-  team: Neutral
-  summary: "An obsessed hunter whose life's goal is to get his target justly executed."
-  goal: "Live to see his target lynched during the day."
-  categories:
-  - Neutral Benign
-  color: "#AACCFF"
-  ability:
-    description: "None."
+﻿name: Executioner
+team: Neutral
+summary: "An obsessed hunter whose life's goal is to get his target justly executed."
+goal: "Live to see his target lynched during the day."
+categories:
+- Neutral Benign
+color: "#AACCFF"
+ability:
+  description: "None."

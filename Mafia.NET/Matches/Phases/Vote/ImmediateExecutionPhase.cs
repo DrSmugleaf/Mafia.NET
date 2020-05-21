@@ -1,4 +1,4 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -20,9 +20,9 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            var notification = Notification.Popup($"The town will execute {Player.Name} next.");
+            var entry = Entry.Popup(DayKey.ImmediateExecution, Player);
 
-            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+            foreach (var player in Match.AllPlayers) player.OnNotification(entry);
 
             base.Start();
         }

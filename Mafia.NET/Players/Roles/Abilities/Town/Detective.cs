@@ -1,7 +1,17 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
+    [RegisterKey]
+    public enum DetectiveKey
+    {
+        TargetInactive,
+        TargetVisitedSomeone,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Detective", typeof(DetectiveSetup))]
     public class Detective : TownAbility<DetectiveSetup>, IDetector
     {
@@ -9,22 +19,17 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             User.Crimes.Add("Trespassing");
 
-            var visitedMessage = "Your target did not do anything tonight.";
+            Entry notification;
             if (target.Role.Ability.DetectTarget(out var visited, Setup))
-                visitedMessage = $"Your target visited {visited.Name} tonight.";
+                notification = Entry.Chat(DetectiveKey.TargetVisitedSomeone, visited);
+            else notification = Entry.Chat(DetectiveKey.TargetInactive);
 
-            var targetNotification = Notification.Chat(visitedMessage);
-            User.OnNotification(targetNotification);
+            User.OnNotification(notification);
         }
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User), new TargetNotification
-            {
-                UserAddMessage = target => $"You will track {target.Name}'s activity.",
-                UserRemoveMessage = target => "You won't track anyone tonight.",
-                UserChangeMessage = (old, current) => $"You will instead target {current.Name}'s activity."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User), TargetNotification.Enum<DetectiveKey>());
         }
     }
 

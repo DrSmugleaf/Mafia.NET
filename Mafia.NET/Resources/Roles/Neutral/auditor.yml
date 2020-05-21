@@ -1,9 +1,9 @@
-﻿- name: Auditor
-  team: Neutral
-  summary: "A corrupt government tax agent who uses his knowledge and connections for evil."
-  goal: "Survive and see the town lose the game."
-  categories:
-  - Neutral Evil
-  color: "#BBCC88"
-  ability:
-    description: "Convert one person to Citizen each night. Mafia instead become a Mafioso; Triad instead becomes an Enforcer."
+﻿name: Auditor
+team: Neutral
+summary: "A corrupt government tax agent who uses his knowledge and connections for evil."
+goal: "Survive and see the town lose the game."
+categories:
+- Neutral Evil
+color: "#BBCC88"
+ability:
+  description: "Convert one person to Citizen each night. Mafia instead become a Mafioso; Triad instead becomes an Enforcer."

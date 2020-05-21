@@ -1,5 +1,15 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Mafia
+﻿using Mafia.NET.Localization;
+
+namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum FramerKey
+    {
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Framer", typeof(FramerSetup))]
     public class Framer : MafiaAbility<FramerSetup>, IMisc
     {
@@ -11,12 +21,7 @@
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
-            {
-                UserAddMessage = target => $"You will frame {target.Name}.",
-                UserRemoveMessage = target => "You won't frame anyone.",
-                UserChangeMessage = (old, current) => $"You will instead frame {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), TargetNotification.Enum<FramerKey>());
         }
     }
 

@@ -68,7 +68,7 @@ namespace Mafia.NET.Matches
 
         public bool LynchedToday()
         {
-            return DiedToday(DeathCause.LYNCH);
+            return DiedToday(DeathCause.Lynch);
         }
     }
 }

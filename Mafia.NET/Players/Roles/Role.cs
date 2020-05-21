@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 
 namespace Mafia.NET.Players.Roles
 {
-    public interface IRole
+    public interface IRole : IColorizable
     {
         string Name { get; }
         string Summary { get; }
@@ -15,10 +16,8 @@ namespace Mafia.NET.Players.Roles
         string Abilities { get; }
         ITeam Team { get; }
         IReadOnlyList<ICategory> Categories { get; }
-        Color Color { get; }
         IAbility Ability { get; set; }
 
-        string ColorHtml();
         bool IsCategory(string name);
         IReadOnlyList<Goal> Goals();
         IReadOnlyList<Goal> Enemies();
@@ -47,11 +46,6 @@ namespace Mafia.NET.Players.Roles
         public Color Color { get; }
         public IAbility Ability { get; set; }
 
-        public string ColorHtml()
-        {
-            return ColorTranslator.ToHtml(Color);
-        }
-
         public bool IsCategory(string name)
         {
             return Categories.Any(category => category.Name == name);
@@ -65,6 +59,11 @@ namespace Mafia.NET.Players.Roles
         public IReadOnlyList<Goal> Enemies()
         {
             return Categories.SelectMany(category => category.Goal.Enemies()).ToList();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

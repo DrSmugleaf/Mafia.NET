@@ -1,10 +1,10 @@
-﻿- name: Interrogator
-  team: Triad
-  summary: '426 - "Red Pole" - With a modular cage system, this Triad member engages in masterful entrapment.'
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Triad Killing
-  - Triad Support
-  color: "#4A62AA"
-  ability:
-    description: "Jail, Anonymous night chat, Execute."
+﻿name: Interrogator
+team: Triad
+summary: '426 - "Red Pole" - With a modular cage system, this Triad member engages in masterful entrapment.'
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Triad Killing
+- Triad Support
+color: "#4A62AA"
+ability:
+  description: "Jail, Anonymous night chat, Execute."

@@ -1,16 +1,16 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Categories
 {
     public enum Goal
     {
-        TOWN,
-        MAFIA,
-        TRIAD,
-        BENIGN,
-        KILLING,
-        CULT,
-        EVIL
+        Town,
+        Mafia,
+        Triad,
+        Benign,
+        Killing,
+        Cult,
+        Evil
     }
 
     public static class GoalExtensions
@@ -19,29 +19,29 @@ namespace Mafia.NET.Players.Roles.Categories
         {
             return goal switch
             {
-                Goal.TOWN => new[] {Goal.MAFIA, Goal.TRIAD, Goal.EVIL, Goal.KILLING, Goal.CULT},
-                Goal.MAFIA => new[] {Goal.TOWN, Goal.TRIAD, Goal.KILLING, Goal.CULT},
-                Goal.TRIAD => new[] {Goal.TOWN, Goal.MAFIA, Goal.KILLING, Goal.CULT},
-                Goal.KILLING => new[] {Goal.TOWN, Goal.MAFIA, Goal.TRIAD, Goal.KILLING, Goal.CULT},
-                Goal.CULT => new[] {Goal.TOWN, Goal.MAFIA, Goal.TRIAD, Goal.KILLING},
-                Goal.EVIL => new[] {Goal.TOWN},
+                Goal.Town => new[] {Goal.Mafia, Goal.Triad, Goal.Evil, Goal.Killing, Goal.Cult},
+                Goal.Mafia => new[] {Goal.Town, Goal.Triad, Goal.Killing, Goal.Cult},
+                Goal.Triad => new[] {Goal.Town, Goal.Mafia, Goal.Killing, Goal.Cult},
+                Goal.Killing => new[] {Goal.Town, Goal.Mafia, Goal.Triad, Goal.Killing, Goal.Cult},
+                Goal.Cult => new[] {Goal.Town, Goal.Mafia, Goal.Triad, Goal.Killing},
+                Goal.Evil => new[] {Goal.Town},
                 _ => new Goal[] { }
             };
         }
 
-        public static Notification VictoryNotification(this Goal goal, IPlayer player)
+        public static Entry VictoryNotification(this Goal goal, IPlayer player)
         {
-            return Notification.Popup(goal switch
+            return goal switch
             {
-                Goal.TOWN => "The Town has won!",
-                Goal.MAFIA => "The Mafia have won!",
-                Goal.TRIAD => "The Triad have won!",
-                Goal.BENIGN => $"The {player.Role.Name} has won!",
-                Goal.KILLING => $"The {player.Role.Name} has won!",
-                Goal.CULT => "The Cult has won!",
-                Goal.EVIL => $"The {player.Role.Name} has won!",
-                _ => ""
-            });
+                Goal.Town => Entry.Popup(DayKey.TownVictory),
+                Goal.Mafia => Entry.Popup(DayKey.MafiaVictory),
+                Goal.Triad => Entry.Popup(DayKey.TriadVictory),
+                Goal.Benign => Entry.Popup(DayKey.BenignVictory, player.Role),
+                Goal.Killing => Entry.Popup(DayKey.KillingVictory, player.Role),
+                Goal.Cult => Entry.Popup(DayKey.CultVictory),
+                Goal.Evil => Entry.Popup(DayKey.EvilVictory, player.Role),
+                _ => Entry.Popup(DayKey.BenignVictory, player.Role)
+            };
         }
     }
 }

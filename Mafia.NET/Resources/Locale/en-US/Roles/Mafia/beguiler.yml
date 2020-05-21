@@ -1,0 +1,6 @@
+﻿SomeoneHide: "Someone hid in your house tonight."
+SelfHide: "You cower in the corner, hiding behind yourself."
+HideAt: "You went to hide behind <f c={0c}>{0}</f>."
+UserAddMessage: "You will hide behind <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't hide behind anyone."
+UserChangeMessage: "You will instead hide behind <f c={1c}>{1}</f>."

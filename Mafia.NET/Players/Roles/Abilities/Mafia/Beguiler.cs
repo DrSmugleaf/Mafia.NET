@@ -1,7 +1,18 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum BeguilerKey
+    {
+        SomeoneHide,
+        SelfHide,
+        HideAt,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Beguiler", typeof(BeguilerSetup))]
     public class Beguiler : MafiaAbility<BeguilerSetup>, ISwitcher
     {
@@ -19,14 +30,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                     {
                         targets.ForceSet(target);
                         if (Setup.NotifiesTarget)
-                            target.OnNotification(Notification.Chat("Someone hid in your house tonight."));
+                            target.OnNotification(Entry.Chat(BeguilerKey.SomeoneHide));
                     }
                 }
 
                 var notification = target == User
-                    ? Notification.Chat("You cower in the corner, hiding behind yourself.")
-                    : Notification.Chat(
-                        $"You went to hide behind {target.Name}"); // TODO: Attribute kills to the Beguiler
+                    ? Entry.Chat(BeguilerKey.SelfHide)
+                    : Entry.Chat(BeguilerKey.HideAt, target); // TODO: Attribute kills to the Beguiler
 
                 User.OnNotification(notification);
             }
@@ -40,12 +50,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 ? TargetFilter.Living(Match).Except(User)
                 : TargetFilter.Living(Match).Except(User.Role.Team);
 
-            AddTarget(filter, new TargetNotification
-            {
-                UserAddMessage = target => $"You will hide behind {target.Name}.",
-                UserRemoveMessage = target => "You won't hide behind anyone.",
-                UserChangeMessage = (old, current) => $"You will instead hide behind {current.Name}."
-            });
+            AddTarget(filter, TargetNotification.Enum<BeguilerKey>());
         }
     }
 

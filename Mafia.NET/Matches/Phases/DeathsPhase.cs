@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Mafia.NET.Matches.Chats;
+﻿using System;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches.Phases
         {
             Match.Graveyard.SettleThreats();
             Match.Phase.Day++;
-            Match.Phase.CurrentTime = Time.DAY;
+            Match.Phase.CurrentTime = Time.Day;
 
             if (Match.Graveyard.UndisclosedDeaths.Count == 0)
             {
@@ -31,58 +31,47 @@ namespace Mafia.NET.Matches.Phases
                 return;
             }
 
-            var notifications = new List<Notification>();
-            var startingMessage = Match.Graveyard.UndisclosedDeaths.Count switch
+            var startingMessage = Entry.Popup(Match.Graveyard.UndisclosedDeaths.Count switch
             {
-                var x when x < 1 => "",
-                var x when x < 2 => "One of us did not survive the night.",
-                var x when x < 4 => "Some of us did not survive the night.",
-                var x when x < 6 => "Many of us perished last night.",
-                var x when x < 8 => "A mass quantity of people died last night.",
-                var x when x < 10 => "Most of the entire town was wiped out last night.",
-                var x when x < 12 => "A veritable Armageddon decimated the town last night.",
-                var x when x < 14 => "Literally the entire town was obliterated last night.",
-                var x when x > 14 => "Your setup is shit.",
-                _ => ""
-            };
+                var x when x < 2 => DayKey.Deaths1,
+                var x when x < 4 => DayKey.Deaths3,
+                var x when x < 6 => DayKey.Deaths5,
+                var x when x < 8 => DayKey.Deaths7,
+                var x when x < 10 => DayKey.Deaths9,
+                var x when x < 12 => DayKey.Deaths11,
+                var x when x < 14 => DayKey.Deaths13,
+                var x when x >= 14 => DayKey.Deaths15,
+                _ => throw new NotImplementedException()
+            });
 
-            notifications.Add(Notification.Popup(startingMessage));
-
+            var deaths = new EntryBundle();
             foreach (var death in Match.Graveyard.UndisclosedDeaths)
             {
                 death.Victim.Alive = false;
 
-                var popupName = $"{death.VictimName} didn't live to see the morning.";
-                var popupCause = death.Description;
-                var popupRole = death.VictimRole == null
-                    ? "We could not determine their role."
-                    : $"{death.VictimName}'s role was {death.VictimRole}";
+                deaths.Popup(DayKey.DeathMorning, death.Victim); // TODO: Randomize
+                // deaths.Add(death.Description); // TODO
+                deaths.Popup(death.VictimRole == null ? DayKey.DeathRoleUnknown : DayKey.DeathRoleReveal, death.Victim,
+                    death.Victim.Role); // TODO
 
                 if (death.LastWill.Length > 0)
-                    notifications.AddRange(new[]
-                    {
-                        Notification.Chat($"{death.VictimName} left us their last will:"),
-                        Notification.Chat(death.LastWill)
-                    });
+                {
+                    deaths.Chat(DayKey.LastWillAuthor, death.Victim);
+                    deaths.Chat(DayKey.LastWillContent, death.LastWill);
+                }
 
                 if (death.DeathNote?.Length > 0)
-                    notifications.AddRange(new[]
-                    {
-                        Notification.Chat("We also found a death note near their corpse:"),
-                        Notification.Chat(death.DeathNote)
-                    });
-
-                notifications.AddRange(new[]
                 {
-                    Notification.Popup(popupName),
-                    Notification.Popup(popupCause),
-                    Notification.Popup(popupRole)
-                });
+                    deaths.Chat(DayKey.DeathNote);
+                    deaths.Chat(DayKey.DeathNoteContent, death.DeathNote);
+                }
             }
 
-            foreach (var notification in notifications)
             foreach (var player in Match.AllPlayers)
-                player.OnNotification(notification);
+            {
+                player.OnNotification(startingMessage);
+                player.OnNotification(deaths);
+            }
 
             Match.Graveyard.Disclose();
 

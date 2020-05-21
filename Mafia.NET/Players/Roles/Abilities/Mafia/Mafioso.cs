@@ -1,5 +1,15 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Mafia
+﻿using Mafia.NET.Localization;
+
+namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
+    [RegisterKey]
+    public enum MafiosoKey
+    {
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
+    }
+
     [RegisterAbility("Mafioso", typeof(MafiosoSetup))]
     public class Mafioso : MafiaAbility<MafiosoSetup>, IKiller
     {
@@ -11,12 +21,8 @@
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), new TargetNotification
-            {
-                UserAddMessage = target => $"You suggest to kill {target.Name}.",
-                UserRemoveMessage = target => "You won't suggest anyone.",
-                UserChangeMessage = (old, current) => $"You instead suggest to kill {current.Name}."
-            });
+            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team), TargetNotification.Enum<MafiosoKey>());
+            // TODO: Change messages when alone
         }
     }
 

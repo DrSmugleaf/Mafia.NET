@@ -3,19 +3,18 @@ using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
 using Mafia.NET.Extension;
+using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Teams
 {
-    public interface ITeam
+    public interface ITeam : IColorizable
     {
         string Name { get; }
-        Color Color { get; }
         int Order { get; }
 
-        string ColorHtml();
         List<RoleEntry> Roles();
     }
 
@@ -33,11 +32,6 @@ namespace Mafia.NET.Players.Teams
         public string Name { get; }
         public Color Color { get; }
         public int Order { get; }
-
-        public string ColorHtml()
-        {
-            return ColorTranslator.ToHtml(Color);
-        }
 
         public List<RoleEntry> Roles()
         {

@@ -1,0 +1,6 @@
+﻿StillAlive: "Your target is still alive."
+AutopsyRole: "<f c={0c}>{0}</f>'s role was <f c={1c}>{1}</f>."
+AutopsyLastWill: "Their last will was:\n{0}"
+UserAddMessage: "You will perform an autopsy on <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't perform an autopsy tonight."
+UserChangeMessage: "You will instead perform an autopsy on <f c={1c}>{1}</f>."

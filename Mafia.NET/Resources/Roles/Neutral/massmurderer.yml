@@ -1,16 +1,16 @@
-﻿- name: Mass Murderer
-  team: Neutral
-  summary: "A crazed spree killer who thinks entrail-spilling is an art form."
-  goal: "Be the last person left alive."
-  categories:
-  - Neutral Evil
-  - Neutral Killing
-  color: "#BB4455"
-  ability:
-    description: "Perform a killing spree at someone's house each night, killing anyone who visits that player at night."
-    murder_descriptions:
-    - "They were completely eviscerated."
-    - "They died horribly to chainsaw wounds."
-    - "They were torn to pieces with a chainsaw."
-    - "They became an unrecognizable pile of gore."
-    - "Their entrails were strewn about the house."
+﻿name: Mass Murderer
+team: Neutral
+summary: "A crazed spree killer who thinks entrail-spilling is an art form."
+goal: "Be the last person left alive."
+categories:
+- Neutral Evil
+- Neutral Killing
+color: "#BB4455"
+ability:
+  description: "Perform a killing spree at someone's house each night, killing anyone who visits that player at night."
+  murder_descriptions:
+  - "They were completely eviscerated."
+  - "They died horribly to chainsaw wounds."
+  - "They were torn to pieces with a chainsaw."
+  - "They became an unrecognizable pile of gore."
+  - "Their entrails were strewn about the house."

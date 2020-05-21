@@ -41,22 +41,22 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public PhaseTargeting Day()
         {
-            return Phases[Time.DAY];
+            return Phases[Time.Day];
         }
 
         public IPlayer? Day(int index)
         {
-            return this[Time.DAY, index];
+            return this[Time.Day, index];
         }
 
         public PhaseTargeting Night()
         {
-            return Phases[Time.NIGHT];
+            return Phases[Time.Night];
         }
 
         public IPlayer? Night(int index)
         {
-            return this[Time.NIGHT, index];
+            return this[Time.Night, index];
         }
 
         public IPlayer? this[Time phase, int index]
@@ -89,7 +89,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public bool TryDay(int index, out IPlayer? target)
         {
-            return Try(Time.DAY, index, out target);
+            return Try(Time.Day, index, out target);
         }
 
         public bool TryDay(out IPlayer? target)
@@ -99,7 +99,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public bool TryNight(int index, out IPlayer? target)
         {
-            return Try(Time.NIGHT, index, out target);
+            return Try(Time.Night, index, out target);
         }
 
         public bool TryNight(out IPlayer? target)

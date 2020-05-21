@@ -1,9 +1,9 @@
-﻿- name: Investigator
-  team: Town
-  summary: "A private sleuth, discreetly aiding the townsfolk."
-  goal: "Lynch every criminal and evildoer."
-  categories:
-  - Town Investigative
-  color: "#00FF66"
-  ability:
-    description: "Check one player each night for that player's criminal record."
+﻿name: Investigator
+team: Town
+summary: "A private sleuth, discreetly aiding the townsfolk."
+goal: "Lynch every criminal and evildoer."
+categories:
+- Town Investigative
+color: "#00FF66"
+ability:
+  description: "Check one player each night for that player's criminal record."

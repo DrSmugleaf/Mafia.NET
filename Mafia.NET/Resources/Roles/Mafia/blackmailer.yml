@@ -1,9 +1,9 @@
-﻿- name: Blackmailer
-  team: Mafia
-  summary: "A manipulative eavesdropper who uses information to shut people up."
-  goal: "Kill off the Town and everyone else who would oppose you."
-  categories:
-  - Mafia Support
-  color: "#DD0000"
-  ability:
-    description: "Silence."
+﻿name: Blackmailer
+team: Mafia
+summary: "A manipulative eavesdropper who uses information to shut people up."
+goal: "Kill off the Town and everyone else who would oppose you."
+categories:
+- Mafia Support
+color: "#DD0000"
+ability:
+  description: "Silence."

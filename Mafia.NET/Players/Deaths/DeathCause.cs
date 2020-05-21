@@ -2,8 +2,8 @@
 {
     public enum DeathCause
     {
-        LYNCH,
-        MURDER,
-        SUICIDE
+        Lynch,
+        Murder,
+        Suicide
     }
 }
