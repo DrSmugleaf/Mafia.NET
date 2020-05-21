@@ -27,6 +27,18 @@ namespace Mafia.NET.Localization
             return Localizer.Default.Get(this, culture);
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Key o)
+                return Id.Equals(o.Id);
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
         public static List<Key> Enum<T>() where T : Enum
         {
             var list = new List<Key>();
