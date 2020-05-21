@@ -1,4 +1,5 @@
 ﻿using System;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Notifications
 {
@@ -8,15 +9,14 @@ namespace Mafia.NET.Notifications
 
         public Notification(string key, NotificationLocation location, params object[] args)
         {
-            Key = key;
+            Key = new Key(key).Id;
             Location = location;
             Args = args;
         }
 
         public Notification(Enum key, NotificationLocation location, params object[] args)
         {
-            Key = key.GetType().Name.ToLower().Replace("key", "") +
-                  Enum.GetName(key.GetType(), key);
+            Key = new Key(key).Id;
             Location = location;
             Args = args;
         }

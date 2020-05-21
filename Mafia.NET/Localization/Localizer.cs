@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using JetBrains.Annotations;
 using Mafia.NET.Extension;
 using Mafia.NET.Notifications;
 using Mafia.NET.Resources;
@@ -27,27 +28,39 @@ namespace Mafia.NET.Localization
 
         public static Localizer Default => Lazy.Value;
 
-        public Catalog Get(CultureInfo culture)
+        public Catalog Get([CanBeNull] CultureInfo culture = null)
         {
+            culture ??= _defaultCulture;
+            
             if (!_catalogs.ContainsKey(culture))
                 _catalogs[culture] = Load(culture);
 
             return _catalogs[culture];
         }
 
-        public string Get(Key key, CultureInfo culture)
+        public string Get(Key key, [CanBeNull] CultureInfo culture = null)
         {
-            var defaultString = Get(culture).GetString(key.Id);
-            var str = _catalogs[culture].GetStringDefault(key.Id, defaultString);
+            culture ??= _defaultCulture;
+
+            var catalog = Get(culture);
+            var defaultString = catalog.GetStringDefault(key.Id, null);
+            if (defaultString == null) throw new ArgumentException($"Key {key.Id} not found for culture {culture}");
+            
+            var str = catalog.GetStringDefault(key.Id, defaultString);
 
             return str;
         }
 
-        public Text Get(Notification notification, CultureInfo culture)
+        public Text Get(Notification notification, [CanBeNull] CultureInfo culture = null)
         {
-            var key = notification.Key.ToLower();
-            var defaultString = Get(culture).GetString(key);
-            var str = _catalogs[culture].GetStringDefault(key, defaultString);
+            culture ??= _defaultCulture;
+            
+            var key = notification.Key;
+            var catalog = Get(culture);
+            var defaultString = catalog.GetStringDefault(key, null);
+            if (defaultString == null) throw new ArgumentException($"Key {key} not found for culture {culture}");
+
+            var str = catalog.GetStringDefault(key, defaultString);
 
             return _parser.Parse(str, notification.Location, notification.Args);
         }

@@ -1,4 +1,7 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Neutral
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Town;
+
+namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
     public class WitchDoctor : GuiltyAbility<WitchDoctorSetup>
     {
@@ -7,9 +10,9 @@
             return setup.DetectsCult;
         }
 
-        protected override string GuiltyName()
+        protected override Key GuiltyName()
         {
-            return "Cultist";
+            return SheriffKey.Cultist;
         }
     }
 

@@ -1,4 +1,5 @@
-﻿UsesLeft: "Your bulletproof vest has 1 use left."
+﻿Name: "Citizen"
+UsesLeft: "Your bulletproof vest has 1 use left."
 UsesLeftPlural: "Your bulletproof vest has {0} uses left."
 UsedUp: "Your bulletproof vest is used up."
 UsedUpNow: "Your bulletproof vest is now used up."

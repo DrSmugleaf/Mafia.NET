@@ -1,4 +1,5 @@
-﻿DayUserAddMessage: "You will jail <f c={0c}>{0}</f>."
+﻿Name: "Kidnapper"
+DayUserAddMessage: "You will jail <f c={0c}>{0}</f>."
 DayUserRemoveMessage: "You won't jail anyone."
 DayUserChangeMessage: "You will instead jail <f c={1c}>{1}</f>."
 UnableToJail: "You are unable to jail anyone due to today's lynch."

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities;
@@ -8,9 +9,9 @@ using Mafia.NET.Players.Teams;
 
 namespace Mafia.NET.Players.Roles
 {
-    public interface IRole : IColorizable
+    public interface IRole : IColorizable, ILocalizable
     {
-        string Name { get; }
+        Key Name { get; }
         string Summary { get; }
         string Goal { get; }
         string Abilities { get; }
@@ -37,7 +38,7 @@ namespace Mafia.NET.Players.Roles
             Ability = ability;
         }
 
-        public string Name { get; }
+        public Key Name { get; }
         public string Summary { get; }
         public string Goal { get; }
         public string Abilities { get; }
@@ -63,7 +64,12 @@ namespace Mafia.NET.Players.Roles
 
         public override string ToString()
         {
-            return Name;
+            return Name.Localize();
+        }
+
+        public string Localize(CultureInfo culture)
+        {
+            return Name.Localize(culture);
         }
     }
 }

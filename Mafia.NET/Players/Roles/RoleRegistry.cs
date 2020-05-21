@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
@@ -12,7 +13,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
 {
-    public class RoleEntry : IColorizable
+    public class RoleEntry : IColorizable, ILocalizable
     {
         public RoleEntry(
             string name,
@@ -24,7 +25,8 @@ namespace Mafia.NET.Players.Roles
             Color color,
             Color originalColor)
         {
-            Name = name;
+            Id = name;
+            Name = new Key($"{name}name");
             Summary = summary;
             Goal = goal;
             Abilities = abilities;
@@ -34,7 +36,8 @@ namespace Mafia.NET.Players.Roles
             OriginalColor = originalColor;
         }
 
-        public string Name { get; }
+        public string Id { get; }
+        public Key Name { get; }
         public string Summary { get; }
         public string Goal { get; }
         public string Abilities { get; }
@@ -42,6 +45,11 @@ namespace Mafia.NET.Players.Roles
         public IImmutableList<ICategory> Categories { get; }
         public Color OriginalColor { get; }
         public Color Color { get; }
+        
+        public string Localize(CultureInfo culture = null)
+        {
+            return Name.Localize(culture);
+        }
     }
 
     public class RoleRegistry
@@ -105,7 +113,8 @@ namespace Mafia.NET.Players.Roles
 
         public List<RoleEntry> Team(ITeam team)
         {
-            return Names.Values.Where(role => role.Team == team).OrderBy(role => role.Name).ToList();
+            return Names.Values.Where(role => role.Team == team)
+                .OrderBy(role => role.Name.Localize()).ToList();
         }
     }
 }

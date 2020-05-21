@@ -92,7 +92,7 @@ namespace Mafia.NET.Players.Roles
             {
                 var controller = controllers[i];
                 var roleEntry = roles[i];
-                var ability = Abilities.Names[roleEntry.Name].Build();
+                var ability = Abilities.Names[roleEntry.Id].Build();
                 var role = new Role(roleEntry, ability);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
                 players.Add(player);

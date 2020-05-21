@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using JetBrains.Annotations;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
@@ -47,14 +49,14 @@ namespace Mafia.NET.Players.Roles
             return Committed.ElementAt(Player.Match.Random.Next(Committed.Count));
         }
 
-        public string RoleName()
+        public Key RoleName()
         {
             if (Framing != null) return Framing.RoleName;
-            if (Player.Role.Ability.DetectionImmune) return "Citizen";
+            if (Player.Role.Ability.DetectionImmune) return new Key("CitizenName"); // TODO: Check
             return Player.Role.Name;
         }
 
-        public string Innocence(ISheriffSetup setup)
+        public Key Innocence(ISheriffSetup setup)
         {
             if (Framing != null) return Framing.RoleName;
             return Player.Role.Ability.Guilty(setup);
@@ -79,6 +81,6 @@ namespace Mafia.NET.Players.Roles
         }
 
         public string Crime { get; }
-        public string RoleName { get; }
+        public Key RoleName { get; }
     }
 }

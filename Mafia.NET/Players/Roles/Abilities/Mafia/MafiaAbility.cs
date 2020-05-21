@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 {
@@ -8,11 +10,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 
     public abstract class MafiaAbility<T> : BaseAbility<T>, IMafiaAbility where T : IMafiaSetup, new()
     {
-        public static readonly string NightChatName = "Mafia";
+        public static readonly string NightChatId = "Mafia";
 
         public void Chat()
         {
-            Match.Chat.Open(NightChatName, User);
+            Match.Chat.Open(NightChatId, User);
         }
 
         public override bool DetectableBy(ISheriffSetup setup)
@@ -35,9 +37,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
             return !Match.LivingPlayers.Any(player => player.Role.Ability is Godfather);
         }
 
-        protected override string GuiltyName()
+        protected override Key GuiltyName()
         {
-            return "Mafia"; // TODO: Localize
+            return SheriffKey.Mafia;
         }
     }
 

@@ -6,6 +6,7 @@ using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Deaths;
+using Mafia.NET.Players.Roles.Abilities.Town;
 using Mafia.NET.Players.Roles.Categories;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -37,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         void Attack(IPlayer victim);
         void PiercingAttack(IPlayer victim);
         bool DetectableBy(ISheriffSetup setup);
-        string Guilty(ISheriffSetup setup);
+        Key Guilty(ISheriffSetup setup);
         bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null);
         bool AloneTeam();
         void OnDayStart();
@@ -152,9 +153,9 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public abstract bool DetectableBy(ISheriffSetup setup);
 
-        public string Guilty(ISheriffSetup setup)
+        public Key Guilty(ISheriffSetup setup)
         {
-            return !DetectableBy(setup) || DetectionImmune ? "Not Suspicious" : GuiltyName();
+            return !DetectableBy(setup) || DetectionImmune ? SheriffKey.NotSuspicious : GuiltyName();
         }
 
         public bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null)
@@ -200,7 +201,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             Cooldown--;
         }
 
-        protected abstract string GuiltyName();
+        protected abstract Key GuiltyName();
 
         protected virtual void _onDayStart()
         {

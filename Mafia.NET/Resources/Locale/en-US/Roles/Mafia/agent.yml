@@ -1,4 +1,5 @@
-﻿TargetInactive: "Your target did not do anything tonight."
+﻿Name: "Agent"
+TargetInactive: "Your target did not do anything tonight."
 TargetVisitedSomeone: "Your target visited <f c={0c}>{0}</f> tonight."
 SomeoneVisitedTarget: "<f c={0c}>{0}</f> visited your target tonight."
 NoneVisitedTarget: "Your target was not visited by anyone tonight."

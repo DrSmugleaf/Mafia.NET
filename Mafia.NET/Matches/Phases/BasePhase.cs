@@ -1,8 +1,6 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches.Chats;
-using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {

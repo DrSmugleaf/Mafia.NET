@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
@@ -37,11 +38,12 @@ namespace Mafia.NET.Tests.Matches
             Assert.That(match.LivingPlayers.Count, Is.EqualTo(roleNames.Length));
             Assert.That(match.Graveyard.AllDeaths(), Is.Empty);
 
+            var culture = new CultureInfo("en-US");
             foreach (var player in match.AllPlayers)
             {
                 Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
-                Assert.That(player.Role.Name, Is.EqualTo(roleNames[player.Number - 1]));
+                Assert.That(player.Role.Name.Localize(culture), Is.EqualTo(roleNames[player.Number - 1]));
             }
 
             Assert.That(match.Phase.CurrentPhase, Is.TypeOf<PresentationPhase>());
@@ -65,7 +67,7 @@ namespace Mafia.NET.Tests.Matches
             {
                 Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
-                Assert.That(player.Role.Name, Is.EqualTo(roleNames[player.Number - 1]));
+                Assert.That(player.Role.Name.Localize(), Is.EqualTo(roleNames[player.Number - 1]));
             }
         }
     }

@@ -45,7 +45,8 @@ namespace Mafia.NET.Players.Roles.Abilities
             return Phases[Time.Day];
         }
 
-        public IPlayer? Day(int index)
+        [CanBeNull]
+        public IPlayer Day(int index)
         {
             return this[Time.Day, index];
         }

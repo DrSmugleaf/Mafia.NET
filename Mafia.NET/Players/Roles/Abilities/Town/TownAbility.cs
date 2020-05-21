@@ -1,4 +1,6 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Town
+﻿using Mafia.NET.Localization;
+
+namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     public interface ITownAbility
     {
@@ -11,9 +13,9 @@
             return true;
         }
 
-        protected override string GuiltyName()
+        protected override Key GuiltyName()
         {
-            return "Not Suspicious";
+            return SheriffKey.NotSuspicious;
         }
     }
 

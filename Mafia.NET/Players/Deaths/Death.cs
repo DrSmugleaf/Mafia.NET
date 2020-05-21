@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Players.Roles.Abilities;
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities;
 
 namespace Mafia.NET.Players.Deaths
 {
@@ -25,7 +26,7 @@ namespace Mafia.NET.Players.Deaths
         public int Day { get; set; }
         public IPlayer Victim { get; protected set; }
         public string VictimName { get; set; }
-        public string VictimRole { get; set; }
+        public Key VictimRole { get; set; }
         public DeathCause Cause { get; set; }
         public IPlayer Killer { get; set; }
         public string LastWill { get; set; }

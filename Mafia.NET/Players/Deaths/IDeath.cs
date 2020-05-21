@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Deaths
 {
@@ -7,7 +8,7 @@ namespace Mafia.NET.Players.Deaths
         int Day { get; set; }
         IPlayer Victim { get; }
         string VictimName { get; set; }
-        [CanBeNull] string VictimRole { get; set; } // TODO
+        [CanBeNull] Key VictimRole { get; set; } // TODO
         DeathCause Cause { get; set; }
         [CanBeNull] IPlayer Killer { get; set; }
         string LastWill { get; set; }

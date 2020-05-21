@@ -1,10 +1,12 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Neutral
+﻿using Mafia.NET.Localization;
+
+namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
     public abstract class GuiltyAbility<T> : BaseAbility<T> where T : IAbilitySetup, new()
     {
-        protected override string GuiltyName()
+        protected override Key GuiltyName()
         {
-            return Name;
+            return User.Role.Name;
         }
     }
 }

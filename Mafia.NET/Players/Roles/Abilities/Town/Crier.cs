@@ -14,7 +14,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Crier", typeof(CrierSetup))]
     public class Crier : TownAbility<CrierSetup>, INightChatter
     {
-        public static readonly string NightChatName = "Crier Chat";
+        public static readonly string NightChatId = "Crier Chat";
 
         public void Chat()
         {
@@ -32,7 +32,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
     public class CrierChat : Chat
     {
-        public CrierChat(IMatch match) : base(Crier.NightChatName)
+        public CrierChat(IMatch match) : base(Crier.NightChatId)
         {
             foreach (var player in match.AllPlayers)
             {

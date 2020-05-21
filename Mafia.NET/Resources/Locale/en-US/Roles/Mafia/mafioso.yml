@@ -1,3 +1,4 @@
-﻿UserAddMessage: "You suggest to kill <f c={0c}>{0}</f>."
+﻿Name: "Mafioso"
+UserAddMessage: "You suggest to kill <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't suggest anyone."
 UserChangeMessage: "You instead suggest to kill <f c={1c}>{1}</f>."
