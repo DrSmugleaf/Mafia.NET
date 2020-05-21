@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -30,13 +31,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                     {
                         targets.ForceSet(target);
                         if (Setup.NotifiesTarget)
-                            target.OnNotification(Entry.Chat(BeguilerKey.SomeoneHide));
+                            target.OnNotification(Notification.Chat(BeguilerKey.SomeoneHide));
                     }
                 }
 
                 var notification = target == User
-                    ? Entry.Chat(BeguilerKey.SelfHide)
-                    : Entry.Chat(BeguilerKey.HideAt, target); // TODO: Attribute kills to the Beguiler
+                    ? Notification.Chat(BeguilerKey.SelfHide)
+                    : Notification.Chat(BeguilerKey.HideAt, target); // TODO: Attribute kills to the Beguiler
 
                 User.OnNotification(notification);
             }

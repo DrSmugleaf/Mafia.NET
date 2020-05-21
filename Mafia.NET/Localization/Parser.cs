@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Mafia.NET.Extension;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Localization
 {

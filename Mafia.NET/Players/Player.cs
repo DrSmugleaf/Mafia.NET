@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
 
@@ -25,7 +26,7 @@ namespace Mafia.NET.Players
         event EventHandler<Text> Chat;
         event EventHandler<Text> Popup;
 
-        void OnNotification(Entry entry);
+        void OnNotification(Notification notification);
         void OnNotification(EntryBundle bundle);
     }
 
@@ -65,9 +66,9 @@ namespace Mafia.NET.Players
         public event EventHandler<Text> Chat;
         public event EventHandler<Text> Popup;
 
-        public void OnNotification(Entry entry)
+        public void OnNotification(Notification notification)
         {
-            var text = Localizer.Default.Get(entry, Culture);
+            var text = Localizer.Default.Get(notification, Culture);
 
             switch (text.Location)
             {

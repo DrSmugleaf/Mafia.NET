@@ -1,5 +1,6 @@
 ﻿using System;
 using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -31,7 +32,7 @@ namespace Mafia.NET.Matches.Phases
                 return;
             }
 
-            var startingMessage = Entry.Popup(Match.Graveyard.UndisclosedDeaths.Count switch
+            var startingMessage = Notification.Popup(Match.Graveyard.UndisclosedDeaths.Count switch
             {
                 var x when x < 2 => DayKey.Deaths1,
                 var x when x < 4 => DayKey.Deaths3,

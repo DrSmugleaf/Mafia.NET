@@ -1,6 +1,7 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -19,7 +20,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             Match.Chat.Open(new CrierChat(Match));
 
-            var notification = Entry.Chat(CrierKey.MayTalk);
+            var notification = Notification.Chat(CrierKey.MayTalk);
             User.OnNotification(notification);
         }
     }

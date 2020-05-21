@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -26,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 Uses--;
 
                 var threat = targetThreats.First();
-                var lastWill = Entry.Chat(JanitorKey.LastWillReveal, threat.LastWill);
+                var lastWill = Notification.Chat(JanitorKey.LastWillReveal, threat.LastWill);
 
                 threat.VictimRole = null;
                 threat.LastWill = "";

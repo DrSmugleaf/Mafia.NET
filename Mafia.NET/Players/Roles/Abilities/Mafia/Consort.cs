@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -22,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             target.Role.Ability.Disable();
             if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
             {
-                var message = Entry.Chat(ConsortKey.CantRoleBlock);
+                var message = Notification.Chat(ConsortKey.CantRoleBlock);
                 User.OnNotification(message);
             }
         }

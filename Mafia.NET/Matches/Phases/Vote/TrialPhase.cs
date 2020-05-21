@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -19,7 +20,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            var entry = Entry.Popup(DayKey.PutToTrial);
+            var entry = Notification.Popup(DayKey.PutToTrial);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(entry);
 

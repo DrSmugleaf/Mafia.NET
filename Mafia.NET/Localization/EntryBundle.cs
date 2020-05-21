@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Localization
 {
@@ -7,14 +8,14 @@ namespace Mafia.NET.Localization
     {
         public EntryBundle()
         {
-            Entries = new List<Entry>();
+            Entries = new List<Notification>();
         }
 
-        public List<Entry> Entries { get; }
+        public List<Notification> Entries { get; }
 
         public EntryBundle Add(string key, NotificationLocation location, params object[] args)
         {
-            var entry = new Entry(key, location, args);
+            var entry = new Notification(key, location, args);
             Entries.Add(entry);
 
             return this;
@@ -22,7 +23,7 @@ namespace Mafia.NET.Localization
 
         public EntryBundle Add(Enum key, NotificationLocation location, params object[] args)
         {
-            var entry = new Entry(key, location, args);
+            var entry = new Notification(key, location, args);
             Entries.Add(entry);
 
             return this;

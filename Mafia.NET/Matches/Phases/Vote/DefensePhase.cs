@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
 
@@ -26,7 +27,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             if (!Player.Blackmailed || Match.Setup.Roles.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
                 ChatManager.Main().Participants[Player].Muted = false;
 
-            var notification = Entry.Popup(DayKey.OnTrial, Player);
+            var notification = Notification.Popup(DayKey.OnTrial, Player);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 

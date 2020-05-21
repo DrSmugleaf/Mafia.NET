@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -21,7 +22,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             ChatManager.Open(Match.AllPlayers, true);
             ChatManager.Main().Participants[Player].Muted = false;
-            var entry = Entry.Popup(DayKey.AnyLastWords);
+            var entry = Notification.Popup(DayKey.AnyLastWords);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(entry);
 

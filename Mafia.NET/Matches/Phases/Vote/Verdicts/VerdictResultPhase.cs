@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
@@ -19,7 +20,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public override void Start()
         {
-            var trialOver = Entry.Popup(DayKey.TrialOver);
+            var trialOver = Notification.Popup(DayKey.TrialOver);
             var decision = Verdicts.Decision();
             var messages = Verdicts.Votes();
 

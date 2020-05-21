@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using Mafia.NET.Extension;
+using Mafia.NET.Notifications;
 using Mafia.NET.Resources;
 using NGettext;
 using YamlDotNet.RepresentationModel;
@@ -34,13 +35,21 @@ namespace Mafia.NET.Localization
             return _catalogs[culture];
         }
 
-        public Text Get(Entry entry, CultureInfo culture)
+        public string Get(Key key, CultureInfo culture)
         {
-            var key = entry.Key.ToLower();
+            var defaultString = Get(culture).GetString(key.Id);
+            var str = _catalogs[culture].GetStringDefault(key.Id, defaultString);
+
+            return str;
+        }
+
+        public Text Get(Notification notification, CultureInfo culture)
+        {
+            var key = notification.Key.ToLower();
             var defaultString = Get(culture).GetString(key);
             var str = _catalogs[culture].GetStringDefault(key, defaultString);
 
-            return _parser.Parse(str, entry.Location, entry.Args);
+            return _parser.Parse(str, notification.Location, notification.Args);
         }
 
         private Catalog Load(CultureInfo culture)

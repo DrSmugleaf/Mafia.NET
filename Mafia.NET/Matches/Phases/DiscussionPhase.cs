@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Matches.Phases.Vote;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -17,7 +18,7 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             ChatManager.Open(Match.LivingPlayers);
-            var notification = Entry.Popup(DayKey.Day, Match.Phase.Day);
+            var notification = Notification.Popup(DayKey.Day, Match.Phase.Day);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 

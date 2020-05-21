@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -38,22 +39,22 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             }
         }
 
-        public Entry SwitchNotification(IPlayer target)
+        public Notification SwitchNotification(IPlayer target)
         {
             return target == User
-                ? Entry.Chat(BusDriverKey.SelfRide)
-                : Entry.Chat(BusDriverKey.OtherRide);
+                ? Notification.Chat(BusDriverKey.SelfRide)
+                : Notification.Chat(BusDriverKey.OtherRide);
         }
 
-        public Entry GetMessage()
+        public Notification GetMessage()
         {
             var target1 = TargetManager[0];
             var target2 = TargetManager[0];
 
-            if (target1 == null && target2 == null) return Entry.Chat(BusDriverKey.NoTargets);
-            if (target1 != null && target2 != null) return Entry.Chat(BusDriverKey.TwoTargets, target1, target2);
-            if (target1 != null) return Entry.Chat(BusDriverKey.OneTarget, target1);
-            return Entry.Chat(BusDriverKey.OneTarget, target2);
+            if (target1 == null && target2 == null) return Notification.Chat(BusDriverKey.NoTargets);
+            if (target1 != null && target2 != null) return Notification.Chat(BusDriverKey.TwoTargets, target1, target2);
+            if (target1 != null) return Notification.Chat(BusDriverKey.OneTarget, target1);
+            return Notification.Chat(BusDriverKey.OneTarget, target2);
         }
 
         protected override void _onNightStart()

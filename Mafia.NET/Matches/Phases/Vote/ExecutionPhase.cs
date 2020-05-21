@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
 
@@ -24,7 +25,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             var death = new Death(Match.Phase.Day, Player, DeathCause.Lynch, "");
             Match.Graveyard.PublicDeaths.Add(death);
             ChatManager.Open(Match.AllPlayers);
-            var notification = Entry.Popup(DayKey.ExecutionMercy, Player);
+            var notification = Notification.Popup(DayKey.ExecutionMercy, Player);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 

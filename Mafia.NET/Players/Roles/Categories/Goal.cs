@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Categories
 {
@@ -29,18 +30,18 @@ namespace Mafia.NET.Players.Roles.Categories
             };
         }
 
-        public static Entry VictoryNotification(this Goal goal, IPlayer player)
+        public static Notification VictoryNotification(this Goal goal, IPlayer player)
         {
             return goal switch
             {
-                Goal.Town => Entry.Popup(DayKey.TownVictory),
-                Goal.Mafia => Entry.Popup(DayKey.MafiaVictory),
-                Goal.Triad => Entry.Popup(DayKey.TriadVictory),
-                Goal.Benign => Entry.Popup(DayKey.BenignVictory, player.Role),
-                Goal.Killing => Entry.Popup(DayKey.KillingVictory, player.Role),
-                Goal.Cult => Entry.Popup(DayKey.CultVictory),
-                Goal.Evil => Entry.Popup(DayKey.EvilVictory, player.Role),
-                _ => Entry.Popup(DayKey.BenignVictory, player.Role)
+                Goal.Town => Notification.Popup(DayKey.TownVictory),
+                Goal.Mafia => Notification.Popup(DayKey.MafiaVictory),
+                Goal.Triad => Notification.Popup(DayKey.TriadVictory),
+                Goal.Benign => Notification.Popup(DayKey.BenignVictory, player.Role),
+                Goal.Killing => Notification.Popup(DayKey.KillingVictory, player.Role),
+                Goal.Cult => Notification.Popup(DayKey.CultVictory),
+                Goal.Evil => Notification.Popup(DayKey.EvilVictory, player.Role),
+                _ => Notification.Popup(DayKey.BenignVictory, player.Role)
             };
         }
     }

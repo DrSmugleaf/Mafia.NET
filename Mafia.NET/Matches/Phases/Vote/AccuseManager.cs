@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -33,7 +34,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             return Target;
         }
 
-        public bool Accuse(IPlayer target, [CanBeNull, NotNullWhen(true)] out Entry notification)
+        public bool Accuse(IPlayer target, [CanBeNull, NotNullWhen(true)] out Notification notification)
         {
             notification = default;
             if (!Active || Target == target) return false;
@@ -42,20 +43,20 @@ namespace Mafia.NET.Matches.Phases.Vote
             Target = target;
 
             if (change)
-                notification = Entry.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player, target);
+                notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player, target);
             else
-                notification = Entry.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
+                notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
 
             return notification != default;
         }
 
-        public bool Unaccuse([CanBeNull, NotNullWhen(true)] out Entry notification)
+        public bool Unaccuse([CanBeNull, NotNullWhen(true)] out Notification notification)
         {
             notification = default;
             if (!Active || Target == null) return false;
 
             Target = null;
-            notification = Entry.Chat(AnonymousVote ? DayKey.AnonymousTryRemove : DayKey.TryRemove, Player);
+            notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryRemove : DayKey.TryRemove, Player);
 
             return notification != default;
         }

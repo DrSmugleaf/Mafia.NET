@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote.Verdicts
@@ -39,7 +40,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             else
                 return;
 
-            var notification = Entry.Chat(key, voter);
+            var notification = Notification.Chat(key, voter);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
         }
 
@@ -48,13 +49,13 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             return Verdicts.Values.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
         }
 
-        public Entry Decision()
+        public Notification Decision()
         {
             var count = VerdictCount();
             var innocent = count[Verdict.Innocent];
             var guilty = count[Verdict.Guilty];
 
-            return Entry.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Player, innocent, guilty);
+            return Notification.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Player, innocent, guilty);
         }
 
         public EntryBundle Votes()

@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches.Chats;
 
 namespace Mafia.NET.Matches.Phases
@@ -7,7 +8,7 @@ namespace Mafia.NET.Matches.Phases
     public interface IPhase
     {
         IMatch Match { get; }
-        string Name { get; }
+        Key Name { get; }
         double Duration { get; }
         DateTime StartTime { get; }
         double Elapsed { get; }

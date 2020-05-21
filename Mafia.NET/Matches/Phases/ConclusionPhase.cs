@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -23,7 +24,7 @@ namespace Mafia.NET.Matches.Phases
             ChatManager.Open(Match.AllPlayers);
             ChatManager.UnMuteUnDeafen();
 
-            var conclusion = Entry.Popup(DayKey.Conclusion);
+            var conclusion = Notification.Popup(DayKey.Conclusion);
             var roles = new EntryBundle();
             foreach (var player in Match.AllPlayers)
                 roles.Chat(DayKey.ConclusionRoleReveal, player, player.Role);

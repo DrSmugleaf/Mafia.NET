@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -29,9 +30,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             User.Crimes.Add("Trespassing"); // TODO: Localize
 
-            var targetVisitMessage = Entry.Chat(AgentKey.TargetInactive);
+            var targetVisitMessage = Notification.Chat(AgentKey.TargetInactive);
             if (target.Role.Ability.DetectTarget(out var targetVisit))
-                targetVisitMessage = Entry.Chat(AgentKey.TargetVisitedSomeone, targetVisit);
+                targetVisitMessage = Notification.Chat(AgentKey.TargetVisitedSomeone, targetVisit);
 
             var foreignVisits = new EntryBundle();
             foreach (var other in Match.LivingPlayers)

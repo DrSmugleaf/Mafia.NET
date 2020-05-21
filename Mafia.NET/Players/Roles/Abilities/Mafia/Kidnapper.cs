@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
@@ -41,10 +42,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             AddTarget(prisoner.Role.Team == User.Role.Team ? null : prisoner, new TargetNotification
             {
-                UserAddMessage = target => Entry.Chat(KidnapperKey.NightUserAddMessage, target),
-                UserRemoveMessage = target => Entry.Chat(KidnapperKey.NightUserRemoveMessage),
-                TargetAddMessage = target => Entry.Chat(KidnapperKey.NightTargetAddMessage, target),
-                TargetRemoveMessage = target => Entry.Chat(KidnapperKey.NightTargetRemoveMessage)
+                UserAddMessage = target => Notification.Chat(KidnapperKey.NightUserAddMessage, target),
+                UserRemoveMessage = target => Notification.Chat(KidnapperKey.NightUserRemoveMessage),
+                TargetAddMessage = target => Notification.Chat(KidnapperKey.NightTargetAddMessage, target),
+                TargetRemoveMessage = target => Notification.Chat(KidnapperKey.NightTargetRemoveMessage)
             });
 
             prisoner.Role.Ability.CurrentlyDeathImmune = true;
@@ -74,9 +75,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             AddTarget(filter, new TargetNotification
             {
-                UserAddMessage = target => Entry.Chat(KidnapperKey.DayUserAddMessage, target),
-                UserRemoveMessage = target => Entry.Chat(KidnapperKey.DayUserRemoveMessage),
-                UserChangeMessage = (old, current) => Entry.Chat(KidnapperKey.DayUserChangeMessage, old, current)
+                UserAddMessage = target => Notification.Chat(KidnapperKey.DayUserAddMessage, target),
+                UserRemoveMessage = target => Notification.Chat(KidnapperKey.DayUserRemoveMessage),
+                UserChangeMessage = (old, current) => Notification.Chat(KidnapperKey.DayUserChangeMessage, old, current)
             });
         }
 
@@ -85,7 +86,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             if (Match.Graveyard.LynchedToday())
             {
                 TargetManager[0] = null;
-                User.OnNotification(Entry.Chat(KidnapperKey.UnableToJail));
+                User.OnNotification(Notification.Chat(KidnapperKey.UnableToJail));
             }
 
             TargetManager[0]?.Role.Ability.PiercingDisable();

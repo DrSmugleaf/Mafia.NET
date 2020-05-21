@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -28,10 +29,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
             AddTarget(Uses > 0 ? prisoner : null, new TargetNotification
             {
-                UserAddMessage = target => Entry.Chat(JailorKey.NightUserAddMessage, target),
-                UserRemoveMessage = target => Entry.Chat(JailorKey.NightUserRemoveMessage),
-                TargetAddMessage = target => Entry.Chat(JailorKey.NightTargetAddMessage, target),
-                TargetRemoveMessage = target => Entry.Chat(JailorKey.NightTargetRemoveMessage)
+                UserAddMessage = target => Notification.Chat(JailorKey.NightUserAddMessage, target),
+                UserRemoveMessage = target => Notification.Chat(JailorKey.NightUserRemoveMessage),
+                TargetAddMessage = target => Notification.Chat(JailorKey.NightTargetAddMessage, target),
+                TargetRemoveMessage = target => Notification.Chat(JailorKey.NightTargetRemoveMessage)
             });
 
             prisoner.Role.Ability.CurrentlyDeathImmune = true;
@@ -57,9 +58,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             AddTarget(TargetFilter.Living(Match).Except(User), new TargetNotification
             {
-                UserAddMessage = target => Entry.Chat(JailorKey.DayUserAddMessage, target),
-                UserRemoveMessage = target => Entry.Chat(JailorKey.DayUserRemoveMessage),
-                UserChangeMessage = (old, current) => Entry.Chat(JailorKey.DayUserChangeMessage, old, current)
+                UserAddMessage = target => Notification.Chat(JailorKey.DayUserAddMessage, target),
+                UserRemoveMessage = target => Notification.Chat(JailorKey.DayUserRemoveMessage),
+                UserChangeMessage = (old, current) => Notification.Chat(JailorKey.DayUserChangeMessage, old, current)
             });
         }
 
@@ -68,7 +69,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             if (Match.Graveyard.LynchedToday())
             {
                 TargetManager[0] = null;
-                User.OnNotification(Entry.Chat(JailorKey.UnableToJail));
+                User.OnNotification(Notification.Chat(JailorKey.UnableToJail));
             }
 
             TargetManager[0]?.Role.Ability.PiercingDisable();

@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -22,7 +23,7 @@ namespace Mafia.NET.Matches.Phases
 
             foreach (var player in Match.AllPlayers)
             {
-                var role = Entry.Popup(DayKey.YourRole, player.Role,
+                var role = Notification.Popup(DayKey.YourRole, player.Role,
                     player.Role.Summary); // Todo role abilities and information
 
                 player.OnNotification(names);

@@ -1,6 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -9,7 +11,7 @@ namespace Mafia.NET.Matches.Phases
         public BasePhase(IMatch match, string name, uint duration, bool skippable = false, bool actionable = true)
         {
             Match = match;
-            Name = name;
+            Name = new Key($"phase{name}");
             Duration = duration * 1000;
             Skippable = skippable;
             ChatManager = new ChatManager();
@@ -17,7 +19,7 @@ namespace Mafia.NET.Matches.Phases
         }
 
         public IMatch Match { get; }
-        public string Name { get; }
+        public Key Name { get; }
         public double Duration { get; protected set; }
         public DateTime StartTime { get; protected set; }
         public double Elapsed { get; protected set; }

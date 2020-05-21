@@ -1,4 +1,4 @@
-﻿namespace Mafia.NET.Localization
+﻿namespace Mafia.NET.Notifications
 {
     public enum NotificationLocation
     {

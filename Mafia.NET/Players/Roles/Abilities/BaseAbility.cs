@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles.Categories;
 
@@ -27,7 +28,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         void Initialize(IMatch match, IPlayer user);
         bool TryVictory(out IVictory victory);
-        Entry VictoryNotification();
+        Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
         void Try(Action<IPlayer> action);
@@ -105,7 +106,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             return true;
         }
 
-        public virtual Entry VictoryNotification()
+        public virtual Notification VictoryNotification()
         {
             return User.Role.Categories[0].Goal.VictoryNotification(User);
         }

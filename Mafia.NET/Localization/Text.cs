@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Localization

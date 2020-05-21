@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Phases.Vote
@@ -32,10 +33,10 @@ namespace Mafia.NET.Matches.Phases.Vote
             AccuseManager = new AccuseManager(Match, StartTrial);
             ChatManager.Open(Match.AllPlayers);
 
-            var notification = Entry.Popup(DayKey.VotingBegin);
+            var notification = Notification.Popup(DayKey.VotingBegin);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
-            notification = Entry.Popup(DayKey.VotesNeeded, Match.LivingPlayers.Count / 2 + 1);
+            notification = Notification.Popup(DayKey.VotesNeeded, Match.LivingPlayers.Count / 2 + 1);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();

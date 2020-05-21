@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -16,7 +17,7 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             Match.Phase.CurrentTime = Time.Night;
-            var notification = Entry.Popup(DayKey.Night, Match.Phase.Day);
+            var notification = Notification.Popup(DayKey.Night, Match.Phase.Day);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 

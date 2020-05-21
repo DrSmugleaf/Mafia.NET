@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Matches;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -27,7 +28,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (Uses == 0 || !TargetManager.Try(out _)) return;
 
-            var notification = Entry.Chat(CitizenKey.UsedUpNow);
+            var notification = Notification.Chat(CitizenKey.UsedUpNow);
             User.OnNotification(notification);
 
             CurrentlyDeathImmune = true;
@@ -37,11 +38,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (Uses == 0)
             {
-                User.OnNotification(Entry.Chat(CitizenKey.UsedUp));
+                User.OnNotification(Notification.Chat(CitizenKey.UsedUp));
                 return;
             }
 
-            var usesLeft = Entry.Chat(Uses == 1 ? CitizenKey.UsesLeft : CitizenKey.UsesLeftPlural);
+            var usesLeft = Notification.Chat(Uses == 1 ? CitizenKey.UsesLeft : CitizenKey.UsesLeftPlural);
             User.OnNotification(usesLeft);
 
             AddTarget(TargetFilter.Only(User), TargetNotification.Enum<CitizenKey>());

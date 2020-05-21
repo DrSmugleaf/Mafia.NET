@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -21,8 +22,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             // TODO: Target switch
             var message = Setup.ExactDetection
-                ? Entry.Chat(ConsigliereKey.ExactDetect, target, target.Crimes.RoleName())
-                : Entry.Chat(ConsigliereKey.Detect, target, target.Crimes.Crime());
+                ? Notification.Chat(ConsigliereKey.ExactDetect, target, target.Crimes.RoleName())
+                : Notification.Chat(ConsigliereKey.Detect, target, target.Crimes.Crime());
 
             User.OnNotification(message);
         }

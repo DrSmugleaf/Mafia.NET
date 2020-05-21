@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -20,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (target.Alive)
             {
-                User.OnNotification(Entry.Chat(CoronerKey.StillAlive));
+                User.OnNotification(Notification.Chat(CoronerKey.StillAlive));
                 return;
             }
 

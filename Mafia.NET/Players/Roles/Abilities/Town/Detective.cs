@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -19,10 +20,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             User.Crimes.Add("Trespassing");
 
-            Entry notification;
+            Notification notification;
             if (target.Role.Ability.DetectTarget(out var visited, Setup))
-                notification = Entry.Chat(DetectiveKey.TargetVisitedSomeone, visited);
-            else notification = Entry.Chat(DetectiveKey.TargetInactive);
+                notification = Notification.Chat(DetectiveKey.TargetVisitedSomeone, visited);
+            else notification = Notification.Chat(DetectiveKey.TargetInactive);
 
             User.OnNotification(notification);
         }
