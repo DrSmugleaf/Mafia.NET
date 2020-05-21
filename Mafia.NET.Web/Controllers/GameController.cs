@@ -85,7 +85,7 @@ namespace Mafia.NET.Web.Controllers
             var player = controller.Player;
             ViewData["Players"] = player.Match.LivingPlayers;
             ViewData["Role"] = player.Role;
-            ViewData["RoleList"] = player.Match.Setup.Roles.RoleList();
+            ViewData["RoleList"] = player.Match.Setup.Roles.Selectors;
 
             return View("Game");
         }
@@ -135,7 +135,7 @@ namespace Mafia.NET.Web.Controllers
 
             if (!Lobbies.TryRemove(lobby.Id, out lobby)) return View("Join");
 
-            lobby.Setup.Roles.MandatoryRoles = model.RoleEntries();
+            lobby.Setup.Roles.Selectors = model.RoleEntries();
             var match = lobby.Start();
             Matches.Add(match);
 

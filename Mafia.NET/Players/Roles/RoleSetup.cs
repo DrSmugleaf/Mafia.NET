@@ -1,92 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Categories;
 
 namespace Mafia.NET.Players.Roles
 {
     public class RoleSetup
     {
-        private static readonly Random Random = new Random();
-
         public RoleSetup(
             RoleRegistry roles,
             AbilityRegistry abilities,
-            [CanBeNull] IEnumerable<RoleEntry> mandatoryRoles = null,
-            [CanBeNull] IEnumerable<ICategory> mandatoryCategories = null)
+            IEnumerable<IRoleSelector> selectors)
         {
             Roles = roles;
             Abilities = abilities;
-            MandatoryRoles = mandatoryRoles == null ? new List<RoleEntry>() : mandatoryRoles.ToList();
-            MandatoryCategories = mandatoryCategories == null ? new List<ICategory>() : mandatoryCategories.ToList();
+            Selectors = selectors.ToList();
         }
 
-        public RoleSetup(
-            [CanBeNull] IEnumerable<RoleEntry> mandatoryRoles = null,
-            [CanBeNull] IEnumerable<ICategory> mandatoryCategories = null) :
-            this(RoleRegistry.Default, AbilityRegistry.Default, mandatoryRoles, mandatoryCategories)
+        public RoleSetup(IEnumerable<IRoleSelector> mandatoryRoles) :
+            this(RoleRegistry.Default, AbilityRegistry.Default, mandatoryRoles)
+        {
+        }
+        
+        public RoleSetup() : this(new List<IRoleSelector>())
         {
         }
 
         public RoleRegistry Roles { get; }
         public AbilityRegistry Abilities { get; }
-        public List<RoleEntry> MandatoryRoles { get; set; }
-        public List<ICategory> MandatoryCategories { get; set; }
-
-        public List<RoleEntry> RoleList()
-        {
-            return MandatoryRoles.ToList(); // TODO: Add categories too
-        }
+        public List<IRoleSelector> Selectors { get; set; }
 
         public int Players()
         {
-            return MandatoryRoles.Count + MandatoryCategories.Count;
+            return Selectors.Count;
         }
 
-        public HashSet<RoleEntry> Possible()
+        public bool Randomize(Random random, out List<RoleEntry> roles)
         {
-            var possible = new HashSet<RoleEntry>(MandatoryRoles);
+            roles = new List<RoleEntry>();
 
-            foreach (var category in MandatoryCategories)
+            foreach (var selector in Selectors)
             {
-                var categoryRoles = Roles.Names.Values
-                    .Where(cRole => cRole.Categories.Contains(category));
-                var roles = categoryRoles.ToList();
-                var role = roles[Random.Next(roles.Count())];
-
-                possible.Add(role);
-            }
-
-            return possible;
-        }
-
-        public List<RoleEntry> Randomize()
-        {
-            var roles = new List<RoleEntry>(MandatoryRoles);
-
-            foreach (var category in MandatoryCategories)
-            {
-                var categoryRoles = Roles.Names.Values.Where(cRole => cRole.Categories.Contains(category)).ToList();
-                var role = categoryRoles.ElementAt(Random.Next(categoryRoles.Count()));
-
+                if (!selector.TryResolve(random, out var role)) return false;
                 roles.Add(role);
             }
 
-            return roles;
+            return true;
         }
 
-        public List<IPlayer> Randomize(IList<ILobbyController> controllers, IMatch match)
+        public bool Randomize(Random random, IMatch match, IList<ILobbyController> controllers, out List<IPlayer> players)
         {
-            var players = new List<IPlayer>();
-            var roles = Randomize();
+            players = new List<IPlayer>();
+            if (!Randomize(random, out var roles)) return false;
 
             if (controllers.Count != roles.Count)
-                throw new ArgumentException(
-                    $"Size of controllers ({controllers.Count}) doesn't equal size of roles ({roles.Count}).");
+                throw new ArgumentException($"Size of controllers ({controllers.Count}) doesn't equal size of roles ({roles.Count}).");
 
             for (var i = 0; i < controllers.Count; i++)
             {
@@ -95,10 +67,11 @@ namespace Mafia.NET.Players.Roles
                 var ability = Abilities.Names[roleEntry.Id].Build();
                 var role = new Role(roleEntry, ability);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
+                
                 players.Add(player);
             }
 
-            return players;
+            return true;
         }
     }
 }

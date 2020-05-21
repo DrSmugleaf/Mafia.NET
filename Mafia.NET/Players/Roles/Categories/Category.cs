@@ -2,6 +2,7 @@
 using System.Globalization;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
@@ -13,28 +14,48 @@ namespace Mafia.NET.Players.Roles.Categories
         Key Name { get; }
         Key Description { get; }
         Goal Goal { get; }
+        ITeam Team { get; }
+
+        List<RoleEntry> Possible(RoleRegistry registry);
     }
 
     public class Category : ICategory
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
 
-        public Category(string id, Goal goal)
+        public Category(string id, Goal goal, ITeam team)
         {
             Id = id;
             Name = new Key($"{id}name");
             Description = new Key($"{id}description");
             Goal = goal;
+            Team = team;
         }
 
         public string Id { get; }
         public Key Name { get; }
         public Key Description { get; }
         public Goal Goal { get; }
+        public ITeam Team { get; }
+
+        public List<RoleEntry> Possible(RoleRegistry registry)
+        {
+            return registry.Category(this);
+        }
 
         public string Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ICategory o && Id.Equals(o.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
 
         public static explicit operator Category(string id)
@@ -51,7 +72,9 @@ namespace Mafia.NET.Players.Roles.Categories
             {
                 var id = yaml["id"].AsString();
                 var goal = yaml["goal"].AsEnum<Goal>();
-                var category = new Category(id, goal);
+                var team = (Team) yaml["team"].AsString();
+                var category = new Category(id, goal, team);
+                
                 categories.Add(id, category);
             }
 

@@ -21,7 +21,7 @@ namespace Mafia.NET.Tests.Matches
             var roleNames =
                 "Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Mafioso,Mafioso,Mafioso"
                     .Split(",");
-            var roles = roleRegistry.Get(roleNames);
+            var roles = roleRegistry.Selectors(roleNames);
             var roleSetup = new RoleSetup(roles);
             var setup = new Setup(roleSetup);
             var hostName = "Bot 1";

@@ -16,8 +16,8 @@ namespace Mafia.NET.Localization
 
         public Text Parse(string str, NotificationLocation location, params object[] args)
         {
-            var text = new Text(location);
-            var argsList = args.ToList();
+            var builder = new TextBuilder();
+            builder.Location = location;
 
             foreach (Match match in Color.Matches(str))
             {
@@ -32,7 +32,7 @@ namespace Mafia.NET.Localization
                 var substr = match.Groups[1].Value;
                 var color = ColorTranslator.FromHtml(match.Groups[2].Value);
                 str = str.Replace(substr, "");
-                text.Background = color;
+                builder.Background = color;
             }
 
             NewLine.Replace(str, Environment.NewLine);
@@ -48,10 +48,10 @@ namespace Mafia.NET.Localization
                 var inner = node.InnerText;
                 inner = string.Format(inner, args);
 
-                text.Add(inner, color, scale);
+                builder.Add(inner, color, scale);
             }
 
-            return text;
+            return builder.Build();
         }
     }
 }

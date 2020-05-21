@@ -29,9 +29,7 @@ namespace Mafia.NET.Localization
 
         public override bool Equals(object obj)
         {
-            if (obj is Key o)
-                return Id.Equals(o.Id);
-            return false;
+            return obj is Key o && Id.Equals(o.Id);
         }
 
         public override int GetHashCode()

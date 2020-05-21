@@ -32,13 +32,16 @@ namespace Mafia.NET.Matches
     {
         public Match(Guid id, ISetup setup, IList<ILobbyController> controllers)
         {
+            Random = new Random();
             Id = id;
             Setup = setup;
-            AllPlayers = setup.Roles.Randomize(controllers, this);
+            if (!setup.Roles.Randomize(Random, this, controllers, out var players))
+                throw new ArgumentException($"Invalid setup {setup}");
+
+            AllPlayers = players;
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
-            Random = new Random();
         }
 
         public Guid Id { get; }

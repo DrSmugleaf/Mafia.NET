@@ -116,9 +116,27 @@ namespace Mafia.NET.Players.Roles
             return roles;
         }
 
+        public IRoleSelector Selector(string name)
+        {
+            return new RoleSelector(Names[name]);
+        }
+
+        public List<RoleSelector> Selectors(params string[] names)
+        {
+            return Get(names).Select(role => new RoleSelector(role)).ToList();
+        }
+
+        public List<RoleEntry> Category(ICategory category)
+        {
+            return Names.Values
+                .Where(role => role.Categories.Contains(category))
+                .OrderBy(role => role.Name.Localize()).ToList();
+        }
+
         public List<RoleEntry> Team(ITeam team)
         {
-            return Names.Values.Where(role => role.Team == team)
+            return Names.Values
+                .Where(role => role.Team == team)
                 .OrderBy(role => role.Name.Localize()).ToList();
         }
     }

@@ -6,7 +6,7 @@
     Layout = "_GameLayout";
     var players = (IReadOnlyList<IPlayer>) ViewData["Players"];
     var role = (IRole) ViewData["Role"];
-    var roleList = (List<RoleEntry>) ViewData["RoleList"];
+    var roleList = (List<IRoleSelector>) ViewData["RoleList"];
 }
 
 <div>

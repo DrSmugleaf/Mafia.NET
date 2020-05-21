@@ -21,9 +21,11 @@ namespace Mafia.NET.Web.Models
         public int TrialLength { get; set; }
         public string[] Roles { get; set; }
 
-        public List<RoleEntry> RoleEntries()
+        public List<IRoleSelector> RoleEntries()
         {
-            return Roles.Select(role => RoleRegistry.Default.Names[role]).ToList();
+            return Roles
+                .Select(role => RoleRegistry.Default.Selector(role))
+                .ToList();
         }
     }
 }
