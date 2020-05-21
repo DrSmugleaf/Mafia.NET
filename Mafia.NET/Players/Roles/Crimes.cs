@@ -37,28 +37,20 @@ namespace Mafia.NET.Players.Roles
         public Crimes(IPlayer player)
         {
             Player = player;
-            Committed = new HashSet<CrimeKey>();
+            Committed = new HashSet<Key>();
         }
 
-        protected ISet<CrimeKey> Committed { get; }
+        protected ISet<Key> Committed { get; }
         [CanBeNull] public Framing Framing { get; set; }
 
-        public static IImmutableSet<CrimeKey> LoadAll()
-        {
-            var crimes = new HashSet<Key>();
-            
-            foreach (CrimeKey crime in Enum.GetValues(typeof(CrimeKey)))
-            {
-                var key = new Key(crime);
-                crimes.Add(key);
-            }
-
-            return ImmutableHashSet.Create((CrimeKey[]) Enum.GetValues(typeof(CrimeKey)));
-        }
-
-        public void Add(CrimeKey crime)
+        public void AddKey(Key crime)
         {
             Committed.Add(crime);
+        }
+        
+        public void Add(CrimeKey crime)
+        {
+            AddKey(crime);
         }
 
         public Key Crime()
@@ -66,6 +58,11 @@ namespace Mafia.NET.Players.Roles
             if (Framing != null) return Framing.Crime;
             if (Committed.Count == 0 || Player.Role.Ability.DetectionImmune) return NoCrime;
             return Committed.ElementAt(Player.Match.Random.Next(Committed.Count));
+        }
+
+        public IReadOnlyList<Key> AllCommitted()
+        {
+            return new List<Key>(Committed).AsReadOnly();
         }
 
         public Key RoleName()

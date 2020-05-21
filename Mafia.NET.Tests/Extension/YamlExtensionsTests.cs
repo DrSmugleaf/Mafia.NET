@@ -19,12 +19,12 @@ namespace Mafia.NET.Tests.Extension
 
         public enum Enum
         {
-            VALUE,
-            TEST
+            Value,
+            Test
         }
 
-        [TestCase("Value", Enum.VALUE)]
-        [TestCase("test", Enum.TEST)]
+        [TestCase("Value", Enum.Value)]
+        [TestCase("test", Enum.Test)]
         public void AsEnum(string value, Enum expected)
         {
             var node = new YamlScalarNode(value);
