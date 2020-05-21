@@ -54,7 +54,7 @@ namespace Mafia.NET.Matches
 
         public void Start()
         {
-            foreach (var player in AllPlayers) player.Role.Ability.Initialize(this, player);
+            foreach (var player in AllPlayers) player.Role.Ability.Initialize(player);
 
             Phase.Start();
         }

@@ -1,5 +1,4 @@
 ﻿using Mafia.NET.Localization;
-using Mafia.NET.Matches;
 using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
@@ -18,9 +17,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Citizen", typeof(CitizenSetup))]
     public class Citizen : TownAbility<CitizenSetup>, IVest
     {
-        public override void Initialize(IMatch match, IPlayer user)
+        public override void Initialize(IPlayer user)
         {
-            base.Initialize(match, user);
+            base.Initialize(user);
             Uses = Setup.OneBulletproofVest ? 1 : 0;
         }
 

@@ -42,6 +42,11 @@ namespace Mafia.NET.Players.Teams
             return RoleRegistry.Default.Team(this);
         }
 
+        public string Localize(CultureInfo culture = null)
+        {
+            return Name.Localize(culture);
+        }
+
         public static explicit operator Team(string id)
         {
             return All.First(team => team.Id == id);
@@ -62,11 +67,6 @@ namespace Mafia.NET.Players.Teams
             }
 
             return teams.OrderBy(team => team.Order).ToImmutableList();
-        }
-
-        public string Localize(CultureInfo culture = null)
-        {
-            return Name.Localize(culture);
         }
 
         public override string ToString()

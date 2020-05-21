@@ -32,6 +32,11 @@ namespace Mafia.NET.Players.Roles.Categories
         public Key Description { get; }
         public Goal Goal { get; }
 
+        public string Localize(CultureInfo culture = null)
+        {
+            return Name.Localize(culture);
+        }
+
         public static explicit operator Category(string id)
         {
             return Categories[id];
@@ -51,11 +56,6 @@ namespace Mafia.NET.Players.Roles.Categories
             }
 
             return categories;
-        }
-
-        public string Localize(CultureInfo culture = null)
-        {
-            return Name.Localize(culture);
         }
 
         public override string ToString()

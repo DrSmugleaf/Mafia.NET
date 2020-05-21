@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public interface IAbility
     {
-        IMatch Match { get; set; }
+        IMatch Match { get; }
         IPlayer User { get; set; }
         string Name { get; set; }
         MessageRandomizer MurderDescriptions { get; set; }
@@ -27,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         int Cooldown { get; set; }
         int Uses { get; set; }
 
-        void Initialize(IMatch match, IPlayer user);
+        void Initialize(IPlayer user);
         bool TryVictory(out IVictory victory);
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
@@ -63,7 +63,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public T Setup => (T) AbilitySetup;
         private int _cooldown { get; set; }
         private int _uses { get; set; }
-        public IMatch Match { get; set; }
+        public IMatch Match => User.Match;
         public IPlayer User { get; set; }
         public string Name { get; set; }
         public MessageRandomizer MurderDescriptions { get; set; }
@@ -87,9 +87,8 @@ namespace Mafia.NET.Players.Roles.Abilities
             set => _uses = value >= 0 ? value : 0;
         }
 
-        public virtual void Initialize(IMatch match, IPlayer user)
+        public virtual void Initialize(IPlayer user)
         {
-            Match = match;
             User = user;
             AbilitySetup = Match.Setup.Roles.Abilities.Setup<T>();
             TargetManager = new TargetManager(Match, User);

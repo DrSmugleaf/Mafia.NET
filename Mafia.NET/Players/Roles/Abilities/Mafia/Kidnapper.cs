@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Mafia.NET.Localization;
-using Mafia.NET.Matches;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
@@ -22,9 +21,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
     public class Kidnapper : MafiaAbility<KidnapperSetup>, IDetainer, IRoleBlocker, IKiller
     {
-        public override void Initialize(IMatch match, IPlayer user)
+        public override void Initialize(IPlayer user)
         {
-            base.Initialize(match, user);
+            base.Initialize(user);
             Uses = Match.Setup.Roles.Abilities.Setup<JailorSetup>().Charges;
         }
 
