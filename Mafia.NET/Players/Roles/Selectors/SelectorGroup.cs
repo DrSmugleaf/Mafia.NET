@@ -26,6 +26,10 @@ namespace Mafia.NET.Players.Roles.Selectors
         public static List<SelectorGroup> Default(RoleRegistry roles)
         {
             var groups = new List<SelectorGroup>();
+            
+            var randomSelectors = new List<RoleSelector>();
+            var anyRandom = new RoleSelector(roles);
+            randomSelectors.Add(anyRandom);
 
             var teams = Team.All;
             foreach (var team in teams)
@@ -35,11 +39,11 @@ namespace Mafia.NET.Players.Roles.Selectors
                 
                 var group = new SelectorGroup(team.Id, team.Name, selectors, team.Color);
                 groups.Add(group);
+                
+                var teamRandom = new RoleSelector(roles, team);
+                randomSelectors.Add(teamRandom);
             }
 
-            var randomSelectors = new List<RoleSelector>();
-            var anyRandom = new RoleSelector(roles);
-            randomSelectors.Add(anyRandom);
             foreach (var category in Category.Categories.Values)
             {
                 var selector = new RoleSelector(roles, category);
@@ -55,6 +59,11 @@ namespace Mafia.NET.Players.Roles.Selectors
         public static List<SelectorGroup> Default()
         {
             return Default(RoleRegistry.Default);
+        }
+
+        public List<IRoleSelector> Get(params string[] ids)
+        {
+            return Selectors.Where(selector => ids.Contains(selector.Id)).Cast<IRoleSelector>().ToList();
         }
 
         public string Localize(CultureInfo culture = null)

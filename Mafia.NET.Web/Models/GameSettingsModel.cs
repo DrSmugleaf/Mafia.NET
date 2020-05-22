@@ -24,9 +24,15 @@ namespace Mafia.NET.Web.Models
 
         public List<IRoleSelector> RoleEntries()
         {
-            return Roles
-                .Select(role => RoleRegistry.Default.Selector(role))
-                .ToList();
+            var selectors = new List<IRoleSelector>();
+            
+            foreach (var group in SelectorGroup.Default())
+            {
+                var subSelectors = group.Get(Roles);
+                selectors.AddRange(subSelectors);
+            }
+
+            return selectors;
         }
     }
 }

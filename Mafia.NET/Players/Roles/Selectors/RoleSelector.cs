@@ -69,15 +69,16 @@ namespace Mafia.NET.Players.Roles.Selectors
         {
         }
 
-        public RoleSelector(RoleRegistry registry, ITeam team) : this(
-            team.Id,
-            team.Name,
-            Key.Empty, // TODO
-            Key.Empty,
-            Key.Empty,
-            registry.Team(team),
-            team.Color)
+        public RoleSelector(RoleRegistry registry, ITeam team)
         {
+            Id = Id;
+            Name = new Key($"Selector{team.Id}Random");
+            Summary = Key.Empty; // TODO
+            Goal = Key.Empty;
+            Abilities = Key.Empty;
+            Possible = registry.Team(team).ToImmutableList();
+            Excludes = new HashSet<RoleEntry>();
+            Color = team.Color;
         }
 
         public RoleSelector(RoleRegistry registry) : this(
@@ -112,7 +113,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             }
 
             if (possible.Count > 0)
-                entry = possible.ElementAt(random.Next(possible.Count()));
+                entry = possible.ElementAt(random.Next(possible.Count));
 
             return entry != default;
         }
