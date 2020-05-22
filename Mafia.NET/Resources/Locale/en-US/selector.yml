@@ -4,6 +4,15 @@ AnyRandom: "Any Random"
 AnyRandomDescription: "Can be any role in the game."
 
 TownRandom: "Town Random"
+TownRandomDescription: "Can be any town-aligned role."
+
 MafiaRandom: "Mafia Random"
+MafiaRandomDescription: "Can be any mafia-aligned role."
+  
 TriadRandom: "Triad Random"
+TriadRandomDescription: "Can be any triad-aligned role."
+
 NeutralRandom: "Neutral Random"
+NeutralRandomDescription: "Can be any neutral role."
+
+CategoryDescription: "Can be {0}."

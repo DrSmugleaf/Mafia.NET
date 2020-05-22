@@ -14,9 +14,9 @@ namespace Mafia.NET.Localization
         public readonly Regex Color = new Regex(@"({(\d+)c})");
         public readonly Regex NewLine = new Regex(@"(\\n)");
 
-        public Text Parse(string str, NotificationLocation location, params object[] args)
+        public Text Parse(string str, params object[] args)
         {
-            var builder = new TextBuilder {Location = location};
+            var builder = new TextBuilder();
 
             foreach (Match match in Color.Matches(str))
             {

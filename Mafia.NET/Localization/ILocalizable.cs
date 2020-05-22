@@ -5,6 +5,6 @@ namespace Mafia.NET.Localization
 {
     public interface ILocalizable
     {
-        string Localize([CanBeNull] CultureInfo culture = null);
+        Text Localize([CanBeNull] CultureInfo culture = null);
     }
 }

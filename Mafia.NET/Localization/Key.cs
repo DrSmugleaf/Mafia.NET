@@ -22,9 +22,9 @@ namespace Mafia.NET.Localization
 
         public string Id { get; }
 
-        public string Localize(CultureInfo culture = null)
+        public virtual Text Localize(CultureInfo culture = null)
         {
-            return Localizer.Default.Get(this, culture);
+            return Localizer.Default.Get(Id, culture);
         }
 
         public override bool Equals(object obj)
@@ -68,7 +68,7 @@ namespace Mafia.NET.Localization
 
         public override string ToString()
         {
-            return Localize();
+            return Localize().ToString();
         }
     }
 }

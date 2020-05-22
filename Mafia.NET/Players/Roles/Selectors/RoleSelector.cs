@@ -53,7 +53,7 @@ namespace Mafia.NET.Players.Roles.Selectors
         public RoleSelector(RoleRegistry registry, ICategory category) : this(
             category.Id,
             category.Name,
-            category.Description,
+            new ArgKey($"SelectorCategoryDescription", string.Join(", ", registry.Category(category))), 
             Key.Empty,
             Key.Empty,
             category.Roles(registry),
@@ -76,7 +76,7 @@ namespace Mafia.NET.Players.Roles.Selectors
         {
             Id = Id;
             Name = new Key($"Selector{team.Id}Random");
-            Summary = Key.Empty; // TODO
+            Summary = new Key($"Selector{team.Id}RandomDescription");
             Goal = Key.Empty;
             Abilities = Key.Empty;
             
@@ -123,14 +123,14 @@ namespace Mafia.NET.Players.Roles.Selectors
             return entry != default;
         }
         
-        public string Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
         }
 
         public override string ToString()
         {
-            return Localize();
+            return Localize().ToString();
         }
     }
 }

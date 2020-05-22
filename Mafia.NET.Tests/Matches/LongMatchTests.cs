@@ -44,7 +44,7 @@ namespace Mafia.NET.Tests.Matches
             {
                 Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
-                Assert.That(player.Role.Name.Localize(culture), Is.EqualTo(roleNames[player.Number - 1]));
+                Assert.That(player.Role.Name.Localize(culture).ToString(), Is.EqualTo(roleNames[player.Number - 1]));
             }
 
             Assert.That(match.Phase.CurrentPhase, Is.TypeOf<PresentationPhase>());
@@ -68,7 +68,7 @@ namespace Mafia.NET.Tests.Matches
             {
                 Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
-                Assert.That(player.Role.Name.Localize(), Is.EqualTo(roleNames[player.Number - 1]));
+                Assert.That(player.Role.Name.Localize(culture).ToString(), Is.EqualTo(roleNames[player.Number - 1]));
             }
         }
     }

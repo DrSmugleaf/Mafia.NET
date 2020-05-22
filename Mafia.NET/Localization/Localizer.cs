@@ -38,8 +38,9 @@ namespace Mafia.NET.Localization
             return _catalogs[culture];
         }
 
-        public string Get(string key, [CanBeNull] CultureInfo culture = null)
+        public Text Get(string key, [CanBeNull] CultureInfo culture = null, params object[] args)
         {
+            if (key.Length == 0) return Text.Empty;
             culture ??= _defaultCulture;
 
             var catalog = Get(culture);
@@ -47,30 +48,18 @@ namespace Mafia.NET.Localization
             if (defaultString == null) throw new ArgumentException($"Key {key} not found for culture {culture}");
 
             var str = catalog.GetStringDefault(key, defaultString);
-
-            return str;
-        }
-
-        public string Get(Key key, [CanBeNull] CultureInfo culture = null)
-        {
-            if (key.Id.Length == 0) return "";
-            return Get(key.Id, culture);
-        }
-
-        public Text Get(Notification notification, [CanBeNull] CultureInfo culture = null)
-        {
-            if (notification.Key.Length == 0) return Text.Empty;
-            var str = Get(notification.Key, culture);
-            return _parser.Parse(str, notification.Location, notification.Args);
+            return _parser.Parse(str, args);
         }
 
         private Catalog Load(CultureInfo culture)
         {
             var catalog = new Catalog(culture);
             var files = Resource.FromDirectory("Locale/" + culture.IetfLanguageTag, "*.yml");
+            
             foreach (var file in files)
             {
                 var fileName = Path.GetFileNameWithoutExtension(file.ResourcePath);
+                
                 foreach (var pair in ((YamlMappingNode) file).Children)
                 {
                     var key = (fileName + pair.Key.AsString()).ToLower();

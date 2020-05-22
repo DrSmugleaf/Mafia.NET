@@ -61,7 +61,7 @@ namespace Mafia.NET.Players.Teams
             return selectors;
         }
 
-        public string Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
         }
@@ -90,7 +90,7 @@ namespace Mafia.NET.Players.Teams
 
         public override string ToString()
         {
-            return Localize();
+            return Localize().ToString();
         }
     }
 }

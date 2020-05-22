@@ -47,14 +47,14 @@ namespace Mafia.NET.Players.Roles
         public Color Color { get; }
         public bool Natural { get; }
 
-        public string Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
         }
 
         public override string ToString()
         {
-            return Localize();
+            return Localize().ToString();
         }
     }
 
@@ -133,14 +133,14 @@ namespace Mafia.NET.Players.Roles
         {
             return Names.Values
                 .Where(role => role.Categories.Contains(category))
-                .OrderBy(role => role.Name.Localize()).ToList();
+                .OrderBy(role => role.Id).ToList();
         }
 
         public List<RoleEntry> Team(ITeam team)
         {
             return Names.Values
                 .Where(role => role.Team == team)
-                .OrderBy(role => role.Name.Localize()).ToList();
+                .OrderBy(role => role.Id).ToList();
         }
     }
 }

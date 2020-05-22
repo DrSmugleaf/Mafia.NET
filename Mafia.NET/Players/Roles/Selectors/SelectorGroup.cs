@@ -67,14 +67,14 @@ namespace Mafia.NET.Players.Roles.Selectors
             return Selectors.Where(selector => ids.Contains(selector.Id)).Cast<IRoleSelector>().ToList();
         }
 
-        public string Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
         }
 
         public override string ToString()
         {
-            return Localize();
+            return Localize().ToString();
         }
     }
 }

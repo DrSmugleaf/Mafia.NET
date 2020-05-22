@@ -68,9 +68,9 @@ namespace Mafia.NET.Players
 
         public void OnNotification(Notification notification)
         {
-            var text = Localizer.Default.Get(notification, Culture);
+            var text = Localizer.Default.Get(notification.Key, Culture, notification.Args);
 
-            switch (text.Location)
+            switch (notification.Location)
             {
                 case NotificationLocation.Chat:
                     Chat?.Invoke(this, text);

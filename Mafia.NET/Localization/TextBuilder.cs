@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Localization
@@ -9,12 +8,10 @@ namespace Mafia.NET.Localization
     {
         public TextBuilder()
         {
-            Location = NotificationLocation.Chat;
             Contents = new List<IContent>();
             Background = Color.Empty;
         }
         
-        public NotificationLocation Location { get; set; }
         public List<IContent> Contents { get; set; }
         public Color Background { get; set; }
         
@@ -38,7 +35,7 @@ namespace Mafia.NET.Localization
 
         public Text Build()
         {
-            return new Text(Location, Contents, Background);
+            return new Text(Contents, Background);
         }
     }
 }
