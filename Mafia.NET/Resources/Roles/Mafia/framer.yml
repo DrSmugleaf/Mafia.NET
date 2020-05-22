@@ -1,9 +1,5 @@
 ﻿id: Framer
 team: Mafia
-summary: "A skilled forger working for organized crime."
-goal: "Kill off the Town and everyone else who would oppose you."
 categories:
 - Mafia Deception
 color: "#DD6600"
-ability:
-  description: "Frame one player each night."

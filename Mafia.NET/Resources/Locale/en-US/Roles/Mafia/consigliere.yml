@@ -1,4 +1,8 @@
 ﻿Name: "Consigliere"
+Summary: "A counselor to the boss of a crime family."
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities: "Investigate one player each night."
+
 ExactDetect: "<f c={0c}>{0}</f> is a {1}."
 Detect: "<f c={0c}>{0}</f> is guilty of {1}."
 UserAddMessage: "You will investigate <f c={0c}>{0}</f>."

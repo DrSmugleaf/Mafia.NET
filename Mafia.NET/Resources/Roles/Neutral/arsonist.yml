@@ -1,12 +1,9 @@
 ﻿id: Arsonist
 team: Neutral
-summary: "A pyromaniac who only wants to see the world burn."
-goal: "Be the last person left alive."
 categories:
 - Neutral Killing
 color: "#FFAA00"
 ability:
-  description: "Either douse a person in gasoline or kill all previously doused targets at night. May also undouse himself by taking no action."
   murder_descriptions:
   - "They were incinerated."
   - "They were burnt to death."

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles.Abilities;
 
-namespace Mafia.NET.Players.Roles
+namespace Mafia.NET.Players.Roles.Selectors
 {
     public class RoleSetup
     {

@@ -1,9 +1,5 @@
 ﻿id: Crier
 team: Town
-summary: "A loud-mouthed newsreader, working to help the town."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Government
 color: "#66CC33"
-ability:
-  description: "Speak to the entire town at night, anonymously."

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Web.Models
 {

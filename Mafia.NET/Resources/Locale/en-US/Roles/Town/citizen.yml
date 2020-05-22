@@ -1,4 +1,8 @@
 ﻿Name: "Citizen"
+Summary: "A regular person who believes in truth and justice."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Citizens have no special traits by default, but many hosts allow them to begin the game with one Bulletproof Vest."
+  
 UsesLeft: "Your bulletproof vest has 1 use left."
 UsesLeftPlural: "Your bulletproof vest has {0} uses left."
 UsedUp: "Your bulletproof vest is used up."

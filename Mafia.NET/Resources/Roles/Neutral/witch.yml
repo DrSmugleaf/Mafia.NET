@@ -1,12 +1,9 @@
 ﻿id: Witch
 team: Neutral
-summary: "A malicious mystic who uses their manipulative powers for evil."
-goal: "Survive and see the town lose the game."
 categories:
 - Neutral Evil
 color: "#6622CC"
 ability:
-  description: "Force one person to use their night ability on a target of the Witch's choice."
   murder_descriptions:
   - "There were signs of struggle, but they apparently committed suicide."
   - "There were signs of struggle, but they apparently killed themselves."

@@ -6,6 +6,8 @@ using System.Linq;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Roles.Selectors;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
@@ -18,6 +20,7 @@ namespace Mafia.NET.Players.Teams
         int Order { get; }
 
         List<RoleEntry> Roles();
+        List<IRoleSelector> Selectors(RoleRegistry roles);
     }
 
     public class Team : ITeam
@@ -40,6 +43,22 @@ namespace Mafia.NET.Players.Teams
         public List<RoleEntry> Roles()
         {
             return RoleRegistry.Default.Team(this);
+        }
+
+        public List<IRoleSelector> Selectors(RoleRegistry roles)
+        {
+            var selectors = new List<IRoleSelector>();
+            
+            foreach (var category in Category.Categories.Values)
+            {
+                var selector = new RoleSelector(roles, category);
+                selectors.Add(selector);
+            }
+            
+            var random = new RoleSelector(roles, this);
+            selectors.Add(random);
+
+            return selectors;
         }
 
         public string Localize(CultureInfo culture = null)

@@ -8,18 +8,20 @@ using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Teams;
 
-namespace Mafia.NET.Players.Roles
+namespace Mafia.NET.Players.Roles.Selectors
 {
     public interface IRoleSelector : IColorizable, ILocalizable
     {
         string Id { get; }
         Key Name { get; }
-        string Summary { get; }
-        string Goal { get; }
-        string Abilities { get; }
+        Key Summary { get; }
+        Key Goal { get; }
+        Key Abilities { get; }
         IImmutableList<RoleEntry> Possible { get; }
         HashSet<RoleEntry> Excludes { get; }
+        bool Random => Possible.Count > 1;
 
         bool TryResolve(Random random, out RoleEntry entry);
     }
@@ -29,9 +31,9 @@ namespace Mafia.NET.Players.Roles
         public RoleSelector(
             string id,
             Key name,
-            string summary,
-            string goal,
-            string abilities,
+            Key summary,
+            Key goal,
+            Key abilities,
             List<RoleEntry> possible,
             Color color)
         {
@@ -48,9 +50,9 @@ namespace Mafia.NET.Players.Roles
         public RoleSelector(RoleRegistry registry, ICategory category) : this(
             category.Id,
             category.Name,
-            category.Description.Localize(),
-            "",
-            "",
+            category.Description,
+            Key.Empty,
+            Key.Empty,
             category.Possible(registry),
             category.Team.Color)
         {
@@ -67,11 +69,34 @@ namespace Mafia.NET.Players.Roles
         {
         }
 
+        public RoleSelector(RoleRegistry registry, ITeam team) : this(
+            team.Id,
+            team.Name,
+            Key.Empty, // TODO
+            Key.Empty,
+            Key.Empty,
+            registry.Team(team),
+            team.Color)
+        {
+        }
+
+        public RoleSelector(RoleRegistry registry) : this(
+            "Any Random",
+            SelectorKey.AnyRandom,
+            SelectorKey.AnyRandomDescription,
+            Key.Empty,
+            Key.Empty,
+            registry.Get(),
+            ColorTranslator.FromHtml("#00CCFF")
+            )
+        {
+        }
+
         public string Id { get; }
         public Key Name { get; }
-        public string Summary { get; }
-        public string Goal { get; }
-        public string Abilities { get; }
+        public Key Summary { get; }
+        public Key Goal { get; }
+        public Key Abilities { get; }
         public IImmutableList<RoleEntry> Possible { get; }
         public HashSet<RoleEntry> Excludes { get; }
         public Color Color { get; }

@@ -1,4 +1,8 @@
 ﻿Name: "Coroner"
+Summary: "A discrete medical professional skilled in autopsies."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Discover the exact role of a dead player each night."
+
 StillAlive: "Your target is still alive."
 AutopsyRole: "<f c={0c}>{0}</f>'s role was <f c={1c}>{1}</f>."
 AutopsyLastWill: "Their last will was:\n{0}"

@@ -1,9 +1,5 @@
 ﻿id: Mayor
 team: Town
-summary: "The governor of the town."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Government
 color: "#44FF44"
-ability:
-  description: "May reveal himself during the day and thereafter, have additional votes (exact number dependent on host settings)."

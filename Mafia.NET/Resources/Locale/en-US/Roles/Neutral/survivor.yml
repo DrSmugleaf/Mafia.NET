@@ -1,1 +1,4 @@
-﻿name: "Survivor"
+﻿Name: "Survivor"
+Summary: "An apathetic individual who just wants to stay alive."
+Goal: "Survive to the end of the game, regardless of whether or not the Town or Mafia win."
+Abilities: "Use a Bulletproof Vest (number received based on host settings), protecting the Survivor from being killed at night."

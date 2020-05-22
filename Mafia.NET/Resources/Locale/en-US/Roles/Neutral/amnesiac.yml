@@ -1,1 +1,4 @@
-﻿name: "Amnesiac"
+﻿Name: "Amnesiac"
+Summary: "A person who recently recovered from a head injury and forgot who he was."
+Goal: "If the Amnesiac does not convert to another role, survive. If the Amnesiac converts to another role, then the win condition of the role the Amnesiac converted to."
+Abilities: "Convert to any role from the graveyard."

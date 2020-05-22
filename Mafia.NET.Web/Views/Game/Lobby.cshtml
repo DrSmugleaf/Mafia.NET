@@ -1,10 +1,11 @@
 ﻿@using Mafia.NET.Extension
+@using Mafia.NET.Players.Roles.Selectors
 @using Mafia.NET.Players.Teams
 @model GameSettingsModel
 @{
     ViewData["Title"] = "Lobby";
     Layout = "_LobbyLayout";
-    var teams = Team.All;
+    var groups = (List<SelectorGroup>) ViewData["SelectorGroups"];
 }
 
 <div class="lobby-screen container-fluid">
@@ -198,9 +199,9 @@
                         Catalog
                         <div id="catalog-teams" class="overflow-auto">
                             <ul class="list-group list-group-flush">
-                                @foreach (var team in teams)
+                                @foreach (var group in groups)
                                 {
-                                    <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@team.Name" style="color: @team.Color.HexRgb()">@team.Name</button>
+                                    <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@group.Name" style="color: @group.Color.HexRgb()">@group.Name</button>
                                 }
                             </ul>
                         </div>
@@ -209,14 +210,14 @@
                 <div class="row">
                     <div class="col">
                         <div id="catalog-roles" class="overflow-auto">
-                            @foreach (var team in teams)
+                            @foreach (var group in groups)
                             {
-                                <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@team.Name">
-                                    @foreach (var role in team.Roles())
+                                <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@group.Name">
+                                    @foreach (var selector in group.Selectors)
                                     {
-                                        <div class="btn-group btn-block role-group" role="group" aria-label="@role.Name">
-                                            <button type="button" class="btn btn-sm btn-block list-group-item catalog-role disable-on-start main-button" data-name="@role.Name" data-color="@role.Color.HexRgb()" data-summary="@role.Summary" data-abilities="@role.Abilities" data-goal="@role.Goal" style="color: @role.Color.HexRgb()">@role.Name</button>
-                                            <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start add-button host-only" data-name="@role.Name">+</button>
+                                        <div class="btn-group btn-block role-group" role="group" aria-label="@selector.Name">
+                                            <button type="button" class="btn btn-sm btn-block list-group-item catalog-role disable-on-start main-button" data-name="@selector.Name" data-color="@selector.Color.HexRgb()" data-summary="@selector.Summary" data-abilities="@selector.Abilities" data-goal="@selector.Goal" style="color: @selector.Color.HexRgb()">@selector.Name</button>
+                                            <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start add-button host-only" data-name="@selector.Name">+</button>
                                         </div>
                                     }
                                 </ul>

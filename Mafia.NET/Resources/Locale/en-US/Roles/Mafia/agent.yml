@@ -1,4 +1,8 @@
 ﻿Name: "Agent"
+Summary: "One of the many Caporegime the Don employs, this shady individual gathers information for the Mafia."
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities: "See who one person visits and is visited by each night."
+
 TargetInactive: "Your target did not do anything tonight."
 TargetVisitedSomeone: "Your target visited <f c={0c}>{0}</f> tonight."
 SomeoneVisitedTarget: "<f c={0c}>{0}</f> visited your target tonight."

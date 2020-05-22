@@ -1,4 +1,8 @@
 ﻿Name: "Jailor"
+Summary: "A jail guard officer, secretly detaining suspects."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Jail and roleblock one player each night following a day where no lynch occurred. Speak anonymously with the jailed player at night, and optionally execute that player."
+
 DayUserAddMessage: "You will jail <f c={0c}>{0}</f>."
 DayUserRemoveMessage: "You won't jail anyone."
 DayUserChangeMessage: "You will instead jail <f c={1c}>{1}</f>."

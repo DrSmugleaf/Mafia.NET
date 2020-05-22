@@ -1,9 +1,5 @@
 ﻿id: Spy
 team: Town
-summary: "A stealthy eavesdropper who listens in on secret conversations."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Power
 color: "#66AA00"
-ability:
-  description: "Hears what people say during chats at night (Mafia, Triad, Cultist, and Masons)."

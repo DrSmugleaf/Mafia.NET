@@ -5,6 +5,7 @@ using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Selectors;
 using NUnit.Framework;
 
 namespace Mafia.NET.Tests.Matches

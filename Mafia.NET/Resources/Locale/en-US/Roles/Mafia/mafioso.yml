@@ -1,4 +1,8 @@
 ﻿Name: "Mafioso"
+Summary: "A lowly soldato for one of the Don's borgata."
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities: "Kill"
+
 UserAddMessage: "You suggest to kill <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't suggest anyone."
 UserChangeMessage: "You instead suggest to kill <f c={1c}>{1}</f>."

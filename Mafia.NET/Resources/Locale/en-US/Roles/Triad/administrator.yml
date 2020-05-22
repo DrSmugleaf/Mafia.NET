@@ -1,1 +1,4 @@
-﻿name: "Administrator"
+﻿Name: "Administrator"
+Summary: '499 - "Red Candle" - A lieutenant in the Triad mob, keeps tabs on the populace.'
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities:  "Investigate one player each night."

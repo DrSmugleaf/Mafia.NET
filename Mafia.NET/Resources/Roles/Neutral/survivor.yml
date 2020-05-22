@@ -1,9 +1,5 @@
 ﻿id: Survivor
 team: Neutral
-summary: "An apathetic individual who just wants to stay alive."
-goal: "Survive to the end of the game, regardless of whether or not the Town or Mafia win."
 categories:
 - Neutral Benign
 color: "#FFFF00"
-ability:
-  description: "Use a Bulletproof Vest (number received based on host settings), protecting the Survivor from being killed at night."

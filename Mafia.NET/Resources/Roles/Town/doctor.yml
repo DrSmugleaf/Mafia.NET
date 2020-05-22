@@ -1,9 +1,5 @@
 ﻿id: Doctor
 team: Town
-summary: "A secret surgeon skilled in trauma care."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Protective
 color: "#00FF00"
-ability:
-  description: "Visit someone at night to save them if someone tries to kill them."

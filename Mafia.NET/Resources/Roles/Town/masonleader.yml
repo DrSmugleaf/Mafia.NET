@@ -1,12 +1,9 @@
 ﻿id: Mason Leader
 team: Town
-summary: "The leader of a secret society."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Government
 color: "#22FF77"
 ability:
-  description: "May to try to convert one person to a Mason each night. This ability only works on Citizens. Also collaborates with the other Masons at night in the secret Mason chat."
   murder_descriptions:
   - "They were bludgeoned to death."
   - "They were beaten to a pulp with a blunt object."

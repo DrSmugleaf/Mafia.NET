@@ -1,4 +1,8 @@
 ﻿Name: "Detective"
+Summary: "A skilled tracker, learning important information on behalf of the town."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Track one person's activity each night."
+
 TargetInactive: "Your target did not do anything tonight."
 TargetVisitedSomeone: "Your target visited <f c={0c}>{0}</f> tonight."
 UserAddMessage: "You will track <f c={0c}>{0}</f>'s activity."

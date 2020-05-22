@@ -12,9 +12,9 @@ namespace Mafia.NET.Players.Roles
     public interface IRole : IColorizable, ILocalizable
     {
         Key Name { get; }
-        string Summary { get; }
-        string Goal { get; }
-        string Abilities { get; }
+        Key Summary { get; }
+        Key Goal { get; }
+        Key Abilities { get; }
         ITeam Team { get; }
         IReadOnlyList<ICategory> Categories { get; }
         IAbility Ability { get; set; }
@@ -39,9 +39,9 @@ namespace Mafia.NET.Players.Roles
         }
 
         public Key Name { get; }
-        public string Summary { get; }
-        public string Goal { get; }
-        public string Abilities { get; }
+        public Key Summary { get; }
+        public Key Goal { get; }
+        public Key Abilities { get; }
         public ITeam Team { get; }
         public IReadOnlyList<ICategory> Categories { get; }
         public Color Color { get; }

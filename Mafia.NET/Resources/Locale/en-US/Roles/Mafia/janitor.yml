@@ -1,4 +1,8 @@
 ﻿Name: "Janitor"
+Summary: "A sanitation expert working for organized crime."
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities: "Sanitize one player each night."
+  
 LastWillReveal: "Your target's last will was:\n{0}"
 UserAddMessage: "You will sanitize <f c={0c}>{0}</f>'s death."
 UserRemoveMessage: "You won't sanitize anyone's death."

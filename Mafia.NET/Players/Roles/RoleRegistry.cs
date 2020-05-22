@@ -7,6 +7,7 @@ using System.Linq;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Roles.Selectors;
 using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
@@ -17,9 +18,6 @@ namespace Mafia.NET.Players.Roles
     {
         public RoleEntry(
             string id,
-            string summary,
-            string goal,
-            string abilities,
             ITeam team,
             IList<ICategory> categories,
             Color color,
@@ -27,9 +25,9 @@ namespace Mafia.NET.Players.Roles
         {
             Id = id;
             Name = new Key($"{id}name");
-            Summary = summary;
-            Goal = goal;
-            Abilities = abilities;
+            Summary = new Key($"{id}summary");
+            Goal = new Key($"{id}goal");
+            Abilities = new Key($"{id}abilities");
             Team = team;
             Categories = categories.ToImmutableList();
             Color = color;
@@ -38,9 +36,9 @@ namespace Mafia.NET.Players.Roles
 
         public string Id { get; }
         public Key Name { get; }
-        public string Summary { get; }
-        public string Goal { get; }
-        public string Abilities { get; }
+        public Key Summary { get; }
+        public Key Goal { get; }
+        public Key Abilities { get; }
         public ITeam Team { get; }
         public IImmutableList<ICategory> Categories { get; }
         public Color OriginalColor { get; }
@@ -89,11 +87,8 @@ namespace Mafia.NET.Players.Roles
 
                 var color = yaml["color"].AsColor();
                 var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;
-                var summary = yaml["summary"].AsString();
-                var goal = yaml["goal"].AsString();
-                var abilities = yaml["ability"]["description"].AsString();
 
-                var role = new RoleEntry(id, summary, goal, abilities, team, categories, color, originalColor);
+                var role = new RoleEntry(id, team, categories, color, originalColor);
                 names.Add(id, role);
             }
 
@@ -103,6 +98,11 @@ namespace Mafia.NET.Players.Roles
         public static RoleRegistry Default => Lazy.Value;
         public IImmutableDictionary<string, RoleEntry> Names { get; }
 
+        public List<RoleEntry> Get()
+        {
+            return Names.Values.ToList();
+        }
+        
         public List<RoleEntry> Get(params string[] names)
         {
             var roles = new List<RoleEntry>();

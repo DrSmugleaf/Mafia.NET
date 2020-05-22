@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Players;
+using Mafia.NET.Players.Roles.Selectors;
 using Mafia.NET.Web.Extensions;
 using Mafia.NET.Web.Hubs;
 using Mafia.NET.Web.Models;
@@ -56,6 +57,7 @@ namespace Mafia.NET.Web.Controllers
 
             var lobbyId = controller.Lobby.Id;
             ViewData["LobbyId"] = lobbyId.ToString("N");
+            ViewData["SelectorGroups"] = SelectorGroup.Default();
 
             return View("Lobby");
         }

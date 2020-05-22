@@ -1,9 +1,5 @@
 ﻿id: Liaison
 team: Triad
-summary: '455 - "Morning Dew" - This Triad affiliated individual seduces in order to distract.'
-goal: "Kill off the Town and everyone else who would oppose you."
 categories:
 - Triad Support
 color: "#3366FF"
-ability:
-  description: "Roleblock one player each night."

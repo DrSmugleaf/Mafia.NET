@@ -1,4 +1,8 @@
 ﻿Name: "Bodyguard"
+Summary: "A war veteran who secretly makes a living by selling protection."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Guard one player each night. If someone attacks a guarded player, both the attacker and the Bodyguard die instead of the guarded player."
+  
 UserAddMessage: "You will guard <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't guard anyone."
 UserChangeMessage: "You will instead guard <f c={1c}>{1}</f>."

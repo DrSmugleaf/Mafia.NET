@@ -70,8 +70,8 @@ namespace Mafia.NET.Players.Roles.Abilities
                 var ability = type;
                 var setup = attributes[id].Item2.Setup;
                 var murderDescriptions = DefaultMurderDescriptions;
-                var abilityYaml = yaml["ability"];
-                if (abilityYaml.Try("murder_descriptions", out var node))
+                if (yaml.Try("ability", out var abilityYaml) &&
+                    abilityYaml.Try("murder_descriptions", out var node))
                 {
                     var descriptions = (YamlSequenceNode) node;
                     murderDescriptions = new MessageRandomizer(descriptions.AsStringList());

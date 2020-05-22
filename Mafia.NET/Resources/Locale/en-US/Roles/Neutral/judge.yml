@@ -1,1 +1,4 @@
-﻿name: "Judge"
+﻿Name: "Judge"
+Summary: "A corrupt court minister who uses his power and connections to manipulate the trials."
+Goal: "Survive and see the town lose the game."
+Abilities: "May call court during the day, stopping all discussion and forcing an anonymous ballot vote where the Judge has additional votes. Also, can speak to the entire town at night, anonymously."

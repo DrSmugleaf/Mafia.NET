@@ -13,7 +13,7 @@ namespace Mafia.NET.Web.Hubs
             if (!Session.TryLobbyController(out var connected))
             {
                 Context.Abort();
-                throw new InvalidOperationException("No lobby controller found for connection" + Context.ConnectionId);
+                throw new InvalidOperationException($"No lobby controller found for connection {Context.ConnectionId}");
             }
 
             var connection = Context.UserIdentifier;

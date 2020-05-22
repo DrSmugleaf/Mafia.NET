@@ -16,8 +16,7 @@ namespace Mafia.NET.Localization
 
         public Text Parse(string str, NotificationLocation location, params object[] args)
         {
-            var builder = new TextBuilder();
-            builder.Location = location;
+            var builder = new TextBuilder {Location = location};
 
             foreach (Match match in Color.Matches(str))
             {

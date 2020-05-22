@@ -1,9 +1,5 @@
 ﻿id: Marshall
 team: Town
-summary: "The leader of the town militia."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Government
 color: "#23EF32"
-ability:
-  description: "May reveal himself during the day and allow multiple lynches (exact number dependent on host settings) to occur on the same day."

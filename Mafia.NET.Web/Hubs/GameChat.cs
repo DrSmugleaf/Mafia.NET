@@ -13,7 +13,7 @@ namespace Mafia.NET.Web.Hubs
             if (!Session.TryPlayerController(out _))
             {
                 Context.Abort();
-                throw new InvalidOperationException("No player controller found for connection" + Context.ConnectionId);
+                throw new InvalidOperationException($"No player controller found for connection {Context.ConnectionId}");
             }
 
             var connection = Context.UserIdentifier;

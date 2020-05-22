@@ -1,4 +1,8 @@
 ﻿Name: "Godfather"
+Summary: "The capofamiglia of the town's organized mafia syndicate."
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities: "Order to kill, Kill."
+
 UserAddMessage: "You will kill <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't kill anyone."
 UserChangeMessage: "You will instead kill <f c={1c}>{1}</f>."

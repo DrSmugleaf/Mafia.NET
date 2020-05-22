@@ -1,13 +1,10 @@
 ﻿id: Veteran
 team: Town
-summary: "A paranoid, retired admiral who will shoot anyone who bothers him."
-goal: "Lynch every criminal and evildoer."
 categories:
 - Town Killing
 - Town Power
 color: "#AAFF55"
 ability:
-  description: "May go on alert during the night. If he goes on alert, will automatically kills any player who targets him that night."
   murder_descriptions:
   - "They were killed with a military-grade assault rifle."
   - "They had multiple wounds from a fragmentation grenade. They were killed with a military-grade assault rifle."

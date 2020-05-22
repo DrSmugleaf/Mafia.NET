@@ -1,1 +1,4 @@
-﻿name: "Cultist"
+﻿Name: "Cultist"
+Summary: "A believer of a shadowy cult, secretly attempting to convert the town to darkness."
+Goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
+Abilities: "Speak together at night with other Cultists and attempt to convert a player to a Cultist."

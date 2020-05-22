@@ -1,9 +1,6 @@
 ﻿id: Janitor
 team: Mafia
-summary: "A sanitation expert working for organized crime."
-goal: "Kill off the Town and everyone else who would oppose you."
 categories:
 - Mafia Deception
 color: "#FF3333"
 ability:
-  description: "Sanitize one player each night."

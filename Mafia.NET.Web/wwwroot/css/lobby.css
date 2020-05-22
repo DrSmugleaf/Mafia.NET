@@ -34,14 +34,14 @@
 #catalog-teams {
     border: 1px solid grey;
     background-color: #333333;
-    height: 17vh;
+    height: 20vh;
     width: inherit;
     box-sizing: border-box;
 }
 
 .catalog-team {
     text-align: left;
-    padding: 0.5rem;
+    padding: 0.42rem;
     font-size: 1rem;
 }
 
@@ -54,7 +54,7 @@
 #catalog-roles {
     border: 1px solid grey;
     background-color: #333333;
-    height: 46vh;
+    height: 43vh;
     width: inherit;
     box-sizing: border-box;
 }

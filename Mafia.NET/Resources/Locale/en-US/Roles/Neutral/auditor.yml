@@ -1,1 +1,4 @@
-﻿name: "Auditor"
+﻿Name: "Auditor"
+Summary: "A corrupt government tax agent who uses his knowledge and connections for evil."
+Goal: "Survive and see the town lose the game."
+Abilities: "Convert one person to Citizen each night. Mafia instead become a Mafioso; Triad instead becomes an Enforcer."

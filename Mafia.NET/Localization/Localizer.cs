@@ -38,30 +38,29 @@ namespace Mafia.NET.Localization
             return _catalogs[culture];
         }
 
-        public string Get(Key key, [CanBeNull] CultureInfo culture = null)
+        public string Get(string key, [CanBeNull] CultureInfo culture = null)
         {
             culture ??= _defaultCulture;
 
-            var catalog = Get(culture);
-            var defaultString = catalog.GetStringDefault(key.Id, null);
-            if (defaultString == null) throw new ArgumentException($"Key {key.Id} not found for culture {culture}");
-
-            var str = catalog.GetStringDefault(key.Id, defaultString);
-
-            return str;
-        }
-
-        public Text Get(Notification notification, [CanBeNull] CultureInfo culture = null)
-        {
-            culture ??= _defaultCulture;
-
-            var key = notification.Key;
             var catalog = Get(culture);
             var defaultString = catalog.GetStringDefault(key, null);
             if (defaultString == null) throw new ArgumentException($"Key {key} not found for culture {culture}");
 
             var str = catalog.GetStringDefault(key, defaultString);
 
+            return str;
+        }
+
+        public string Get(Key key, [CanBeNull] CultureInfo culture = null)
+        {
+            if (key.Id.Length == 0) return "";
+            return Get(key.Id, culture);
+        }
+
+        public Text Get(Notification notification, [CanBeNull] CultureInfo culture = null)
+        {
+            if (notification.Key.Length == 0) return Text.Empty;
+            var str = Get(notification.Key, culture);
             return _parser.Parse(str, notification.Location, notification.Args);
         }
 

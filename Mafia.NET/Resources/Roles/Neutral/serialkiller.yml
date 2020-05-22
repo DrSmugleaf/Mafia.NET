@@ -1,13 +1,10 @@
 ﻿id: Serial Killer
 team: Neutral
-summary: "A deranged criminal who hates the world."
-goal: "Be the last person left alive."
 categories:
 - Neutral Killing
 original_color: "#FF00CC"
 color: "#CC00A3"
 ability:
-  description: "Kill one target at night."
   murder_descriptions:
   - "They had multiple stab wounds."
   - "There were signs of a struggle. They had multiple stab wounds."

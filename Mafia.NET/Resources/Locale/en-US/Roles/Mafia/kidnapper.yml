@@ -1,4 +1,8 @@
 ﻿Name: "Kidnapper"
+Summary: "A sgarrista goodfella with a basement dungeon, working with a mafia family."
+Goal: "Kill off the Town and everyone else who would oppose you."
+Abilities: "Jail, Anonymous night chat, Execute."
+
 DayUserAddMessage: "You will jail <f c={0c}>{0}</f>."
 DayUserRemoveMessage: "You won't jail anyone."
 DayUserChangeMessage: "You will instead jail <f c={1c}>{1}</f>."

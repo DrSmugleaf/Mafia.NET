@@ -1,4 +1,8 @@
 ﻿Name: "Sheriff"
+Summary: "A member of law enforcement, forced into hiding because of the threat of murder."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Check one player each night for criminal activity."
+
 NotSuspicious: "Not Suspicious"
 Mafia: "Mafia"
 Triad: "Triad"

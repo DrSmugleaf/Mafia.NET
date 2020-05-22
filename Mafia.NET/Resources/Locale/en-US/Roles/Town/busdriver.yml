@@ -1,4 +1,8 @@
 ﻿Name: "Bus Driver"
+Summary: "A disgruntled licensed transport driver."
+Goal: "Lynch every criminal and evildoer."
+Abilities: "Swap two players at night, making actions that target the first player instead target the second player and vice versa."
+  
 NoTargets: "You won't pick up anyone."
 OneTarget: "You will pick up <f c={0c}>{0}</f>."
 TwoTargets: "You will swap <f c={0c}>{0}</f> with <f c={1c}>{1}</f>."

@@ -17,6 +17,8 @@ namespace Mafia.NET.Localization
 
     public class Text : IText
     {
+        public static readonly Text Empty = new Text(NotificationLocation.Chat, new List<IContent>(), Color.Empty);
+        
         public Text(NotificationLocation location, IEnumerable<IContent> contents, Color background)
         {
             Contents = contents.ToImmutableList();

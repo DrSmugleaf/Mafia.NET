@@ -1,9 +1,5 @@
 ﻿id: Cultist
 team: Neutral
-summary: "A believer of a shadowy cult, secretly attempting to convert the town to darkness."
-goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
 categories:
 - Neutral Evil
 color: "#BB44AA"
-ability:
-  description: "Speak together at night with other Cultists and attempt to convert a player to a Cultist."
