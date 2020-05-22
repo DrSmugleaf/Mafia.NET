@@ -42,7 +42,10 @@ namespace Mafia.NET.Players.Roles.Selectors
             Summary = summary;
             Goal = goal;
             Abilities = abilities;
+            
+            possible.RemoveAll(role => !role.Natural);
             Possible = possible.ToImmutableList();
+            
             Excludes = new HashSet<RoleEntry>();
             Color = color;
         }
@@ -53,7 +56,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             category.Description,
             Key.Empty,
             Key.Empty,
-            category.Possible(registry),
+            category.Roles(registry),
             category.Team.Color)
         {
         }
@@ -76,7 +79,11 @@ namespace Mafia.NET.Players.Roles.Selectors
             Summary = Key.Empty; // TODO
             Goal = Key.Empty;
             Abilities = Key.Empty;
-            Possible = registry.Team(team).ToImmutableList();
+            
+            var possible = registry.Team(team);
+            possible.RemoveAll(role => !role.Natural);
+            Possible = possible.ToImmutableList();
+            
             Excludes = new HashSet<RoleEntry>();
             Color = team.Color;
         }
@@ -107,10 +114,8 @@ namespace Mafia.NET.Players.Roles.Selectors
             entry = default;
             var possible = new HashSet<RoleEntry>(Possible);
             
-            foreach (var excluded in Excludes)
-            {
+            foreach (var excluded in Excludes) 
                 possible.Remove(excluded);
-            }
 
             if (possible.Count > 0)
                 entry = possible.ElementAt(random.Next(possible.Count));

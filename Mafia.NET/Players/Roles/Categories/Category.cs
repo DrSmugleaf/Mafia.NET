@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles.Categories
         Goal Goal { get; }
         ITeam Team { get; }
 
-        List<RoleEntry> Possible(RoleRegistry registry);
+        List<RoleEntry> Roles(RoleRegistry registry);
     }
 
     public class Category : ICategory
@@ -38,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Categories
         public Goal Goal { get; }
         public ITeam Team { get; }
 
-        public List<RoleEntry> Possible(RoleRegistry registry)
+        public List<RoleEntry> Roles(RoleRegistry registry)
         {
             return registry.Category(this);
         }

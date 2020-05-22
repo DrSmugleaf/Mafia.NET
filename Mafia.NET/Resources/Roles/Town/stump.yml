@@ -1,5 +1,6 @@
 ﻿id: Stump
 team: Town
 categories:
-- null
+- Town Government
 color: "#01FF10"
+natural: false

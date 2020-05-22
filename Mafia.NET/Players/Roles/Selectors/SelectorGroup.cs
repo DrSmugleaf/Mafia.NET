@@ -35,6 +35,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             foreach (var team in teams)
             {
                 var selectors = roles.Team(team)
+                    .Where(role => role.Natural)
                     .Select(role => new RoleSelector(role)).ToList();
                 
                 var group = new SelectorGroup(team.Id, team.Name, selectors, team.Color);
