@@ -203,7 +203,7 @@
                             <ul class="list-group list-group-flush">
                                 @foreach (var group in groups)
                                 {
-                                    <button type="button" class="btn btn-sm list-group-item catalog-team disable-on-start" data-team="@group.Name" style="color: @group.Color.HexRgb()">@group.Name</button>
+                                    <button type="button" class="btn btn-sm list-group-item catalog-team catalog-item disable-on-start" data-team="@group.Name" style="color: @group.Color.HexRgb()">@group.Name</button>
                                 }
                             </ul>
                         </div>
@@ -217,9 +217,9 @@
                                 <ul class="catalog-roles-list list-group list-group-flush d-none" data-team="@group.Name">
                                     @foreach (var selector in group.Selectors)
                                     {
-                                        <div class="btn-group btn-block role-group" role="group" aria-label="@selector.Name">
-                                            <button type="button" class="btn btn-sm btn-block list-group-item catalog-role disable-on-start main-button" data-name="@selector.Name" data-color="@selector.Color.HexRgb()" data-summary="@selector.Summary" data-abilities="@selector.Abilities" data-goal="@selector.Goal" style="color: @selector.Color.HexRgb()">@selector.Name</button>
-                                            <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start add-button host-only" data-name="@selector.Name">+</button>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-block list-group-item catalog-role catalog-item disable-on-start main-button w-75 overflow-hidden" data-name="@selector.Name" data-color="@selector.Color.HexRgb()" data-summary="@selector.Summary" data-abilities="@selector.Abilities" data-goal="@selector.Goal" style="color: @selector.Color.HexRgb()">@selector.Name</button>
+                                            <button type="button" class="btn btn-sm btn-block list-group-item disable-on-start direct-add-button host-only w-25" data-name="@selector.Name">+</button>
                                         </div>
                                     }
                                 </ul>

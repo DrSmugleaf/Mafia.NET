@@ -41,13 +41,12 @@
 
 .catalog-team {
     text-align: left;
-    padding: 0.42rem;
     font-size: 1rem;
 }
 
 .catalog-role {
+    margin: 0 !important;
     text-align: left;
-    padding: 0.5rem;
     font-size: 1rem;
 }
 
@@ -57,6 +56,10 @@
     height: 43vh;
     width: inherit;
     box-sizing: border-box;
+}
+
+.catalog-item {
+    padding: 0.42rem;
 }
 
 .setup-role {
@@ -112,17 +115,9 @@
     font-size: 1rem;
 }
 
-.add-button {
+.direct-add-button {
     margin: 0 !important;
-    width: 25%;
-    border-bottom-color: rgb(68, 68, 68);
-    border-bottom-style: solid;
-    border-bottom-width: 1px !important;
-    border-left-color: rgb(68, 68, 68);
-    border-left-style: solid;
-    border-left-width: 1px !important;
-}
-
-.role-group {
-    margin: 0 !important;
+    font-size: 1rem;
+    border-left: 1px solid rgb(68, 68, 68) !important;
+    border-bottom: 1px solid rgb(68, 68, 68) !important;
 }
