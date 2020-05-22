@@ -11,10 +11,10 @@ namespace Mafia.NET.Localization
             Contents = new List<IContent>();
             Background = Color.Empty;
         }
-        
+
         public List<IContent> Contents { get; set; }
         public Color Background { get; set; }
-        
+
         public TextBuilder Add(string str, Color color = default, double size = 1)
         {
             var content = new Content(str, color, size);

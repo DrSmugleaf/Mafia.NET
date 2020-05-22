@@ -12,12 +12,10 @@ namespace Mafia.NET.Tests.Players.Roles
         public void All()
         {
             var crimes = new Crimes(null);
-            
+
             for (var i = 0; i < 2; i++)
-            {
                 foreach (var crime in Crimes.All)
                     crimes.AddKey(crime);
-            }
 
             Assert.That(crimes.AllCommitted().Count, Is.EqualTo(Crimes.All.Count));
 
@@ -26,22 +24,22 @@ namespace Mafia.NET.Tests.Players.Roles
         }
 
         [Test]
-        public void None()
-        {
-            var crimes = new Crimes(null);
-            Assert.That(crimes.AllCommitted(), Is.Empty);
-            Assert.That(crimes.Crime(), Is.EqualTo(Crimes.NoCrime));
-        }
-
-        [Test]
         public void Each([Values] CrimeKey key)
         {
             var crimes = new Crimes(null);
             crimes.Add(key);
             var committed = crimes.AllCommitted();
-            
+
             Assert.That(committed.Count, Is.EqualTo(1));
             Assert.That(committed[0], Is.EqualTo((Key) key));
+        }
+
+        [Test]
+        public void None()
+        {
+            var crimes = new Crimes(null);
+            Assert.That(crimes.AllCommitted(), Is.Empty);
+            Assert.That(crimes.Crime(), Is.EqualTo(Crimes.NoCrime));
         }
     }
 }

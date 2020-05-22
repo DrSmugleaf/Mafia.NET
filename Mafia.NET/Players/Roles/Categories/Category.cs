@@ -74,7 +74,7 @@ namespace Mafia.NET.Players.Roles.Categories
                 var goal = yaml["goal"].AsEnum<Goal>();
                 var team = (Team) yaml["team"].AsString();
                 var category = new Category(id, goal, team);
-                
+
                 categories.Add(id, category);
             }
 

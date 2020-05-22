@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using JetBrains.Annotations;
@@ -47,7 +46,7 @@ namespace Mafia.NET.Players.Roles
         {
             Committed.Add(crime);
         }
-        
+
         public void Add(CrimeKey crime)
         {
             AddKey(crime);

@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using JetBrains.Annotations;
 using Mafia.NET.Extension;
-using Mafia.NET.Notifications;
 using Mafia.NET.Resources;
 using NGettext;
 using YamlDotNet.RepresentationModel;
@@ -55,11 +54,11 @@ namespace Mafia.NET.Localization
         {
             var catalog = new Catalog(culture);
             var files = Resource.FromDirectory("Locale/" + culture.IetfLanguageTag, "*.yml");
-            
+
             foreach (var file in files)
             {
                 var fileName = Path.GetFileNameWithoutExtension(file.ResourcePath);
-                
+
                 foreach (var pair in ((YamlMappingNode) file).Children)
                 {
                     var key = (fileName + pair.Key.AsString()).ToLower();

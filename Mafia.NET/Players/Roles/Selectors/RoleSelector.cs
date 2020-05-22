@@ -42,10 +42,10 @@ namespace Mafia.NET.Players.Roles.Selectors
             Summary = summary;
             Goal = goal;
             Abilities = abilities;
-            
+
             possible.RemoveAll(role => !role.Natural);
             Possible = possible.ToImmutableList();
-            
+
             Excludes = new HashSet<RoleEntry>();
             Color = color;
         }
@@ -53,21 +53,21 @@ namespace Mafia.NET.Players.Roles.Selectors
         public RoleSelector(RoleRegistry registry, ICategory category) : this(
             category.Id,
             category.Name,
-            new ArgKey($"SelectorCategoryDescription", string.Join(", ", registry.Category(category))), 
+            new ArgKey("SelectorCategoryDescription", string.Join(", ", registry.Category(category))),
             Key.Empty,
             Key.Empty,
             category.Roles(registry),
             category.Team.Color)
         {
         }
-        
+
         public RoleSelector(RoleEntry role) : this(
             role.Id,
             role.Name,
             role.Summary,
             role.Goal,
             role.Abilities,
-            new List<RoleEntry>() {role},
+            new List<RoleEntry> {role},
             role.Color)
         {
         }
@@ -79,11 +79,11 @@ namespace Mafia.NET.Players.Roles.Selectors
             Summary = new Key($"Selector{team.Id}RandomDescription");
             Goal = Key.Empty;
             Abilities = Key.Empty;
-            
+
             var possible = registry.Team(team);
             possible.RemoveAll(role => !role.Natural);
             Possible = possible.ToImmutableList();
-            
+
             Excludes = new HashSet<RoleEntry>();
             Color = team.Color;
         }
@@ -96,7 +96,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             Key.Empty,
             registry.Get(),
             ColorTranslator.FromHtml("#00CCFF")
-            )
+        )
         {
         }
 
@@ -109,12 +109,12 @@ namespace Mafia.NET.Players.Roles.Selectors
         public HashSet<RoleEntry> Excludes { get; }
         public Color Color { get; }
 
-        public bool TryResolve(Random random, [CanBeNull, NotNullWhen(true)] out RoleEntry entry)
+        public bool TryResolve(Random random, [CanBeNull] [NotNullWhen(true)] out RoleEntry entry)
         {
             entry = default;
             var possible = new HashSet<RoleEntry>(Possible);
-            
-            foreach (var excluded in Excludes) 
+
+            foreach (var excluded in Excludes)
                 possible.Remove(excluded);
 
             if (possible.Count > 0)
@@ -122,7 +122,7 @@ namespace Mafia.NET.Players.Roles.Selectors
 
             return entry != default;
         }
-        
+
         public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);

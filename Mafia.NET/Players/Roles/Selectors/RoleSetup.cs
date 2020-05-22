@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             this(RoleRegistry.Default, AbilityRegistry.Default, mandatoryRoles)
         {
         }
-        
+
         public RoleSetup() : this(new List<IRoleSelector>())
         {
         }
@@ -50,13 +50,15 @@ namespace Mafia.NET.Players.Roles.Selectors
             return true;
         }
 
-        public bool Randomize(Random random, IMatch match, IList<ILobbyController> controllers, out List<IPlayer> players)
+        public bool Randomize(Random random, IMatch match, IList<ILobbyController> controllers,
+            out List<IPlayer> players)
         {
             players = new List<IPlayer>();
             if (!Randomize(random, out var roles)) return false;
 
             if (controllers.Count != roles.Count)
-                throw new ArgumentException($"Size of controllers ({controllers.Count}) doesn't equal size of roles ({roles.Count}).");
+                throw new ArgumentException(
+                    $"Size of controllers ({controllers.Count}) doesn't equal size of roles ({roles.Count}).");
 
             for (var i = 0; i < controllers.Count; i++)
             {
@@ -65,7 +67,7 @@ namespace Mafia.NET.Players.Roles.Selectors
                 var ability = Abilities.Names[roleEntry.Id].Build();
                 var role = new Role(roleEntry, ability);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
-                
+
                 players.Add(player);
             }
 

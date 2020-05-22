@@ -9,7 +9,7 @@ namespace Mafia.NET.Localization
         {
             Args = args;
         }
-        
+
         public object[] Args { get; }
 
         public override Text Localize(CultureInfo culture = null)

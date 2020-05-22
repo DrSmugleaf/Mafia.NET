@@ -16,7 +16,7 @@ namespace Mafia.NET.Localization
     public class Text : IText
     {
         public static readonly Text Empty = new Text(new List<IContent>(), Color.Empty);
-        
+
         public Text(IEnumerable<IContent> contents, Color background)
         {
             Contents = contents.ToImmutableList();

@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         OtherRide
     }
 
-    [RegisterAbility("Bus Driver", typeof(BusDriverSetup))] // TODO: Localize role names
+    [RegisterAbility("Bus Driver", typeof(BusDriverSetup))]
     public class BusDriver : TownAbility<BusDriverSetup>, ISwitcher // TODO Murder crime
     {
         public void Switch()

@@ -44,8 +44,8 @@ namespace Mafia.NET.Players.Roles
         public ITeam Team { get; }
         public IImmutableList<ICategory> Categories { get; }
         public Color OriginalColor { get; }
-        public Color Color { get; }
         public bool Natural { get; }
+        public Color Color { get; }
 
         public Text Localize(CultureInfo culture = null)
         {
@@ -86,9 +86,10 @@ namespace Mafia.NET.Players.Roles
                 var team = (Team) yaml["team"].AsString();
                 var categories = new List<ICategory>();
                 var categoryNames = yaml["categories"];
-                
+
                 foreach (var category in (YamlSequenceNode) categoryNames)
-                    if (!category.IsNull()) categories.Add((Category) category.AsString());
+                    if (!category.IsNull())
+                        categories.Add((Category) category.AsString());
 
                 var color = yaml["color"].AsColor();
                 var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;
@@ -105,7 +106,7 @@ namespace Mafia.NET.Players.Roles
         {
             return Names.Values.ToList();
         }
-        
+
         public List<RoleEntry> Get(params string[] names)
         {
             var roles = new List<RoleEntry>();

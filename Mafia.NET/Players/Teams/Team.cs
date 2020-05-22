@@ -48,13 +48,13 @@ namespace Mafia.NET.Players.Teams
         public List<IRoleSelector> Selectors(RoleRegistry roles)
         {
             var selectors = new List<IRoleSelector>();
-            
+
             foreach (var category in Category.Categories.Values)
             {
                 var selector = new RoleSelector(roles, category);
                 selectors.Add(selector);
             }
-            
+
             var random = new RoleSelector(roles, this);
             selectors.Add(random);
 

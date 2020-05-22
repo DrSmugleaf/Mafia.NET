@@ -1,5 +1,4 @@
-﻿using Mafia.NET.Players.Roles;
-using Mafia.NET.Players.Roles.Selectors;
+﻿using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Matches.Options
 {
