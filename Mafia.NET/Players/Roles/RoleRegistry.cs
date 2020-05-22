@@ -57,33 +57,35 @@ namespace Mafia.NET.Players.Roles
 
     public class RoleRegistry
     {
-        private static readonly Lazy<RoleRegistry> Lazy = new Lazy<RoleRegistry>(() => new RoleRegistry());
+        private static readonly Lazy<RoleRegistry> Lazy = new Lazy<RoleRegistry>(LoadAll);
 
-        private RoleRegistry()
+        private RoleRegistry(IDictionary<string, RoleEntry> names)
+        {
+            Names = names.ToImmutableDictionary();
+        }
+
+        public static RoleRegistry Default => Lazy.Value;
+        public IImmutableDictionary<string, RoleEntry> Names { get; }
+
+        public static List<YamlMappingNode> LoadYaml()
+        {
+            var yaml = Resource.FromDirectory("Roles", "*.yml");
+            return yaml.Select(resource => (YamlMappingNode) resource).ToList();
+        }
+
+        private static RoleRegistry LoadAll()
         {
             var names = new Dictionary<string, RoleEntry>();
-            var yamlRoles = Resource.FromDirectory("Roles", "*.yml");
 
-            foreach (YamlMappingNode yaml in yamlRoles)
+            foreach (var yaml in LoadYaml())
             {
                 var id = yaml["id"].AsString();
                 var team = (Team) yaml["team"].AsString();
                 var categories = new List<ICategory>();
-                var categoriesNode = yaml["categories"];
-
-                if (categoriesNode is YamlScalarNode categoryNode)
-                {
-                    if (!categoryNode.IsNull()) categories.Add((Category) categoryNode.AsString());
-                }
-                else if (categoriesNode is YamlSequenceNode yamlCategories)
-                {
-                    foreach (var category in yamlCategories)
-                        categories.Add((Category) category.AsString());
-                }
-                else
-                {
-                    throw new InvalidOperationException("Unrecognized type for yamlCategories");
-                }
+                var categoryNames = yaml["categories"];
+                
+                foreach (var category in (YamlSequenceNode) categoryNames)
+                    if (!category.IsNull()) categories.Add((Category) category.AsString());
 
                 var color = yaml["color"].AsColor();
                 var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;
@@ -92,11 +94,8 @@ namespace Mafia.NET.Players.Roles
                 names.Add(id, role);
             }
 
-            Names = names.ToImmutableDictionary();
+            return new RoleRegistry(names);
         }
-
-        public static RoleRegistry Default => Lazy.Value;
-        public IImmutableDictionary<string, RoleEntry> Names { get; }
 
         public List<RoleEntry> Get()
         {

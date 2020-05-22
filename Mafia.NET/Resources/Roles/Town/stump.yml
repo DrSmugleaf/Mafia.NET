@@ -1,4 +1,5 @@
 ﻿id: Stump
 team: Town
-categories: null
+categories:
+- null
 color: "#01FF10"

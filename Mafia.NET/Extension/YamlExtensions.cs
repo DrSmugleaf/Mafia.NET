@@ -69,9 +69,9 @@ namespace Mafia.NET.Extension
             return (T) Enum.Parse(typeof(T), node.AsString(), true);
         }
 
-        public static List<string> AsStringList(this YamlSequenceNode node)
+        public static List<string> AsStringList(this YamlNode node)
         {
-            return node.Children.Select(value => value.AsString()).ToList();
+            return ((YamlSequenceNode) node).Children.Select(value => value.AsString()).ToList();
         }
     }
 }
