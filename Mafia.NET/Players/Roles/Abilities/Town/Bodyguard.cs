@@ -12,11 +12,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     }
 
     [RegisterAbility("Bodyguard", typeof(BodyguardSetup))]
-    public class
-        Bodyguard : TownAbility<BodyguardSetup>,
-            ISwitcher // TODO The Bodyguard will stay together with his guarded target. That means he won't die if a Mass Murderer visits his target, if that target visited someone else that night.
+    public class Bodyguard : TownAbility<BodyguardSetup>
     {
-        public void Switch()
+        // TODO The Bodyguard will stay together with his guarded target. That means he won't die if a Mass Murderer visits his target, if that target visited someone else that night.
+        public override void Switch()
         {
             if (TargetManager.Try(out var guarded))
             {

@@ -15,9 +15,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     }
 
     [RegisterAbility("Coroner", typeof(CoronerSetup))]
-    public class Coroner : TownAbility<CoronerSetup>, IDetector
+    public class Coroner : TownAbility<CoronerSetup>
     {
-        public void Detect(IPlayer target)
+        public override void Detect(IPlayer target)
         {
             if (target.Alive)
             {

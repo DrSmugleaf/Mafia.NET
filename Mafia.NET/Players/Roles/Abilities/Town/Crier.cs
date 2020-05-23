@@ -12,11 +12,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     }
 
     [RegisterAbility("Crier", typeof(CrierSetup))]
-    public class Crier : TownAbility<CrierSetup>, INightChatter
+    public class Crier : TownAbility<CrierSetup>
     {
         public static readonly string NightChatId = "Crier Chat";
 
-        public void Chat()
+        public override void Chat()
         {
             Match.Chat.Open(new CrierChat(Match));
 

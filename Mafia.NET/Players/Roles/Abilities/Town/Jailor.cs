@@ -17,7 +17,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     }
 
     [RegisterAbility("Jailor", typeof(JailorSetup))]
-    public class Jailor : TownAbility<JailorSetup>, IDetainer, IRoleBlocker, IKiller
+    public class Jailor : TownAbility<JailorSetup>
     {
         public void Detain(IPlayer prisoner)
         {
@@ -41,7 +41,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             prisoner.Role.Ability.PiercingDisable();
         }
 
-        public void Kill(IPlayer target)
+        public override void Kill(IPlayer target)
         {
             if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
 
@@ -49,7 +49,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             PiercingAttack(target);
         }
 
-        public void Block(IPlayer target)
+        public override void Block(IPlayer target)
         {
             target.Role.Ability.PiercingDisable();
         }

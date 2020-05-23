@@ -19,7 +19,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
-    public class Kidnapper : MafiaAbility<KidnapperSetup>, IDetainer, IRoleBlocker, IKiller
+    public class Kidnapper : MafiaAbility<KidnapperSetup>
     {
         public override void Initialize(IPlayer user)
         {
@@ -54,7 +54,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             prisoner.Role.Ability.PiercingDisable();
         }
 
-        public void Kill(IPlayer target)
+        public override void Kill(IPlayer target)
         {
             if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
 
@@ -62,7 +62,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             PiercingAttack(target);
         }
 
-        public void Block(IPlayer target)
+        public override void Block(IPlayer target)
         {
             target.Role.Ability.PiercingDisable();
         }

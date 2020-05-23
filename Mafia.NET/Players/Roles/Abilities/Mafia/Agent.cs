@@ -16,9 +16,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Agent", typeof(AgentSetup))]
-    public class Agent : MafiaAbility<AgentSetup>, IDetector
+    public class Agent : MafiaAbility<AgentSetup>
     {
-        public void Detect(IPlayer target)
+        public override void Detect(IPlayer target)
         {
             if (Cooldown > 0)
             {

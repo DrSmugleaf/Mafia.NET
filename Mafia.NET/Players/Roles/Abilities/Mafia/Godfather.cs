@@ -14,18 +14,17 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Godfather", typeof(GodfatherSetup))]
-    public class
-        Godfather : MafiaAbility<GodfatherSetup>, ISwitcher,
-            IKiller // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
+    public class Godfather : MafiaAbility<GodfatherSetup>
     {
-        public void Kill(IPlayer target)
+        // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
+        public override void Kill(IPlayer target)
         {
             if (!Setup.CanKillWithoutMafioso) return;
             User.Crimes.Add(CrimeKey.Trespassing);
             Attack(target);
         }
 
-        public void Switch()
+        public override void Switch()
         {
             if (TargetManager.Try(out var target) && TryMafioso(out var mafioso))
             {

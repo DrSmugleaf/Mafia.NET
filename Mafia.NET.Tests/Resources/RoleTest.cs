@@ -30,8 +30,7 @@ namespace Mafia.NET.Tests.Resources
                 var categoryNames = children["categories"];
                 Assert.That(categoryNames.AsStringList().Count, Is.Positive);
                 foreach (var category in (YamlSequenceNode) categoryNames)
-                    if (!category.IsNull())
-                        Assert.NotNull((Category) category.AsString());
+                    Assert.NotNull((Category) category.AsString());
 
                 Assert.That(children, Contains.Key((YamlNode) "color"));
                 Assert.That(children["color"].AsColor(), Is.Not.EqualTo(Color.Empty));

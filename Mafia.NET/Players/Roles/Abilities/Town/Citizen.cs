@@ -15,7 +15,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     }
 
     [RegisterAbility("Citizen", typeof(CitizenSetup))]
-    public class Citizen : TownAbility<CitizenSetup>, IVest
+    public class Citizen : TownAbility<CitizenSetup>
     {
         public override void Initialize(IPlayer user)
         {
@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             Uses = Setup.OneBulletproofVest ? 1 : 0;
         }
 
-        public void Vest()
+        public override void Vest()
         {
             if (Uses == 0 || !TargetManager.Try(out _)) return;
 

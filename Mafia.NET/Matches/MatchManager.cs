@@ -40,12 +40,10 @@ namespace Mafia.NET.Matches
 
         public virtual void OnChat(object sender, Text notification)
         {
-            Expression.Empty();
         }
 
         public virtual void OnPopup(object sender, Text notification)
         {
-            Expression.Empty();
         }
     }
 }

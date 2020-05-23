@@ -4,7 +4,7 @@ using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 {
-    public interface IMafiaAbility : INightChatter
+    public interface IMafiaAbility
     {
     }
 
@@ -12,7 +12,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
     {
         public static readonly string NightChatId = "Mafia";
 
-        public void Chat()
+        public override void Chat()
         {
             Match.Chat.Open(NightChatId, User);
         }

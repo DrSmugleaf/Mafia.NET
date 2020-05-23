@@ -3,7 +3,7 @@ using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Triad
 {
-    public interface ITriadAbility : INightChatter
+    public interface ITriadAbility
     {
     }
 
@@ -11,7 +11,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Triad
     {
         public static readonly string NightChatId = "Triad";
 
-        public void Chat()
+        public override void Chat()
         {
             Match.Chat.Open(NightChatId, User);
         }

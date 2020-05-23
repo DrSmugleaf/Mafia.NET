@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
@@ -45,6 +44,18 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool OnDayEnd();
         void OnNightStart();
         void BeforeNightEnd();
+        void Chat();
+        void Detain();
+        void Vest();
+        void Switch();
+        void Block(IPlayer target);
+        void Misc(IPlayer target);
+        void Kill(IPlayer target);
+        void Clean(IPlayer target);
+        void Detect(IPlayer target);
+        void Disguise(IPlayer target);
+        void MasonRecruit(IPlayer target);
+        void CultRecruit(IPlayer target);
     }
 
     public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup, new()
@@ -200,81 +211,66 @@ namespace Mafia.NET.Players.Roles.Abilities
             Cooldown--;
         }
 
+        public virtual void Chat()
+        {
+        }
+
+        public virtual void Detain()
+        {
+        }
+
+        public virtual void Vest()
+        {
+        }
+
+        public virtual void Switch()
+        {
+        }
+
+        public virtual void Block(IPlayer target)
+        {
+        }
+
+        public virtual void Misc(IPlayer target)
+        {
+        }
+
+        public virtual void Kill(IPlayer target)
+        {
+        }
+
+        public virtual void Clean(IPlayer target)
+        {
+        }
+
+        public virtual void Detect(IPlayer target)
+        {
+        }
+
+        public virtual void Disguise(IPlayer target)
+        {
+        }
+
+        public virtual void MasonRecruit(IPlayer target)
+        {
+        }
+
+        public virtual void CultRecruit(IPlayer target)
+        {
+        }
+
         protected abstract Key GuiltyName();
 
         protected virtual void _onDayStart()
         {
-            Expression.Empty();
         }
 
         protected virtual void _onDayEnd()
         {
-            Expression.Empty();
         }
 
         protected virtual void _onNightStart()
         {
-            Expression.Empty();
         }
-    }
-
-    public interface INightChatter : IAbility
-    {
-        void Chat();
-    }
-
-    public interface IDetainer : IAbility
-    {
-        void Detain(IPlayer prisoner);
-    }
-
-    public interface IVest : IAbility
-    {
-        void Vest();
-    }
-
-    public interface ISwitcher : IAbility
-    {
-        void Switch();
-    }
-
-    public interface IRoleBlocker : IAbility
-    {
-        void Block(IPlayer target);
-    }
-
-    public interface IMisc : IAbility
-    {
-        void Misc(IPlayer target);
-    }
-
-    public interface IKiller : IAbility
-    {
-        void Kill(IPlayer target);
-    }
-
-    public interface ICleaner : IAbility
-    {
-        void Clean(IPlayer target);
-    }
-
-    public interface IDetector : IAbility
-    {
-        void Detect(IPlayer target);
-    }
-
-    public interface IDisguiser : IAbility
-    {
-        void Disguise(IPlayer target);
-    }
-
-    public interface IMasonRecruiter : IAbility
-    {
-        void MasonRecruit(IPlayer target);
-    }
-
-    public interface ICultRecruiter : IAbility
-    {
-        void CultRecruit(IPlayer target);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities;
 
@@ -7,42 +8,56 @@ namespace Mafia.NET.Players.Roles
 {
     public class RolePriority
     {
-        private static readonly Lazy<RolePriority> Lazy = new Lazy<RolePriority>(() => new RolePriority());
-        public static RolePriority Instance => Lazy.Value;
-
-        public IList<T> Abilities<T>(IEnumerable<IPlayer> players) where T : IAbility
+        public RolePriority(IMatch match)
         {
-            var abilities = new List<T>();
+            Match = match;
+            StartOrder = new List<Action<IAbility>>()
+            {
+                ability => ability.Chat(),
+                ability => ability.Detain()
+            };
+            
+            EndOrder = new List<Action<IAbility>>()
+            {
+                ability => ability.Vest(),
+                ability => ability.Switch(),
+                ability => ability.Try(ability.Block),
+                ability => ability.Try(ability.Misc),
+                ability => ability.Try(ability.Kill),
+                ability => ability.Try(ability.Clean),
+                ability => ability.Try(ability.Detect),
+                ability => ability.Try(ability.Disguise),
+                ability => ability.Try(ability.MasonRecruit),
+                ability => ability.Try(ability.CultRecruit)
+            };
+        }
+        
+        public IMatch Match { get; }
+        public IList<Action<IAbility>> StartOrder { get; }
+        public IList<Action<IAbility>> EndOrder { get; }
 
-            foreach (var player in players)
-                if (player.Role.Ability is T ability)
-                    abilities.Add(ability);
+        public IList<IAbility> Abilities()
+        {
+            var abilities = new List<IAbility>();
 
-            return abilities;
+            foreach (var player in Match.AllPlayers)
+                abilities.Add(player.Role.Ability);
+
+            return abilities.OrderBy(ability => ability.User.Number).ToList();
         }
 
-        public void OnNightStart(IMatch match)
+        public void OnNightStart()
         {
-            var living = match.LivingPlayers;
-
-            foreach (var chatter in Abilities<INightChatter>(living)) chatter.Chat();
-            foreach (var detainer in Abilities<IDetainer>(living)) detainer.Try(detainer.Detain);
+            foreach (var action in StartOrder)
+            foreach (var ability in Abilities())
+                action(ability);
         }
 
-        public void OnNightEnd(IMatch match)
+        public void OnNightEnd()
         {
-            var living = match.LivingPlayers;
-
-            foreach (var vest in Abilities<IVest>(living)) vest.Vest();
-            foreach (var switcher in Abilities<ISwitcher>(living)) switcher.Switch();
-            foreach (var blocker in Abilities<IRoleBlocker>(living)) blocker.Try(blocker.Block);
-            foreach (var misc in Abilities<IMisc>(living)) misc.Try(misc.Misc);
-            foreach (var killer in Abilities<IKiller>(living)) killer.Try(killer.Kill);
-            foreach (var cleaner in Abilities<ICleaner>(living)) cleaner.Try(cleaner.Clean);
-            foreach (var detector in Abilities<IDetector>(living)) detector.Try(detector.Detect);
-            foreach (var disguiser in Abilities<IDisguiser>(living)) disguiser.Try(disguiser.Disguise);
-            foreach (var mason in Abilities<IMasonRecruiter>(living)) mason.Try(mason.MasonRecruit);
-            foreach (var cult in Abilities<ICultRecruiter>(living)) cult.Try(cult.CultRecruit);
+            foreach (var action in EndOrder)
+            foreach (var ability in Abilities())
+                action(ability);
         }
     }
 }

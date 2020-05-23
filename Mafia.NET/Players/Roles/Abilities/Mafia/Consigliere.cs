@@ -14,9 +14,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Consigliere", typeof(ConsigliereSetup))]
-    public class Consigliere : MafiaAbility<ConsigliereSetup>, IDetector
+    public class Consigliere : MafiaAbility<ConsigliereSetup>
     {
-        public void Detect(IPlayer target)
+        public override void Detect(IPlayer target)
         {
             User.Crimes.Add(CrimeKey.Trespassing);
 

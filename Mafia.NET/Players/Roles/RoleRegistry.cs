@@ -88,8 +88,7 @@ namespace Mafia.NET.Players.Roles
                 var categoryNames = yaml["categories"];
 
                 foreach (var category in (YamlSequenceNode) categoryNames)
-                    if (!category.IsNull())
-                        categories.Add((Category) category.AsString());
+                    categories.Add((Category) category.AsString());
 
                 var color = yaml["color"].AsColor();
                 var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;

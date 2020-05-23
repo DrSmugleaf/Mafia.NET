@@ -11,9 +11,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Blackmailer", typeof(BlackmailerSetup))]
-    public class Blackmailer : MafiaAbility<BlackmailerSetup>, IMisc
+    public class Blackmailer : MafiaAbility<BlackmailerSetup>
     {
-        public void Misc(IPlayer target)
+        public override void Misc(IPlayer target)
         {
             target.Blackmailed = true;
         }

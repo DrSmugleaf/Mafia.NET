@@ -15,9 +15,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Beguiler", typeof(BeguilerSetup))]
-    public class Beguiler : MafiaAbility<BeguilerSetup>, ISwitcher
+    public class Beguiler : MafiaAbility<BeguilerSetup>
     {
-        public void Switch()
+        public override void Switch()
         {
             if (TargetManager.Try(out var target) && Uses > 0)
             {

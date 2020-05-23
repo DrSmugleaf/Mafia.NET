@@ -11,9 +11,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     }
 
     [RegisterAbility("Mafioso", typeof(MafiosoSetup))]
-    public class Mafioso : MafiaAbility<MafiosoSetup>, IKiller
+    public class Mafioso : MafiaAbility<MafiosoSetup>
     {
-        public void Kill(IPlayer target)
+        public override void Kill(IPlayer target)
         {
             User.Crimes.Add(CrimeKey.Trespassing);
             Attack(target);
