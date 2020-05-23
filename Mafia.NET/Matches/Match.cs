@@ -6,11 +6,13 @@ using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Controllers;
+using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Matches
 {
     public interface IMatch
     {
+        Random Random { get; }
         Guid Id { get; }
         ISetup Setup { get; }
         IReadOnlyList<IPlayerController> Controllers { get; }
@@ -19,7 +21,7 @@ namespace Mafia.NET.Matches
         Graveyard Graveyard { get; }
         PhaseManager Phase { get; set; }
         ChatManager Chat { get; }
-        Random Random { get; }
+        RolePriority Priority { get; }
         event EventHandler<MatchEnd> MatchEnd;
 
         void Start();
@@ -42,8 +44,10 @@ namespace Mafia.NET.Matches
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
+            Priority = new RolePriority(this);
         }
 
+        public Random Random { get; }
         public Guid Id { get; }
         public ISetup Setup { get; }
         public IReadOnlyList<IPlayerController> Controllers { get; }
@@ -52,7 +56,7 @@ namespace Mafia.NET.Matches
         public Graveyard Graveyard { get; }
         public PhaseManager Phase { get; set; }
         public ChatManager Chat => Phase.CurrentPhase.ChatManager;
-        public Random Random { get; }
+        public RolePriority Priority { get; }
         public event EventHandler<MatchEnd> MatchEnd;
 
         public void Start()

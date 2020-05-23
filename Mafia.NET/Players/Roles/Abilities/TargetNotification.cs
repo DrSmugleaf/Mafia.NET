@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -19,20 +20,20 @@ namespace Mafia.NET.Players.Roles.Abilities
             Func<IPlayer, Notification> targetRemove = null,
             Func<IPlayer, IPlayer, Notification> targetChange = null)
         {
-            UserAddMessage = userAdd ?? Default;
-            UserRemoveMessage = userRemove ?? Default;
-            UserChangeMessage = userChange ?? DefaultChange;
-            TargetAddMessage = targetAdd ?? Default;
-            TargetRemoveMessage = targetRemove ?? Default;
-            TargetChangeMessage = targetChange ?? DefaultChange;
+            UserAddMessage = userAdd;
+            UserRemoveMessage = userRemove;
+            UserChangeMessage = userChange;
+            TargetAddMessage = targetAdd;
+            TargetRemoveMessage = targetRemove;
+            TargetChangeMessage = targetChange;
         }
 
-        public Func<IPlayer, Notification> UserAddMessage { get; set; }
-        public Func<IPlayer, Notification> UserRemoveMessage { get; set; }
-        public Func<IPlayer, IPlayer, Notification> UserChangeMessage { get; set; }
-        public Func<IPlayer, Notification> TargetAddMessage { get; set; }
-        public Func<IPlayer, Notification> TargetRemoveMessage { get; set; }
-        public Func<IPlayer, IPlayer, Notification> TargetChangeMessage { get; set; }
+        [CanBeNull] public Func<IPlayer, Notification> UserAddMessage { get; set; }
+        [CanBeNull] public Func<IPlayer, Notification> UserRemoveMessage { get; set; }
+        [CanBeNull] public Func<IPlayer, IPlayer, Notification> UserChangeMessage { get; set; }
+        [CanBeNull] public Func<IPlayer, Notification> TargetAddMessage { get; set; }
+        [CanBeNull] public Func<IPlayer, Notification> TargetRemoveMessage { get; set; }
+        [CanBeNull] public Func<IPlayer, IPlayer, Notification> TargetChangeMessage { get; set; }
 
         public static TargetNotification Enum<T>() where T : Enum
         {
@@ -73,32 +74,32 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public Notification UserAdd(IPlayer target)
         {
-            return UserAddMessage(target);
+            return (UserAddMessage ?? Default)(target);
         }
 
         public Notification UserRemove(IPlayer target)
         {
-            return UserRemoveMessage(target);
+            return (UserRemoveMessage ?? Default)(target);
         }
 
         public Notification UserChange(IPlayer old, IPlayer current)
         {
-            return UserChangeMessage(old, current);
+            return (UserChangeMessage ?? DefaultChange)(old, current);
         }
 
         public Notification TargetAdd(IPlayer target)
         {
-            return TargetAddMessage(target);
+            return (TargetAddMessage ?? Default)(target);
         }
 
         public Notification TargetRemove(IPlayer target)
         {
-            return TargetRemoveMessage(target);
+            return (TargetRemoveMessage ?? Default)(target);
         }
 
         public Notification TargetChange(IPlayer old, IPlayer current)
         {
-            return TargetChangeMessage(old, current);
+            return (TargetChangeMessage ?? DefaultChange)(old, current);
         }
     }
 }

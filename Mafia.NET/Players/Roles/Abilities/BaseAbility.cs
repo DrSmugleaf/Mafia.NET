@@ -195,14 +195,14 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual bool OnDayEnd()
         {
-            if (Active) _onDayEnd();
+            if (Active && User.Alive) _onDayEnd();
             return Active;
         }
 
         public virtual void OnNightStart()
         {
             TargetManager.Reset();
-            if (Active) _onNightStart();
+            if (Active && User.Alive) _onNightStart();
         }
 
         public void BeforeNightEnd()

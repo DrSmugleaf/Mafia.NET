@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.Tests", "Mafia.NE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.Web", "Mafia.NET.Web\Mafia.NET.Web.csproj", "{32AD6472-77E0-4878-9150-5D6B845581F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.IntegrationTests", "Mafia.NET.IntegrationTests\Mafia.NET.IntegrationTests\Mafia.NET.IntegrationTests.csproj", "{0A039984-6210-4B44-A624-C0435A4AC9B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{32AD6472-77E0-4878-9150-5D6B845581F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32AD6472-77E0-4878-9150-5D6B845581F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32AD6472-77E0-4878-9150-5D6B845581F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A039984-6210-4B44-A624-C0435A4AC9B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A039984-6210-4B44-A624-C0435A4AC9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A039984-6210-4B44-A624-C0435A4AC9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A039984-6210-4B44-A624-C0435A4AC9B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

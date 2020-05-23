@@ -21,7 +21,15 @@ namespace Mafia.NET.Matches.Phases
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
+            Match.Priority.OnNightStart();
+
             base.Start();
+        }
+
+        public override void End()
+        {
+            base.End();
+            Match.Priority.OnNightEnd();
         }
     }
 }

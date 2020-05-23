@@ -252,7 +252,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public static TargetFilter Of(IReadOnlyList<IPlayer> players)
         {
-            if (players.Count() == 1) return Only(players.First());
+            if (players.Count == 1) return Only(players.First());
 
             return new TargetFilter(players.ToImmutableList);
         }
@@ -264,7 +264,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public bool Valid(IPlayer target)
         {
-            return _filter.Invoke(new List<IPlayer> {[target.Number] = target}).Count > 0;
+            return _filter.Invoke(new List<IPlayer> {target}).Contains(target);
         }
 
         public TargetFilter Except(IPlayer player)

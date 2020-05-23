@@ -51,6 +51,9 @@ namespace Mafia.NET.Players.Roles
             foreach (var action in StartOrder)
             foreach (var ability in Abilities())
                 action(ability);
+
+            foreach (var ability in Abilities())
+                ability.OnNightStart();
         }
 
         public void OnNightEnd()
