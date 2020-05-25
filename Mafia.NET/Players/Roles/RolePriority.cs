@@ -24,6 +24,7 @@ namespace Mafia.NET.Players.Roles
                 ability => ability.Try(ability.Block),
                 ability => ability.Try(ability.Misc),
                 ability => ability.Try(ability.Kill),
+                ability => ability.Try(ability.Protect),
                 ability => ability.Try(ability.Clean),
                 ability => ability.Try(ability.Detect),
                 ability => ability.Try(ability.Disguise),

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Deaths;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -15,20 +16,22 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     public class Bodyguard : TownAbility<BodyguardSetup>
     {
         // TODO The Bodyguard will stay together with his guarded target. That means he won't die if a Mass Murderer visits his target, if that target visited someone else that night.
-        public override void Switch()
+        public override bool Heal(IPlayer healer)
+        {
+            if (Setup.CanBeHealed) return base.Heal(healer);
+            else return Match.Graveyard.ThreatsOn(User).Count > 0;
+        }
+
+        public override void Protect(IPlayer target)
         {
             if (TargetManager.Try(out var guarded))
             {
-                var threats = Match.Graveyard.Threats;
-
-                for (var i = 0; i < threats.Count(); i++)
+                var threats = Match.Graveyard.ThreatsOn(guarded);
+                if (threats.Count > 0)
                 {
-                    var threat = threats[i];
-                    if (threat.Victim != guarded) continue;
-
-                    var newDeath = threat.WithVictim(User);
-                    threats[i] = newDeath;
-
+                    var threat = threats[0];
+                    threat.WithVictim(User);
+                    
                     if (Setup.IgnoresInvulnerability)
                         PiercingAttack(threat.Killer);
                     else

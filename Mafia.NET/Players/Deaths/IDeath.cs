@@ -15,6 +15,6 @@ namespace Mafia.NET.Players.Deaths
         [CanBeNull] string DeathNote { get; set; }
         string Description { get; set; }
 
-        IDeath WithVictim(IPlayer player);
+        void WithVictim(IPlayer player);
     }
 }

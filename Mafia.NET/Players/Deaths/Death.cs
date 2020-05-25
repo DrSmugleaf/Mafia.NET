@@ -33,9 +33,12 @@ namespace Mafia.NET.Players.Deaths
         public string DeathNote { get; set; }
         public string Description { get; set; }
 
-        public IDeath WithVictim(IPlayer player)
+        public void WithVictim(IPlayer player)
         {
-            return new Death(Day, player, Cause, Description, Killer);
+            Victim = player;
+            VictimName = player.Name;
+            VictimRole = player.Role.Name;
+            LastWill = player.LastWill;
         }
 
         public override string ToString()

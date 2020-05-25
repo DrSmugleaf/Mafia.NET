@@ -2,3 +2,8 @@
 Summary: "A secret surgeon skilled in trauma care."
 Goal: "Lynch every criminal and evildoer."
 Abilities: "Visit someone at night to save them if someone tries to kill them."
+
+UserAddMessage: "You will heal <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't heal anyone."
+UserChangeMessage: "You will instead heal <f c={1c}>{1}</f>."
+TargetAttacked: "Your target was attacked!"

@@ -20,10 +20,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             User.Crimes.Add(CrimeKey.Trespassing);
 
-            Notification notification;
-            if (target.Role.Ability.DetectTarget(out var visited, Setup))
-                notification = Notification.Chat(DetectiveKey.TargetVisitedSomeone, visited);
-            else notification = Notification.Chat(DetectiveKey.TargetInactive);
+            var notification = target.Role.Ability.DetectTarget(out var visited, Setup) ?
+                Notification.Chat(DetectiveKey.TargetVisitedSomeone, visited) :
+                Notification.Chat(DetectiveKey.TargetInactive);
 
             User.OnNotification(notification);
         }
