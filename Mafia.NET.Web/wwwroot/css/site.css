@@ -102,7 +102,7 @@ hr {
 }
 
 .role-border {
-  border: 1px solid grey;
+  background-color: #303030;
 }
 
 .role-link {
@@ -110,7 +110,7 @@ hr {
 }
 
 .roles {
-  background-color: grey;
+  background-color: #404040;
 }
 
 .role-header {

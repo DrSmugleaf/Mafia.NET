@@ -51,7 +51,7 @@
         <div class="row">
             @foreach (var team in teams)
             {
-                <div class="col role-name role-border" style="background-color: @team.Color.HexRgb()">
+                <div class="col role-name role-border" style="background-color: @team.Color.Brightness(0.8).HexRgb()">
                     <h4 class="role-header">@team.Name</h4>
                 </div>
             }
@@ -65,8 +65,8 @@
                         {
                             <div class="row">
                                 <a class="w-100 text-decoration-none role-link" href="Wiki?query=@teamRole.Name">
-                                    <div class="col role-name role-border" style="background-color: @teamRole.Color.HexRgb()">
-                                        @teamRole.Name
+                                    <div class="col role-border">
+                                        <span class="role-name" style="color: @teamRole.Color.HexRgb()">• </span><span class="role-name">@teamRole.Name</span>
                                     </div>
                                 </a>
                             </div>
