@@ -2,3 +2,9 @@
 Summary: "An eagle-eyed observer, stealthily camping outside houses to gain information."
 Goal: "Lynch every criminal and evildoer."
 Abilities: "See everyone who visits his target each night."
+
+SomeoneVisitedTarget: "<f c={0c}>{0}</f> visited your target tonight."
+NoneVisitedTarget: "Your target was not visited by anyone tonight."
+UserAddMessage: "You will watch over <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't watch over anyone."
+UserChangeMessage: "You will instead watch over <f c={1c}>{1}</f>."
