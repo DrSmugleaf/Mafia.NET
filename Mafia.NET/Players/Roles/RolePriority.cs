@@ -11,13 +11,13 @@ namespace Mafia.NET.Players.Roles
         public RolePriority(IMatch match)
         {
             Match = match;
-            StartOrder = new List<Action<IAbility>>()
+            StartOrder = new List<Action<IAbility>>
             {
                 ability => ability.Chat(),
                 ability => ability.Detain()
             };
-            
-            EndOrder = new List<Action<IAbility>>()
+
+            EndOrder = new List<Action<IAbility>>
             {
                 ability => ability.Vest(),
                 ability => ability.Switch(),
@@ -32,7 +32,7 @@ namespace Mafia.NET.Players.Roles
                 ability => ability.Try(ability.CultRecruit)
             };
         }
-        
+
         public IMatch Match { get; }
         public IList<Action<IAbility>> StartOrder { get; }
         public IList<Action<IAbility>> EndOrder { get; }

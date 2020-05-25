@@ -11,19 +11,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         UserChangeMessage,
         TargetAttacked
     }
-    
+
     [RegisterAbility("Doctor", typeof(DoctorSetup))]
     public class Doctor : TownAbility<DoctorSetup>
     {
         public override void Protect(IPlayer target)
         {
-            if (TargetManager.Try(out var healed))
+            if (target.Role.Ability.HealedBy(User) && Setup.KnowsIfTargetAttacked)
             {
-                if (healed.Role.Ability.Heal(User) && Setup.KnowsIfTargetAttacked)
-                {
-                    var notification = Notification.Chat(DoctorKey.TargetAttacked);
-                    User.OnNotification(notification);
-                }
+                var notification = Notification.Chat(DoctorKey.TargetAttacked);
+                User.OnNotification(notification);
             }
         }
 
@@ -36,8 +33,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     public class DoctorSetup : ITownSetup
     {
         public bool KnowsIfTargetAttacked = true;
-        public bool PreventsCultistConversion = false; // TODO
         public bool KnowsIfTargetConverted = false;
+        public bool PreventsCultistConversion = false; // TODO
         public bool WitchDoctorWhenConverted = false;
     }
 }

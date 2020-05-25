@@ -2,3 +2,8 @@
 Summary: "A scantily-clad escort, working in secret."
 Goal: "Lynch every criminal and evildoer."
 Abilities: "Block someone's role at night, canceling their night abilities."
+
+UserAddMessage: "You will role-block <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't role-block anyone."
+UserChangeMessage: "You will instead role-block <f c={1c}>{1}</f>."
+TargetRoleBlockImmune: "Your target is role-block immune!"
