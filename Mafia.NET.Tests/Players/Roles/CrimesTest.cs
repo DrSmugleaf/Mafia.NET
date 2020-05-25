@@ -15,7 +15,7 @@ namespace Mafia.NET.Tests.Players.Roles
 
             for (var i = 0; i < 2; i++)
                 foreach (var crime in Crimes.All)
-                    crimes.AddKey(crime);
+                    crimes.Add(crime);
 
             Assert.That(crimes.AllCommitted().Count, Is.EqualTo(Crimes.All.Count));
 

@@ -42,14 +42,9 @@ namespace Mafia.NET.Players.Roles
         protected ISet<Key> Committed { get; }
         [CanBeNull] public Framing Framing { get; set; }
 
-        public void AddKey(Key crime)
+        public void Add(Key crime)
         {
             Committed.Add(crime);
-        }
-
-        public void Add(CrimeKey crime)
-        {
-            AddKey(crime);
         }
 
         public Key Crime()

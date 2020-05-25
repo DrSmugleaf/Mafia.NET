@@ -17,6 +17,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public override void Block(IPlayer target)
         {
+            User.Crimes.Add(CrimeKey.Soliciting);
+            
+            if (target.Role.Team.Id == "Town")
+                User.Crimes.Add(CrimeKey.DisturbingThePeace);
+            
             if (!target.Role.Ability.BlockedBy(User) && Setup.DetectsBlockImmuneTarget)
             {
                 var notification = Notification.Chat(EscortKey.TargetRoleBlockImmune);

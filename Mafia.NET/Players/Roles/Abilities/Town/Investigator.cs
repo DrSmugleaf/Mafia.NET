@@ -1,10 +1,10 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 
-namespace Mafia.NET.Players.Roles.Abilities.Mafia
+namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterKey]
-    public enum ConsigliereKey
+    public enum InvestigatorKey
     {
         ExactDetect,
         Detect,
@@ -12,9 +12,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         UserRemoveMessage,
         UserChangeMessage
     }
-
-    [RegisterAbility("Consigliere", typeof(ConsigliereSetup))]
-    public class Consigliere : MafiaAbility<ConsigliereSetup>
+    
+    [RegisterAbility("Investigator", typeof(InvestigatorSetup))]
+    public class Investigator : TownAbility<InvestigatorSetup>
     {
         public override void Detect(IPlayer target)
         {
@@ -22,20 +22,20 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             // TODO: Target switch
             var message = Setup.DetectsExactRole
-                ? Notification.Chat(ConsigliereKey.ExactDetect, target, target.Crimes.RoleName())
-                : Notification.Chat(ConsigliereKey.Detect, target, target.Crimes.Crime());
+                ? Notification.Chat(InvestigatorKey.ExactDetect, target, target.Crimes.RoleName())
+                : Notification.Chat(InvestigatorKey.Detect, target, target.Crimes.Crime());
 
             User.OnNotification(message);
         }
 
         protected override void _onNightStart()
         {
-            AddTarget(TargetFilter.Living(Match).Except(User.Role.Team),
-                TargetNotification.Enum<ConsigliereKey>());
+            AddTarget(TargetFilter.Living(Match).Except(User),
+                TargetNotification.Enum<InvestigatorKey>());
         }
     }
 
-    public class ConsigliereSetup : MafiaSuperMinionSetup
+    public class InvestigatorSetup : ITownSetup
     {
         public bool DetectsExactRole = false;
     }
