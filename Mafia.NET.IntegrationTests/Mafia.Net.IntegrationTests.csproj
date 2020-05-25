@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Mafia.NET\Mafia.NET.csproj" />
+      <ProjectReference Include="..\..\Mafia.NET\Mafia.NET\Mafia.NET.csproj" />
     </ItemGroup>
 
 </Project>
