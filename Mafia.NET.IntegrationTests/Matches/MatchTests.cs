@@ -12,7 +12,6 @@ namespace Mafia.NET.IntegrationTests.Matches
 {
     [TestFixture]
     [TestOf(typeof(Match))]
-    [Category("Long")]
     public class MatchTests
     {
         [Test]

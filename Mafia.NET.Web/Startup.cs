@@ -56,6 +56,12 @@ namespace Mafia.NET.Web
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    "wiki",
+                    "{controller=Wiki}/{action=Index}/{role?}",
+                    new {controller = "Wiki", action = "Index"});
+                
                 endpoints.MapHub<LobbyChat>("/LobbyChat");
                 endpoints.MapHub<GameChat>("/GameChat");
             });
