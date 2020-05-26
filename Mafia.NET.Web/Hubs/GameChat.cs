@@ -41,7 +41,7 @@ namespace Mafia.NET.Web.Hubs
                 var ids = message.Listeners
                     .Select(listener => listener.Id.ToString())
                     .ToList();
-                await Clients.Users(ids).SendAsync("Message", message.Formatted);
+                await Clients.Users(ids).SendAsync("Message", message.Text);
             }
         }
     }

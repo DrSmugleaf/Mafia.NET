@@ -14,40 +14,40 @@ namespace Mafia.NET.Localization
     {
         private static readonly Lazy<Localizer> Lazy = new Lazy<Localizer>(() => new Localizer());
 
-        private readonly Dictionary<CultureInfo, Catalog> _catalogs;
-        private readonly CultureInfo _defaultCulture;
-        private readonly Parser _parser;
+        public Dictionary<CultureInfo, Catalog> Catalogs { get; }
+        public CultureInfo DefaultCulture { get; }
+        public Parser Parser { get; }
 
         private Localizer()
         {
-            _catalogs = new Dictionary<CultureInfo, Catalog>();
-            _parser = new Parser();
-            _defaultCulture = CultureInfo.CreateSpecificCulture("en_US");
+            Catalogs = new Dictionary<CultureInfo, Catalog>();
+            Parser = new Parser();
+            DefaultCulture = CultureInfo.CreateSpecificCulture("en_US");
         }
 
         public static Localizer Default => Lazy.Value;
 
         public Catalog Get([CanBeNull] CultureInfo culture = null)
         {
-            culture ??= _defaultCulture;
+            culture ??= DefaultCulture;
 
-            if (!_catalogs.ContainsKey(culture))
-                _catalogs[culture] = Load(culture);
+            if (!Catalogs.ContainsKey(culture))
+                Catalogs[culture] = Load(culture);
 
-            return _catalogs[culture];
+            return Catalogs[culture];
         }
 
         public Text Get(string key, [CanBeNull] CultureInfo culture = null, params object[] args)
         {
             if (key.Length == 0) return Text.Empty;
-            culture ??= _defaultCulture;
+            culture ??= DefaultCulture;
 
             var catalog = Get(culture);
             var defaultString = catalog.GetStringDefault(key, null);
             if (defaultString == null) throw new ArgumentException($"Key {key} not found for culture {culture}");
 
             var str = catalog.GetStringDefault(key, defaultString);
-            return _parser.Parse(str, args);
+            return Parser.Parse(str, args);
         }
 
         private Catalog Load(CultureInfo culture)

@@ -7,6 +7,8 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Matches
 {
@@ -22,6 +24,8 @@ namespace Mafia.NET.Matches
         PhaseManager Phase { get; set; }
         ChatManager Chat { get; }
         RolePriority Priority { get; }
+        RoleSetup RoleSetup { get; }
+        AbilityRegistry Abilities { get; }
         event EventHandler<MatchEnd> MatchEnd;
 
         void Start();
@@ -55,8 +59,10 @@ namespace Mafia.NET.Matches
         public IReadOnlyList<IPlayer> LivingPlayers => new List<IPlayer>(AllPlayers.Where(player => player.Alive));
         public Graveyard Graveyard { get; }
         public PhaseManager Phase { get; set; }
-        public ChatManager Chat => Phase.CurrentPhase.ChatManager;
+        public ChatManager Chat => Phase.Chat;
         public RolePriority Priority { get; }
+        public RoleSetup RoleSetup => Setup.Roles;
+        public AbilityRegistry Abilities => RoleSetup.Abilities;
         public event EventHandler<MatchEnd> MatchEnd;
 
         public void Start()

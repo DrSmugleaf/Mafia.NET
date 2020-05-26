@@ -20,8 +20,8 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers, true);
-            ChatManager.Main().Participants[Player].Muted = false;
+            ChatManager.Main().Mute();
+            ChatManager.Main().Mute(Player, false);
             var entry = Notification.Popup(DayKey.AnyLastWords);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(entry);

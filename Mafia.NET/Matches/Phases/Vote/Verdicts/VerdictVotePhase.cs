@@ -21,14 +21,9 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers);
-
-            if (Verdicts.Player.Blackmailed &&
-                !Match.Setup.Roles.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
-                ChatManager.Main().Participants[Verdicts.Player].Muted = true;
+            ChatManager.Main().Pause(false);
 
             var notification = Notification.Popup(DayKey.MayVote, Verdicts.Player.Name);
-
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();

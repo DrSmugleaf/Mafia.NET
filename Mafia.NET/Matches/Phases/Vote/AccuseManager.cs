@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public IPlayer Player { get; set; }
         [CanBeNull] protected IPlayer Target { get; set; }
-        public string Name { get; set; }
+        public Text Name { get; set; }
         public bool AnonymousVote { get; set; }
         public int Power { get; set; }
         public bool Active { get; set; }
@@ -88,7 +88,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             set
             {
                 _active = value;
-                foreach (var accuser in Accusers.Values) accuser.Active = true;
+                foreach (var accuser in Accusers.Values) accuser.Active = value;
             }
         }
 

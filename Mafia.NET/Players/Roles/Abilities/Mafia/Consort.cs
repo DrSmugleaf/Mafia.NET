@@ -20,7 +20,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             User.Crimes.Add(CrimeKey.Soliciting);
             if (target.Role.Team.Id == "Town") User.Crimes.Add(CrimeKey.DisturbingThePeace);
 
-            target.Role.Ability.Disable();
+            target.Role.Ability.BlockedBy(User);
             if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
             {
                 var message = Notification.Chat(ConsortKey.CantRoleBlock);

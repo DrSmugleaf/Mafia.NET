@@ -24,7 +24,8 @@ namespace Mafia.NET.Matches.Phases.Vote
             Player.Alive = false;
             var death = new Death(Match.Phase.Day, Player, DeathCause.Lynch, "");
             Match.Graveyard.PublicDeaths.Add(death);
-            ChatManager.Open(Match.AllPlayers);
+            ChatManager.Main().Get(Player).Muted = true;
+            ChatManager.Main().Pause(false);
             var notification = Notification.Popup(DayKey.ExecutionMercy, Player);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);

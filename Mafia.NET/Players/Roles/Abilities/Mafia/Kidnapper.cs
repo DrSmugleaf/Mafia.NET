@@ -15,7 +15,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         NightUserAddMessage,
         NightUserRemoveMessage,
         NightTargetAddMessage,
-        NightTargetRemoveMessage
+        NightTargetRemoveMessage,
+        Nickname
     }
 
     [RegisterAbility("Kidnapper", typeof(KidnapperSetup))]
@@ -31,9 +32,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             User.Crimes.Add(CrimeKey.Kidnapping);
 
-            var jail = Match.Chat.Open("Jailor", User, prisoner); // TODO: Localize "Jailor"
-            var detainer = jail.Participants[User];
-            detainer.Name = "Jailor";
+            var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));
+            jail.Get(User).Nickname = KidnapperKey.Nickname;
+            jail.Add(prisoner);
 
             var allies = Match.LivingPlayers.Where(player =>
                 player.Role.Team == User.Role.Team && player != User);
@@ -51,7 +52,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             if (prisoner.Role.Team != User.Role.Team) Match.Chat.DisableExcept(prisoner, jail);
 
-            prisoner.Role.Ability.PiercingDisable();
+            prisoner.Role.Ability.PiercingBlockedBy(User);
         }
 
         public override void Kill(IPlayer target)
@@ -59,12 +60,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
 
             Uses--;
-            PiercingAttack(target);
+            PiercingAttackedBy(target);
         }
 
         public override void Block(IPlayer target)
         {
-            target.Role.Ability.PiercingDisable();
+            target.Role.Ability.PiercingBlockedBy(User);
         }
 
         protected override void _onDayStart()
@@ -88,7 +89,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 User.OnNotification(Notification.Chat(KidnapperKey.UnableToJail));
             }
 
-            TargetManager[0]?.Role.Ability.PiercingDisable();
+            TargetManager[0]?.Role.Ability.PiercingBlockedBy(User);
         }
     }
 

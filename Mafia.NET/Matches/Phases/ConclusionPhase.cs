@@ -6,13 +6,13 @@ namespace Mafia.NET.Matches.Phases
 {
     public class ConclusionPhase : BasePhase
     {
-        public IList<IVictory> Victories;
-
         public ConclusionPhase(IList<IVictory> victories, IMatch match, uint duration = 120) : base(match, "Conclusion",
             duration, actionable: false)
         {
             Victories = victories;
         }
+        
+        public IList<IVictory> Victories { get; set; }
 
         public override IPhase NextPhase()
         {
@@ -21,8 +21,8 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers);
-            ChatManager.UnMuteUnDeafen();
+            ChatManager.Main().Pause(false);
+            ChatManager.Main().Disable(false);
 
             var conclusion = Notification.Popup(DayKey.Conclusion);
             var roles = new EntryBundle();

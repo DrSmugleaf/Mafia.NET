@@ -6,99 +6,163 @@ namespace Mafia.NET.Matches.Chats
 {
     public interface IChat
     {
-        string Name { get; }
-        IDictionary<IPlayer, IChatParticipant> Participants { get; }
+        string Id { get; set; }
         bool Paused { get; set; }
+        IDictionary<IPlayer, IChatParticipant> All { get; set; }
 
-        IChat Add(IDictionary<IPlayer, IChatParticipant> players);
+        void Initialize(IMatch match);
+        IChatParticipant Add(IPlayer player, bool muted = false, bool deaf = false);
         IChat Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false);
+        IChatParticipant Get(IPlayer player);
+        IChat Mute(IPlayer player, bool muted = true);
+        IChat Mute(bool muted = true);
+        IChat Deafen(IPlayer player, bool deaf = true);
+        IChat Deafen(bool deaf = true);
+        IChat Disable(IPlayer player, bool disabled = true);
+        IChat Disable(bool disabled = true);
+        IChat Pause(bool paused = true);
         bool CanSend(MessageIn messageIn);
-        MessageOut Send(MessageIn messageIn);
-
-        [CanBeNull]
-        MessageOut Send(IPlayer player, string message);
+        bool TrySend(MessageIn messageIn, out MessageOut messageOut);
+        bool TrySend(IPlayer player, string text, out MessageOut messageOut);
 
         void Close();
     }
 
     public class Chat : IChat
     {
-        private readonly Dictionary<IPlayer, IChatParticipant> _participants;
-
-        public Chat(string name)
+        public Chat(string id)
         {
-            Name = name;
-            _participants = new Dictionary<IPlayer, IChatParticipant>();
+            Id = id;
+            All = new Dictionary<IPlayer, IChatParticipant>();
+            Initialized = false;
         }
 
-        public Chat(string name, Dictionary<IPlayer, IChatParticipant> participants)
+        public Chat(string id, Dictionary<IPlayer, IChatParticipant> participants)
         {
-            Name = name;
-            _participants = participants;
+            Id = id;
+            All = participants;
+            Initialized = false;
         }
 
-        public string Name { get; }
-        public IDictionary<IPlayer, IChatParticipant> Participants => _participants;
+        public string Id { get; set; }
         public bool Paused { get; set; }
-
-        public IChat Add(IDictionary<IPlayer, IChatParticipant> participants)
+        public IDictionary<IPlayer, IChatParticipant> All { get; set; }
+        protected bool Initialized { get; set; }
+        
+        public virtual void Initialize(IMatch match)
         {
-            foreach (var participant in participants)
-            {
-                if (Participants.ContainsKey(participant.Key)) continue;
-                Participants.Add(participant);
-            }
+        }
 
-            return this;
+        public IChatParticipant Add(IPlayer player, bool muted = false, bool deaf = false)
+        {
+            var participant = new ChatParticipant(player, muted, deaf);
+            All.Add(player, participant);
+            return participant;
         }
 
         public IChat Add(IEnumerable<IPlayer> players, bool muted = false, bool deaf = false)
         {
-            var participants = new Dictionary<IPlayer, IChatParticipant>();
-
             foreach (var player in players)
-            {
-                var participant = new ChatParticipant(player, muted, deaf);
-                participants[player] = participant;
-            }
+                Add(player);
 
-            return Add(participants);
+            return this;
+        }
+
+        public IChatParticipant Get(IPlayer player)
+        {
+            if (!All.TryGetValue(player, out var participant))
+                participant = Add(player);
+
+            return participant;
+        }
+
+        public IChat Mute(IPlayer player, bool muted = true)
+        {
+            Get(player).Muted = muted;
+            return this;
+        }
+
+        public IChat Mute(bool muted = true)
+        {
+            foreach (var player in All.Keys)
+                Mute(player, muted);
+
+            return this;
+        }
+
+        public IChat Deafen(IPlayer player, bool deaf = true)
+        {
+            Get(player).Deaf = deaf;
+            return this;
+        }
+
+        public IChat Deafen(bool deaf = true)
+        {
+            foreach (var player in All.Keys)
+                Deafen(player, deaf);
+
+            return this;
+        }
+
+        public IChat Disable(IPlayer player, bool disabled = true)
+        {
+            var participant = Get(player);
+            participant.Muted = disabled;
+            participant.Deaf = disabled;
+
+            return this;
+        }
+
+        public IChat Disable(bool disabled = true)
+        {
+            foreach (var player in All.Keys)
+                Disable(player, disabled);
+
+            return this;
+        }
+
+        public IChat Pause(bool paused = true)
+        {
+            Paused = paused;
+            return this;
         }
 
         public bool CanSend(MessageIn messageIn)
         {
             return !Paused &&
-                   _participants.ContainsKey(messageIn.Sender.Owner) &&
-                   !messageIn.Sender.Muted &&
+                   All.ContainsKey(messageIn.Sender.Owner) &&
+                   messageIn.Sender.CanSend() &&
                    messageIn.Text.Length > 0;
         }
 
-        public MessageOut Send(MessageIn messageIn)
+        public bool TrySend(MessageIn messageIn, out MessageOut messageOut)
         {
-            if (!CanSend(messageIn)) return new MessageOut(messageIn);
-
+            messageOut = default;
+            if (!CanSend(messageIn)) return false;
+            
             var listeners = new HashSet<IPlayer>();
 
-            foreach (var participant in _participants.Values)
-                if (!participant.Deaf)
+            foreach (var participant in All.Values)
+                if (participant.CanReceive())
                     listeners.Add(participant.Owner);
 
-            return new MessageOut(messageIn, listeners);
+            messageOut = new MessageOut(messageIn, listeners);
+
+            return messageOut != default;
         }
 
-        public MessageOut Send(IPlayer player, string text)
+        public bool TrySend(IPlayer player, string text, out MessageOut messageOut)
         {
-            if (!_participants.ContainsKey(player)) return null;
-
-            var participant = _participants[player];
-            var message = new MessageIn(participant, text);
-
-            return Send(message);
+            messageOut = default;
+            if (!All.TryGetValue(player, out var participant)) return false;
+            
+            var messageIn = new MessageIn(participant, text);
+            return TrySend(messageIn, out messageOut);
         }
 
         public void Close()
         {
-            _participants.Clear();
+            All.Clear();
         }
     }
 }

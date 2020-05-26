@@ -8,9 +8,16 @@ namespace Mafia.NET.Localization
 {
     public class Parser
     {
-        public readonly Regex BackgroundColor = new Regex(@"(<bc=(#[0-9a-fA-F]{6})>)");
-        public readonly Regex Color = new Regex(@"({(\d+)c})");
-        public readonly Regex NewLine = new Regex(@"(\\n)");
+        public Parser()
+        {
+            BackgroundColor = new Regex(@"(<bc=(#[0-9a-fA-F]{6})>)");
+            Color = new Regex(@"({(\d+)c})");
+            NewLine = new Regex(@"(\\n)");
+        }
+
+        public Regex BackgroundColor { get; }
+        public Regex Color { get; }
+        public Regex NewLine { get; }
 
         public Text Parse(string str, params object[] args)
         {

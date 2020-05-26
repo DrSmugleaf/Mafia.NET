@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches.Chats;
 using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
@@ -13,7 +14,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         NightUserAddMessage,
         NightUserRemoveMessage,
         NightTargetAddMessage,
-        NightTargetRemoveMessage
+        NightTargetRemoveMessage,
+        Nickname
     }
 
     [RegisterAbility("Jailor", typeof(JailorSetup))]
@@ -23,9 +25,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             User.Crimes.Add(CrimeKey.Kidnapping);
 
-            var jail = Match.Chat.Open("Jailor", User, prisoner);
-            var jailor = jail.Participants[User];
-            jailor.Name = "Jailor";
+            var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));
+            jail.Get(User).Nickname = JailorKey.Nickname;
+            jail.Add(prisoner);
 
             AddTarget(Uses > 0 ? prisoner : null, new TargetNotification
             {
@@ -38,7 +40,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             prisoner.Role.Ability.CurrentlyDeathImmune = true;
             Match.Chat.DisableExcept(prisoner, jail);
 
-            prisoner.Role.Ability.PiercingDisable();
+            prisoner.Role.Ability.PiercingBlockedBy(User);
         }
 
         public override void Kill(IPlayer target)
@@ -46,12 +48,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
 
             Uses--;
-            PiercingAttack(target);
+            PiercingAttackedBy(target);
         }
 
         public override void Block(IPlayer target)
         {
-            target.Role.Ability.PiercingDisable();
+            target.Role.Ability.PiercingBlockedBy(User);
         }
 
         protected override void _onDayStart()
@@ -72,12 +74,24 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                 User.OnNotification(Notification.Chat(JailorKey.UnableToJail));
             }
 
-            TargetManager[0]?.Role.Ability.PiercingDisable();
+            TargetManager[0]?.Role.Ability.PiercingBlockedBy(User);
         }
     }
 
     public class JailorSetup : ITownSetup, IChargeSetup
     {
         public int Charges { get; set; } = 1;
+    }
+
+    public class JailorChat : Chat
+    {
+        public JailorChat() : base(null)
+        {
+        }
+
+        public static string Name(IPlayer prisoner)
+        {
+            return $"Jailor-{prisoner.Number}";
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Mafia.NET.Players
         IMatch Match { get; }
         int Number { get; }
         Guid Id { get; }
-        string Name { get; set; }
+        Text Name { get; set; }
         IRole Role { get; set; }
         bool Alive { get; set; }
         Note LastWill { get; }
@@ -32,15 +32,20 @@ namespace Mafia.NET.Players
 
     public class Player : IPlayer
     {
-        public Player(ILobbyController controller, IMatch match, int number, string name, IRole role,
+        public Player(
+            ILobbyController controller,
+            IMatch match,
+            int number,
+            string name,
+            IRole role,
             CultureInfo culture = null)
         {
             Match = match;
             Number = number;
             Id = controller.Id;
-            Name = name;
-            Role = role;
             Color = PlayerColorsExtensions.From(number).Color();
+            Name = new Text(new[] {new Content(name, Color)}, Color.Empty);
+            Role = role;
             Alive = true;
             LastWill = new Note(Match, this);
             DeathNote = new Note(Match, this);
@@ -54,9 +59,9 @@ namespace Mafia.NET.Players
         public IMatch Match { get; }
         public int Number { get; }
         public Guid Id { get; }
-        public string Name { get; set; }
-        public IRole Role { get; set; }
         public Color Color { get; }
+        public Text Name { get; set; }
+        public IRole Role { get; set; }
         public bool Alive { get; set; }
         public Note LastWill { get; }
         public Note DeathNote { get; }
@@ -91,7 +96,7 @@ namespace Mafia.NET.Players
 
         public override string ToString()
         {
-            return Name;
+            return Name.ToString();
         }
     }
 }

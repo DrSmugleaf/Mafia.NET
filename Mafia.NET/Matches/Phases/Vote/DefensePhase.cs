@@ -8,30 +8,40 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class DefensePhase : BasePhase
     {
-        public DefensePhase(IMatch match, IPlayer player, uint duration = 15) : base(match, "Defense", duration)
+        public DefensePhase(IMatch match, IPlayer accused, uint duration = 15) : base(match, "Defense", duration)
         {
-            Player = player;
+            Accused = accused;
         }
 
-        public IPlayer Player { get; }
+        public IPlayer Accused { get; }
 
         public override IPhase NextPhase()
         {
-            return new VerdictVotePhase(Match, Player);
+            return new VerdictVotePhase(Match, Accused);
         }
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers, true);
+            foreach (var player in Match.AllPlayers)
+                if (player != Accused)
+                    ChatManager.Main().Get(player).Pause();
 
-            if (!Player.Blackmailed || Match.Setup.Roles.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
-                ChatManager.Main().Participants[Player].Muted = false;
+            if (!Accused.Blackmailed || Match.Abilities.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
+                ChatManager.Main().Mute(Accused, false);
 
-            var notification = Notification.Popup(DayKey.OnTrial, Player);
+            var notification = Notification.Popup(DayKey.OnTrial, Accused);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
+        }
+
+        public override void End()
+        {
+            base.End();
+
+            foreach (var player in Match.AllPlayers)
+                ChatManager.Main().Get(player).Pause(false);
         }
     }
 }

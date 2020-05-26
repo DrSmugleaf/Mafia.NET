@@ -31,9 +31,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                     threat.WithVictim(User);
 
                     if (Setup.IgnoresInvulnerability)
-                        PiercingAttack(threat.Killer);
+                        PiercingAttackedBy(threat.Killer);
                     else
-                        Attack(threat.Killer);
+                        AttackedBy(threat.Killer);
                 }
             }
         }

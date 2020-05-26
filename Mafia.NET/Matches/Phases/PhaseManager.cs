@@ -1,4 +1,6 @@
-﻿namespace Mafia.NET.Matches.Phases
+﻿using Mafia.NET.Matches.Chats;
+
+namespace Mafia.NET.Matches.Phases
 {
     public interface IPhaseManager
     {
@@ -7,6 +9,7 @@
         Time CurrentTime { get; set; }
         IPhase CurrentPhase { get; set; }
         Clock Clock { get; }
+        ChatManager Chat { get; }
 
         void Start();
         void AdvancePhase();
@@ -23,6 +26,7 @@
             CurrentTime = Time.Day;
             CurrentPhase = new PresentationPhase(Match);
             Clock = new Clock();
+            Chat = new ChatManager(match);
         }
 
         public IMatch Match { get; }
@@ -30,6 +34,7 @@
         public Time CurrentTime { get; set; }
         public IPhase CurrentPhase { get; set; }
         public Clock Clock { get; }
+        public ChatManager Chat { get; }
 
         public void Start()
         {

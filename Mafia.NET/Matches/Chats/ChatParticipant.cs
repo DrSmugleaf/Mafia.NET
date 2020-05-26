@@ -1,33 +1,61 @@
-﻿using Mafia.NET.Players;
+﻿using JetBrains.Annotations;
+using Mafia.NET.Localization;
+using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
 {
     public interface IChatParticipant
     {
         IPlayer Owner { get; }
-        string Name { get; set; }
+        [CanBeNull] Key Nickname { get; set; }
         bool Muted { get; set; }
         bool Deaf { get; set; }
+
+        Text DisplayName(IPlayer player);
+        bool CanSend();
+        bool CanReceive();
+        void Pause(bool paused = true);
     }
 
     public class ChatParticipant : IChatParticipant
     {
-        public ChatParticipant(IPlayer owner, string name, bool muted = false, bool deaf = false)
+        public ChatParticipant(IPlayer owner, Key nickname, bool muted = false, bool deaf = false)
         {
             Owner = owner;
-            Name = name;
-            Muted = muted || owner.Blackmailed;
+            Nickname = nickname;
+            Muted = muted || owner.Blackmailed || !owner.Alive;
             Deaf = deaf;
         }
 
-        public ChatParticipant(IPlayer owner, bool muted = false, bool deaf = false) : this(owner, owner.Name, muted,
-            deaf)
+        public ChatParticipant(IPlayer owner, bool muted = false, bool deaf = false) :
+            this(owner, null, muted, deaf)
         {
         }
 
         public IPlayer Owner { get; }
-        public string Name { get; set; }
+        public Key Nickname { get; set; }
         public bool Muted { get; set; }
         public bool Deaf { get; set; }
+        public bool Paused { get; set; }
+
+        public Text DisplayName(IPlayer player)
+        {
+            return Nickname == null ? Owner.Name : Nickname.Localize(player.Culture);
+        }
+        
+        public bool CanSend()
+        {
+            return !Muted && !Paused;
+        }
+
+        public bool CanReceive()
+        {
+            return !Deaf && !Paused;
+        }
+
+        public void Pause(bool paused = true)
+        {
+            Paused = paused;
+        }
     }
 }

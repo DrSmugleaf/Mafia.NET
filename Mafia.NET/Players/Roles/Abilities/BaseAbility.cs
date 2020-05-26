@@ -32,12 +32,11 @@ namespace Mafia.NET.Players.Roles.Abilities
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
         void Try(Action<IPlayer> action);
-        void Disable();
-        void PiercingDisable();
-        void Attack(IPlayer victim);
-        void PiercingAttack(IPlayer victim);
+        void AttackedBy(IPlayer victim);
+        void PiercingAttackedBy(IPlayer victim);
         bool HealedBy(IPlayer healer);
         bool BlockedBy(IPlayer blocker);
+        bool PiercingBlockedBy(IPlayer blocker);
         bool DetectableBy(ISheriffSetup setup);
         Key Guilty(ISheriffSetup setup);
         bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null);
@@ -140,25 +139,14 @@ namespace Mafia.NET.Players.Roles.Abilities
             if (TargetManager.Try(out var target)) action(target);
         }
 
-        public virtual void Disable()
-        {
-            if (RoleBlockImmune) return;
-            Active = false;
-        }
-
-        public void PiercingDisable()
-        {
-            Active = false;
-        }
-
-        public virtual void Attack(IPlayer victim)
+        public virtual void AttackedBy(IPlayer victim)
         {
             if (victim.Role.Ability.CurrentlyDeathImmune) return;
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
         }
 
-        public void PiercingAttack(IPlayer victim)
+        public void PiercingAttackedBy(IPlayer victim)
         {
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
@@ -182,6 +170,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             if (RoleBlockImmune) return false;
             
+            Active = false;
+            return true;
+        }
+
+        public bool PiercingBlockedBy(IPlayer blocker)
+        {
             Active = false;
             return true;
         }

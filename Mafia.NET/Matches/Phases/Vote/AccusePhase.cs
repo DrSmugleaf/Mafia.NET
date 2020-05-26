@@ -31,7 +31,6 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             AccuseManager = new AccuseManager(Match, StartTrial);
-            ChatManager.Open(Match.AllPlayers);
 
             var notification = Notification.Popup(DayKey.VotingBegin);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);

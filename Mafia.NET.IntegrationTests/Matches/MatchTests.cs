@@ -41,7 +41,7 @@ namespace Mafia.NET.IntegrationTests.Matches
             var culture = new CultureInfo("en-US");
             foreach (var player in match.AllPlayers)
             {
-                Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
+                Assert.That(player.Name.String, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
                 Assert.That(player.Role.Name.Localize(culture).ToString(), Is.EqualTo(roleNames[player.Number - 1]));
             }
@@ -65,7 +65,7 @@ namespace Mafia.NET.IntegrationTests.Matches
 
             foreach (var player in match.AllPlayers)
             {
-                Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
+                Assert.That(player.Name.String, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
                 Assert.That(player.Role.Name.Localize(culture).ToString(), Is.EqualTo(roleNames[player.Number - 1]));
             }
@@ -98,7 +98,7 @@ namespace Mafia.NET.IntegrationTests.Matches
             var culture = new CultureInfo("en-US");
             foreach (var player in match.AllPlayers)
             {
-                Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
+                Assert.That(player.Name.String, Is.EqualTo("Bot " + player.Number));
                 Assert.That(player.Alive, Is.True);
                 Assert.That(player.Role.Name.Localize(culture).ToString(), Is.EqualTo(roleNames[player.Number - 1]));
             }
@@ -141,7 +141,7 @@ namespace Mafia.NET.IntegrationTests.Matches
 
             foreach (var player in match.AllPlayers)
             {
-                Assert.That(player.Name, Is.EqualTo("Bot " + player.Number));
+                Assert.That(player.Name.String, Is.EqualTo("Bot " + player.Number));
                 
                 if (player.Number != 1)
                     Assert.That(player.Alive, Is.True);

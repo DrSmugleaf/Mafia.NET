@@ -6,54 +6,51 @@ namespace Mafia.NET.Matches.Chats
 {
     public class ChatManager
     {
-        public const string MainName = "Main Chat";
+        public const string MainName = "Day Chat";
 
         private readonly Dictionary<string, IChat> _chats;
 
-        public ChatManager()
+        public ChatManager(IMatch match)
         {
+            Match = match;
             _chats = new Dictionary<string, IChat>();
         }
 
+        public IMatch Match { get; }
         public IReadOnlyDictionary<string, IChat> Chats => _chats;
 
-        public IChat Open(IChat chat)
+        public IChat Open(string id)
         {
-            if (_chats.ContainsKey(chat.Name))
-            {
-                var old = _chats[chat.Name];
+            if (_chats.TryGetValue(id, out var chat))
+                return chat;
 
-                foreach (var participant in chat.Participants) old.Participants.Add(participant);
-
-                return old;
-            }
-
-            _chats[chat.Name] = chat;
-            return chat;
+            chat = new Chat(id);
+            chat.Initialize(Match);
+            return _chats[id] = chat;
         }
 
-        public IChat Open(IEnumerable<IPlayer> players, bool muted = false, string name = MainName)
+        public IChat Open<T>(string id) where T : IChat, new()
         {
-            var participants = new Dictionary<IPlayer, IChatParticipant>();
+            if (_chats.TryGetValue(id, out var chat))
+                return chat;
 
-            foreach (var player in players)
-            {
-                var participant = new ChatParticipant(player, !player.Alive || muted);
-                participants[player] = participant;
-            }
-
-            if (Chats.TryGetValue(name, out var existing)) return existing.Add(participants);
-
-            var chat = new Chat(name, participants);
-            return Open(chat);
+            chat = new T {Id = id};
+            chat.Initialize(Match);
+            return _chats[id] = chat;
         }
 
-        public IChat Open(string name = MainName, bool muted = false, params IPlayer[] players)
+        public IChat Open(IEnumerable<IPlayer> players, string id, bool muted = false)
         {
-            return Open(players.AsEnumerable(), muted, name);
+            var chat = Open(id);
+            return chat.Add(players, muted);
         }
 
-        public IChat Open(string name = MainName, params IPlayer[] players)
+        public IChat Open(string name, bool muted = false, params IPlayer[] players)
+        {
+            return Open(players.AsEnumerable(), name, muted);
+        }
+
+        public IChat Open(string name, params IPlayer[] players)
         {
             return Open(name, false, players);
         }
@@ -62,32 +59,14 @@ namespace Mafia.NET.Matches.Chats
         {
             foreach (var chat in Chats.Values)
             {
-                if (!chat.Participants.ContainsKey(player) || chat == except) continue;
-                var participant = chat.Participants[player];
-                participant.Muted = true;
-                participant.Deaf = true;
+                if (chat == except) continue;
+                chat.Disable(player);
             }
-        }
-
-        public void UnMute()
-        {
-            foreach (var participant in Chats[MainName].Participants) participant.Value.Muted = false;
-        }
-
-        public void UnDeafen()
-        {
-            foreach (var participant in Chats[MainName].Participants) participant.Value.Deaf = false;
-        }
-
-        public void UnMuteUnDeafen()
-        {
-            UnMute();
-            UnDeafen();
         }
 
         public IChat Main()
         {
-            return Chats[MainName];
+            return Open<MainChat>(MainName);
         }
 
         public List<MessageOut> Send(IPlayer player, string text)
@@ -95,28 +74,35 @@ namespace Mafia.NET.Matches.Chats
             var messages = new List<MessageOut>();
 
             foreach (var chat in _chats.Values)
-            {
-                var message = chat.Send(player, text);
-                messages.Add(message);
-            }
+                if (chat.TrySend(player, text, out var messageOut))
+                    messages.Add(messageOut);
 
             return messages;
-        }
-
-        public void Pause()
-        {
-            foreach (var chat in _chats.Values) chat.Paused = true;
-        }
-
-        public void Resume()
-        {
-            foreach (var chat in _chats.Values) chat.Paused = false;
         }
 
         public void Close()
         {
             foreach (var chat in _chats.Values) chat.Close();
             _chats.Clear();
+        }
+    }
+
+    public class MainChat : Chat
+    {
+        public static readonly string MainName = "Day Chat";
+        
+        public MainChat() : base(MainName)
+        {
+        }
+
+        public override void Initialize(IMatch match)
+        {
+            if (Initialized) return;
+
+            foreach (var player in match.AllPlayers)
+                Add(player);
+
+            Initialized = true;
         }
     }
 }

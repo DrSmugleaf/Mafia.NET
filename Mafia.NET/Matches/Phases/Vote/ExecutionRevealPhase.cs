@@ -21,7 +21,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            ChatManager.Open(Match.AllPlayers);
+            ChatManager.Main().Pause(false);
             var role = Notification.Popup(DayKey.ExecutionRole, Player, Player.Role);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(role);
@@ -44,6 +44,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             base.End();
 
+            ChatManager.Main().Pause();
             var notification = Notification.Popup(DayKey.DayEnd);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
         }

@@ -16,6 +16,7 @@ namespace Mafia.NET.Matches.Phases
 
         public override void Start()
         {
+            ChatManager.Main().Pause();
             Match.Phase.CurrentTime = Time.Night;
             var notification = Notification.Popup(DayKey.Night, Match.Phase.Day);
 

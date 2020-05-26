@@ -25,7 +25,7 @@ namespace Mafia.NET.Players.Deaths
 
         public int Day { get; set; }
         public IPlayer Victim { get; protected set; }
-        public string VictimName { get; set; }
+        public Text VictimName { get; set; }
         public Key VictimRole { get; set; }
         public DeathCause Cause { get; set; }
         public IPlayer Killer { get; set; }
@@ -43,7 +43,7 @@ namespace Mafia.NET.Players.Deaths
 
         public override string ToString()
         {
-            return VictimName;
+            return VictimName.ToString();
         }
     }
 }

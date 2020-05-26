@@ -15,7 +15,8 @@ namespace Mafia.NET.Matches.Phases
 
         public override IPhase NextPhase()
         {
-            if (VictoryManager.TryVictory(out var victory)) return new ConclusionPhase(victory, Match);
+            if (VictoryManager.TryVictory(out var victory))
+                return new ConclusionPhase(victory, Match);
 
             return new DiscussionPhase(Match);
         }
@@ -25,6 +26,8 @@ namespace Mafia.NET.Matches.Phases
             Match.Graveyard.SettleThreats();
             Match.Phase.Day++;
             Match.Phase.CurrentTime = Time.Day;
+            var notification = Notification.Popup(DayKey.Day, Match.Phase.Day);
+            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             if (Match.Graveyard.UndisclosedDeaths.Count == 0)
             {

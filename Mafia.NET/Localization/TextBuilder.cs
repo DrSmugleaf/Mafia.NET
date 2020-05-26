@@ -15,12 +15,16 @@ namespace Mafia.NET.Localization
         public List<IContent> Contents { get; set; }
         public Color Background { get; set; }
 
+        public TextBuilder Add(IContent content)
+        {
+            Contents.Add(content);
+            return this;
+        }
+
         public TextBuilder Add(string str, Color color = default, double size = 1)
         {
             var content = new Content(str, color, size);
-            Contents.Add(content);
-
-            return this;
+            return Add(content);
         }
 
         public TextBuilder Add(int number, Color color = default, double size = 1)
@@ -30,7 +34,10 @@ namespace Mafia.NET.Localization
 
         public TextBuilder Add(IPlayer player, double size = 1)
         {
-            return Add(player.Name, player.Color, size);
+            foreach (var content in player.Name.Contents)
+                Add(content);
+
+            return this;
         }
 
         public Text Build()

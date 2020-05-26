@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
@@ -21,9 +22,8 @@ namespace Mafia.NET.Matches.Chats
         public MessageOut(IChatParticipant sender, string text, HashSet<IPlayer> listeners = null)
         {
             Sender = sender;
-            Text = text.Trim();
             Listeners = listeners?.ToImmutableHashSet() ?? ImmutableHashSet<IPlayer>.Empty;
-            Formatted = $"{sender.Name}: {text}";
+            Text = text;
         }
 
         public MessageOut(MessageIn message, HashSet<IPlayer> listeners = null) : this(message.Sender, message.Text,
@@ -32,8 +32,12 @@ namespace Mafia.NET.Matches.Chats
         }
 
         public IChatParticipant Sender { get; }
-        public string Text { get; }
         public IImmutableSet<IPlayer> Listeners { get; }
-        public string Formatted { get; }
+        public string Text { get; }
+
+        public Text DisplayText(IPlayer listener)
+        {
+            return Sender.DisplayName(listener).With($": {Text}");
+        }
     }
 }
