@@ -9,7 +9,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
     {
     }
 
-    public abstract class MafiaAbility<T> : BaseAbility<T>, IMafiaAbility where T : IMafiaSetup, new()
+    public abstract class MafiaAbility<T> : BaseAbility<T>, IMafiaAbility where T : class, IMafiaSetup, new()
     {
         public override void Chat()
         {

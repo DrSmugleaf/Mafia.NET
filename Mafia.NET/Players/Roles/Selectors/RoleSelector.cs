@@ -118,7 +118,7 @@ namespace Mafia.NET.Players.Roles.Selectors
                 possible.Remove(excluded);
 
             if (possible.Count != 1) return false;
-            else entry = possible[0];
+            entry = possible[0];
 
             return entry != default;
         }

@@ -7,7 +7,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Triad
     {
     }
 
-    public abstract class TriadAbility<T> : BaseAbility<T>, ITriadAbility where T : ITriadSetup, new()
+    public abstract class TriadAbility<T> : BaseAbility<T>, ITriadAbility where T : class, ITriadSetup, new()
     {
         public static readonly string NightChatId = "Triad";
 

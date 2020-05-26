@@ -12,15 +12,17 @@ namespace Mafia.NET.Players.Roles.Selectors
         public RoleSetup(
             RoleRegistry roles,
             AbilityRegistry abilities,
+            AbilitySetupRegistry abilitySetups,
             IEnumerable<IRoleSelector> selectors)
         {
             Roles = roles;
             Abilities = abilities;
+            AbilitySetups = abilitySetups;
             Selectors = selectors.ToList();
         }
 
         public RoleSetup(IEnumerable<IRoleSelector> selectors) :
-            this(RoleRegistry.Default, AbilityRegistry.Default, selectors)
+            this(RoleRegistry.Default, AbilityRegistry.Default, new AbilitySetupRegistry(), selectors)
         {
         }
 
@@ -28,15 +30,17 @@ namespace Mafia.NET.Players.Roles.Selectors
         {
             Roles = RoleRegistry.Default;
             Abilities = AbilityRegistry.Default;
+            AbilitySetups = new AbilitySetupRegistry();
             Selectors = Roles.Selectors(roles);
         }
-        
+
         public RoleSetup() : this(new List<IRoleSelector>())
         {
         }
 
         public RoleRegistry Roles { get; }
         public AbilityRegistry Abilities { get; }
+        public AbilitySetupRegistry AbilitySetups { get; }
         public List<IRoleSelector> Selectors { get; set; }
 
         public int Players()
@@ -51,15 +55,15 @@ namespace Mafia.NET.Players.Roles.Selectors
             for (var i = 0; i < Selectors.Count; i++)
             {
                 var selector = Selectors[i];
-                
+
                 if (!selector.First(out var roleEntry))
                     throw new ArgumentException($"No first role found for selector {selector}");
-                
+
                 var ability = Abilities.Names[roleEntry.Id].Build();
                 var role = new Role(roleEntry, ability);
                 var controller = new LobbyController($"Bot {i + 1}", null);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
-                
+
                 players.Add(player);
             }
 

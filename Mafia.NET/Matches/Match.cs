@@ -26,6 +26,7 @@ namespace Mafia.NET.Matches
         RolePriority Priority { get; }
         RoleSetup RoleSetup { get; }
         AbilityRegistry Abilities { get; }
+        AbilitySetupRegistry AbilitySetups { get; }
         event EventHandler<MatchEnd> MatchEnd;
 
         void Start();
@@ -55,10 +56,10 @@ namespace Mafia.NET.Matches
         {
             Random = new Random();
             Id = Guid.NewGuid();
-            
+
             var roleSetup = new RoleSetup(roles);
             Setup = new Setup(roleSetup);
-            
+
             AllPlayers = Setup.Roles.Static(this);
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
@@ -78,6 +79,7 @@ namespace Mafia.NET.Matches
         public RolePriority Priority { get; }
         public RoleSetup RoleSetup => Setup.Roles;
         public AbilityRegistry Abilities => RoleSetup.Abilities;
+        public AbilitySetupRegistry AbilitySetups => RoleSetup.AbilitySetups;
         public event EventHandler<MatchEnd> MatchEnd;
 
         public void Start()
@@ -93,11 +95,6 @@ namespace Mafia.NET.Matches
             Phase.AdvancePhase();
         }
 
-        public void Skip<T>() where T : IPhase
-        {
-            while (!(Phase.CurrentPhase is T)) Skip();
-        }
-
         public void End()
         {
             Phase.Close();
@@ -107,6 +104,11 @@ namespace Mafia.NET.Matches
         public void OnEnd()
         {
             MatchEnd?.Invoke(this, new MatchEnd(this));
+        }
+
+        public void Skip<T>() where T : IPhase
+        {
+            while (!(Phase.CurrentPhase is T)) Skip();
         }
     }
 }

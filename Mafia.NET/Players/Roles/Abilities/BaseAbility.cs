@@ -60,7 +60,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         void CultRecruit(IPlayer target);
     }
 
-    public abstract class BaseAbility<T> : IAbility where T : IAbilitySetup, new()
+    public abstract class BaseAbility<T> : IAbility where T : class, IAbilitySetup, new()
     {
         public BaseAbility()
         {
@@ -99,13 +99,13 @@ namespace Mafia.NET.Players.Roles.Abilities
         public virtual void Initialize(IPlayer user)
         {
             User = user;
-            AbilitySetup = Match.Setup.Roles.Abilities.Setup<T>();
-            
+            AbilitySetup = Match.AbilitySetups.Setup<T>();
+
             RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
             DeathImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
             CurrentlyDeathImmune = DeathImmune;
             DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
-            
+
             TargetManager = new TargetManager(Match, User);
         }
 

@@ -111,10 +111,5 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             return ability;
         }
-
-        public T Setup<T>() where T : IAbilitySetup, new()
-        {
-            return new T();
-        }
     }
 }

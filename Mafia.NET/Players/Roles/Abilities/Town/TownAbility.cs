@@ -6,7 +6,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
     }
 
-    public abstract class TownAbility<T> : BaseAbility<T>, ITownAbility where T : ITownSetup, new()
+    public abstract class TownAbility<T> : BaseAbility<T>, ITownAbility where T : class, ITownSetup, new()
     {
         public override bool DetectableBy(ISheriffSetup setup)
         {
