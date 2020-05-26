@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
@@ -8,22 +10,16 @@ namespace Mafia.NET.IntegrationTests.Matches
 {
     [TestFixture]
     [TestOf(typeof(Match))]
-    public class MatchTest
+    public class MatchTest : BaseMatchTest
     {
-        [Test]
-        public void NoActionMatch()
+        [TestCase("Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Mafioso,Mafioso,Mafioso")]
+        public void NoActionMatch(string namesString)
         {
-            var roleNames =
-                "Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Mafioso,Mafioso,Mafioso"
-                    .Split(",");
-            var roles = roleNames.Length;
+            var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 
-            Assert.That(match.AllPlayers, Has.None.Null);
-            Assert.That(match.AllPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.LivingPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.Graveyard.AllDeaths(), Is.Empty);
+            Deaths(match, 0);
 
             var culture = new CultureInfo("en-US");
             foreach (var player in match.AllPlayers)
@@ -49,10 +45,7 @@ namespace Mafia.NET.IntegrationTests.Matches
                 match.Skip();
             }
 
-            Assert.That(match.AllPlayers, Has.None.Null);
-            Assert.That(match.AllPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.LivingPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.Graveyard.AllDeaths(), Is.Empty);
+            Deaths(match, 0);
 
             foreach (var player in match.AllPlayers)
             {
@@ -62,20 +55,15 @@ namespace Mafia.NET.IntegrationTests.Matches
             }
         }
 
-        [Test]
-        public void _93Match1Kill()
+        [TestCase("Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Godfather,Mafioso,Agent")]
+        public void OneKill(string namesString)
         {
-            var roleNames =
-                "Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Godfather,Mafioso,Agent"
-                    .Split(",");
+            var roleNames = namesString.Split(",");
             var roles = roleNames.Length;
             var match = new Match(roleNames);
             match.Start();
 
-            Assert.That(match.AllPlayers, Has.None.Null);
-            Assert.That(match.AllPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.LivingPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.Graveyard.AllDeaths(), Is.Empty);
+            Deaths(match, 0);
 
             var culture = new CultureInfo("en-US");
             foreach (var player in match.AllPlayers)
@@ -101,16 +89,10 @@ namespace Mafia.NET.IntegrationTests.Matches
             
             gf.TargetManager.Set(match.AllPlayers[0]);
             
-            match.Skip();
-            Assert.That(match.AllPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.LivingPlayers.Count, Is.EqualTo(roles - 1));
-            Assert.That(match.Graveyard.AllDeaths().Count, Is.EqualTo(1));
-
-            match.Skip();
-            Assert.That(match.AllPlayers, Has.None.Null);
-            Assert.That(match.AllPlayers.Count, Is.EqualTo(roles));
-            Assert.That(match.LivingPlayers.Count, Is.EqualTo(roles - 1));
-            Assert.That(match.Graveyard.AllDeaths().Count, Is.EqualTo(1));
+            match.Skip<DeathsPhase>();
+            Deaths(match, 1);
+            
+            match.Skip<DiscussionPhase>();
 
             foreach (var player in match.AllPlayers)
             {
@@ -123,8 +105,7 @@ namespace Mafia.NET.IntegrationTests.Matches
                 Assert.That(player.Role.Name.Localize(culture).ToString(), Is.EqualTo(roleNames[player.Number - 1]));
             }
             
-            match.Skip();
-            match.Skip();
+            match.Skip<DeathsPhase>();
             
             foreach (var living in match.LivingPlayers)
                 Assert.That(living.Role.Ability.TargetManager[0], Is.Null);

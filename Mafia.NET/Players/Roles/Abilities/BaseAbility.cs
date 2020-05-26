@@ -19,8 +19,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         TargetManager TargetManager { get; set; }
         IAbilitySetup AbilitySetup { get; set; }
         bool Active { get; set; }
-        bool RoleBlockImmune { get; }
-        bool DeathImmune { get; }
+        bool RoleBlockImmune { get; set; }
+        bool DeathImmune { get; set; }
         bool CurrentlyDeathImmune { get; set; }
         bool DetectionImmune { get; }
         int Cooldown { get; set; }
@@ -65,10 +65,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         public BaseAbility()
         {
             Active = true;
-            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
-            DeathImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
-            CurrentlyDeathImmune = DeathImmune;
-            DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
             Cooldown = 0;
             Uses = 0;
         }
@@ -83,8 +79,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         public TargetManager TargetManager { get; set; }
         public IAbilitySetup AbilitySetup { get; set; }
         public bool Active { get; set; }
-        public bool RoleBlockImmune { get; }
-        public bool DeathImmune { get; }
+        public bool RoleBlockImmune { get; set; }
+        public bool DeathImmune { get; set; }
         public bool CurrentlyDeathImmune { get; set; }
         public bool DetectionImmune { get; set; }
 
@@ -104,6 +100,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             User = user;
             AbilitySetup = Match.Setup.Roles.Abilities.Setup<T>();
+            
+            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
+            DeathImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
+            CurrentlyDeathImmune = DeathImmune;
+            DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
+            
             TargetManager = new TargetManager(Match, User);
         }
 
