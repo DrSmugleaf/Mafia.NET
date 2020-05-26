@@ -11,7 +11,7 @@ namespace Mafia.NET.Matches.Phases
         {
             Victories = victories;
         }
-        
+
         public IList<IVictory> Victories { get; set; }
 
         public override IPhase NextPhase()

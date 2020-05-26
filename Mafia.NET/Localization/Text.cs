@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
@@ -36,7 +35,7 @@ namespace Mafia.NET.Localization
         public string String { get; }
         public IImmutableList<IContent> Contents { get; }
         public Color Background { get; }
-        
+
         public Text With(string text)
         {
             return new Text(Contents.Add(new Content(text)), Background);

@@ -124,9 +124,9 @@ namespace Mafia.NET.Players.Roles
             return new RoleSelector(Names[name]);
         }
 
-        public List<RoleSelector> Selectors(params string[] names)
+        public List<IRoleSelector> Selectors(params string[] names)
         {
-            return Get(names).Select(role => new RoleSelector(role)).ToList();
+            return Get(names).Select(role => new RoleSelector(role)).ToList<IRoleSelector>();
         }
 
         public List<RoleEntry> Category(ICategory category)

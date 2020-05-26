@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches
     public class Lobby : ILobby
     {
         private readonly List<ILobbyController> _controllers;
-
+        
         public Lobby(Guid id, string hostName, Guid hostId, Setup setup = null)
         {
             Id = id;

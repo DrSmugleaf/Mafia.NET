@@ -32,17 +32,18 @@ namespace Mafia.NET.Matches.Chats
         {
         }
 
+        public bool Paused { get; set; }
+
         public IPlayer Owner { get; }
         public Key Nickname { get; set; }
         public bool Muted { get; set; }
         public bool Deaf { get; set; }
-        public bool Paused { get; set; }
 
         public Text DisplayName(IPlayer player)
         {
             return Nickname == null ? Owner.Name : Nickname.Localize(player.Culture);
         }
-        
+
         public bool CanSend()
         {
             return !Muted && !Paused;

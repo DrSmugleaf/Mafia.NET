@@ -169,7 +169,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public bool BlockedBy(IPlayer blocker)
         {
             if (RoleBlockImmune) return false;
-            
+
             Active = false;
             return true;
         }

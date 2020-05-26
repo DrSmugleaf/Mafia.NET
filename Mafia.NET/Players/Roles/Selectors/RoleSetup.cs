@@ -19,11 +19,18 @@ namespace Mafia.NET.Players.Roles.Selectors
             Selectors = selectors.ToList();
         }
 
-        public RoleSetup(IEnumerable<IRoleSelector> mandatoryRoles) :
-            this(RoleRegistry.Default, AbilityRegistry.Default, mandatoryRoles)
+        public RoleSetup(IEnumerable<IRoleSelector> selectors) :
+            this(RoleRegistry.Default, AbilityRegistry.Default, selectors)
         {
         }
 
+        public RoleSetup(params string[] roles)
+        {
+            Roles = RoleRegistry.Default;
+            Abilities = AbilityRegistry.Default;
+            Selectors = Roles.Selectors(roles);
+        }
+        
         public RoleSetup() : this(new List<IRoleSelector>())
         {
         }
@@ -35,6 +42,28 @@ namespace Mafia.NET.Players.Roles.Selectors
         public int Players()
         {
             return Selectors.Count;
+        }
+
+        public List<IPlayer> Static(IMatch match)
+        {
+            var players = new List<IPlayer>();
+
+            for (var i = 0; i < Selectors.Count; i++)
+            {
+                var selector = Selectors[i];
+                
+                if (!selector.First(out var roleEntry))
+                    throw new ArgumentException($"No first role found for selector {selector}");
+                
+                var ability = Abilities.Names[roleEntry.Id].Build();
+                var role = new Role(roleEntry, ability);
+                var controller = new LobbyController($"Bot {i + 1}", null);
+                var player = new Player(controller, match, i + 1, controller.Name, role);
+                
+                players.Add(player);
+            }
+
+            return players;
         }
 
         public bool Randomize(Random random, out List<RoleEntry> roles)

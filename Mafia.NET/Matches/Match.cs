@@ -51,6 +51,21 @@ namespace Mafia.NET.Matches
             Priority = new RolePriority(this);
         }
 
+        public Match(params string[] roles)
+        {
+            Random = new Random();
+            Id = Guid.NewGuid();
+            
+            var roleSetup = new RoleSetup(roles);
+            Setup = new Setup(roleSetup);
+            
+            AllPlayers = Setup.Roles.Static(this);
+            Controllers = AllPlayers.Select(player => player.Controller).ToList();
+            Graveyard = new Graveyard(this);
+            Phase = new PhaseManager(this);
+            Priority = new RolePriority(this);
+        }
+
         public Random Random { get; }
         public Guid Id { get; }
         public ISetup Setup { get; }
@@ -76,6 +91,11 @@ namespace Mafia.NET.Matches
         public void Skip()
         {
             Phase.AdvancePhase();
+        }
+
+        public void Skip<T>() where T : IPhase
+        {
+            while (!(Phase.CurrentPhase is T)) Skip();
         }
 
         public void End()

@@ -21,6 +21,10 @@ namespace Mafia.NET.Players.Controllers
             Lobby = lobby;
         }
 
+        public LobbyController(string name, ILobby lobby) : this(name, Guid.NewGuid(), lobby)
+        {
+        }
+
         public string Name { get; set; }
         public Guid Id { get; set; }
         public ILobby Lobby { get; set; }

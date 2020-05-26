@@ -1,7 +1,6 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
 
 namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {

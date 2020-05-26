@@ -23,6 +23,7 @@ namespace Mafia.NET.Players.Roles.Selectors
         HashSet<RoleEntry> Excludes { get; }
         bool Random => Possible.Count > 1;
 
+        bool First(out RoleEntry entry);
         bool TryResolve(Random random, out RoleEntry entry);
     }
 
@@ -95,8 +96,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             Key.Empty,
             Key.Empty,
             registry.Get(),
-            ColorTranslator.FromHtml("#00CCFF")
-        )
+            ColorTranslator.FromHtml("#00CCFF"))
         {
         }
 
@@ -108,6 +108,20 @@ namespace Mafia.NET.Players.Roles.Selectors
         public IImmutableList<RoleEntry> Possible { get; }
         public HashSet<RoleEntry> Excludes { get; }
         public Color Color { get; }
+
+        public bool First(out RoleEntry entry)
+        {
+            entry = default;
+            var possible = new List<RoleEntry>(Possible);
+
+            foreach (var excluded in Excludes)
+                possible.Remove(excluded);
+
+            if (possible.Count != 1) return false;
+            else entry = possible[0];
+
+            return entry != default;
+        }
 
         public bool TryResolve(Random random, [CanBeNull] [NotNullWhen(true)] out RoleEntry entry)
         {

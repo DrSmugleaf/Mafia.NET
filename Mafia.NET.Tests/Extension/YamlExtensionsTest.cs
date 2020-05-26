@@ -7,7 +7,7 @@ namespace Mafia.NET.Tests.Extension
 {
     [TestFixture]
     [TestOf(typeof(YamlExtensions))]
-    public class YamlExtensionsTests
+    public class YamlExtensionsTest
     {
         [TestCase("Yes")]
         [TestCase("No")]

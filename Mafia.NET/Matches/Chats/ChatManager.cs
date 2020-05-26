@@ -90,7 +90,7 @@ namespace Mafia.NET.Matches.Chats
     public class MainChat : Chat
     {
         public static readonly string MainName = "Day Chat";
-        
+
         public MainChat() : base(MainName)
         {
         }

@@ -12,7 +12,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         UserRemoveMessage,
         UserChangeMessage
     }
-    
+
     [RegisterAbility("Investigator", typeof(InvestigatorSetup))]
     public class Investigator : TownAbility<InvestigatorSetup>
     {

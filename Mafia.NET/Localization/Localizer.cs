@@ -14,16 +14,16 @@ namespace Mafia.NET.Localization
     {
         private static readonly Lazy<Localizer> Lazy = new Lazy<Localizer>(() => new Localizer());
 
-        public Dictionary<CultureInfo, Catalog> Catalogs { get; }
-        public CultureInfo DefaultCulture { get; }
-        public Parser Parser { get; }
-
         private Localizer()
         {
             Catalogs = new Dictionary<CultureInfo, Catalog>();
             Parser = new Parser();
             DefaultCulture = CultureInfo.CreateSpecificCulture("en_US");
         }
+
+        public Dictionary<CultureInfo, Catalog> Catalogs { get; }
+        public CultureInfo DefaultCulture { get; }
+        public Parser Parser { get; }
 
         public static Localizer Default => Lazy.Value;
 

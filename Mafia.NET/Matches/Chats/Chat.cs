@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
@@ -8,7 +7,7 @@ namespace Mafia.NET.Matches.Chats
     {
         string Id { get; set; }
         bool Paused { get; set; }
-        IDictionary<IPlayer, IChatParticipant> All { get; set; }
+        IDictionary<IPlayer, IChatParticipant> Participants { get; set; }
 
         void Initialize(IMatch match);
         IChatParticipant Add(IPlayer player, bool muted = false, bool deaf = false);
@@ -33,22 +32,23 @@ namespace Mafia.NET.Matches.Chats
         public Chat(string id)
         {
             Id = id;
-            All = new Dictionary<IPlayer, IChatParticipant>();
+            Participants = new Dictionary<IPlayer, IChatParticipant>();
             Initialized = false;
         }
 
         public Chat(string id, Dictionary<IPlayer, IChatParticipant> participants)
         {
             Id = id;
-            All = participants;
+            Participants = participants;
             Initialized = false;
         }
 
+        protected bool Initialized { get; set; }
+
         public string Id { get; set; }
         public bool Paused { get; set; }
-        public IDictionary<IPlayer, IChatParticipant> All { get; set; }
-        protected bool Initialized { get; set; }
-        
+        public IDictionary<IPlayer, IChatParticipant> Participants { get; set; }
+
         public virtual void Initialize(IMatch match)
         {
         }
@@ -56,7 +56,7 @@ namespace Mafia.NET.Matches.Chats
         public IChatParticipant Add(IPlayer player, bool muted = false, bool deaf = false)
         {
             var participant = new ChatParticipant(player, muted, deaf);
-            All.Add(player, participant);
+            Participants.Add(player, participant);
             return participant;
         }
 
@@ -70,7 +70,7 @@ namespace Mafia.NET.Matches.Chats
 
         public IChatParticipant Get(IPlayer player)
         {
-            if (!All.TryGetValue(player, out var participant))
+            if (!Participants.TryGetValue(player, out var participant))
                 participant = Add(player);
 
             return participant;
@@ -84,7 +84,7 @@ namespace Mafia.NET.Matches.Chats
 
         public IChat Mute(bool muted = true)
         {
-            foreach (var player in All.Keys)
+            foreach (var player in Participants.Keys)
                 Mute(player, muted);
 
             return this;
@@ -98,7 +98,7 @@ namespace Mafia.NET.Matches.Chats
 
         public IChat Deafen(bool deaf = true)
         {
-            foreach (var player in All.Keys)
+            foreach (var player in Participants.Keys)
                 Deafen(player, deaf);
 
             return this;
@@ -115,7 +115,7 @@ namespace Mafia.NET.Matches.Chats
 
         public IChat Disable(bool disabled = true)
         {
-            foreach (var player in All.Keys)
+            foreach (var player in Participants.Keys)
                 Disable(player, disabled);
 
             return this;
@@ -130,7 +130,7 @@ namespace Mafia.NET.Matches.Chats
         public bool CanSend(MessageIn messageIn)
         {
             return !Paused &&
-                   All.ContainsKey(messageIn.Sender.Owner) &&
+                   Participants.ContainsKey(messageIn.Sender.Owner) &&
                    messageIn.Sender.CanSend() &&
                    messageIn.Text.Length > 0;
         }
@@ -139,10 +139,10 @@ namespace Mafia.NET.Matches.Chats
         {
             messageOut = default;
             if (!CanSend(messageIn)) return false;
-            
+
             var listeners = new HashSet<IPlayer>();
 
-            foreach (var participant in All.Values)
+            foreach (var participant in Participants.Values)
                 if (participant.CanReceive())
                     listeners.Add(participant.Owner);
 
@@ -154,15 +154,15 @@ namespace Mafia.NET.Matches.Chats
         public bool TrySend(IPlayer player, string text, out MessageOut messageOut)
         {
             messageOut = default;
-            if (!All.TryGetValue(player, out var participant)) return false;
-            
+            if (!Participants.TryGetValue(player, out var participant)) return false;
+
             var messageIn = new MessageIn(participant, text);
             return TrySend(messageIn, out messageOut);
         }
 
         public void Close()
         {
-            All.Clear();
+            Participants.Clear();
         }
     }
 }
