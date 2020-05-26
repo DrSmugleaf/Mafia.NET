@@ -2,5 +2,10 @@
 team: Triad
 categories:
 - Triad Killing
+original_categories:
+- Triad Killing
 - Triad Support
 color: "#4A62AA"
+ability:
+  murder_descriptions:
+  - "They were executed in a jail cell."

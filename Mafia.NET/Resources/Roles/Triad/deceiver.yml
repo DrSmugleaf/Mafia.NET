@@ -3,3 +3,6 @@ team: Triad
 categories:
 - Triad Deception
 color: "#6969BB"
+ability:
+  murder_descriptions:
+  - "They were killed by Asphyxiation."

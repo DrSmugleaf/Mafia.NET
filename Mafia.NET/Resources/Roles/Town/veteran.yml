@@ -2,6 +2,8 @@
 team: Town
 categories:
 - Town Killing
+original_categories:
+- Town Killing
 - Town Power
 color: "#AAFF55"
 ability:

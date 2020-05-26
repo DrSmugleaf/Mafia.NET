@@ -1,7 +1,9 @@
 ﻿id: Jailor
 team: Town
 categories:
-- Town Killing	
+- Town Killing
+original_categories:
+- Town Killing
 - Town Power
 color: "#66CC00"
 ability:

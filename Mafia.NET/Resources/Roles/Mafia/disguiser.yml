@@ -2,5 +2,7 @@
 team: Mafia
 categories:
 - Mafia Deception
+original_categories:
+- Mafia Deception
 - Mafia Killing
 color: "#DD6644"

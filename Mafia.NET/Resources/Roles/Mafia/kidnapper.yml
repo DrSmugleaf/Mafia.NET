@@ -2,6 +2,8 @@
 team: Mafia
 categories:
 - Mafia Killing
+original_categories:
+- Mafia Killing
 - Mafia Support
 color: "#AA3333"
 ability:

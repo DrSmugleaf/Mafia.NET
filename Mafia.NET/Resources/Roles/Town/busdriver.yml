@@ -2,9 +2,10 @@
 team: Town
 categories:
 - Town Protective
+original_categories:
+- Town Protective
 - Town Power
 color: "#55CC11"
 ability:
-  description: 
   murder_descriptions:
   - "They were run over by a bus."
