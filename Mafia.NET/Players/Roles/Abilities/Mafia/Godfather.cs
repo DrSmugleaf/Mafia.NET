@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (!Setup.CanKillWithoutMafioso) return;
             User.Crimes.Add(CrimeKey.Trespassing);
-            AttackedBy(target);
+            Attack(target);
         }
 
         public override void Switch()

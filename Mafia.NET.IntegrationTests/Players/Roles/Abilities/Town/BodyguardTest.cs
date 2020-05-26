@@ -14,29 +14,27 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Bodyguard,Citizen,Mafioso", false, false)]
         [TestCase("Bodyguard,Citizen,Godfather", true, false)]
         [TestCase("Bodyguard,Citizen,Godfather", false, true)]
-        public void Piercing(string namesString, bool piercing, bool enemyAlive)
+        public void Piercing(string namesString, bool piercing, bool attackerAlive)
         {
             var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new BodyguardSetup {IgnoresInvulnerability = piercing});
             match.Start();
 
-            Deaths(match, 0);
-
             match.Skip<NightPhase>();
 
             var bodyguard = match.AllPlayers[0];
             var citizen = match.AllPlayers[1];
-            var godfather = match.AllPlayers[2];
+            var attacker = match.AllPlayers[2];
 
             bodyguard.Role.Ability.TargetManager.Set(citizen);
-            godfather.Role.Ability.TargetManager.Set(citizen);
+            attacker.Role.Ability.TargetManager.Set(citizen);
 
             match.Skip<DeathsPhase>();
 
             Assert.That(bodyguard.Alive, Is.False);
             Assert.That(citizen.Alive, Is.True);
-            Assert.That(godfather.Alive, Is.EqualTo(enemyAlive));
+            Assert.That(attacker.Alive, Is.EqualTo(attackerAlive));
         }
 
         [TestCase("Bodyguard,Citizen,Doctor,Godfather", true)]
@@ -47,8 +45,6 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new BodyguardSetup {CanBeHealed = healing});
             match.Start();
-
-            Deaths(match, 0);
 
             match.Skip<NightPhase>();
 

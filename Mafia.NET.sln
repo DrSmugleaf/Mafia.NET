@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.Tests", "Mafia.NE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.Web", "Mafia.NET.Web\Mafia.NET.Web.csproj", "{32AD6472-77E0-4878-9150-5D6B845581F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.Net.IntegrationTests", "Mafia.NET.IntegrationTests\Mafia.Net.IntegrationTests.csproj", "{FB674409-5BFA-4987-BF75-0EFD03E68BB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mafia.NET.IntegrationTests", "Mafia.NET.IntegrationTests\Mafia.NET.IntegrationTests.csproj", "{FB674409-5BFA-4987-BF75-0EFD03E68BB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

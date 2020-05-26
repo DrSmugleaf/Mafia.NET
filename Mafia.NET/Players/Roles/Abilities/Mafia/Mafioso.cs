@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public override void Kill(IPlayer target)
         {
             User.Crimes.Add(CrimeKey.Trespassing);
-            AttackedBy(target);
+            Attack(target);
         }
 
         protected override void _onNightStart()

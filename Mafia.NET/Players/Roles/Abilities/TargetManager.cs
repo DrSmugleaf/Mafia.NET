@@ -242,7 +242,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             if (player == null) return None();
 
-            return new TargetFilter(() => new List<IPlayer> {[player.Number] = player});
+            return new TargetFilter(() => new List<IPlayer> {player});
         }
 
         public static TargetFilter None()

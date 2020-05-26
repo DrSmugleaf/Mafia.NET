@@ -60,7 +60,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
 
             Uses--;
-            PiercingAttackedBy(target);
+            PiercingAttack(target);
         }
 
         public override void Block(IPlayer target)
