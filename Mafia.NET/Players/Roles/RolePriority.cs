@@ -13,14 +13,14 @@ namespace Mafia.NET.Players.Roles
             Match = match;
             StartOrder = new List<Action<IAbility>>
             {
-                ability => ability.Chat(),
-                ability => ability.Detain()
+                ability => ability.Try(ability.Chat),
+                ability => ability.Try(ability.Detain)
             };
 
             EndOrder = new List<Action<IAbility>>
             {
-                ability => ability.Vest(),
-                ability => ability.Switch(),
+                ability => ability.Try(ability.Vest),
+                ability => ability.Try(ability.Switch),
                 ability => ability.Try(ability.Block),
                 ability => ability.Try(ability.Misc),
                 ability => ability.Try(ability.Kill),

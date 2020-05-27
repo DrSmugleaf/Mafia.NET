@@ -31,6 +31,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
+        void Try(Action action);
         void Try(Action<IPlayer> action);
         void Attack(IPlayer victim);
         void PiercingAttack(IPlayer victim);
@@ -136,9 +137,14 @@ namespace Mafia.NET.Players.Roles.Abilities
             AddTarget(TargetFilter.Only(target), message);
         }
 
+        public void Try(Action action)
+        {
+            if (Active) action();
+        }
+
         public void Try(Action<IPlayer> action)
         {
-            if (TargetManager.Try(out var target)) action(target);
+            if (Active && TargetManager.Try(out var target)) action(target);
         }
 
         public virtual void Attack(IPlayer victim)
