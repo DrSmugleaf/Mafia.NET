@@ -20,10 +20,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (TargetManager.Try(out var first) && TargetManager.Try(1, out var second))
             {
-                var notification1 = SwitchNotification(first);
+                var notification1 = SwitchMessage(first);
                 first.OnNotification(notification1);
 
-                var notification2 = SwitchNotification(second);
+                var notification2 = SwitchMessage(second);
                 second.OnNotification(notification2);
 
                 foreach (var player in Match.LivingPlayers)
@@ -39,14 +39,14 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             }
         }
 
-        public Notification SwitchNotification(IPlayer target)
+        public Notification SwitchMessage(IPlayer target)
         {
             return target == User
                 ? Notification.Chat(BusDriverKey.SelfRide)
                 : Notification.Chat(BusDriverKey.OtherRide);
         }
 
-        public Notification GetMessage()
+        public Notification TargetMessage()
         {
             var target1 = TargetManager[0];
             var target2 = TargetManager[0];
@@ -64,16 +64,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
             AddTarget(filter, new TargetNotification
             {
-                UserAddMessage = target => GetMessage(),
-                UserRemoveMessage = target => GetMessage(),
-                UserChangeMessage = (old, current) => GetMessage()
+                UserAddMessage = target => TargetMessage(),
+                UserRemoveMessage = target => TargetMessage(),
+                UserChangeMessage = (old, current) => TargetMessage()
             });
 
             AddTarget(filter, new TargetNotification
             {
-                UserAddMessage = target => GetMessage(),
-                UserRemoveMessage = target => GetMessage(),
-                UserChangeMessage = (old, current) => GetMessage()
+                UserAddMessage = target => TargetMessage(),
+                UserRemoveMessage = target => TargetMessage(),
+                UserChangeMessage = (old, current) => TargetMessage()
             });
         }
     }

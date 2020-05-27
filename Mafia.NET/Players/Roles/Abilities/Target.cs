@@ -34,7 +34,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                     User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetRemove(old);
-                    old.OnNotification(targetNotification);
+                    old?.OnNotification(targetNotification);
                 }
                 else if (Targeted != null && old == null)
                 {
@@ -42,7 +42,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                     User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetAdd(Targeted);
-                    Targeted.OnNotification(targetNotification);
+                    Targeted?.OnNotification(targetNotification);
                 }
                 else if (Targeted != null && old != null)
                 {
@@ -50,8 +50,8 @@ namespace Mafia.NET.Players.Roles.Abilities
                     User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetChange(old, Targeted);
-                    old.OnNotification(targetNotification);
-                    Targeted.OnNotification(targetNotification);
+                    old?.OnNotification(targetNotification);
+                    Targeted?.OnNotification(targetNotification);
                 }
             }
         }

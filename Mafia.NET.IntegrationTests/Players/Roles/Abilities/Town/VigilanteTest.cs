@@ -10,8 +10,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     [TestOf(typeof(Vigilante))]
     public class VigilanteTest : BaseMatchTest
     {
-        [TestCase("Vigilante,Citizen", true, false)]
-        [TestCase("Vigilante,Citizen", false, true)]
+        [TestCase("Vigilante,Citizen,Mafioso", true, false)]
+        [TestCase("Vigilante,Citizen,Mafioso", false, true)]
         [TestCase("Vigilante,Godfather", true, true)]
         [TestCase("Vigilante,Godfather", false, true)]
         public void Kill(string namesString, bool attack, bool survived)
@@ -27,6 +27,16 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             if (attack) vigilante.Role.Ability.TargetManager.Set(other);
 
+            match.Skip<DeathsPhase>();
+
+            Assert.That(vigilante.Alive, Is.True);
+            Assert.That(other.Alive, Is.True);
+            Deaths(match, 0);
+            
+            match.Skip<NightPhase>();
+
+            if (attack) vigilante.Role.Ability.TargetManager.Set(other);
+            
             match.Skip<DeathsPhase>();
 
             Assert.That(vigilante.Alive, Is.True);

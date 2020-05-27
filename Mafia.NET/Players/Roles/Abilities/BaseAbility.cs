@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
-        void Attack(IPlayer victim);
+        bool Attack(IPlayer victim);
         void PiercingAttack(IPlayer victim);
         bool HealedBy(IPlayer healer);
         bool BlockedBy(IPlayer blocker);
@@ -126,11 +126,13 @@ namespace Mafia.NET.Players.Roles.Abilities
             if (Active) action(this);
         }
 
-        public virtual void Attack(IPlayer victim)
+        public virtual bool Attack(IPlayer victim)
         {
-            if (victim.Role.Ability.CurrentlyNightImmune) return;
+            if (victim.Role.Ability.CurrentlyNightImmune) return false;
+            
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
+            return true;
         }
 
         public void PiercingAttack(IPlayer victim)
