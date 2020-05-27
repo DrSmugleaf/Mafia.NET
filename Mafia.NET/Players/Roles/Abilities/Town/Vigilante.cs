@@ -9,7 +9,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         UserRemoveMessage,
         UserChangeMessage
     }
-    
+
     [RegisterAbility("Vigilante", typeof(VigilanteSetup))]
     public class Vigilante : TownAbility<VigilanteSetup>
     {

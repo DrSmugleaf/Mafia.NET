@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
@@ -27,16 +26,16 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var visitor = match.AllPlayers[2];
 
             match.Skip<NightPhase>();
-            
+
             lookout.Role.Ability.TargetManager.Set(visited);
-            
+
             if (visit) visitor.Role.Ability.TargetManager.Set(visited);
 
             var notifications = new List<Text>();
             lookout.Chat += (s, e) => notifications.Add(e);
 
             match.Skip<DeathsPhase>();
-            
+
             Assert.That(notifications.Count, Is.Positive);
             var message = visit
                 ? Notification.Chat(LookoutKey.SomeoneVisitedTarget, visitor)

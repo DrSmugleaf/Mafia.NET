@@ -4,32 +4,32 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
-namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
+namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 {
     [TestFixture]
     [TestOf(typeof(Vigilante))]
-    public class VigilanteTest : BaseMatchTest
+    public class SerialKillerTest : BaseMatchTest
     {
-        [TestCase("Vigilante,Citizen", true, false)]
-        [TestCase("Vigilante,Citizen", false, true)]
-        [TestCase("Vigilante,Godfather", true, true)]
-        [TestCase("Vigilante,Godfather", false, true)]
+        [TestCase("Serial Killer,Citizen", true, false)]
+        [TestCase("Serial Killer,Citizen", false, true)]
+        [TestCase("Serial Killer,Godfather", true, true)]
+        [TestCase("Serial Killer,Godfather", false, true)]
         public void Kill(string namesString, bool attack, bool survived)
         {
             var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 
-            var vigilante = match.AllPlayers[0];
+            var sk = match.AllPlayers[0];
             var other = match.AllPlayers[1];
 
             match.Skip<NightPhase>();
 
-            if (attack) vigilante.Role.Ability.TargetManager.Set(other);
+            if (attack) sk.Role.Ability.TargetManager.Set(other);
 
             match.Skip<DeathsPhase>();
 
-            Assert.That(vigilante.Alive, Is.True);
+            Assert.That(sk.Alive, Is.True);
             Assert.That(other.Alive, Is.EqualTo(survived));
             Deaths(match, survived ? 0 : 1);
         }

@@ -5,7 +5,6 @@ using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
 using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 

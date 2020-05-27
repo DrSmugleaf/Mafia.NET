@@ -43,7 +43,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
                 AloneTeam())
                 User.Role.Ability = Match.Abilities.Ability<Mafioso>();
             else if (Setup is MafiaSuperMinionSetup superMafiaSetup &&
-                     superMafiaSetup.ReplacesGodfather && 
+                     superMafiaSetup.ReplacesGodfather &&
                      NoGodfather())
                 User.Role.Ability = Match.Setup.Roles.Abilities.Ability<Godfather>();
         }

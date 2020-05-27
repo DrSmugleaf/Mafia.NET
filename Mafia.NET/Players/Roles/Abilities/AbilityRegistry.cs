@@ -81,10 +81,10 @@ namespace Mafia.NET.Players.Roles.Abilities
 
                 if (names.ContainsKey(id))
                     throw new ArgumentException($"Ability with id {id} is already registered.");
-                
+
                 if (types.ContainsKey(type))
                     throw new ArgumentException($"Ability with type {type} is already registered.");
-                
+
                 names[id] = entry;
                 types[type] = entry;
             }
