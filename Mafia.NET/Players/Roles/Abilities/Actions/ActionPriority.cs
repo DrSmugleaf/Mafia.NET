@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Matches;
-using Mafia.NET.Players.Roles.Abilities;
 
-namespace Mafia.NET.Players.Roles
+namespace Mafia.NET.Players.Roles.Abilities.Actions
 {
-    public class RolePriority
+    public class ActionPriority
     {
-        public RolePriority(IMatch match)
+        public ActionPriority(IMatch match)
         {
             Match = match;
-            StartOrder = new List<Action<IAbility>>
+            StartOrder = new List<Action<IAbilityAction>>
             {
                 ability => ability.Chat(),
                 ability => ability.Detain()
             };
 
-            EndOrder = new List<Action<IAbility>>
+            EndOrder = new List<Action<IAbilityAction>>
             {
                 ability => ability.Vest(),
                 ability => ability.Switch(),
@@ -29,13 +28,14 @@ namespace Mafia.NET.Players.Roles
                 ability => ability.Detect(),
                 ability => ability.Disguise(),
                 ability => ability.MasonRecruit(),
-                ability => ability.CultRecruit()
+                ability => ability.CultRecruit(),
+                ability => ability.Revenge()
             };
         }
 
         public IMatch Match { get; }
-        public IList<Action<IAbility>> StartOrder { get; }
-        public IList<Action<IAbility>> EndOrder { get; }
+        public IList<Action<IAbilityAction>> StartOrder { get; }
+        public IList<Action<IAbilityAction>> EndOrder { get; }
 
         public IList<IAbility> Abilities()
         {

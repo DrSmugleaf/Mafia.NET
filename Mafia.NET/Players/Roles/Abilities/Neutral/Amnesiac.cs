@@ -3,21 +3,21 @@ using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
-    [RegisterAbility("Witch Doctor", typeof(WitchDoctorSetup))]
-    public class WitchDoctor : BaseAbility<WitchDoctorSetup>
+    [RegisterAbility("Amnesiac", typeof(AmnesiacSetup))]
+    public class Amnesiac : BaseAbility<AmnesiacSetup>
     {
         public override bool DetectableBy(ISheriffSetup setup)
         {
-            return setup.DetectsCult;
+            return true;
         }
 
         protected override Key GuiltyName()
         {
-            return SheriffKey.Cultist;
+            return SheriffKey.NotSuspicious;
         }
     }
 
-    public class WitchDoctorSetup : IAbilitySetup
+    public class AmnesiacSetup : IAbilitySetup
     {
     }
 }

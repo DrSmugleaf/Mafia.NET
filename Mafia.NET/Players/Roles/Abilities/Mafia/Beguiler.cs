@@ -55,10 +55,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class BeguilerSetup : MafiaMinionSetup, IChargeSetup
+    public class BeguilerSetup : MafiaMinionSetup, IUsesSetup
     {
         public bool CanHideBehindMafia = false;
         public bool NotifiesTarget = false;
-        public int Charges { get; set; } = 2;
+        public int Uses { get; set; } = 2;
     }
 }

@@ -6,12 +6,13 @@ using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Deaths;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 using Mafia.NET.Players.Roles.Categories;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    public interface IAbility
+    public interface IAbility : IAbilityAction
     {
         IMatch Match { get; }
         IPlayer User { get; set; }
@@ -32,7 +33,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
-        void Try(Action<IAbility> action);
         void Attack(IPlayer victim);
         void PiercingAttack(IPlayer victim);
         bool HealedBy(IPlayer healer);
@@ -47,19 +47,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         void OnNightStart();
         void BeforeNightEnd();
         void OnNightEnd();
-        void Chat();
-        void Detain();
-        void Vest();
-        void Switch();
-        void Block();
-        void Misc();
-        void Kill();
-        void Protect();
-        void Clean();
-        void Detect();
-        void Disguise();
-        void MasonRecruit();
-        void CultRecruit();
     }
 
     public abstract class BaseAbility<T> : IAbility where T : class, IAbilitySetup, new()
@@ -102,7 +89,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             CurrentlyNightImmune = NightImmune;
             DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
             Cooldown = Setup is ICooldownSetup cooldownSetup ? cooldownSetup.NightsBetweenUses : 0;
-            Uses = Setup is IChargeSetup chargeSetup ? chargeSetup.Charges : 0;
+            Uses = Setup is IUsesSetup chargeSetup ? chargeSetup.Uses : 0;
 
             TargetManager = new TargetManager(Match, User);
         }
@@ -134,7 +121,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             AddTarget(TargetFilter.Only(target), message);
         }
 
-        public virtual void Try(Action<IAbility> action)
+        public virtual void Try(Action<IAbilityAction> action)
         {
             if (Active) action(this);
         }
@@ -286,6 +273,10 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
 
+        public virtual void Revenge()
+        {
+        }
+
         protected abstract Key GuiltyName();
 
         protected virtual void _onDayStart()
@@ -293,10 +284,6 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         protected virtual void _onDayEnd()
-        {
-        }
-
-        protected virtual void _beforeNightStart()
         {
         }
 

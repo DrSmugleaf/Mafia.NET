@@ -9,9 +9,9 @@
         int NightsBetweenUses { get; set; }
     }
 
-    public interface IChargeSetup : IAbilitySetup
+    public interface IUsesSetup : IAbilitySetup
     {
-        int Charges { get; set; }
+        int Uses { get; set; }
     }
 
     public interface INightImmune : IAbilitySetup

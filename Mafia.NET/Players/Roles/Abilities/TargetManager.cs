@@ -49,6 +49,11 @@ namespace Mafia.NET.Players.Roles.Abilities
             set => Get()[index]?.Set(value);
         }
 
+        public bool Any(IPlayer targeted)
+        {
+            return Get().Targets.Any(target => target.Targeted == targeted);
+        }
+
         public PhaseTargeting Get()
         {
             return Phases[Match.Phase.CurrentTime];

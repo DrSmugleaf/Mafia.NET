@@ -84,9 +84,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class JailorSetup : ITownSetup, IChargeSetup
+    public class JailorSetup : ITownSetup, IUsesSetup
     {
-        public int Charges { get; set; } = 1;
+        public int Uses { get; set; } = 1;
     }
 
     public class JailorChat : Chat

@@ -4,7 +4,7 @@ using Mafia.NET.Players.Roles.Abilities.Town;
 namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
     [RegisterAbility("Serial Killer", typeof(SerialKillerSetup))]
-    public class SerialKiller : GuiltyAbility<SerialKillerSetup>
+    public class SerialKiller : BaseAbility<SerialKillerSetup>
     {
         public override bool DetectableBy(ISheriffSetup setup)
         {

@@ -6,8 +6,8 @@ using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Controllers;
-using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Matches
@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches
         Graveyard Graveyard { get; }
         PhaseManager Phase { get; set; }
         ChatManager Chat { get; }
-        RolePriority Priority { get; }
+        ActionPriority Priority { get; }
         RoleSetup RoleSetup { get; }
         AbilityRegistry Abilities { get; }
         AbilitySetupRegistry AbilitySetups { get; }
@@ -50,7 +50,7 @@ namespace Mafia.NET.Matches
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
-            Priority = new RolePriority(this);
+            Priority = new ActionPriority(this);
         }
 
         public Match(params string[] roles)
@@ -65,7 +65,7 @@ namespace Mafia.NET.Matches
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
-            Priority = new RolePriority(this);
+            Priority = new ActionPriority(this);
         }
 
         public Random Random { get; }
@@ -77,7 +77,7 @@ namespace Mafia.NET.Matches
         public Graveyard Graveyard { get; }
         public PhaseManager Phase { get; set; }
         public ChatManager Chat => Phase.Chat;
-        public RolePriority Priority { get; }
+        public ActionPriority Priority { get; }
         public RoleSetup RoleSetup => Setup.Roles;
         public AbilityRegistry Abilities => RoleSetup.Abilities;
         public AbilitySetupRegistry AbilitySetups => RoleSetup.AbilitySetups;

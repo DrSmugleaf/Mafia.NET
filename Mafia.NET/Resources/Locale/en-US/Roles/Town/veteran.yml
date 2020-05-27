@@ -2,3 +2,6 @@
 Summary: "A paranoid, retired admiral who will shoot anyone who bothers him."
 Goal: "Lynch every criminal and evildoer."
 Abilities: "May go on alert during the night. If he goes on alert, will automatically kills any player who targets him that night."
+
+UserAddMessage: "You will go on alert, killing everyone that visits you tonight."
+UserRemoveMessage: "You won't go on alert tonight."

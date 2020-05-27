@@ -46,8 +46,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class JanitorSetup : MafiaMinionSetup, IChargeSetup
+    public class JanitorSetup : MafiaMinionSetup, IUsesSetup
     {
-        public int Charges { get; set; } = 2;
+        public int Uses { get; set; } = 2;
     }
 }

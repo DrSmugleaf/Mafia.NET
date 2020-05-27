@@ -4,7 +4,7 @@ using Mafia.NET.Players.Roles.Abilities.Town;
 namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
     [RegisterAbility("Arsonist", typeof(ArsonistSetup))]
-    public class Arsonist : GuiltyAbility<ArsonistSetup>
+    public class Arsonist : BaseAbility<ArsonistSetup>
     {
         public override bool DetectableBy(ISheriffSetup setup)
         {

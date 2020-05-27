@@ -4,7 +4,7 @@ using Mafia.NET.Players.Roles.Abilities.Town;
 namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
     [RegisterAbility("Mass Murderer", typeof(MassMurdererSetup))]
-    public class MassMurderer : GuiltyAbility<MassMurdererSetup>
+    public class MassMurderer : BaseAbility<MassMurdererSetup>
     {
         public override bool DetectableBy(ISheriffSetup setup)
         {
