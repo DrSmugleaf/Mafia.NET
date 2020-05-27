@@ -22,7 +22,8 @@ namespace Mafia.NET.Players.Roles
             IList<ICategory> categories,
             Color color,
             Color originalColor,
-            bool natural)
+            bool natural,
+            bool unique)
         {
             Id = id;
             Name = new Key($"{id}name");
@@ -34,6 +35,7 @@ namespace Mafia.NET.Players.Roles
             Color = color;
             OriginalColor = originalColor;
             Natural = natural;
+            Unique = unique;
         }
 
         public string Id { get; }
@@ -45,6 +47,7 @@ namespace Mafia.NET.Players.Roles
         public IImmutableList<ICategory> Categories { get; }
         public Color OriginalColor { get; }
         public bool Natural { get; }
+        public bool Unique { get; }
         public Color Color { get; }
 
         public Text Localize(CultureInfo culture = null)
@@ -93,8 +96,9 @@ namespace Mafia.NET.Players.Roles
                 var color = yaml["color"].AsColor();
                 var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;
                 var natural = !yaml.Children.ContainsKey("natural") || yaml["natural"].AsBool();
+                var unique = yaml.Children.ContainsKey("unique") && yaml["unique"].AsBool();
 
-                var role = new RoleEntry(id, team, categories, color, originalColor, natural);
+                var role = new RoleEntry(id, team, categories, color, originalColor, natural, unique);
                 names.Add(id, role);
             }
 

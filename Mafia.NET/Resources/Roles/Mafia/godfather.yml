@@ -3,6 +3,7 @@ team: Mafia
 categories:
 - Mafia Killing
 color: "#FF4488"
+unique: true
 ability:
   murder_descriptions:
   - "They were shot at close range."

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
@@ -20,11 +18,11 @@ namespace Mafia.NET.Players.Roles.Selectors
         Key Goal { get; }
         Key Abilities { get; }
         IImmutableList<RoleEntry> Possible { get; }
-        HashSet<RoleEntry> Excludes { get; }
+        HashSet<RoleEntry> Excluded { get; }
         bool Random => Possible.Count > 1;
 
-        bool First(out RoleEntry entry);
-        bool TryResolve(Random random, out RoleEntry entry);
+        bool First(IList<RoleEntry> entry);
+        bool TryResolve(Random random, IList<RoleEntry> resolved);
     }
 
     public class RoleSelector : IRoleSelector
@@ -47,7 +45,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             possible.RemoveAll(role => !role.Natural);
             Possible = possible.ToImmutableList();
 
-            Excludes = new HashSet<RoleEntry>();
+            Excluded = new HashSet<RoleEntry>();
             Color = color;
         }
 
@@ -85,7 +83,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             possible.RemoveAll(role => !role.Natural);
             Possible = possible.ToImmutableList();
 
-            Excludes = new HashSet<RoleEntry>();
+            Excluded = new HashSet<RoleEntry>();
             Color = team.Color;
         }
 
@@ -106,35 +104,35 @@ namespace Mafia.NET.Players.Roles.Selectors
         public Key Goal { get; }
         public Key Abilities { get; }
         public IImmutableList<RoleEntry> Possible { get; }
-        public HashSet<RoleEntry> Excludes { get; }
+        public HashSet<RoleEntry> Excluded { get; }
         public Color Color { get; }
 
-        public bool First(out RoleEntry entry)
+        public bool First(IList<RoleEntry> resolved)
         {
-            entry = default;
             var possible = new List<RoleEntry>(Possible);
 
-            foreach (var excluded in Excludes)
+            var unique = resolved.Where(role => role.Unique);
+            foreach (var excluded in Excluded.Union(unique))
                 possible.Remove(excluded);
 
             if (possible.Count != 1) return false;
-            entry = possible[0];
 
-            return entry != default;
+            resolved.Add(possible[0]);
+            return true;
         }
 
-        public bool TryResolve(Random random, [CanBeNull] [NotNullWhen(true)] out RoleEntry entry)
+        public bool TryResolve(Random random, IList<RoleEntry> resolved)
         {
-            entry = default;
             var possible = new HashSet<RoleEntry>(Possible);
 
-            foreach (var excluded in Excludes)
+            var unique = resolved.Where(role => role.Unique);
+            foreach (var excluded in Excluded.Union(unique))
                 possible.Remove(excluded);
 
-            if (possible.Count > 0)
-                entry = possible.ElementAt(random.Next(possible.Count));
+            if (possible.Count == 0) return false;
 
-            return entry != default;
+            resolved.Add(possible.ElementAt(random.Next(possible.Count)));
+            return true;
         }
 
         public Text Localize(CultureInfo culture = null)

@@ -3,3 +3,4 @@ team: Town
 categories:
 - Town Government
 color: "#44FF44"
+unique: true

@@ -3,6 +3,7 @@ team: Town
 categories:
 - Town Government
 color: "#22FF77"
+unique: true
 ability:
   murder_descriptions:
   - "They were bludgeoned to death."

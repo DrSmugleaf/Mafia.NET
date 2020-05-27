@@ -3,6 +3,7 @@ team: Triad
 categories:
 - Triad Killing
 color: "#9F8EFF"
+unique: true
 ability:
   murder_descriptions:
   - "They were shot at close range."

@@ -51,14 +51,15 @@ namespace Mafia.NET.Players.Roles.Selectors
         public List<IPlayer> Static(IMatch match)
         {
             var players = new List<IPlayer>();
+            var roleEntries = new List<RoleEntry>();
 
-            for (var i = 0; i < Selectors.Count; i++)
-            {
-                var selector = Selectors[i];
-
-                if (!selector.First(out var roleEntry))
+            foreach (var selector in Selectors)
+                if (!selector.First(roleEntries))
                     throw new ArgumentException($"No first role found for selector {selector}");
 
+            for (var i = 0; i < roleEntries.Count; i++)
+            {
+                var roleEntry = roleEntries[i];
                 var ability = Abilities.Names[roleEntry.Id].Build();
                 var role = new Role(roleEntry, ability);
                 var controller = new LobbyController($"Bot {i + 1}", null);
@@ -66,6 +67,7 @@ namespace Mafia.NET.Players.Roles.Selectors
 
                 players.Add(player);
             }
+
 
             return players;
         }
@@ -75,10 +77,8 @@ namespace Mafia.NET.Players.Roles.Selectors
             roles = new List<RoleEntry>();
 
             foreach (var selector in Selectors)
-            {
-                if (!selector.TryResolve(random, out var role)) return false;
-                roles.Add(role);
-            }
+                if (!selector.TryResolve(random, roles))
+                    return false;
 
             return true;
         }
