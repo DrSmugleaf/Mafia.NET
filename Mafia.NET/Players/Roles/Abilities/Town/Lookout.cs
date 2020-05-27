@@ -15,8 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Lookout", typeof(LookoutSetup))]
     public class Lookout : TownAbility<LookoutSetup>
     {
-        public override void Detect(IPlayer target)
+        public override void Detect()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             User.Crimes.Add(CrimeKey.Trespassing);
 
             var foreignVisits = new EntryBundle();

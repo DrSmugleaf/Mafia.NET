@@ -18,13 +18,15 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Agent", typeof(AgentSetup))]
     public class Agent : MafiaAbility<AgentSetup>
     {
-        public override void Detect(IPlayer target)
+        public override void Detect()
         {
             if (Cooldown > 0)
             {
                 Cooldown--;
                 return;
             }
+
+            if (!TargetManager.Try(out var target)) return;
 
             Cooldown = Setup.NightsBetweenUses;
 

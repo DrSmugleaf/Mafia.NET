@@ -16,8 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Janitor", typeof(JanitorSetup))]
     public class Janitor : MafiaAbility<JanitorSetup>
     {
-        public override void Clean(IPlayer target)
+        public override void Clean()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             var targetThreats = Match.Graveyard.Threats.Where(threat => threat.Victim == target).ToList();
 
             if (targetThreats.Any())

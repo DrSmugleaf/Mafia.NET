@@ -15,8 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Doctor", typeof(DoctorSetup))]
     public class Doctor : TownAbility<DoctorSetup>
     {
-        public override void Protect(IPlayer target)
+        public override void Protect()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             if (target.Role.Ability.HealedBy(User) && Setup.KnowsIfTargetAttacked)
             {
                 var notification = Notification.Chat(DoctorKey.TargetAttacked);

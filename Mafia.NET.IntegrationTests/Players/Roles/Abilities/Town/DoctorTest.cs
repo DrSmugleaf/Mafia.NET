@@ -10,9 +10,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     [TestOf(typeof(Doctor))]
     public class DoctorTest : BaseMatchTest
     {
-        [TestCase("Doctor,Citizen,Mafioso", true)]
-        [TestCase("Doctor,Citizen,Mafioso,Mafioso", true)]
-        public void Heal(string namesString, bool alive)
+        [TestCase("Doctor,Citizen,Mafioso", true, true)]
+        [TestCase("Doctor,Citizen,Mafioso", false, false)]
+        [TestCase("Doctor,Citizen,Mafioso,Mafioso", true, true)]
+        [TestCase("Doctor,Citizen,Mafioso,Mafioso", false, false)]
+        public void Heal(string namesString, bool heal, bool alive)
         {
             var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
@@ -23,7 +25,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var doctor = match.AllPlayers[0];
             var citizen = match.AllPlayers[1];
             
-            doctor.Role.Ability.TargetManager.Set(citizen);
+            if (heal) doctor.Role.Ability.TargetManager.Set(citizen);
+            
             for (var i = 2; i < match.AllPlayers.Count; i++)
             {
                 var attacker = match.AllPlayers[i];

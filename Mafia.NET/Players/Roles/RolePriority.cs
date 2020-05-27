@@ -13,23 +13,23 @@ namespace Mafia.NET.Players.Roles
             Match = match;
             StartOrder = new List<Action<IAbility>>
             {
-                ability => ability.Try(ability.Chat),
-                ability => ability.Try(ability.Detain)
+                ability => ability.Chat(),
+                ability => ability.Detain()
             };
 
             EndOrder = new List<Action<IAbility>>
             {
-                ability => ability.Try(ability.Vest),
-                ability => ability.Try(ability.Switch),
-                ability => ability.Try(ability.Block),
-                ability => ability.Try(ability.Misc),
-                ability => ability.Try(ability.Kill),
-                ability => ability.Try(ability.Protect),
-                ability => ability.Try(ability.Clean),
-                ability => ability.Try(ability.Detect),
-                ability => ability.Try(ability.Disguise),
-                ability => ability.Try(ability.MasonRecruit),
-                ability => ability.Try(ability.CultRecruit)
+                ability => ability.Vest(),
+                ability => ability.Switch(),
+                ability => ability.Block(),
+                ability => ability.Misc(),
+                ability => ability.Kill(),
+                ability => ability.Protect(),
+                ability => ability.Clean(),
+                ability => ability.Detect(),
+                ability => ability.Disguise(),
+                ability => ability.MasonRecruit(),
+                ability => ability.CultRecruit()
             };
         }
 
@@ -51,7 +51,7 @@ namespace Mafia.NET.Players.Roles
         {
             foreach (var action in StartOrder)
             foreach (var ability in Abilities())
-                action(ability);
+                ability.Try(action);
 
             foreach (var ability in Abilities())
                 ability.OnNightStart();
@@ -61,7 +61,7 @@ namespace Mafia.NET.Players.Roles
         {
             foreach (var action in EndOrder)
             foreach (var ability in Abilities())
-                action(ability);
+                ability.Try(action);
         }
     }
 }

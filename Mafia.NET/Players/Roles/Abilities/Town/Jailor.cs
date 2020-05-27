@@ -43,16 +43,20 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             prisoner.Role.Ability.PiercingBlockedBy(User);
         }
 
-        public override void Kill(IPlayer target)
+        public override void Kill()
         {
-            if (Uses == 0 || !TargetManager.TryDay(out var prisoner) || target != prisoner) return;
+            if (!TargetManager.Try(out var target) ||
+                Uses == 0 ||
+                !TargetManager.TryDay(out var prisoner) || target != prisoner)
+                return;
 
             Uses--;
             PiercingAttack(target);
         }
 
-        public override void Block(IPlayer target)
+        public override void Block()
         {
+            if (!TargetManager.Try(out var target)) return;
             target.Role.Ability.PiercingBlockedBy(User);
         }
 

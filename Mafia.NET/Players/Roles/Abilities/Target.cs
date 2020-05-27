@@ -59,7 +59,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public TargetFilter Filter { get; }
         public TargetNotification Message { get; set; }
 
-        public bool Try([CanBeNull] [NotNullWhen(true)] out IPlayer target)
+        public bool Try([MaybeNullWhen(false)] out IPlayer target)
         {
             target = Targeted;
             return target != null;

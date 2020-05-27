@@ -15,8 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Consort", typeof(ConsortSetup))]
     public class Consort : MafiaAbility<ConsortSetup>
     {
-        public override void Block(IPlayer target)
+        public override void Block()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             User.Crimes.Add(CrimeKey.Soliciting);
             if (target.Role.Team.Id == "Town") User.Crimes.Add(CrimeKey.DisturbingThePeace);
 

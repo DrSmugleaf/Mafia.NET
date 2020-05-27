@@ -13,8 +13,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Framer", typeof(FramerSetup))]
     public class Framer : MafiaAbility<FramerSetup>
     {
-        public override void Misc(IPlayer target)
+        public override void Misc()
         {
+            if (!TargetManager.Try(out var target)) return;
             User.Crimes.Add(CrimeKey.Trespassing);
             target.Crimes.Framing = new Framing(Match);
         }

@@ -14,8 +14,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Mafioso", typeof(MafiosoSetup))]
     public class Mafioso : MafiaAbility<MafiosoSetup>
     {
-        public override void Kill(IPlayer target)
+        public override void Kill()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             var otherMafiosoAttacked = Match.Graveyard.ThreatsOn(target)
                 .Any(threat => threat.Killer?.Role.Ability is Mafioso);
             if (otherMafiosoAttacked) return;

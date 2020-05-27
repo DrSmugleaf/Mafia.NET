@@ -15,8 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Escort", typeof(EscortSetup))]
     public class Escort : TownAbility<EscortSetup>
     {
-        public override void Block(IPlayer target)
+        public override void Block()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             User.Crimes.Add(CrimeKey.Soliciting);
 
             if (target.Role.Team.Id == "Town")

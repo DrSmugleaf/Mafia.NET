@@ -16,8 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Detective", typeof(DetectiveSetup))]
     public class Detective : TownAbility<DetectiveSetup>
     {
-        public override void Detect(IPlayer target)
+        public override void Detect()
         {
+            if (!TargetManager.Try(out var target)) return;
+            
             User.Crimes.Add(CrimeKey.Trespassing);
 
             var notification = target.Role.Ability.DetectTarget(out var visited, Setup)

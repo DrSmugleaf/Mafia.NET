@@ -31,8 +31,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
-        void Try(Action action);
-        void Try(Action<IPlayer> action);
+        void Try(Action<IAbility> action);
         void Attack(IPlayer victim);
         void PiercingAttack(IPlayer victim);
         bool HealedBy(IPlayer healer);
@@ -50,15 +49,15 @@ namespace Mafia.NET.Players.Roles.Abilities
         void Detain();
         void Vest();
         void Switch();
-        void Block(IPlayer target);
-        void Misc(IPlayer target);
-        void Kill(IPlayer target);
-        void Protect(IPlayer target);
-        void Clean(IPlayer target);
-        void Detect(IPlayer target);
-        void Disguise(IPlayer target);
-        void MasonRecruit(IPlayer target);
-        void CultRecruit(IPlayer target);
+        void Block();
+        void Misc();
+        void Kill();
+        void Protect();
+        void Clean();
+        void Detect();
+        void Disguise();
+        void MasonRecruit();
+        void CultRecruit();
     }
 
     public abstract class BaseAbility<T> : IAbility where T : class, IAbilitySetup, new()
@@ -137,14 +136,9 @@ namespace Mafia.NET.Players.Roles.Abilities
             AddTarget(TargetFilter.Only(target), message);
         }
 
-        public void Try(Action action)
+        public virtual void Try(Action<IAbility> action)
         {
-            if (Active) action();
-        }
-
-        public void Try(Action<IPlayer> action)
-        {
-            if (Active && TargetManager.Try(out var target)) action(target);
+            if (Active) action(this);
         }
 
         public virtual void Attack(IPlayer victim)
@@ -254,39 +248,39 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
         }
 
-        public virtual void Block(IPlayer target)
+        public virtual void Block()
         {
         }
 
-        public virtual void Misc(IPlayer target)
+        public virtual void Misc()
         {
         }
 
-        public virtual void Kill(IPlayer target)
+        public virtual void Kill()
         {
         }
 
-        public virtual void Protect(IPlayer target)
+        public virtual void Protect()
         {
         }
 
-        public virtual void Clean(IPlayer target)
+        public virtual void Clean()
         {
         }
 
-        public virtual void Detect(IPlayer target)
+        public virtual void Detect()
         {
         }
 
-        public virtual void Disguise(IPlayer target)
+        public virtual void Disguise()
         {
         }
 
-        public virtual void MasonRecruit(IPlayer target)
+        public virtual void MasonRecruit()
         {
         }
 
-        public virtual void CultRecruit(IPlayer target)
+        public virtual void CultRecruit()
         {
         }
 

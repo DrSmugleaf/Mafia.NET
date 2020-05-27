@@ -17,9 +17,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     public class Godfather : MafiaAbility<GodfatherSetup>
     {
         // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
-        public override void Kill(IPlayer target)
+        public override void Kill()
         {
-            if (!Setup.CanKillWithoutMafioso) return;
+            if (!TargetManager.Try(out var target) ||
+                !Setup.CanKillWithoutMafioso) return;
             User.Crimes.Add(CrimeKey.Trespassing);
             Attack(target);
         }

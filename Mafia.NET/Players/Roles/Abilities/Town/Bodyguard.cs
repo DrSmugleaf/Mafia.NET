@@ -20,21 +20,20 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             return Match.Graveyard.ThreatsOn(User).Count > 0;
         }
 
-        public override void Protect(IPlayer target)
+        public override void Protect()
         {
-            if (TargetManager.Try(out var guarded))
+            if (!TargetManager.Try(out var target)) return;
+            
+            var threats = Match.Graveyard.ThreatsOn(target);
+            if (threats.Count > 0)
             {
-                var threats = Match.Graveyard.ThreatsOn(guarded);
-                if (threats.Count > 0)
-                {
-                    var threat = threats[0];
-                    threat.WithVictim(User);
+                var threat = threats[0];
+                threat.WithVictim(User);
 
-                    if (Setup.IgnoresInvulnerability)
-                        PiercingAttack(threat.Killer);
-                    else
-                        Attack(threat.Killer);
-                }
+                if (Setup.IgnoresInvulnerability)
+                    PiercingAttack(threat.Killer);
+                else
+                    Attack(threat.Killer);
             }
         }
 
