@@ -8,13 +8,13 @@ namespace Mafia.NET.Players.Roles.Abilities
     [MeansImplicitUse]
     public sealed class RegisterAbilityAttribute : Attribute
     {
-        public RegisterAbilityAttribute(string name, Type setup)
+        public RegisterAbilityAttribute(string id, Type setup)
         {
-            Name = name;
+            Id = id;
             Setup = setup;
         }
 
-        public string Name { get; }
+        public string Id { get; }
         public Type Setup { get; }
     }
 }

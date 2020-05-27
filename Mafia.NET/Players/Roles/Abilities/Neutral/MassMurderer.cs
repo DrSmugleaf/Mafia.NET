@@ -1,14 +1,23 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Neutral
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Town;
+
+namespace Mafia.NET.Players.Roles.Abilities.Neutral
 {
+    [RegisterAbility("Mass Murderer", typeof(MassMurdererSetup))]
     public class MassMurderer : GuiltyAbility<MassMurdererSetup>
     {
         public override bool DetectableBy(ISheriffSetup setup)
         {
             return setup.DetectsMassMurderer;
         }
+
+        protected override Key GuiltyName()
+        {
+            return SheriffKey.MassMurderer;
+        }
     }
 
-    public class MassMurdererSetup : IAbilitySetup, IDetectionImmune
+    public class MassMurdererSetup : IDetectionImmune
     {
         public bool DetectionImmune { get; set; } = false;
     }

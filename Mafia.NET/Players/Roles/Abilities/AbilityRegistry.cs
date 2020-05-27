@@ -55,7 +55,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
                 if (attribute == null) continue;
 
-                attributes[attribute.Name] = (type, attribute);
+                attributes[attribute.Id] = (type, attribute);
             }
 
             var names = new Dictionary<string, AbilityEntry>();

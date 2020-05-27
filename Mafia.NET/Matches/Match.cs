@@ -31,6 +31,7 @@ namespace Mafia.NET.Matches
 
         void Start();
         void Skip();
+        T Skip<T>() where T : IPhase;
         void End();
         void OnEnd();
     }
@@ -95,6 +96,12 @@ namespace Mafia.NET.Matches
             Phase.AdvancePhase();
         }
 
+        public T Skip<T>() where T : IPhase
+        {
+            while (!(Phase.CurrentPhase is T)) Skip();
+            return (T) Phase.CurrentPhase;
+        }
+
         public void End()
         {
             Phase.Close();
@@ -104,12 +111,6 @@ namespace Mafia.NET.Matches
         public void OnEnd()
         {
             MatchEnd?.Invoke(this, new MatchEnd(this));
-        }
-
-        public T Skip<T>() where T : IPhase
-        {
-            while (!(Phase.CurrentPhase is T)) Skip();
-            return (T) Phase.CurrentPhase;
         }
     }
 }

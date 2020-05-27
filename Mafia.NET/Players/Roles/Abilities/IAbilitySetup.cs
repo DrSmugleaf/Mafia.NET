@@ -34,15 +34,6 @@
         bool IgnoresDetectionImmunity { get; set; }
     }
 
-    public interface ISheriffSetup : IAbilitySetup
-    {
-        bool DetectsMafiaTriad { get; set; }
-        bool DetectsSerialKiller { get; set; }
-        bool DetectsArsonist { get; set; }
-        bool DetectsCult { get; set; }
-        bool DetectsMassMurderer { get; set; }
-    }
-
     public interface IRandomExcluded : IAbilitySetup
     {
         bool ExcludedFromRandoms { get; set; }

@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool RoleBlockImmune { get; set; }
         bool NightImmune { get; set; }
         bool CurrentlyNightImmune { get; set; }
-        bool DetectionImmune { get; }
+        bool DetectionImmune { get; set; }
         int Cooldown { get; set; }
         int Uses { get; set; }
 
@@ -39,7 +39,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool BlockedBy(IPlayer blocker);
         bool PiercingBlockedBy(IPlayer blocker);
         bool DetectableBy(ISheriffSetup setup);
-        Key Guilty(ISheriffSetup setup);
+        Key DirectSheriff(ISheriffSetup setup);
         bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null);
         bool AloneTeam();
         void OnDayStart();
@@ -182,7 +182,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public abstract bool DetectableBy(ISheriffSetup setup);
 
-        public Key Guilty(ISheriffSetup setup)
+        public Key DirectSheriff(ISheriffSetup setup)
         {
             return !DetectableBy(setup) || DetectionImmune ? SheriffKey.NotSuspicious : GuiltyName();
         }

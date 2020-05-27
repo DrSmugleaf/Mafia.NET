@@ -6,9 +6,9 @@ using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
+using Mafia.NET.Players.Roles.Abilities.Town;
 using Mafia.NET.Players.Roles.Abilities.Triad;
 
 namespace Mafia.NET.Players.Roles
@@ -73,10 +73,10 @@ namespace Mafia.NET.Players.Roles
             return User.Role.Name;
         }
 
-        public Key Innocence(ISheriffSetup setup)
+        public Key Sheriff(ISheriffSetup setup)
         {
             if (Framing != null) return Framing.RoleName;
-            return User.Role.Ability.Guilty(setup);
+            return User.Role.Ability.DirectSheriff(setup);
         }
     }
 
@@ -89,8 +89,11 @@ namespace Mafia.NET.Players.Roles
             var roles = match.LivingPlayers
                 .Select(player => player.Role)
                 .Where(role =>
-                    role.Ability is IMafiaAbility || role.Ability is ITriadAbility ||
-                    role.IsCategory("Neutral Killing") || role.Ability is Cultist || role.Ability is WitchDoctor)
+                    role.Ability is IMafiaAbility ||
+                    role.Ability is ITriadAbility ||
+                    role.IsCategory("Neutral Killing") ||
+                    role.Ability is Cultist ||
+                    role.Ability is WitchDoctor)
                 .Select(role => role.Name)
                 .ToList();
 
