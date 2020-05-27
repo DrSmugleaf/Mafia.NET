@@ -56,7 +56,7 @@ namespace Mafia.NET.Matches.Chats
         public IChatParticipant Add(IPlayer player, bool muted = false, bool deaf = false)
         {
             var participant = new ChatParticipant(player, muted, deaf);
-            Participants.Add(player, participant);
+            Participants[player] = participant;
             return participant;
         }
 

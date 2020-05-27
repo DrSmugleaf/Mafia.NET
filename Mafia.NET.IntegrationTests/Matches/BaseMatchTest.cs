@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
@@ -36,7 +35,7 @@ namespace Mafia.Net.IntegrationTests.Matches
                 Assert.That(message.Listeners.Count, Is.EqualTo(listeners.Length));
                 foreach (var listener in listeners)
                     Assert.That(message.Listeners, Does.Contain(listener));
-                
+
                 Assert.That(message.Sender.Owner, Is.EqualTo(sender));
                 Assert.That(message.Text, Is.EqualTo(text));
 
