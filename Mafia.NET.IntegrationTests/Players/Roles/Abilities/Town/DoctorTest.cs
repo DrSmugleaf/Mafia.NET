@@ -34,7 +34,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             Assert.That(doctor.Alive, Is.True);
             Assert.That(citizen.Alive, Is.EqualTo(alive));
-            Assert.That(match.Graveyard.AllDeaths().Count, Is.LessThanOrEqualTo(1));
+            
+            Deaths(match, alive ? 0 : 1);
         }
     }
 }

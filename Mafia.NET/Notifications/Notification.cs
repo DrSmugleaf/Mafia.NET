@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Mafia.NET.Localization;
 
 namespace Mafia.NET.Notifications
 {
-    public class Notification
+    public class Notification : ILocalizable
     {
         public static readonly Notification Empty = new Notification("", default);
 
@@ -25,6 +26,11 @@ namespace Mafia.NET.Notifications
         public NotificationLocation Location { get; }
         public object[] Args { get; }
 
+        public Text Localize(CultureInfo culture = null)
+        {
+            return Localizer.Default.Get(Key, culture, Args);
+        }
+
         public static Notification Chat(string key, params object[] args)
         {
             return new Notification(key, NotificationLocation.Chat, args);
@@ -43,6 +49,24 @@ namespace Mafia.NET.Notifications
         public static Notification Popup(Enum key, params object[] args)
         {
             return new Notification(key, NotificationLocation.Popup, args);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Notification o &&
+                   Key.Equals(o.Key) &&
+                   Location.Equals(o.Location) &&
+                   Args.Equals(o.Args);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Key, Location, Args);
+        }
+
+        public override string ToString()
+        {
+            return Localize().ToString();
         }
     }
 }

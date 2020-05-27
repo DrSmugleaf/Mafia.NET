@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
@@ -39,6 +40,19 @@ namespace Mafia.NET.Localization
         public Text With(string text)
         {
             return new Text(Contents.Add(new Content(text)), Background);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is IText o &&
+                   String.Equals(o.String) &&
+                   Contents.SequenceEqual(o.Contents) &&
+                   Background.Equals(o.Background);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(String, Contents, Background);
         }
 
         public override string ToString()
