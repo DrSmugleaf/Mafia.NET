@@ -52,7 +52,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             prisoner.Role.Ability.CurrentlyNightImmune = true;
 
-            if (prisoner.Role.Team != User.Role.Team) Match.Chat.DisableExcept(prisoner, jail);
+            if (prisoner.Role.Team != User.Role.Team)
+                Match.Chat.DisableExcept(prisoner, jail);
 
             prisoner.Role.Ability.PiercingBlockedBy(User);
         }

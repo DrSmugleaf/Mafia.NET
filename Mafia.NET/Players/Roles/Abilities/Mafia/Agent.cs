@@ -38,7 +38,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
             var foreignVisits = new EntryBundle();
             foreach (var other in Match.LivingPlayers)
-                if (other.Role.Ability.DetectTarget(out var foreignTarget) &&
+                if (other != User &&
+                    other.Role.Ability.DetectTarget(out var foreignTarget) &&
                     foreignTarget == target)
                     foreignVisits.Chat(AgentKey.SomeoneVisitedTarget, other);
 

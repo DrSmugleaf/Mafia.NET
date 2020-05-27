@@ -41,7 +41,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
             prisoner.Role.Ability.CurrentlyNightImmune = true;
             Match.Chat.DisableExcept(prisoner, jail);
-
             prisoner.Role.Ability.PiercingBlockedBy(User);
         }
 

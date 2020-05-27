@@ -23,11 +23,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
             var foreignVisits = new EntryBundle();
             foreach (var other in Match.LivingPlayers)
-                if (other.Role.Ability.DetectTarget(out var foreignTarget) &&
+                if (other != User &&
+                    other.Role.Ability.DetectTarget(out var foreignTarget) &&
                     foreignTarget == target)
                     foreignVisits.Chat(LookoutKey.SomeoneVisitedTarget, other);
 
-            if (foreignVisits.Entries.Count == 0) foreignVisits.Chat(LookoutKey.NoneVisitedTarget);
+            if (foreignVisits.Entries.Count == 0)
+                foreignVisits.Chat(LookoutKey.NoneVisitedTarget);
 
             User.OnNotification(foreignVisits);
         }

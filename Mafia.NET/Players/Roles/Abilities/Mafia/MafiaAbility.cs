@@ -27,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
         public sealed override void OnDayStart()
         {
             if (Setup is MafiaMinionSetup mafiaSetup && mafiaSetup.BecomesMafiosoIfAlone && AloneTeam())
-                User.Role.Ability = Match.Setup.Roles.Abilities.Ability<Mafioso>();
+                User.Role.Ability = Match.Abilities.Ability<Mafioso>();
             else if (Setup is MafiaSuperMinionSetup superMafiaSetup && superMafiaSetup.ReplacesGodfather &&
                      NoGodfather()) User.Role.Ability = Match.Setup.Roles.Abilities.Ability<Godfather>();
 
