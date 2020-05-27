@@ -50,7 +50,7 @@ namespace Mafia.NET.Matches.Phases
 
             var next = CurrentPhase.NextPhase();
             if (next == null) throw new NullReferenceException(nameof(next));
-            
+
             CurrentPhase.End();
 
             double duration;

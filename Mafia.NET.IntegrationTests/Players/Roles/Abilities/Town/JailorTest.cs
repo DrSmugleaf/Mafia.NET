@@ -26,36 +26,36 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
-            
+
             var jailor = match.AllPlayers[0];
             var prisoner = match.AllPlayers[1];
             var lynched = match.AllPlayers[2];
-            
+
             match.Skip<DiscussionPhase>();
-            
+
             jailor.Role.Ability.TargetManager.Set(prisoner);
 
             if (lynch)
             {
                 var accuse = match.Skip<AccusePhase>();
-            
+
                 foreach (var player in match.AllPlayers)
                     accuse.AccuseManager.Accuse(player, lynched);
 
                 var verdict = match.Skip<VerdictVotePhase>();
-                
+
                 foreach (var player in match.AllPlayers)
                     verdict.Verdicts.AddVerdict(player, Verdict.Guilty);
-                
+
                 match.Skip<ExecutionRevealPhase>();
             }
-            
+
             Assert.That(lynched.Alive, Is.EqualTo(!lynch));
-            
+
             match.Skip<NightPhase>();
 
             if (execute) jailor.Role.Ability.TargetManager.Set(prisoner);
-            
+
             if (lynch)
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.True);
@@ -66,15 +66,14 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.False);
                 Assert.That(jailor.Role.Ability.TargetManager.Day(), Is.Not.Null);
-                Assert.That(jailor.Role.Ability.TargetManager.Night(), execute ?
-                    Is.Not.Null : Is.Null);
+                Assert.That(jailor.Role.Ability.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
             }
 
             match.Skip<DeathsPhase>();
 
             Deaths(match, lynch || execute ? 1 : 0);
         }
-        
+
         [TestCase("Jailor,Citizen,Citizen,Citizen", true)]
         [TestCase("Jailor,Citizen,Citizen,Citizen", false)]
         public void NightChat(string namesString, bool lynch)
@@ -82,32 +81,32 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
-            
+
             var jailor = match.AllPlayers[0];
             var prisoner = match.AllPlayers[1];
             var lynched = match.AllPlayers[2];
-            
+
             match.Skip<DiscussionPhase>();
-            
+
             jailor.Role.Ability.TargetManager.Set(prisoner);
 
             if (lynch)
             {
                 var accuse = match.Skip<AccusePhase>();
-            
+
                 foreach (var player in match.AllPlayers)
                     accuse.AccuseManager.Accuse(player, lynched);
 
                 var verdict = match.Skip<VerdictVotePhase>();
-                
+
                 foreach (var player in match.AllPlayers)
                     verdict.Verdicts.AddVerdict(player, Verdict.Guilty);
-                
+
                 match.Skip<ExecutionRevealPhase>();
             }
-            
+
             Assert.That(lynched.Alive, Is.EqualTo(!lynch));
-            
+
             match.Skip<NightPhase>();
 
             if (lynch)
@@ -125,22 +124,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             var text = "Did you ever hear the tragedy of Darth Plagueis The Wise?";
             var messages = match.Chat.Send(jailor, text);
-            
-            Assert.That(messages.Count, lynch ? Is.Zero : Is.EqualTo(1));
-            
-            foreach (var message in messages)
-            {
-                Assert.That(message.Listeners.Count, Is.EqualTo(2));
-                Assert.That(message.Sender.Owner, Is.EqualTo(jailor));
-                Assert.That(message.Text, Is.EqualTo(text));
-                
-                var nickname = new Key(JailorKey.Nickname);
-                Assert.That(message.Sender.Nickname, Is.Not.Null);
-                Assert.That(message.Sender.Nickname, Is.EqualTo(nickname));
-                
-                Assert.That(message.DisplayText(jailor).String, Does.Not.Contain(jailor.Name));
-                Assert.That(message.DisplayText(jailor).String, Does.StartWith(nickname.ToString()));
-            }
+            var nickname = new Key(JailorKey.Nickname);
+
+            Messages(messages, lynch ? 0 : 1, jailor, text, nickname, jailor, prisoner);
 
             match.Skip<DeathsPhase>();
 

@@ -49,7 +49,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             var count = new Dictionary<Verdict, int>();
             foreach (Verdict verdict in Enum.GetValues(typeof(Verdict)))
                 count[verdict] = 0;
-            
+
             foreach (var verdict in Verdicts.Values)
                 count[verdict]++;
 

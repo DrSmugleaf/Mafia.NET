@@ -31,7 +31,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public override void Detain()
         {
             if (!TargetManager.TryDay(out var prisoner)) return;
-            
+
             User.Crimes.Add(CrimeKey.Kidnapping);
 
             var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));

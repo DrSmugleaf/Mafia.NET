@@ -298,7 +298,6 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected virtual void _beforeNightStart()
         {
-            
         }
 
         protected virtual void _onNightStart()

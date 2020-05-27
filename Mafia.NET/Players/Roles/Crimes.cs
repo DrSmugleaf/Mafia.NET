@@ -53,10 +53,7 @@ namespace Mafia.NET.Players.Roles
         {
             if (Framing != null) return Notification.Chat(key, User, Framing.Crime);
 
-            if (Committed.Count == 0 || User.Role.Ability.DetectionImmune)
-            {
-                return Notification.Chat(NotGuilty, User);
-            }
+            if (Committed.Count == 0 || User.Role.Ability.DetectionImmune) return Notification.Chat(NotGuilty, User);
 
             var crime = Committed
                 .ElementAt(User.Match.Random.Next(Committed.Count));
