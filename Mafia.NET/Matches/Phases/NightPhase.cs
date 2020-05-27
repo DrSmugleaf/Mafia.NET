@@ -30,6 +30,7 @@ namespace Mafia.NET.Matches.Phases
         public override void End()
         {
             base.End();
+            Match.Priority.BeforeNightEnd();
             Match.Priority.OnNightEnd();
         }
     }

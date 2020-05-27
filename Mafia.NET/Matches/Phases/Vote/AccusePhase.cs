@@ -18,7 +18,9 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         protected void StartTrial(IPlayer accused)
         {
-            var phase = Trial ? (IPhase) new TrialPhase(Match, accused) : new ImmediateExecutionPhase(Match, accused);
+            var phase = Trial ?
+                (IPhase) new TrialPhase(Match, accused) {Supersedes = this} :
+                new ImmediateExecutionPhase(Match, accused) {Supersedes = this};
 
             Match.Phase.SupersedePhase(phase);
         }
@@ -62,6 +64,8 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             AccuseManager.Active = false;
             base.End();
+            
+            Match.Priority.OnDayEnd();
         }
     }
 }

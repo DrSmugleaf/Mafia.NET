@@ -30,7 +30,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             var notification = Notification.Chat(CitizenKey.UsedUpNow);
             User.OnNotification(notification);
 
-            CurrentlyDeathImmune = true;
+            CurrentlyNightImmune = true;
         }
 
         protected override void _onNightStart()

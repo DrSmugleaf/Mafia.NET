@@ -28,8 +28,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             Uses = Match.AbilitySetups.Setup<JailorSetup>().Charges;
         }
 
-        public void Detain(IPlayer prisoner)
+        public override void Detain()
         {
+            if (!TargetManager.TryDay(out var prisoner)) return;
+            
             User.Crimes.Add(CrimeKey.Kidnapping);
 
             var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));
@@ -48,7 +50,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
                 TargetRemoveMessage = target => Notification.Chat(KidnapperKey.NightTargetRemoveMessage)
             });
 
-            prisoner.Role.Ability.CurrentlyDeathImmune = true;
+            prisoner.Role.Ability.CurrentlyNightImmune = true;
 
             if (prisoner.Role.Team != User.Role.Team) Match.Chat.DisableExcept(prisoner, jail);
 
@@ -58,7 +60,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public override void Kill()
         {
             if (!TargetManager.Try(out var target) ||
-                Uses == 0 || !TargetManager.TryDay(out var prisoner) ||
+                Uses == 0 ||
+                !TargetManager.TryDay(out var prisoner) ||
                 target != prisoner)
                 return;
 

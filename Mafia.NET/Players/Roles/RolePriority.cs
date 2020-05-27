@@ -47,6 +47,18 @@ namespace Mafia.NET.Players.Roles
             return abilities.OrderBy(ability => ability.User.Number).ToList();
         }
 
+        public void OnDayStart()
+        {
+            foreach (var ability in Abilities())
+                ability.OnDayStart();
+        }
+
+        public void OnDayEnd()
+        {
+            foreach (var ability in Abilities())
+                ability.OnDayEnd();
+        }
+
         public void OnNightStart()
         {
             foreach (var action in StartOrder)
@@ -57,11 +69,20 @@ namespace Mafia.NET.Players.Roles
                 ability.OnNightStart();
         }
 
+        public void BeforeNightEnd()
+        {
+            foreach (var ability in Abilities())
+                ability.BeforeNightEnd();
+        }
+
         public void OnNightEnd()
         {
             foreach (var action in EndOrder)
             foreach (var ability in Abilities())
                 ability.Try(action);
+
+            foreach (var ability in Abilities())
+                ability.OnNightEnd();
         }
     }
 }

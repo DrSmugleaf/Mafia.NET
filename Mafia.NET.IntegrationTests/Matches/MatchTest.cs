@@ -110,9 +110,6 @@ namespace Mafia.NET.IntegrationTests.Matches
 
             foreach (var living in match.LivingPlayers)
                 Assert.That(living.Role.Ability.TargetManager[0], Is.Null);
-
-            foreach (var dead in match.Graveyard.AllDeaths())
-                Assert.That(dead.Victim.Role.Ability.TargetManager.Night().Targets, Is.Empty);
         }
     }
 }

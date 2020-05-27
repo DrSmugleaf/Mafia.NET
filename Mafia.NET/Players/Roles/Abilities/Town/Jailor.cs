@@ -21,8 +21,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Jailor", typeof(JailorSetup))]
     public class Jailor : TownAbility<JailorSetup>
     {
-        public void Detain(IPlayer prisoner)
+        public override void Detain()
         {
+            if (!TargetManager.TryDay(out var prisoner)) return;
+            
             User.Crimes.Add(CrimeKey.Kidnapping);
 
             var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));
@@ -37,7 +39,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                 TargetRemoveMessage = target => Notification.Chat(JailorKey.NightTargetRemoveMessage)
             });
 
-            prisoner.Role.Ability.CurrentlyDeathImmune = true;
+            prisoner.Role.Ability.CurrentlyNightImmune = true;
             Match.Chat.DisableExcept(prisoner, jail);
 
             prisoner.Role.Ability.PiercingBlockedBy(User);
@@ -47,7 +49,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (!TargetManager.Try(out var target) ||
                 Uses == 0 ||
-                !TargetManager.TryDay(out var prisoner) || target != prisoner)
+                !TargetManager.TryDay(out var prisoner) ||
+                target != prisoner)
                 return;
 
             Uses--;

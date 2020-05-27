@@ -17,7 +17,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override IPhase NextPhase()
         {
-            return new VerdictVotePhase(Match, Accused);
+            return new VerdictVotePhase(Match, Accused) {Supersedes = Supersedes};
         }
 
         public override void Start()

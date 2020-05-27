@@ -29,12 +29,12 @@ namespace Mafia.NET.Players
 
         public static implicit operator string(Note note)
         {
-            return note.Text;
+            return $"{note?.Text}";
         }
 
         public override string ToString()
         {
-            return Text;
+            return this;
         }
     }
 }

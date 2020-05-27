@@ -15,14 +15,14 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public override IPhase NextPhase()
         {
-            return new VerdictResultPhase(Match, Verdicts);
+            return new VerdictResultPhase(Match, Verdicts) {Supersedes = Supersedes};
         }
 
         public override void Start()
         {
             ChatManager.Main().Pause(false);
 
-            var notification = Notification.Popup(DayKey.MayVote, Verdicts.Player.Name);
+            var notification = Notification.Popup(DayKey.MayVote, Verdicts.Accused);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();

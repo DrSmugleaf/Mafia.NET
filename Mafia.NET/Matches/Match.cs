@@ -106,9 +106,10 @@ namespace Mafia.NET.Matches
             MatchEnd?.Invoke(this, new MatchEnd(this));
         }
 
-        public void Skip<T>() where T : IPhase
+        public T Skip<T>() where T : IPhase
         {
             while (!(Phase.CurrentPhase is T)) Skip();
+            return (T) Phase.CurrentPhase;
         }
     }
 }

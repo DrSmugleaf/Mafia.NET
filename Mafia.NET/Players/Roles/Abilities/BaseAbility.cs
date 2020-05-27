@@ -3,6 +3,7 @@ using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles.Abilities.Town;
@@ -20,8 +21,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         IAbilitySetup AbilitySetup { get; set; }
         bool Active { get; set; }
         bool RoleBlockImmune { get; set; }
-        bool DeathImmune { get; set; }
-        bool CurrentlyDeathImmune { get; set; }
+        bool NightImmune { get; set; }
+        bool CurrentlyNightImmune { get; set; }
         bool DetectionImmune { get; }
         int Cooldown { get; set; }
         int Uses { get; set; }
@@ -45,6 +46,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool OnDayEnd();
         void OnNightStart();
         void BeforeNightEnd();
+        void OnNightEnd();
         void Chat();
         void Detain();
         void Vest();
@@ -62,13 +64,6 @@ namespace Mafia.NET.Players.Roles.Abilities
 
     public abstract class BaseAbility<T> : IAbility where T : class, IAbilitySetup, new()
     {
-        public BaseAbility()
-        {
-            Active = true;
-            Cooldown = 0;
-            Uses = 0;
-        }
-
         public T Setup => (T) AbilitySetup;
         private int _cooldown { get; set; }
         private int _uses { get; set; }
@@ -80,8 +75,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         public IAbilitySetup AbilitySetup { get; set; }
         public bool Active { get; set; }
         public bool RoleBlockImmune { get; set; }
-        public bool DeathImmune { get; set; }
-        public bool CurrentlyDeathImmune { get; set; }
+        public bool NightImmune { get; set; }
+        public bool CurrentlyNightImmune { get; set; }
         public bool DetectionImmune { get; set; }
 
         public int Cooldown
@@ -98,13 +93,16 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual void Initialize(IPlayer user)
         {
+            Active = true;
             User = user;
             AbilitySetup = Match.AbilitySetups.Setup<T>();
 
             RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
-            DeathImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
-            CurrentlyDeathImmune = DeathImmune;
+            NightImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
+            CurrentlyNightImmune = NightImmune;
             DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
+            Cooldown = Setup is ICooldownSetup cooldownSetup ? cooldownSetup.NightsBetweenUses : 0;
+            Uses = Setup is IChargeSetup chargeSetup ? chargeSetup.Charges : 0;
 
             TargetManager = new TargetManager(Match, User);
         }
@@ -143,7 +141,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual void Attack(IPlayer victim)
         {
-            if (victim.Role.Ability.CurrentlyDeathImmune) return;
+            if (victim.Role.Ability.CurrentlyNightImmune) return;
             var threat = new Death(this, victim);
             Match.Graveyard.Threats.Add(threat);
         }
@@ -208,21 +206,20 @@ namespace Mafia.NET.Players.Roles.Abilities
         public virtual void OnDayStart()
         {
             User.Crimes.Framing = null;
-            CurrentlyDeathImmune = DeathImmune;
-            TargetManager.Reset();
+            CurrentlyNightImmune = NightImmune;
             Active = true;
             _onDayStart();
         }
 
         public virtual bool OnDayEnd()
         {
+            TargetManager.Reset(Time.Night);
             if (Active && User.Alive) _onDayEnd();
             return Active;
         }
 
         public virtual void OnNightStart()
         {
-            TargetManager.Reset();
             if (Active && User.Alive) _onNightStart();
         }
 
@@ -230,6 +227,11 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             User.Blackmailed = false;
             Cooldown--;
+        }
+
+        public void OnNightEnd()
+        {
+            TargetManager.Reset(Time.Day);
         }
 
         public virtual void Chat()
@@ -292,6 +294,11 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         protected virtual void _onDayEnd()
         {
+        }
+
+        protected virtual void _beforeNightStart()
+        {
+            
         }
 
         protected virtual void _onNightStart()

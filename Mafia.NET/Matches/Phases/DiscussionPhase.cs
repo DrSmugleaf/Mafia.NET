@@ -16,6 +16,7 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             ChatManager.Main().Pause(false);
+            Match.Priority.OnDayStart();
             base.Start();
         }
     }

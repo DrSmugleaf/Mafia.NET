@@ -6,21 +6,21 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class TrialPhase : BasePhase
     {
-        public TrialPhase(IMatch match, IPlayer player, uint duration = 5) : base(match, "Trial", duration)
+        public TrialPhase(IMatch match, IPlayer accused, uint duration = 5) : base(match, "Trial", duration)
         {
-            Player = player;
+            Accused = accused;
         }
 
-        public IPlayer Player { get; }
+        public IPlayer Accused { get; }
 
         public override IPhase NextPhase()
         {
-            return new DefensePhase(Match, Player);
+            return new DefensePhase(Match, Accused) {Supersedes = Supersedes};
         }
 
         public override void Start()
         {
-            var entry = Notification.Popup(DayKey.PutToTrial);
+            var entry = Notification.Popup(DayKey.PutToTrial, Accused);
 
             foreach (var player in Match.AllPlayers) player.OnNotification(entry);
 

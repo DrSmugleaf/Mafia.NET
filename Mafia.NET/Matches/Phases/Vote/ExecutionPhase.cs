@@ -15,8 +15,8 @@ namespace Mafia.NET.Matches.Phases.Vote
         public IPlayer Player { get; }
 
         public override IPhase NextPhase()
-        {
-            return new ExecutionRevealPhase(Match, Player);
+        { 
+            return new ExecutionRevealPhase(Match, Player) {Supersedes = Supersedes};
         }
 
         public override void Start()

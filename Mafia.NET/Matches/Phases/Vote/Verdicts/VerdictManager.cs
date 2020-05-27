@@ -9,25 +9,25 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
     public class VerdictManager
     {
-        public VerdictManager(IMatch match, IPlayer player)
+        public VerdictManager(IMatch match, IPlayer accused)
         {
             Match = match;
-            Player = player;
+            Accused = accused;
             Active = true;
-            Verdicts = match.LivingPlayers.Where(voter => voter != player)
+            Verdicts = match.LivingPlayers
+                .Where(voter => voter != accused)
                 .ToDictionary(voter => voter, voter => Verdict.Abstain);
         }
 
         public IMatch Match { get; }
-        public IPlayer Player { get; }
+        public IPlayer Accused { get; }
         public bool Active { get; private set; }
         private IDictionary<IPlayer, Verdict> Verdicts { get; }
 
         public void AddVerdict(IPlayer voter, Verdict verdict)
         {
-            if (!Active) return;
+            if (!Active || !Verdicts.TryGetValue(voter, out var oldVerdict)) return;
 
-            var oldVerdict = Verdicts[voter];
             Verdicts[voter] = verdict;
 
             DayKey key;
@@ -46,7 +46,14 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public IDictionary<Verdict, int> VerdictCount()
         {
-            return Verdicts.Values.GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
+            var count = new Dictionary<Verdict, int>();
+            foreach (Verdict verdict in Enum.GetValues(typeof(Verdict)))
+                count[verdict] = 0;
+            
+            foreach (var verdict in Verdicts.Values)
+                count[verdict]++;
+
+            return count;
         }
 
         public Notification Decision()
@@ -55,7 +62,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
             var innocent = count[Verdict.Innocent];
             var guilty = count[Verdict.Guilty];
 
-            return Notification.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Player, innocent,
+            return Notification.Popup(Innocent() ? DayKey.DecisionPardon : DayKey.DecisionGuilty, Accused, innocent,
                 guilty);
         }
 

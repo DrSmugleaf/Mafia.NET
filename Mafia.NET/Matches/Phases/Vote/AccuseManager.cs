@@ -60,7 +60,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             Target = null;
             notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryRemove : DayKey.TryRemove, Player);
 
-            return notification != default;
+            return !notification.Equals(default);
         }
     }
 

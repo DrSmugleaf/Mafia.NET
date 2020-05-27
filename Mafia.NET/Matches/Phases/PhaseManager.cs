@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Matches.Chats;
+﻿using System;
+using Mafia.NET.Matches.Chats;
 
 namespace Mafia.NET.Matches.Phases
 {
@@ -48,6 +49,8 @@ namespace Mafia.NET.Matches.Phases
             Clock.Stop();
 
             var next = CurrentPhase.NextPhase();
+            if (next == null) throw new NullReferenceException(nameof(next));
+            
             CurrentPhase.End();
 
             double duration;

@@ -54,24 +54,14 @@ namespace Mafia.NET.Players.Roles.Abilities
             return Phases[Match.Phase.CurrentTime];
         }
 
-        public PhaseTargeting Day()
-        {
-            return Phases[Time.Day];
-        }
-
         [CanBeNull]
-        public IPlayer Day(int index)
+        public IPlayer Day(int index = 0)
         {
             return this[Time.Day, index];
         }
 
-        public PhaseTargeting Night()
-        {
-            return Phases[Time.Night];
-        }
-
         [CanBeNull]
-        public IPlayer Night(int index)
+        public IPlayer Night(int index = 0)
         {
             return this[Time.Night, index];
         }
@@ -137,6 +127,11 @@ namespace Mafia.NET.Players.Roles.Abilities
             Get().Reset();
         }
 
+        public void Reset(Time time)
+        {
+            Phases[time].Reset();
+        }
+
         public void Reset(Target target)
         {
             Get().Reset(target);
@@ -186,13 +181,13 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Set(IPlayer user, [CanBeNull] IPlayer target)
         {
-            if (Targets.Count == 0) Add(new Target(user, TargetFilter.Any));
+            if (Targets.Count == 0) return;
             Targets[0].Targeted = target;
         }
 
         public void ForceSet(IPlayer user, [CanBeNull] IPlayer target)
         {
-            if (Targets.Count == 0) Add(new Target(user, TargetFilter.Any));
+            if (Targets.Count == 0) return;
             Targets[0].ForceSet(target);
         }
 
