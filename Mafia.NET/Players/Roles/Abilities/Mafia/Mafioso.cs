@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Linq;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -15,6 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         public override void Kill(IPlayer target)
         {
+            var otherMafiosoAttacked = Match.Graveyard.ThreatsOn(target)
+                .Any(threat => threat.Killer?.Role.Ability is Mafioso);
+            if (otherMafiosoAttacked) return;
+            
             User.Crimes.Add(CrimeKey.Trespassing);
             Attack(target);
         }
