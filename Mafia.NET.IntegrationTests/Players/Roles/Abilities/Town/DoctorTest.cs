@@ -20,13 +20,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var match = new Match(roleNames);
             match.Start();
 
-            match.Skip<NightPhase>();
-
             var doctor = match.AllPlayers[0];
             var citizen = match.AllPlayers[1];
-            
+
+            match.Skip<NightPhase>();
+
             if (heal) doctor.Role.Ability.TargetManager.Set(citizen);
-            
+
             for (var i = 2; i < match.AllPlayers.Count; i++)
             {
                 var attacker = match.AllPlayers[i];
@@ -37,7 +37,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             Assert.That(doctor.Alive, Is.True);
             Assert.That(citizen.Alive, Is.EqualTo(alive));
-            
+
             Deaths(match, alive ? 0 : 1);
         }
     }

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
@@ -29,13 +31,13 @@ namespace Mafia.NET.Players.Roles
     public class Crimes
     {
         public static readonly IImmutableSet<Key> All = Key.Enum<CrimeKey>().ToImmutableHashSet();
-        public static readonly Key NoCrime = new Key("CrimeNoCrime");
+        public static readonly Key NotGuilty = new Key("CrimeNotGuilty");
 
-        public IPlayer Player;
+        public IPlayer User;
 
-        public Crimes(IPlayer player)
+        public Crimes(IPlayer user)
         {
-            Player = player;
+            User = user;
             Committed = new HashSet<Key>();
         }
 
@@ -47,11 +49,19 @@ namespace Mafia.NET.Players.Roles
             Committed.Add(crime);
         }
 
-        public Key Crime()
+        public Notification Crime(Enum key)
         {
-            if (Framing != null) return Framing.Crime;
-            if (Committed.Count == 0 || Player.Role.Ability.DetectionImmune) return NoCrime;
-            return Committed.ElementAt(Player.Match.Random.Next(Committed.Count));
+            if (Framing != null) return Notification.Chat(key, User, Framing.Crime);
+
+            if (Committed.Count == 0 || User.Role.Ability.DetectionImmune)
+            {
+                return Notification.Chat(NotGuilty, User);
+            }
+
+            var crime = Committed
+                .ElementAt(User.Match.Random.Next(Committed.Count));
+
+            return Notification.Chat(key, User, crime);
         }
 
         public IReadOnlyList<Key> AllCommitted()
@@ -62,14 +72,14 @@ namespace Mafia.NET.Players.Roles
         public Key RoleName()
         {
             if (Framing != null) return Framing.RoleName;
-            if (Player.Role.Ability.DetectionImmune) return new Key("CitizenName"); // TODO: Check
-            return Player.Role.Name;
+            if (User.Role.Ability.DetectionImmune) return new Key("CitizenName");
+            return User.Role.Name;
         }
 
         public Key Innocence(ISheriffSetup setup)
         {
             if (Framing != null) return Framing.RoleName;
-            return Player.Role.Ability.Guilty(setup);
+            return User.Role.Ability.Guilty(setup);
         }
     }
 

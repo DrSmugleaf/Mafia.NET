@@ -18,10 +18,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var match = new Match(roleNames);
             match.Start();
 
-            match.Skip<NightPhase>();
-
             var citizen = match.AllPlayers[0];
             var attacker = match.AllPlayers[1];
+
+            match.Skip<NightPhase>();
 
             if (vest) citizen.Role.Ability.TargetManager.Set(citizen);
             attacker.Role.Ability.TargetManager.Set(citizen);

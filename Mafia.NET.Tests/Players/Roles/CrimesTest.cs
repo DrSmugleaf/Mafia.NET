@@ -1,5 +1,8 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
+using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
 namespace Mafia.NET.Tests.Players.Roles
@@ -32,14 +35,6 @@ namespace Mafia.NET.Tests.Players.Roles
 
             Assert.That(committed.Count, Is.EqualTo(1));
             Assert.That(committed[0], Is.EqualTo((Key) key));
-        }
-
-        [Test]
-        public void None()
-        {
-            var crimes = new Crimes(null);
-            Assert.That(crimes.AllCommitted(), Is.Empty);
-            Assert.That(crimes.Crime(), Is.EqualTo(Crimes.NoCrime));
         }
     }
 }

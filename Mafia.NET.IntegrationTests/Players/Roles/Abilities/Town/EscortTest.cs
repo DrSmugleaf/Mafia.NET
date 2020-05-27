@@ -20,11 +20,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var match = new Match(roleNames);
             match.Start();
 
-            match.Skip<NightPhase>();
-
             var escort = match.AllPlayers[0];
             var citizen = match.AllPlayers[1];
             var attacker = match.AllPlayers[2];
+
+            match.Skip<NightPhase>();
 
             if (blocked) escort.Role.Ability.TargetManager.Set(attacker);
             attacker.Role.Ability.TargetManager.Set(citizen);

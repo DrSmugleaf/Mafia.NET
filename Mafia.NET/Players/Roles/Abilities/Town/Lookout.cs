@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public override void Detect()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             User.Crimes.Add(CrimeKey.Trespassing);
 
             var foreignVisits = new EntryBundle();

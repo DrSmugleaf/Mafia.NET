@@ -19,13 +19,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public override void Detect()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             User.Crimes.Add(CrimeKey.Trespassing);
 
             // TODO: Target switch
             var message = Setup.DetectsExactRole
                 ? Notification.Chat(InvestigatorKey.ExactDetect, target, target.Crimes.RoleName())
-                : Notification.Chat(InvestigatorKey.Detect, target, target.Crimes.Crime());
+                : target.Crimes.Crime(InvestigatorKey.Detect);
 
             User.OnNotification(message);
         }

@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public override void Block()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             User.Crimes.Add(CrimeKey.Soliciting);
             if (target.Role.Team.Id == "Town") User.Crimes.Add(CrimeKey.DisturbingThePeace);
 

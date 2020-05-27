@@ -20,7 +20,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public override void Detect()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             if (target.Alive)
             {
                 User.OnNotification(Notification.Chat(CoronerKey.StillAlive));

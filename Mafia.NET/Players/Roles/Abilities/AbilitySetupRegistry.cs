@@ -9,22 +9,22 @@ namespace Mafia.NET.Players.Roles.Abilities
         {
             Types = new Dictionary<Type, IAbilitySetup>();
         }
-        
+
         protected IDictionary<Type, IAbilitySetup> Types { get; set; }
 
         public T Setup<T>() where T : class, IAbilitySetup, new()
         {
             var type = typeof(T);
-            
+
             if (!Types.TryGetValue(type, out var setup))
             {
                 setup = new T();
                 Types.Add(type, setup);
             }
-            
+
             return setup as T;
         }
-        
+
         public void Set(params IAbilitySetup[] setups)
         {
             foreach (var setup in setups)

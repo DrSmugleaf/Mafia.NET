@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public override void Protect()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             var threats = Match.Graveyard.ThreatsOn(target);
             if (threats.Count > 0)
             {

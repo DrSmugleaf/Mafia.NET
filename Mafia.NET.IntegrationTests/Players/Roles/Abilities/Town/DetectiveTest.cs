@@ -24,12 +24,12 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             match.AbilitySetups.Set(new DetectiveSetup {IgnoresDetectionImmunity = ignores});
             match.Start();
 
-            match.Skip<NightPhase>();
-
             var detective = match.AllPlayers[0];
             var innocent = match.AllPlayers[1];
             var mafia = match.AllPlayers[2];
-            
+
+            match.Skip<NightPhase>();
+
             detective.Role.Ability.TargetManager.Set(mafia);
             mafia.Role.Ability.TargetManager.Set(innocent);
 
@@ -40,10 +40,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             Assert.That(notifications.Count, Is.Positive);
 
-            var notification = detected 
+            var message = detected
                 ? Notification.Chat(DetectiveKey.TargetVisitedSomeone, innocent)
                 : Notification.Chat(DetectiveKey.TargetInactive);
-            var localized = notification.Localize();
+            var localized = message.Localize();
             Assert.That(notifications[0], Is.EqualTo(localized));
         }
     }

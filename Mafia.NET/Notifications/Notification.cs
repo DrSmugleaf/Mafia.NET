@@ -15,9 +15,9 @@ namespace Mafia.NET.Notifications
             Args = args;
         }
 
-        public Notification(Enum key, NotificationLocation location, params object[] args)
+        public Notification(Key key, NotificationLocation location, params object[] args)
         {
-            Key = new Key(key).Id;
+            Key = key.Id;
             Location = location;
             Args = args;
         }
@@ -36,7 +36,7 @@ namespace Mafia.NET.Notifications
             return new Notification(key, NotificationLocation.Chat, args);
         }
 
-        public static Notification Chat(Enum key, params object[] args)
+        public static Notification Chat(Key key, params object[] args)
         {
             return new Notification(key, NotificationLocation.Chat, args);
         }
@@ -46,7 +46,7 @@ namespace Mafia.NET.Notifications
             return new Notification(key, NotificationLocation.Popup, args);
         }
 
-        public static Notification Popup(Enum key, params object[] args)
+        public static Notification Popup(Key key, params object[] args)
         {
             return new Notification(key, NotificationLocation.Popup, args);
         }

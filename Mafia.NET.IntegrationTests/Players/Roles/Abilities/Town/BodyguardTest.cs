@@ -21,11 +21,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             match.AbilitySetups.Set(new BodyguardSetup {IgnoresInvulnerability = piercing});
             match.Start();
 
-            match.Skip<NightPhase>();
-
             var bodyguard = match.AllPlayers[0];
             var citizen = match.AllPlayers[1];
             var attacker = match.AllPlayers[2];
+
+            match.Skip<NightPhase>();
 
             bodyguard.Role.Ability.TargetManager.Set(citizen);
             attacker.Role.Ability.TargetManager.Set(citizen);

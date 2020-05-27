@@ -59,9 +59,11 @@ namespace Mafia.NET.IntegrationTests.Matches
         public void OneKill(string namesString)
         {
             var roleNames = namesString.Split(",");
-            var roles = roleNames.Length;
             var match = new Match(roleNames);
             match.Start();
+
+            var citizen = match.AllPlayers[0];
+            var gf = match.AllPlayers[9].Role.Ability;
 
             Deaths(match, 0);
 
@@ -75,7 +77,6 @@ namespace Mafia.NET.IntegrationTests.Matches
 
             match.Skip<NightPhase>();
 
-            var gf = match.AllPlayers[9].Role.Ability;
             Assert.That(gf.Name, Is.EqualTo("Godfather"));
 
             foreach (var player in match.AllPlayers)
@@ -87,7 +88,7 @@ namespace Mafia.NET.IntegrationTests.Matches
                 else Assert.That(gf.TargetManager[0], Is.EqualTo(player));
             }
 
-            gf.TargetManager.Set(match.AllPlayers[0]);
+            gf.TargetManager.Set(citizen);
 
             match.Skip<DeathsPhase>();
             Deaths(match, 1);

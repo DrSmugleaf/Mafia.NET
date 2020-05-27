@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public override void Protect()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             if (target.Role.Ability.HealedBy(User) && Setup.KnowsIfTargetAttacked)
             {
                 var notification = Notification.Chat(DoctorKey.TargetAttacked);

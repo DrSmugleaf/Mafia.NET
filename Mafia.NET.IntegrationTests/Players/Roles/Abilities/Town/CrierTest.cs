@@ -17,14 +17,15 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var match = new Match(roleNames);
             match.Start();
 
+            var crier = match.AllPlayers[0];
+
             match.Skip<NightPhase>();
 
-            var crier = match.AllPlayers[0];
-            var text = "Hello guys, DJ Crier here";
+            var text = "Hey there folks, DJ Crier here";
             var messages = match.Chat.Send(crier, text);
-            
+
             Assert.That(messages.Count, Is.EqualTo(1));
-            
+
             foreach (var message in messages)
             {
                 Assert.That(message.Listeners.Count, Is.EqualTo(roleNames.Length));

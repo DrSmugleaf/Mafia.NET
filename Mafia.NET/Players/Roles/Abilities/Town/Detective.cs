@@ -19,7 +19,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public override void Detect()
         {
             if (!TargetManager.Try(out var target)) return;
-            
+
             User.Crimes.Add(CrimeKey.Trespassing);
 
             var notification = target.Role.Ability.DetectTarget(out var visited, Setup)
