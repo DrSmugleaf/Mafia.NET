@@ -2,3 +2,7 @@
 Summary: "A dirty cop who will ignore the law and order to enact justice."
 Goal: "Lynch every criminal and evildoer."
 Abilities: "Kill one target at night"
+
+UserAddMessage: "You will shoot <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't shoot anyone."
+UserChangeMessage: "You will instead shoot <f c={1c}>{1}</f>."

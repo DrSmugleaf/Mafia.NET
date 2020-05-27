@@ -22,14 +22,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
         public override void Vest()
         {
-            if (TargetManager.Try(out var target) && target == User)
-                CurrentlyNightImmune = true;
+            if (!TargetManager.Try(out var target) || target != User) return;
+            CurrentlyNightImmune = true;
         }
 
         public override void Revenge()
         {
-            if (!User.Alive || !TargetManager.Try(out var target) || target != User)
-                return;
+            if (!TargetManager.Try(out var target) || target != User) return;
 
             foreach (var attacker in Match.LivingPlayers)
             {

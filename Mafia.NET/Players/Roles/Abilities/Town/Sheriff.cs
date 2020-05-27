@@ -11,7 +11,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         Cultist,
         Arsonist,
         MassMurderer,
-        SerialKiller
+        SerialKiller,
+        UserAddMessage,
+        UserRemoveMessage,
+        UserChangeMessage
     }
 
     [RegisterAbility("Sheriff", typeof(SheriffSetup))]
