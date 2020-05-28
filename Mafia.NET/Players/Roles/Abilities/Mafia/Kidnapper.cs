@@ -24,8 +24,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     {
         public override void Initialize(IPlayer user)
         {
-            base.Initialize(user);
-            Uses = Match.AbilitySetups.Setup<JailorSetup>().Uses;
+            InitializeBase(user);
+            if (TryTransform(out var newAbility))
+            {
+                newAbility.Initialize(User);
+                User = null;
+            }
+            else
+            {
+                Uses = Match.AbilitySetups.Setup<JailorSetup>().Uses;
+            }
         }
 
         public override void Detain()

@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 {
     [TestFixture]
-    [TestOf(typeof(Vigilante))]
+    [TestOf(typeof(SerialKiller))]
     public class SerialKillerTest : BaseMatchTest
     {
         [TestCase("Serial Killer,Citizen", true, false)]

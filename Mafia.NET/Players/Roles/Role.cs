@@ -18,6 +18,7 @@ namespace Mafia.NET.Players.Roles
         ITeam Team { get; }
         IReadOnlyList<ICategory> Categories { get; }
         IAbility Ability { get; set; }
+        bool Unique { get; }
 
         bool IsCategory(string id);
         IReadOnlyList<Goal> Goals();
@@ -36,6 +37,7 @@ namespace Mafia.NET.Players.Roles
             Categories = role.Categories;
             Color = role.Color;
             Ability = ability;
+            Unique = role.Unique;
         }
 
         public Key Name { get; }
@@ -46,6 +48,7 @@ namespace Mafia.NET.Players.Roles
         public IReadOnlyList<ICategory> Categories { get; }
         public Color Color { get; }
         public IAbility Ability { get; set; }
+        public bool Unique { get; }
 
         public bool IsCategory(string id)
         {

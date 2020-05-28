@@ -13,8 +13,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
     {
         public override void Initialize(IPlayer user)
         {
-            TryTransform();
-            base.Initialize(user);
+            InitializeBase(user);
+            if (TryTransform(out var newAbility))
+            {
+                newAbility.Initialize(User);
+                User = null;
+            }
         }
 
         public override void Chat()
@@ -32,20 +36,30 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 
         public sealed override void OnDayStart()
         {
-            TryTransform();
-            base.OnDayStart();
+            if (TryTransform(out var newAbility))
+            {
+                newAbility.OnDayStart();
+                User = null;
+            }
+            else
+            {
+                base.OnDayStart();
+            }
         }
 
-        protected void TryTransform()
+        protected bool TryTransform(out IAbility newAbility)
         {
             if (Setup is MafiaMinionSetup mafiaSetup &&
                 mafiaSetup.BecomesMafiosoIfAlone &&
                 AloneTeam())
-                User.Role.Ability = Match.Abilities.Ability<Mafioso>();
+                User.ChangeRole(Match.Abilities.Ability<Mafioso>());
             else if (Setup is MafiaSuperMinionSetup superMafiaSetup &&
                      superMafiaSetup.ReplacesGodfather &&
                      NoGodfather())
-                User.Role.Ability = Match.Setup.Roles.Abilities.Ability<Godfather>();
+                User.ChangeRole(Match.Setup.Roles.Abilities.Ability<Godfather>());
+
+            newAbility = User.Role.Ability;
+            return newAbility != this;
         }
 
         protected bool NoGodfather()

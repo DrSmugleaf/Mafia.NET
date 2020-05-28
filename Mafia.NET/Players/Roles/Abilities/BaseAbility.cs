@@ -80,18 +80,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual void Initialize(IPlayer user)
         {
-            Active = true;
-            User = user;
-            AbilitySetup = Match.AbilitySetups.Setup<T>();
-
-            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
-            NightImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
-            CurrentlyNightImmune = NightImmune;
-            DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
-            Cooldown = Setup is ICooldownSetup cooldownSetup ? cooldownSetup.NightsBetweenUses : 0;
-            Uses = Setup is IUsesSetup chargeSetup ? chargeSetup.Uses : 0;
-
-            TargetManager = new TargetManager(Match, User);
+            InitializeBase(user);
         }
 
         public virtual bool TryVictory(out IVictory victory)
@@ -100,7 +89,8 @@ namespace Mafia.NET.Players.Roles.Abilities
             var enemies = User.Role.Enemies();
             victory = null;
 
-            if (living.SelectMany(player => player.Role.Goals()).Intersect(enemies).Any()) return false;
+            if (living.SelectMany(player => player.Role.Goals()).Intersect(enemies).Any())
+                return false;
 
             victory = new Victory(User, VictoryNotification());
             return true;
@@ -113,7 +103,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void AddTarget(TargetFilter filter, TargetNotification message)
         {
-            TargetManager.Add(filter.Build(User, message));
+            TargetManager.Add(filter.Build(this, message));
         }
 
         public void AddTarget(IPlayer target, TargetNotification message)
@@ -279,6 +269,22 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public virtual void Revenge()
         {
+        }
+
+        public void InitializeBase(IPlayer user)
+        {
+            Active = true;
+            User = user;
+            AbilitySetup = Match.AbilitySetups.Setup<T>();
+
+            RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
+            NightImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
+            CurrentlyNightImmune = NightImmune;
+            DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
+            Cooldown = Setup is ICooldownSetup cooldownSetup ? cooldownSetup.NightsBetweenUses : 0;
+            Uses = Setup is IUsesSetup chargeSetup ? chargeSetup.Uses : 0;
+
+            TargetManager = new TargetManager(Match, this);
         }
 
         protected abstract Key GuiltyName();

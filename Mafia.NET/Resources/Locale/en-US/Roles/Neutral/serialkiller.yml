@@ -2,7 +2,7 @@
 Summary: "A deranged criminal who hates the world."
 Goal: "Be the last person left alive."
 Abilities: "Kill one target at night."
-  
+
 UserAddMessage: "You will kill <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't kill anyone."
 UserChangeMessage: "You will instead kill <f c={1c}>{1}</f>."

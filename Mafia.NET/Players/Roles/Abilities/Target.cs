@@ -7,14 +7,14 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class Target
     {
-        public Target(IPlayer user, TargetFilter filter, [CanBeNull] TargetNotification message = null)
+        public Target(IAbility ability, TargetFilter filter, [CanBeNull] TargetNotification message = null)
         {
-            User = user;
+            Ability = ability;
             Filter = filter;
             Message = message ?? TargetNotification.Empty;
         }
 
-        public IPlayer User { get; }
+        public IAbility Ability { get; }
         [CanBeNull] private IPlayer _targeted { get; set; }
 
         [CanBeNull]
@@ -31,7 +31,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 if (Targeted == null && old != null)
                 {
                     var userNotification = Message.UserRemove(old);
-                    User.OnNotification(userNotification);
+                    Ability.User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetRemove(old);
                     old?.OnNotification(targetNotification);
@@ -39,7 +39,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 else if (Targeted != null && old == null)
                 {
                     var userNotification = Message.UserAdd(Targeted);
-                    User.OnNotification(userNotification);
+                    Ability.User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetAdd(Targeted);
                     Targeted?.OnNotification(targetNotification);
@@ -47,7 +47,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 else if (Targeted != null && old != null)
                 {
                     var userNotification = Message.UserChange(old, Targeted);
-                    User.OnNotification(userNotification);
+                    Ability.User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetChange(old, Targeted);
                     old?.OnNotification(targetNotification);

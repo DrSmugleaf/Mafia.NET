@@ -26,11 +26,12 @@ namespace Mafia.NET.Matches.Phases
             Match.Graveyard.SettleThreats();
             Match.Phase.Day++;
             Match.Phase.CurrentTime = Time.Day;
-            var notification = Notification.Popup(DayKey.Day, Match.Phase.Day);
-            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+            var dayNotification = Notification.Popup(DayKey.Day, Match.Phase.Day);
+            foreach (var player in Match.AllPlayers) player.OnNotification(dayNotification);
 
             if (Match.Graveyard.UndisclosedDeaths.Count == 0)
             {
+                Match.Graveyard.Announce();
                 End();
                 return;
             }
@@ -78,6 +79,7 @@ namespace Mafia.NET.Matches.Phases
             }
 
             Match.Graveyard.Disclose();
+            Match.Graveyard.Announce();
 
             base.Start();
         }

@@ -37,52 +37,52 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         public IList<Action<IAbilityAction>> StartOrder { get; }
         public IList<Action<IAbilityAction>> EndOrder { get; }
 
-        public IList<IAbility> Abilities()
+        public IList<IPlayer> Players()
         {
-            var abilities = new List<IAbility>();
+            var abilities = new List<IPlayer>();
 
             foreach (var player in Match.AllPlayers)
-                abilities.Add(player.Role.Ability);
+                abilities.Add(player);
 
-            return abilities.OrderBy(ability => ability.User.Number).ToList();
+            return abilities.OrderBy(player => player.Number).ToList();
         }
 
         public void OnDayStart()
         {
-            foreach (var ability in Abilities())
-                ability.OnDayStart();
+            foreach (var player in Players())
+                player.Role.Ability.OnDayStart();
         }
 
         public void OnDayEnd()
         {
-            foreach (var ability in Abilities())
-                ability.OnDayEnd();
+            foreach (var player in Players())
+                player.Role.Ability.OnDayEnd();
         }
 
         public void OnNightStart()
         {
             foreach (var action in StartOrder)
-            foreach (var ability in Abilities())
-                ability.Try(action);
+            foreach (var player in Players())
+                player.Role.Ability.Try(action);
 
-            foreach (var ability in Abilities())
-                ability.OnNightStart();
+            foreach (var player in Players())
+                player.Role.Ability.OnNightStart();
         }
 
         public void BeforeNightEnd()
         {
-            foreach (var ability in Abilities())
-                ability.BeforeNightEnd();
+            foreach (var player in Players())
+                player.Role.Ability.BeforeNightEnd();
         }
 
         public void OnNightEnd()
         {
             foreach (var action in EndOrder)
-            foreach (var ability in Abilities())
-                ability.Try(action);
+            foreach (var player in Players())
+                player.Role.Ability.Try(action);
 
-            foreach (var ability in Abilities())
-                ability.OnNightEnd();
+            foreach (var player in Players())
+                player.Role.Ability.OnNightEnd();
         }
     }
 }

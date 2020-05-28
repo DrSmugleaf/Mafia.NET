@@ -23,7 +23,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
             if (target.Alive)
             {
-                User.OnNotification(Notification.Chat(CoronerKey.StillAlive));
+                var notification = Notification.Chat(CoronerKey.StillAlive);
+                User.OnNotification(notification);
                 return;
             }
 

@@ -12,17 +12,17 @@ namespace Mafia.NET.Players.Roles.Abilities
 {
     public class TargetManager
     {
-        public TargetManager(IMatch match, IPlayer user, IReadOnlyDictionary<Time, PhaseTargeting> phases)
+        public TargetManager(IMatch match, IAbility ability, IReadOnlyDictionary<Time, PhaseTargeting> phases)
         {
             Match = match;
-            User = user;
+            Ability = ability;
             Phases = phases;
         }
 
-        public TargetManager(IMatch match, IPlayer user)
+        public TargetManager(IMatch match, IAbility ability)
         {
             Match = match;
-            User = user;
+            Ability = ability;
 
             var phases = new Dictionary<Time, PhaseTargeting>();
 
@@ -32,7 +32,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
 
         public IMatch Match { get; }
-        public IPlayer User { get; }
+        public IAbility Ability { get; }
         public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
 
         [CanBeNull]
@@ -114,17 +114,17 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Add(TargetNotification message, params IPlayer[] targets)
         {
-            Get().Add(User, message, targets);
+            Get().Add(Ability, message, targets);
         }
 
         public void Set([CanBeNull] IPlayer target)
         {
-            Get().Set(User, target);
+            Get().Set(target);
         }
 
         public void ForceSet([CanBeNull] IPlayer target)
         {
-            Get().ForceSet(User, target);
+            Get().ForceSet(target);
         }
 
         public void Reset()
@@ -144,7 +144,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public void Reset(TargetNotification message, params IPlayer[] targets)
         {
-            Get().Reset(User, message, targets);
+            Get().Reset(Ability, message, targets);
         }
     }
 
@@ -179,18 +179,18 @@ namespace Mafia.NET.Players.Roles.Abilities
             Targets.Add(target);
         }
 
-        public void Add(IPlayer user, [CanBeNull] TargetNotification message = null, params IPlayer[] targets)
+        public void Add(IAbility ability, [CanBeNull] TargetNotification message = null, params IPlayer[] targets)
         {
-            Add(TargetFilter.Of(targets).Build(user, message));
+            Add(TargetFilter.Of(targets).Build(ability, message));
         }
 
-        public void Set(IPlayer user, [CanBeNull] IPlayer target)
+        public void Set([CanBeNull] IPlayer target)
         {
             if (Targets.Count == 0) return;
             Targets[0].Targeted = target;
         }
 
-        public void ForceSet(IPlayer user, [CanBeNull] IPlayer target)
+        public void ForceSet([CanBeNull] IPlayer target)
         {
             if (Targets.Count == 0) return;
             Targets[0].ForceSet(target);
@@ -207,15 +207,15 @@ namespace Mafia.NET.Players.Roles.Abilities
             Targets.Add(target);
         }
 
-        public void Reset(IPlayer user, TargetNotification message, params IPlayer[] targets)
+        public void Reset(IAbility ability, TargetNotification message, params IPlayer[] targets)
         {
-            Reset(TargetFilter.Of(targets).Build(user, message));
+            Reset(TargetFilter.Of(targets).Build(ability, message));
         }
     }
 
     public class TargetFilter
     {
-        public static readonly TargetFilter Any = new TargetFilter(dictionary => dictionary);
+        public static readonly TargetFilter Any = new TargetFilter(players => players);
 
         private readonly Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> _filter;
 
@@ -226,6 +226,11 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         private TargetFilter(Func<IReadOnlyList<IPlayer>> supplier) : this(_ => supplier.Invoke())
         {
+        }
+
+        public static implicit operator TargetFilter(Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> filter)
+        {
+            return new TargetFilter(filter);
         }
 
         public static TargetFilter Living(IMatch match)
@@ -278,21 +283,29 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public TargetFilter Except(ITeam team)
         {
-            return new TargetFilter(dictionary =>
+            return new TargetFilter(players =>
             {
-                dictionary = Filter(dictionary);
-                return dictionary.Where(entry => entry.Role.Team != team).ToList();
+                players = Filter(players);
+                return players.Where(entry => entry.Role.Team != team).ToList();
             });
         }
 
         public TargetFilter And(TargetFilter filter)
         {
-            return new TargetFilter(dictionary => filter.Filter(Filter(dictionary)));
+            return new TargetFilter(players => filter.Filter(Filter(players)));
         }
 
-        public Target Build(IPlayer user, [CanBeNull] TargetNotification message)
+        public TargetFilter Where(Func<IPlayer, bool> filter)
         {
-            return new Target(user, this, message);
+            return new TargetFilter(players => _filter
+                .Invoke(players)
+                .Where(filter)
+                .ToList());
+        }
+
+        public Target Build(IAbility ability, [CanBeNull] TargetNotification message)
+        {
+            return new Target(ability, this, message);
         }
     }
 }

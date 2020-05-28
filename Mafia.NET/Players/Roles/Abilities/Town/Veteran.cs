@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public override void Initialize(IPlayer user)
         {
-            base.Initialize(user);
+            InitializeBase(user);
             RoleBlockImmune = true;
         }
 

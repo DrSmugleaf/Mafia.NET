@@ -2,3 +2,11 @@
 Summary: "A person who recently recovered from a head injury and forgot who he was."
 Goal: "If the Amnesiac does not convert to another role, survive. If the Amnesiac converts to another role, then the win condition of the role the Amnesiac converted to."
 Abilities: "Convert to any role from the graveyard."
+
+UserAddMessage: "You will remember that you were just like <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't remember anything tonight."
+UserChangeMessage: "You will instead remember that you were just like <f c={1c}>{1}</f>."
+RememberAnnouncement: "The hospital reports that an Amnesiac remembered his role:\n<f c={0c}>{0}</f>"
+RememberPersonal: "You remembered that your role is <f c={0c}>{0}</f>."
+StillAlive: "Your target is still alive."
+Unique: "You cannot remember your target's role."

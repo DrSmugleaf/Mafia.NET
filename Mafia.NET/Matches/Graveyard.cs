@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
 
@@ -14,12 +15,14 @@ namespace Mafia.NET.Matches
             PublicDeaths = new List<IDeath>();
             UndisclosedDeaths = new List<IDeath>();
             Threats = new List<IDeath>();
+            Announcements = new List<Notification>();
         }
 
         public IMatch Match { get; }
         public List<IDeath> PublicDeaths { get; }
         public List<IDeath> UndisclosedDeaths { get; }
         public List<IDeath> Threats { get; }
+        public List<Notification> Announcements { get; }
 
         public IReadOnlyList<IDeath> AllDeaths()
         {
@@ -72,6 +75,15 @@ namespace Mafia.NET.Matches
         public List<IDeath> ThreatsOn(IPlayer player)
         {
             return Threats.Where(death => death.Victim == player).ToList();
+        }
+
+        public void Announce()
+        {
+            foreach (var announcement in Announcements)
+            foreach (var player in Match.AllPlayers)
+                player.OnNotification(announcement);
+
+            Announcements.Clear();
         }
     }
 }

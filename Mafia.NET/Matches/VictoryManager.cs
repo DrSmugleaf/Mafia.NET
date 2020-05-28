@@ -24,7 +24,7 @@ namespace Mafia.NET.Matches
                 if (player.Role.Ability.TryVictory(out var victory))
                     victories.Add(victory);
 
-            return victories.Count > 0;
+            return victories.Count == Match.LivingPlayers.Count;
         }
     }
 }

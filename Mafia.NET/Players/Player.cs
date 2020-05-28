@@ -6,6 +6,7 @@ using Mafia.NET.Matches;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities;
 
 namespace Mafia.NET.Players
 {
@@ -28,6 +29,8 @@ namespace Mafia.NET.Players
 
         void OnNotification(Notification notification);
         void OnNotification(EntryBundle bundle);
+        void ChangeRole(IRole role);
+        void ChangeRole(IAbility ability);
     }
 
     public class Player : IPlayer
@@ -92,6 +95,19 @@ namespace Mafia.NET.Players
         {
             foreach (var entry in bundle.Entries)
                 OnNotification(entry);
+        }
+
+        public void ChangeRole(IRole role)
+        {
+            Role = role;
+            role.Ability.User = this;
+        }
+
+        public void ChangeRole(IAbility ability)
+        {
+            var roleEntry = Match.RoleSetup.Roles.Names[ability.Name];
+            var role = new Role(roleEntry, ability);
+            ChangeRole(role);
         }
 
         public override string ToString()
