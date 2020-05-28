@@ -23,13 +23,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
                 ability => ability.Block(),
                 ability => ability.Misc(),
                 ability => ability.Kill(),
+                ability => ability.Revenge(),
                 ability => ability.Protect(),
                 ability => ability.Clean(),
                 ability => ability.Detect(),
                 ability => ability.Disguise(),
                 ability => ability.MasonRecruit(),
-                ability => ability.CultRecruit(),
-                ability => ability.Revenge()
+                ability => ability.CultRecruit()
             };
         }
 

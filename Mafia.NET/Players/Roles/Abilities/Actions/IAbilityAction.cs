@@ -12,12 +12,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         void Block();
         void Misc();
         void Kill();
+        void Revenge();
         void Protect();
         void Clean();
         void Detect();
         void Disguise();
         void MasonRecruit();
         void CultRecruit();
-        void Revenge();
     }
 }
