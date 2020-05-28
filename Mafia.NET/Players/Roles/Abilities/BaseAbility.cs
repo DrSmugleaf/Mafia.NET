@@ -129,8 +129,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         public virtual bool Attack(IPlayer victim)
         {
             if (victim.Role.Ability.CurrentlyNightImmune) return false;
-            
+
             var threat = new Death(this, victim);
+            User.Crimes.Add(CrimeKey.Murder);
             Match.Graveyard.Threats.Add(threat);
             return true;
         }
@@ -138,6 +139,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public void PiercingAttack(IPlayer victim)
         {
             var threat = new Death(this, victim);
+            User.Crimes.Add(CrimeKey.Murder);
             Match.Graveyard.Threats.Add(threat);
         }
 
