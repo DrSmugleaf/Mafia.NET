@@ -155,7 +155,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             return false;
         }
 
-        public bool BlockedBy(IPlayer blocker)
+        public virtual bool BlockedBy(IPlayer blocker)
         {
             if (RoleBlockImmune) return false;
 
@@ -163,7 +163,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             return true;
         }
 
-        public bool PiercingBlockedBy(IPlayer blocker)
+        public virtual bool PiercingBlockedBy(IPlayer blocker)
         {
             Active = false;
             return true;

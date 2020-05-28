@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Localization;
+﻿using System;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Neutral
@@ -14,10 +16,27 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     [RegisterAbility("Serial Killer", typeof(SerialKillerSetup))]
     public class SerialKiller : BaseAbility<SerialKillerSetup>
     {
+        public override void Try(Action<IAbilityAction> action)
+        {
+            action(this); 
+        }
+
         public override void Kill()
         {
             if (!TargetManager.Try(out var target)) return;
             Attack(target);
+        }
+
+        public override bool BlockedBy(IPlayer blocker)
+        {
+            if (Setup.KillsRoleBlockers) TargetManager.Set(blocker);
+            return base.BlockedBy(blocker);
+        }
+
+        public override bool PiercingBlockedBy(IPlayer blocker)
+        {
+            if (Setup.KillsRoleBlockers) TargetManager.Set(blocker);
+            return base.PiercingBlockedBy(blocker);
         }
 
         public override bool DetectableBy(ISheriffSetup setup)
