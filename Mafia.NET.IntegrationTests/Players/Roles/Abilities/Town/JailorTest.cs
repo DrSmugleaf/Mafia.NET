@@ -33,7 +33,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<DiscussionPhase>();
 
-            jailor.Role.Ability.TargetManager.Set(prisoner);
+            jailor.Target(prisoner);
 
             if (lynch)
             {
@@ -54,19 +54,19 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            if (execute) jailor.Role.Ability.TargetManager.Set(prisoner);
+            if (execute) jailor.Target(prisoner);
 
             if (lynch)
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.True);
-                Assert.That(jailor.Role.Ability.TargetManager.Day(), Is.Null);
-                Assert.That(jailor.Role.Ability.TargetManager.Night(), Is.Null);
+                Assert.That(jailor.TargetManager.Day(), Is.Null);
+                Assert.That(jailor.TargetManager.Night(), Is.Null);
             }
             else
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.False);
-                Assert.That(jailor.Role.Ability.TargetManager.Day(), Is.Not.Null);
-                Assert.That(jailor.Role.Ability.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
+                Assert.That(jailor.TargetManager.Day(), Is.Not.Null);
+                Assert.That(jailor.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
             }
 
             var uses = jailor.Role.Ability.Uses;
@@ -94,7 +94,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<DiscussionPhase>();
 
-            jailor.Role.Ability.TargetManager.Set(prisoner);
+            jailor.TargetManager.Set(prisoner);
 
             if (lynch)
             {
@@ -118,14 +118,14 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             if (lynch)
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.True);
-                Assert.That(jailor.Role.Ability.TargetManager.Day(), Is.Null);
-                Assert.That(jailor.Role.Ability.TargetManager.Night(), Is.Null);
+                Assert.That(jailor.TargetManager.Day(), Is.Null);
+                Assert.That(jailor.TargetManager.Night(), Is.Null);
             }
             else
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.False);
-                Assert.That(jailor.Role.Ability.TargetManager.Day(), Is.Not.Null);
-                Assert.That(jailor.Role.Ability.TargetManager.Night(), Is.Null);
+                Assert.That(jailor.TargetManager.Day(), Is.Not.Null);
+                Assert.That(jailor.TargetManager.Night(), Is.Null);
             }
 
             var text = "Did you ever hear the tragedy of Darth Plagueis The Wise?";
@@ -156,8 +156,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<DiscussionPhase>();
 
-            first.Role.Ability.TargetManager.Set(prisoner);
-            second.Role.Ability.TargetManager.Set(prisoner);
+            first.Target(prisoner);
+            second.Target(prisoner);
 
             if (lynch)
             {
@@ -180,25 +180,25 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             if (execute)
             {
-                first.Role.Ability.TargetManager.Set(prisoner);
-                second.Role.Ability.TargetManager.Set(prisoner);
+                first.Target(prisoner);
+                second.Target(prisoner);
             }
 
             if (lynch)
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.True);
-                Assert.That(first.Role.Ability.TargetManager.Day(), Is.Null);
-                Assert.That(first.Role.Ability.TargetManager.Night(), Is.Null);
-                Assert.That(second.Role.Ability.TargetManager.Day(), Is.Null);
-                Assert.That(second.Role.Ability.TargetManager.Night(), Is.Null);
+                Assert.That(first.TargetManager.Day(), Is.Null);
+                Assert.That(first.TargetManager.Night(), Is.Null);
+                Assert.That(second.TargetManager.Day(), Is.Null);
+                Assert.That(second.TargetManager.Night(), Is.Null);
             }
             else
             {
                 Assert.That(prisoner.Role.Ability.Active, Is.False);
-                Assert.That(first.Role.Ability.TargetManager.Day(), Is.Not.Null);
-                Assert.That(first.Role.Ability.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
-                Assert.That(second.Role.Ability.TargetManager.Day(), Is.Not.Null);
-                Assert.That(second.Role.Ability.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
+                Assert.That(first.TargetManager.Day(), Is.Not.Null);
+                Assert.That(first.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
+                Assert.That(second.TargetManager.Day(), Is.Not.Null);
+                Assert.That(second.TargetManager.Night(), execute ? Is.Not.Null : Is.Null);
             }
 
             var firstText = "Did you ever hear the tragedy of Darth Plagueis The Wise?";

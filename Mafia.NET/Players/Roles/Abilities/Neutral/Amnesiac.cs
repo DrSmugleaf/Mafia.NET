@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         RememberAnnouncement,
         RememberPersonal,
         StillAlive,
-        Unique
+        Unable
     }
 
     [RegisterAbility("Amnesiac", typeof(AmnesiacSetup))]
@@ -23,31 +23,26 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         {
             var teamId = target.Role.Team.Id;
             var role = target.Role;
-
+            
             if (!Setup.CanBecomeTown && teamId == "Town") return false;
-            if (!Setup.CanBecomeMafiaTriad &&
+            else if (!Setup.CanBecomeMafiaTriad &&
                 (target.Role.Team.Id == "Mafia" || teamId == "Triad")) return false;
-            if (!Setup.CanBecomeKillingRole && (
+            else if (!Setup.CanBecomeKillingRole && (
                 role.IsCategory("Town Killing") ||
                 role.IsCategory("Mafia Killing") ||
                 role.IsCategory("Triad Killing") ||
                 role.IsCategory("Neutral Killing"))) return false;
-            return true;
+            else if (role.Unique) return false;
+            else return true;
         }
 
         public override void Disguise()
         {
             if (!TargetManager.Try(out var target)) return;
 
-            Notification notification;
             if (target.Alive)
             {
-                notification = Notification.Chat(AmnesiacKey.StillAlive);
-                User.OnNotification(notification);
-            }
-            else if (target.Role.Unique)
-            {
-                notification = Notification.Chat(AmnesiacKey.Unique);
+                var notification = Notification.Chat(AmnesiacKey.StillAlive);
                 User.OnNotification(notification);
             }
             else if (Compatible(target))
@@ -58,12 +53,17 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
                     Match.Graveyard.Announcements.Add(announcement);
                 }
 
-                notification = Notification.Chat(AmnesiacKey.RememberPersonal, target.Role);
+                var notification = Notification.Chat(AmnesiacKey.RememberPersonal, target.Role);
                 User.ChangeRole(target.Role);
                 User.Role.Ability.User = User;
                 User = null;
 
                 target.Role.Ability.User.OnNotification(notification);
+            }
+            else
+            {
+                var notification = Notification.Chat(AmnesiacKey.Unable);
+                User.OnNotification(notification);
             }
         }
 

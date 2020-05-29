@@ -26,7 +26,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
                 foreach (var player in Match.LivingPlayers)
                 {
-                    var targets = player.Role.Ability.TargetManager;
+                    var targets = player.TargetManager;
                     if (targets[0] == User)
                     {
                         targets.ForceSet(target);

@@ -30,8 +30,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            detective.Role.Ability.TargetManager.Set(mafia);
-            mafia.Role.Ability.TargetManager.Set(innocent);
+            detective.Target(mafia);
+            mafia.Target(innocent);
 
             var notifications = new List<Text>();
             detective.Chat += (s, e) => notifications.Add(e);

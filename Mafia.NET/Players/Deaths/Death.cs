@@ -5,7 +5,7 @@ namespace Mafia.NET.Players.Deaths
 {
     public class Death : IDeath
     {
-        public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer killer = null)
+        public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer killer = null, bool direct = true, bool stoppable = true)
         {
             Day = day;
             Victim = victim;
@@ -16,10 +16,19 @@ namespace Mafia.NET.Players.Deaths
             LastWill = victim.LastWill;
             DeathNote = killer?.DeathNote;
             Description = description;
+            Direct = direct;
+            Stoppable = stoppable;
         }
 
-        public Death(IAbility ability, IPlayer victim) : this(victim.Match.Phase.Day, victim, DeathCause.Murder,
-            ability.MurderDescriptions.Get(), ability.User)
+        public Death(IAbility ability, IPlayer victim, bool direct = true, bool stoppable = true) :
+            this(
+                victim.Match.Phase.Day,
+                victim,
+                DeathCause.Murder,
+                ability.MurderDescriptions.Get(),
+                ability.User,
+                direct,
+                stoppable)
         {
         }
 
@@ -32,6 +41,8 @@ namespace Mafia.NET.Players.Deaths
         public string LastWill { get; set; }
         public string DeathNote { get; set; }
         public string Description { get; set; }
+        public bool Direct { get; set; }
+        public bool Stoppable { get; set; }
 
         public void WithVictim(IPlayer player)
         {

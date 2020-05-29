@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Linq;
+using Mafia.NET.Localization;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -24,7 +25,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         {
             if (!TargetManager.Try(out var target)) return;
 
-            var threats = Match.Graveyard.ThreatsOn(target);
+            var threats = Match.Graveyard.ThreatsOn(target)
+                .Where(death => death.Direct)
+                .ToList();
+            
             if (threats.Count > 0)
             {
                 var threat = threats[0];

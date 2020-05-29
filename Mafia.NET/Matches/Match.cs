@@ -73,7 +73,9 @@ namespace Mafia.NET.Matches
         public ISetup Setup { get; }
         public IReadOnlyList<IPlayerController> Controllers { get; }
         public IReadOnlyList<IPlayer> AllPlayers { get; }
-        public IReadOnlyList<IPlayer> LivingPlayers => new List<IPlayer>(AllPlayers.Where(player => player.Alive));
+        public IReadOnlyList<IPlayer> LivingPlayers => AllPlayers
+            .Where(player => player.Alive)
+            .ToList();
         public Graveyard Graveyard { get; }
         public PhaseManager Phase { get; set; }
         public ChatManager Chat => Phase.Chat;

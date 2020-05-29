@@ -22,8 +22,10 @@ namespace Mafia.NET.Players
         Note LastWill { get; }
         Note DeathNote { get; }
         bool Blackmailed { get; set; }
+        bool Doused { get; set; }
         Crimes Crimes { get; }
         CultureInfo Culture { get; }
+        TargetManager TargetManager { get; }
         event EventHandler<Text> Chat;
         event EventHandler<Text> Popup;
 
@@ -31,6 +33,7 @@ namespace Mafia.NET.Players
         void OnNotification(EntryBundle bundle);
         void ChangeRole(IRole role);
         void ChangeRole(IAbility ability);
+        void Target(IPlayer target);
     }
 
     public class Player : IPlayer
@@ -69,8 +72,10 @@ namespace Mafia.NET.Players
         public Note LastWill { get; }
         public Note DeathNote { get; }
         public bool Blackmailed { get; set; }
+        public bool Doused { get; set; }
         public Crimes Crimes { get; }
         public CultureInfo Culture { get; }
+        public TargetManager TargetManager => Role.Ability.TargetManager;
         public event EventHandler<Text> Chat;
         public event EventHandler<Text> Popup;
 
@@ -108,6 +113,11 @@ namespace Mafia.NET.Players
             var roleEntry = Match.RoleSetup.Roles.Names[ability.Name];
             var role = new Role(roleEntry, ability);
             ChangeRole(role);
+        }
+
+        public void Target(IPlayer target)
+        {
+            TargetManager.Set(target);
         }
 
         public override string ToString()

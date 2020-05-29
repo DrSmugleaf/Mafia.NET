@@ -19,7 +19,12 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
     [TestOf(typeof(Amnesiac))]
     public class AmnesiacTest : BaseMatchTest
     {
-        public bool Successful(IPlayer victim, bool remember, bool town, bool mafia, bool killing)
+        private bool Successful(
+            IPlayer victim,
+            bool remember,
+            bool town,
+            bool mafia,
+            bool killing)
         {
             var killingRole = victim.Role.Categories
                 .Any(category => category.Id.EndsWith("Killing"));
@@ -38,7 +43,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         }
 
         [TestCaseSource(typeof(RememberCases))]
-        public void Remember(string namesString, bool attack, bool remember, bool announce, bool town, bool mafia,
+        public void Remember(
+            string namesString,
+            bool attack,
+            bool remember,
+            bool announce,
+            bool town,
+            bool mafia,
             bool killing)
         {
             var roleNames = namesString.Split(",");
@@ -58,8 +69,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (attack) killer.Role.Ability.TargetManager.Set(victim);
-            if (remember) amnesiac.Role.Ability.TargetManager.Set(victim);
+            if (attack) killer.TargetManager.Set(victim);
+            if (remember) amnesiac.TargetManager.Set(victim);
 
             match.Skip<DeathsPhase>();
 
@@ -73,7 +84,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (remember) amnesiac.Role.Ability.TargetManager.Set(victim);
+            if (remember) amnesiac.TargetManager.Set(victim);
             var personalNotifications = new List<Text>();
             var personalMessage = Notification.Chat(AmnesiacKey.RememberPersonal, victim.Role).Localize();
             amnesiac.Chat += (s, e) =>

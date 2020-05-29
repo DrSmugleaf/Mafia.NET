@@ -2,3 +2,12 @@
 Summary: "A pyromaniac who only wants to see the world burn."
 Goal: "Be the last person left alive."
 Abilities: "Either douse a person in gasoline or kill all previously doused targets at night. May also undouse himself by taking no action."
+
+UserAddMessage: "You will douse <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't douse anyone."
+UserChangeMessage: "You will instead douse <f c={1c}>{1}</f>."
+ArsonistDouse: "You were doused by an Arsonist! You must undouse yourself."
+OtherDouse: "You were doused by an Arsonist! You are in danger of being burned."
+UnDouse: "You were un-doused!"
+Ignite: "You will burn everybody you doused."
+DouseTarget: "You doused <f c={0c}>{0}</f>"

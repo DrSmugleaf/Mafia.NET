@@ -23,8 +23,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            if (vest) citizen.Role.Ability.TargetManager.Set(citizen);
-            attacker.Role.Ability.TargetManager.Set(citizen);
+            if (vest) citizen.Target(citizen);
+            attacker.Target(citizen);
 
             match.Skip<DeathsPhase>();
 

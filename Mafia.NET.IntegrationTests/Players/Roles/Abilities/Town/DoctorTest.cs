@@ -25,12 +25,12 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            if (heal) doctor.Role.Ability.TargetManager.Set(citizen);
+            if (heal) doctor.Target(citizen);
 
             for (var i = 2; i < match.AllPlayers.Count; i++)
             {
                 var attacker = match.AllPlayers[i];
-                attacker.Role.Ability.TargetManager.Set(citizen);
+                attacker.Target(citizen);
             }
 
             match.Skip<DeathsPhase>();

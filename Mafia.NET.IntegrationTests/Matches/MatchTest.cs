@@ -109,7 +109,7 @@ namespace Mafia.NET.IntegrationTests.Matches
             match.Skip<DeathsPhase>();
 
             foreach (var living in match.LivingPlayers)
-                Assert.That(living.Role.Ability.TargetManager[0], Is.Null);
+                Assert.That(living.TargetManager[0], Is.Null);
         }
     }
 }

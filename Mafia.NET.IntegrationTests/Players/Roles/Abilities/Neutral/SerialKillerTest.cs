@@ -31,7 +31,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (attack) sk.Role.Ability.TargetManager.Set(other);
+            if (attack) sk.TargetManager.Set(other);
 
             match.Skip<DeathsPhase>();
 
@@ -67,8 +67,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (attack) sk.Role.Ability.TargetManager.Set(other);
-            if (block) blocker.Role.Ability.TargetManager.Set(sk);
+            if (attack) sk.TargetManager.Set(other);
+            if (block) blocker.TargetManager.Set(sk);
 
             match.Skip<DeathsPhase>();
 
@@ -96,8 +96,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (attack) sk.Role.Ability.TargetManager.Set(other);
-            investigator.Role.Ability.TargetManager.Set(sk);
+            if (attack) sk.TargetManager.Set(other);
+            investigator.TargetManager.Set(sk);
 
             var notifications = new List<Text>();
             investigator.Chat += (s, e) => notifications.Add(e);
@@ -130,7 +130,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            attacker.Role.Ability.TargetManager.Set(sk);
+            attacker.TargetManager.Set(sk);
 
             match.Skip<DeathsPhase>();
 

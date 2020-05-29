@@ -29,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             if (TargetManager.Try(out var target) && TryMafioso(out var mafioso))
             {
-                mafioso.Role.Ability.TargetManager.ForceSet(target);
+                mafioso.TargetManager.ForceSet(target);
                 TargetManager.ForceSet(null);
             }
         }

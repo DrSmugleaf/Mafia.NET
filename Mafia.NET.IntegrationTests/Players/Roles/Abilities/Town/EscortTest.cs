@@ -26,8 +26,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            if (blocked) escort.Role.Ability.TargetManager.Set(attacker);
-            attacker.Role.Ability.TargetManager.Set(citizen);
+            if (blocked) escort.Target(attacker);
+            attacker.Target(citizen);
 
             match.Skip<DeathsPhase>();
 

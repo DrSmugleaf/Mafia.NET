@@ -25,7 +25,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            if (attack) vigilante.Role.Ability.TargetManager.Set(other);
+            if (attack) vigilante.Target(other);
 
             match.Skip<DeathsPhase>();
 
@@ -35,7 +35,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             
             match.Skip<NightPhase>();
 
-            if (attack) vigilante.Role.Ability.TargetManager.Set(other);
+            if (attack) vigilante.Target(other);
             
             match.Skip<DeathsPhase>();
 

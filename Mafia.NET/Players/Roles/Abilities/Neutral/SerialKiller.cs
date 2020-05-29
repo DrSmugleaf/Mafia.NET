@@ -29,13 +29,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
 
         public override bool BlockedBy(IPlayer blocker)
         {
-            if (Setup.KillsRoleBlockers) TargetManager.Set(blocker);
+            if (Setup.KillsRoleBlockers) TargetManager.ForceSet(blocker);
             return base.BlockedBy(blocker);
         }
 
         public override bool PiercingBlockedBy(IPlayer blocker)
         {
-            if (Setup.KillsRoleBlockers) TargetManager.Set(blocker);
+            if (Setup.KillsRoleBlockers) TargetManager.ForceSet(blocker);
             return base.PiercingBlockedBy(blocker);
         }
 

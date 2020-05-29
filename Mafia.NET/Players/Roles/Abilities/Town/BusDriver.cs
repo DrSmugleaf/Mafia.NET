@@ -28,7 +28,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
                 foreach (var player in Match.LivingPlayers)
                 {
-                    var targets = player.Role.Ability.TargetManager.Get().Targets;
+                    var targets = player.TargetManager.Get().Targets;
                     for (var i = 0; i < targets.Count; i++)
                     {
                         var target = targets[i];

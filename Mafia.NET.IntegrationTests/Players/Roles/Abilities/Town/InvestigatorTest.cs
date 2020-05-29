@@ -29,8 +29,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            investigator.Role.Ability.TargetManager.Set(target);
-            target.Role.Ability.TargetManager.Set(citizen);
+            investigator.Target(target);
+            target.Target(citizen);
 
             var notifications = new List<Text>();
             investigator.Chat += (s, e) => notifications.Add(e);

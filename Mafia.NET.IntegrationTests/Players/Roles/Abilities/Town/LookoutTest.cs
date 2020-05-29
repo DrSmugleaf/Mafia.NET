@@ -27,9 +27,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            lookout.Role.Ability.TargetManager.Set(visited);
+            lookout.Target(visited);
 
-            if (visit) visitor.Role.Ability.TargetManager.Set(visited);
+            if (visit) visitor.Target(visited);
 
             var notifications = new List<Text>();
             lookout.Chat += (s, e) => notifications.Add(e);

@@ -27,7 +27,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            if (alert) veteran.Role.Ability.TargetManager.Set(veteran);
+            if (alert) veteran.Target(veteran);
 
             if (attack)
             {
@@ -36,7 +36,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
                 for (var i = 1; i < living.Count; i++)
                 {
                     var attacker = living[i];
-                    attacker.Role.Ability.TargetManager.Set(veteran);
+                    attacker.Target(veteran);
                 }
             }
 

@@ -27,8 +27,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<NightPhase>();
 
-            bodyguard.Role.Ability.TargetManager.Set(citizen);
-            attacker.Role.Ability.TargetManager.Set(citizen);
+            bodyguard.Target(citizen);
+            attacker.Target(citizen);
 
             match.Skip<DeathsPhase>();
 
@@ -53,9 +53,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var doctor = match.AllPlayers[2];
             var godfather = match.AllPlayers[3];
 
-            bodyguard.Role.Ability.TargetManager.Set(citizen);
-            doctor.Role.Ability.TargetManager.Set(bodyguard);
-            godfather.Role.Ability.TargetManager.Set(citizen);
+            bodyguard.Target(citizen);
+            doctor.Target(bodyguard);
+            godfather.Target(citizen);
 
             match.Skip<DeathsPhase>();
 

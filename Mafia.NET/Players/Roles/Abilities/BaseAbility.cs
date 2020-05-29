@@ -33,8 +33,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
-        bool Attack(IPlayer victim);
-        void PiercingAttack(IPlayer victim);
+        bool Attack(IPlayer victim, bool direct = true, bool stoppable = true);
+        bool PiercingAttack(IPlayer victim, bool direct = true, bool stoppable = true);
         bool HealedBy(IPlayer healer);
         bool BlockedBy(IPlayer blocker);
         bool PiercingBlockedBy(IPlayer blocker);
@@ -116,26 +116,30 @@ namespace Mafia.NET.Players.Roles.Abilities
             if (Active) action(this);
         }
 
-        public virtual bool Attack(IPlayer victim)
+        public virtual bool Attack(IPlayer victim, bool direct = true, bool stoppable = true)
         {
             if (victim.Role.Ability.CurrentlyNightImmune) return false;
 
-            var threat = new Death(this, victim);
+            var threat = new Death(this, victim, direct, stoppable);
             User.Crimes.Add(CrimeKey.Murder);
             Match.Graveyard.Threats.Add(threat);
             return true;
         }
 
-        public void PiercingAttack(IPlayer victim)
+        public virtual bool PiercingAttack(IPlayer victim, bool direct = true, bool stoppable = true)
         {
-            var threat = new Death(this, victim);
+            var threat = new Death(this, victim, direct, stoppable);
             User.Crimes.Add(CrimeKey.Murder);
             Match.Graveyard.Threats.Add(threat);
+            return true;
         }
 
         public virtual bool HealedBy(IPlayer healer)
         {
-            var threats = Match.Graveyard.ThreatsOn(User);
+            var threats = Match.Graveyard.ThreatsOn(User)
+                .Where(death => death.Stoppable)
+                .ToList();
+            
             if (threats.Count > 0)
             {
                 var threat = threats[0];
