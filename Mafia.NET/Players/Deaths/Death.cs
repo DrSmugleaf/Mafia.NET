@@ -5,7 +5,8 @@ namespace Mafia.NET.Players.Deaths
 {
     public class Death : IDeath
     {
-        public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer killer = null, bool direct = true, bool stoppable = true)
+        public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer killer = null,
+            bool direct = true, bool stoppable = true)
         {
             Day = day;
             Victim = victim;

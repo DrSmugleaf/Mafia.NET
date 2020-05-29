@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         Ignite,
         DouseTarget
     }
-    
+
     [RegisterAbility("Arsonist", typeof(ArsonistSetup))]
     public class Arsonist : BaseAbility<ArsonistSetup>
     {
@@ -45,7 +45,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
                 var notification = target.Role.Ability is Arsonist
                     ? Notification.Chat(ArsonistKey.ArsonistDouse)
                     : Notification.Chat(ArsonistKey.OtherDouse);
-                    
+
                 target.OnNotification(notification);
             }
         }
@@ -64,10 +64,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
                     PiercingAttack(victimsTarget, false, stoppable);
             }
         }
-        
+
         public override void Try(Action<IAbilityAction> action)
         {
-            action(this); 
+            action(this);
         }
 
         public override void Kill()
@@ -110,10 +110,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
 
     public class ArsonistSetup : INightImmune
     {
-        public bool IgnitionKillsVictimsTargets = true;
-        public bool IgnitionAlwaysKills = true;
-        public bool NightImmune { get; set; } = true;
-        public bool VictimNoticesDousing = true;
         public bool DousesRoleBlockers = true;
+        public bool IgnitionAlwaysKills = true;
+        public bool IgnitionKillsVictimsTargets = true;
+        public bool VictimNoticesDousing = true;
+        public bool NightImmune { get; set; } = true;
     }
 }

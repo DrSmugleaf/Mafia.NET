@@ -18,8 +18,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public TargetNotification TargetMessage()
         {
-            return Match.Phase.Day == 1 ?
-                new TargetNotification() 
+            return Match.Phase.Day == 1
+                ? new TargetNotification
                 {
                     UserAddMessage = target =>
                     {

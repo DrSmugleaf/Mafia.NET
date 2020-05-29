@@ -23,17 +23,17 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         {
             var teamId = target.Role.Team.Id;
             var role = target.Role;
-            
+
             if (!Setup.CanBecomeTown && teamId == "Town") return false;
-            else if (!Setup.CanBecomeMafiaTriad &&
+            if (!Setup.CanBecomeMafiaTriad &&
                 (target.Role.Team.Id == "Mafia" || teamId == "Triad")) return false;
-            else if (!Setup.CanBecomeKillingRole && (
+            if (!Setup.CanBecomeKillingRole && (
                 role.IsCategory("Town Killing") ||
                 role.IsCategory("Mafia Killing") ||
                 role.IsCategory("Triad Killing") ||
                 role.IsCategory("Neutral Killing"))) return false;
-            else if (role.Unique) return false;
-            else return true;
+            if (role.Unique) return false;
+            return true;
         }
 
         public override void Disguise()

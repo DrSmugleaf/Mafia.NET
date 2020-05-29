@@ -28,7 +28,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             var threats = Match.Graveyard.ThreatsOn(target)
                 .Where(death => death.Direct)
                 .ToList();
-            
+
             if (threats.Count > 0)
             {
                 var threat = threats[0];

@@ -69,8 +69,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (attack) killer.TargetManager.Set(victim);
-            if (remember) amnesiac.TargetManager.Set(victim);
+            if (attack) killer.Target(victim);
+            if (remember) amnesiac.Target(victim);
 
             match.Skip<DeathsPhase>();
 
@@ -84,7 +84,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<NightPhase>();
 
-            if (remember) amnesiac.TargetManager.Set(victim);
+            if (remember) amnesiac.Target(victim);
             var personalNotifications = new List<Text>();
             var personalMessage = Notification.Chat(AmnesiacKey.RememberPersonal, victim.Role).Localize();
             amnesiac.Chat += (s, e) =>

@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     {
         public override void Try(Action<IAbilityAction> action)
         {
-            action(this); 
+            action(this);
         }
 
         public override void Kill()

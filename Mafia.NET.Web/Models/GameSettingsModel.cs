@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Web.Models
@@ -25,7 +23,7 @@ namespace Mafia.NET.Web.Models
         public List<IRoleSelector> RoleEntries()
         {
             var selectors = new List<IRoleSelector>();
-            
+
             foreach (var group in SelectorGroup.Default())
             {
                 var subSelectors = group.Get(Roles);

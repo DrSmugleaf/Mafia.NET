@@ -28,22 +28,22 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             var arsonist = match.AllPlayers[0];
             var investigator = match.AllPlayers[1];
             var citizen = match.AllPlayers[2];
-            
+
             match.Skip<NightPhase>();
-            
+
             arsonist.Target(investigator);
-            
+
             match.Skip<DeathsPhase>();
 
             Deaths(match, 0);
-            
+
             match.Skip<NightPhase>();
 
             arsonist.Target(arsonist);
             investigator.Target(citizen);
-            
+
             match.Skip<DeathsPhase>();
-            
+
             Deaths(match, deaths);
         }
 
@@ -62,22 +62,22 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             var arsonist = match.AllPlayers[0];
             var doctor = match.AllPlayers[1];
             var citizen = match.AllPlayers[2];
-            
+
             match.Skip<NightPhase>();
-            
+
             arsonist.Target(citizen);
-            
+
             match.Skip<DeathsPhase>();
 
             Deaths(match, 0);
-            
+
             match.Skip<NightPhase>();
 
             arsonist.Target(arsonist);
             doctor.Target(citizen);
-            
+
             match.Skip<DeathsPhase>();
-            
+
             Deaths(match, deaths);
         }
 
@@ -95,9 +95,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             var arsonist = match.AllPlayers[0];
             var citizen = match.AllPlayers[1];
-            
+
             match.Skip<NightPhase>();
-            
+
             arsonist.Target(citizen);
             var notifications = new List<Text>();
             var personalMessage = Notification.Chat(ArsonistKey.OtherDouse, citizen.Role).Localize();
@@ -105,7 +105,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             {
                 if (Equals(e, personalMessage)) notifications.Add(e);
             };
-            
+
             match.Skip<DeathsPhase>();
 
             Assert.That(notifications, notices ? Is.Not.Empty : Is.Empty);
@@ -126,9 +126,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             var arsonist = match.AllPlayers[0];
             var escort = match.AllPlayers[1];
             var citizen = match.AllPlayers[2];
-            
+
             match.Skip<NightPhase>();
-            
+
             arsonist.Target(citizen);
             escort.Target(arsonist);
 
@@ -149,14 +149,14 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             var arsonist = match.AllPlayers[0];
             var bodyguard = match.AllPlayers[1];
             var citizen = match.AllPlayers[2];
-            
+
             match.Skip<NightPhase>();
-            
+
             arsonist.Target(citizen);
 
             match.Skip<DeathsPhase>();
             match.Skip<NightPhase>();
-            
+
             arsonist.Target(arsonist);
             bodyguard.Target(citizen);
 

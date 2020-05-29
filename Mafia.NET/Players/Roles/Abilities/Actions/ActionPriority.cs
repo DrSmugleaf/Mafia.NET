@@ -10,7 +10,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         Start,
         End
     }
-    
+
     public class ActionPriority
     {
         public ActionPriority(IMatch match)
@@ -71,7 +71,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         public void OnNightStart()
         {
             NightSubPhase = NightSubPhase.Start;
-            
+
             foreach (var action in StartOrder)
             foreach (var player in Players())
                 player.Role.Ability.Try(action);
@@ -89,7 +89,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         public void OnNightEnd()
         {
             NightSubPhase = NightSubPhase.End;
-            
+
             foreach (var action in EndOrder)
             foreach (var player in Players())
                 player.Role.Ability.Try(action);

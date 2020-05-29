@@ -2171,7 +2171,7 @@ var HubConnection = /** @class */ (function () {
         this.callbacks[invocationDescriptor.invocationId] = function (invocationEvent, error) {
             if (error) {
                 subject.error(error);
-                return;
+                
             }
             else if (invocationEvent) {
                 // invocationEvent will not be null when an error is not passed to the callback
@@ -2250,7 +2250,7 @@ var HubConnection = /** @class */ (function () {
             _this.callbacks[invocationDescriptor.invocationId] = function (invocationEvent, error) {
                 if (error) {
                     reject(error);
-                    return;
+                    
                 }
                 else if (invocationEvent) {
                     // invocationEvent will not be null when an error is not passed to the callback
@@ -4554,7 +4554,7 @@ var ServerSentEventsTransport = /** @class */ (function () {
                                         }
                                         catch (error) {
                                             _this.close(error);
-                                            return;
+                                            
                                         }
                                     }
                                 };
@@ -4576,7 +4576,7 @@ var ServerSentEventsTransport = /** @class */ (function () {
                             }
                             catch (e) {
                                 reject(e);
-                                return;
+                                
                             }
                         })];
                 }

@@ -29,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             var ability = (IAbility) Activator.CreateInstance(Ability);
             if (ability == null) throw new NullReferenceException();
 
-            ability.Name = Id;
+            ability.Id = Id;
             ability.MurderDescriptions = MurderDescriptions;
 
             return ability;
@@ -111,7 +111,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             var entry = Entry<T>();
             var ability = new T
             {
-                Name = entry.Id,
+                Id = entry.Id,
                 MurderDescriptions = entry.MurderDescriptions
             };
 

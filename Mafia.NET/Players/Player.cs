@@ -110,7 +110,7 @@ namespace Mafia.NET.Players
 
         public void ChangeRole(IAbility ability)
         {
-            var roleEntry = Match.RoleSetup.Roles.Names[ability.Name];
+            var roleEntry = Match.RoleSetup.Roles.Names[ability.Id];
             var role = new Role(roleEntry, ability);
             ChangeRole(role);
         }

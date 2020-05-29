@@ -1,8 +1,5 @@
 ﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
-using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
-using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
 namespace Mafia.NET.Tests.Players.Roles

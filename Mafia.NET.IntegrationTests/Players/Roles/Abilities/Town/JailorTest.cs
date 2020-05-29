@@ -94,7 +94,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Skip<DiscussionPhase>();
 
-            jailor.TargetManager.Set(prisoner);
+            jailor.Target(prisoner);
 
             if (lynch)
             {

@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         IMatch Match { get; }
         IPlayer User { get; set; }
-        string Name { get; set; }
+        string Id { get; set; }
         MessageRandomizer MurderDescriptions { get; set; }
         TargetManager TargetManager { get; set; }
         IAbilitySetup AbilitySetup { get; set; }
@@ -56,7 +56,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         private int _uses { get; set; }
         public IMatch Match => User.Match;
         public IPlayer User { get; set; }
-        public string Name { get; set; }
+        public string Id { get; set; }
         public MessageRandomizer MurderDescriptions { get; set; }
         public TargetManager TargetManager { get; set; }
         public IAbilitySetup AbilitySetup { get; set; }
@@ -139,7 +139,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             var threats = Match.Graveyard.ThreatsOn(User)
                 .Where(death => death.Stoppable)
                 .ToList();
-            
+
             if (threats.Count > 0)
             {
                 var threat = threats[0];

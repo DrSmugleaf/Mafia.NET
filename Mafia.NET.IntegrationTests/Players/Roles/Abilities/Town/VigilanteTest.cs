@@ -32,11 +32,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             Assert.That(vigilante.Alive, Is.True);
             Assert.That(other.Alive, Is.True);
             Deaths(match, 0);
-            
+
             match.Skip<NightPhase>();
 
             if (attack) vigilante.Target(other);
-            
+
             match.Skip<DeathsPhase>();
 
             Assert.That(vigilante.Alive, Is.True);

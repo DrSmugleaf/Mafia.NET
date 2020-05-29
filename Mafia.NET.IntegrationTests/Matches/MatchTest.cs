@@ -63,7 +63,7 @@ namespace Mafia.NET.IntegrationTests.Matches
             match.Start();
 
             var citizen = match.AllPlayers[0];
-            var gf = match.AllPlayers[9].Role.Ability;
+            var gf = match.AllPlayers[9];
 
             Deaths(match, 0);
 
@@ -77,18 +77,18 @@ namespace Mafia.NET.IntegrationTests.Matches
 
             match.Skip<NightPhase>();
 
-            Assert.That(gf.Name, Is.EqualTo("Godfather"));
+            Assert.That(gf.Role.Ability.Id, Is.EqualTo("Godfather"));
 
             foreach (var player in match.AllPlayers)
             {
-                gf.TargetManager.Set(player);
+                gf.Target(player);
 
-                if (!player.Alive || player.Role.Team == gf.User.Role.Team)
+                if (!player.Alive || player.Role.Team == gf.Role.Team)
                     Assert.That(gf.TargetManager[0], Is.Not.EqualTo(player));
                 else Assert.That(gf.TargetManager[0], Is.EqualTo(player));
             }
 
-            gf.TargetManager.Set(citizen);
+            gf.Target(citizen);
 
             match.Skip<DeathsPhase>();
             Deaths(match, 1);
