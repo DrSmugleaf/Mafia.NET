@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
@@ -39,6 +40,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool PiercingBlockedBy(IPlayer blocker);
         bool DetectableBy(ISheriffSetup setup);
         Key DirectSheriff(ISheriffSetup setup);
+        Key GuiltyName();
         bool DetectTarget(out IPlayer target, IDetectSetup setup = null);
         bool AloneTeam();
         void OnDayStart();
@@ -158,14 +160,18 @@ namespace Mafia.NET.Players.Roles.Abilities
             return true;
         }
 
-        public abstract bool DetectableBy(ISheriffSetup setup);
+        public abstract bool DetectableBy([CanBeNull] ISheriffSetup setup = null);
 
-        public Key DirectSheriff(ISheriffSetup setup)
+        public Key DirectSheriff([CanBeNull] ISheriffSetup setup = null)
         {
-            return !DetectableBy(setup) || DetectionImmune ? SheriffKey.NotSuspicious : GuiltyName();
+            return !DetectableBy(setup) || DetectionImmune
+                ? SheriffKey.NotSuspicious
+                : GuiltyName();
         }
 
-        public bool DetectTarget(out IPlayer target, IDetectSetup setup = null)
+        public abstract Key GuiltyName();
+
+        public bool DetectTarget(out IPlayer target, [CanBeNull] IDetectSetup setup = null)
         {
             target = null;
 
@@ -235,8 +241,6 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             TargetManager = new TargetManager(Match, this);
         }
-
-        protected abstract Key GuiltyName();
 
         protected virtual void _onDayStart()
         {

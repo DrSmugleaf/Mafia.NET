@@ -30,9 +30,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
             actions.Add(chat);
         }
 
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsMafiaTriad;
+            return setup?.DetectsMafiaTriad == true;
         }
 
         public sealed override void OnDayStart()
@@ -70,7 +70,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
             return !Match.LivingPlayers.Any(player => player.Role.Ability is Godfather);
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.Mafia;
         }

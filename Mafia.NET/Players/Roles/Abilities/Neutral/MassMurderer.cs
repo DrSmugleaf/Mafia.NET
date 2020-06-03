@@ -7,12 +7,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     [RegisterAbility("Mass Murderer", typeof(MassMurdererSetup))]
     public class MassMurderer : BaseAbility<MassMurdererSetup>
     {
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsMassMurderer;
+            return setup?.DetectsMassMurderer == true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.MassMurderer;
         }

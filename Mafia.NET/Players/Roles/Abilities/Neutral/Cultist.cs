@@ -7,12 +7,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     [RegisterAbility("Cultist", typeof(CultistSetup))]
     public class Cultist : BaseAbility<CultistSetup>
     {
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsCult;
+            return setup?.DetectsCult == true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.Cultist;
         }

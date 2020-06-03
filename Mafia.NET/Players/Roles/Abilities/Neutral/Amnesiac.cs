@@ -54,12 +54,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
             AddTarget(filter, TargetNotification.Enum<AmnesiacKey>());
         }
 
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
             return true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.NotSuspicious;
         }

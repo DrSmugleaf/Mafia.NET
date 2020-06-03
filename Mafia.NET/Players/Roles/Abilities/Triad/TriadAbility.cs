@@ -18,12 +18,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Triad
             actions.Add(chat);
         }
 
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsMafiaTriad;
+            return setup?.DetectsMafiaTriad == true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.Triad;
         }

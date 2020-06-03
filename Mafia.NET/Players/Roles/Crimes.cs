@@ -10,6 +10,7 @@ using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
+using Mafia.NET.Players.Roles.Abilities.Town;
 using Mafia.NET.Players.Roles.Abilities.Triad;
 
 namespace Mafia.NET.Players.Roles
@@ -71,14 +72,14 @@ namespace Mafia.NET.Players.Roles
 
         public Key RoleName()
         {
-            if (Framing != null) return Framing.RoleName;
+            if (Framing != null) return Framing.Sheriff;
             if (User.Role.Ability.DetectionImmune) return new Key("CitizenName");
             return User.Role.Name;
         }
 
         public Key Sheriff(ISheriffSetup setup)
         {
-            if (Framing != null) return Framing.RoleName;
+            if (Framing != null) return Framing.Sheriff;
             return User.Role.Ability.DirectSheriff(setup);
         }
     }
@@ -90,20 +91,26 @@ namespace Mafia.NET.Players.Roles
             Crime = Crimes.All.ElementAt(match.Random.Next(Crimes.All.Count));
 
             var roles = match.LivingPlayers
-                .Select(player => player.Role)
-                .Where(role =>
-                    role.Ability is IMafiaAbility ||
-                    role.Ability is ITriadAbility ||
-                    role.IsCategory("Neutral Killing") ||
-                    role.Ability is Cultist ||
-                    role.Ability is WitchDoctor)
-                .Select(role => role.Name)
+                .Select(player => player.Role.Ability)
+                .Where(ability =>
+                    ability is IMafiaAbility ||
+                    ability is ITriadAbility ||
+                    ability.User.Role.IsCategory("Neutral Killing") ||
+                    ability is Cultist ||
+                    ability is WitchDoctor)
+                .Select(ability => ability.GuiltyName())
                 .ToList();
 
-            RoleName = roles.ElementAt(match.Random.Next(roles.Count()));
+            if (roles.Count == 0)
+            {
+                Sheriff = SheriffKey.Mafia;
+                return;
+            }
+
+            Sheriff = roles.ElementAt(match.Random.Next(roles.Count));
         }
 
         public Key Crime { get; }
-        public Key RoleName { get; }
+        public Key Sheriff { get; }
     }
 }

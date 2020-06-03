@@ -11,6 +11,7 @@ namespace Mafia.NET.Players.Roles
 {
     public interface IRole : IColorizable, ILocalizable
     {
+        string Id { get; }
         Key Name { get; }
         Key Summary { get; }
         Key Goal { get; }
@@ -29,6 +30,7 @@ namespace Mafia.NET.Players.Roles
     {
         public Role(RoleEntry role, IAbility ability)
         {
+            Id = role.Id;
             Name = role.Name;
             Summary = role.Summary;
             Goal = role.Goal;
@@ -40,6 +42,7 @@ namespace Mafia.NET.Players.Roles
             Unique = role.Unique;
         }
 
+        public string Id { get; }
         public Key Name { get; }
         public Key Summary { get; }
         public Key Goal { get; }

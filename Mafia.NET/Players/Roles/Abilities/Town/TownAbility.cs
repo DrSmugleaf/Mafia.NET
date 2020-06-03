@@ -9,12 +9,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
     public abstract class TownAbility<T> : BaseAbility<T>, ITownAbility where T : class, ITownSetup, new()
     {
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
             return true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.NotSuspicious;
         }

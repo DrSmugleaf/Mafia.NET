@@ -56,12 +56,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
             AddTarget(filter, TargetNotification.Enum<ArsonistKey>());
         }
 
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsArsonist;
+            return setup?.DetectsArsonist == true;;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.Arsonist;
         }

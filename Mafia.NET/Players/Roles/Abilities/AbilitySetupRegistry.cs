@@ -22,7 +22,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 Types.Add(type, setup);
             }
 
-            return setup as T;
+            return (T) setup;
         }
 
         public void Set(params IAbilitySetup[] setups)

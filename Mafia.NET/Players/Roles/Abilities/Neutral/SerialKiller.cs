@@ -34,12 +34,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
             return base.PiercingBlockedBy(blocker);
         }
 
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsSerialKiller;
+            return setup?.DetectsSerialKiller == true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.SerialKiller;
         }

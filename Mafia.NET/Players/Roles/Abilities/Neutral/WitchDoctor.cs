@@ -7,12 +7,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     [RegisterAbility("Witch Doctor", typeof(WitchDoctorSetup))]
     public class WitchDoctor : BaseAbility<WitchDoctorSetup>
     {
-        public override bool DetectableBy(ISheriffSetup setup)
+        public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup.DetectsCult;
+            return setup?.DetectsCult == true;
         }
 
-        protected override Key GuiltyName()
+        public override Key GuiltyName()
         {
             return SheriffKey.Cultist;
         }
