@@ -27,7 +27,7 @@
 
         public override bool TryUse()
         {
-            if (!Filter(this) && !Ability.Active && !Setup.KillsRoleBlockers) return false;
+            if (!Filter(this) || !Ability.Active && !Setup.KillsRoleBlockers) return false;
             return ResolveUse();
         }
 

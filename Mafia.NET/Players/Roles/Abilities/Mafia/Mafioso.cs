@@ -19,8 +19,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             var suggest = new MafiaSuggest(this, AttackStrength.Base);
             actions.Add(suggest);
-
-            base.NightStart(in actions);
         }
 
         protected override void _onNightStart()

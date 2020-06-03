@@ -41,7 +41,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         }
 
         [TestCase("Serial Killer,Escort,Mafioso", true, true, false, true, true)]
-        [TestCase("Serial Killer,Escort,Mafioso", true, true, true, false, false)]
+        [TestCase("Serial Killer,Escort,Mafioso", true, true, true, true, false)]
         [TestCase("Serial Killer,Escort,Mafioso", true, false, true, false, true)]
         [TestCase("Serial Killer,Escort,Mafioso", true, false, true, false, false)]
         [TestCase("Serial Killer,Escort,Mafioso", false, true, false, true, true)]

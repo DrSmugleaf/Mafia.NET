@@ -65,14 +65,14 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
                 ["Citizen"] = true,
                 ["Serial Killer"] = false
             };
-                
+
             foreach (var investigator in investigators)
             foreach (var target in targets)
             {
                 var targetRole = target.Key;
                 var roleNames = $"{investigator},Citizen,{targetRole},Mafioso";
                 var innocent = target.Value;
-                
+
                 foreach (var exact in new[] {true, false})
                     yield return new object[] {roleNames, innocent, exact};
             }
