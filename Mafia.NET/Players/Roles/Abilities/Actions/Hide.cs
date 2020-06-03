@@ -35,7 +35,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
             if (Setup.NotifiesTarget)
                 target.OnNotification(Notification.Chat(Ability, HideKey.SomeoneHide));
-            
+
             var notification = target == User
                 ? Notification.Chat(Ability, HideKey.SelfHide)
                 : Notification.Chat(Ability, HideKey.HideAt, target); // TODO: Attribute kills to the Beguiler

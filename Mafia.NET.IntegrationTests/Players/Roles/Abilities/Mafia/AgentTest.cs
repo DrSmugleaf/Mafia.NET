@@ -20,10 +20,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new AgentSetup()
+            match.AbilitySetups.Set(new AgentSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
-            }, new SerialKillerSetup()
+            }, new SerialKillerSetup
             {
                 DetectionImmune = immune
             });
@@ -37,7 +37,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 
             agent.Target(first);
             Assert.That(agent.TargetManager[0], Is.Not.Null);
-            
+
             first.Target(second);
             second.Target(first);
 
@@ -47,7 +47,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.Skip<DeathsPhase>();
 
             Assert.That(notifications.Count, Is.EqualTo(2));
-            
+
             var targetVisited = Notification.Chat(agent.Ability, DetectKey.TargetVisitedSomeone, second).ToString();
             var targetInactive = Notification.Chat(agent.Ability, DetectKey.TargetInactive).ToString();
             var otherVisited = Notification.Chat(agent.Ability, WatchKey.SomeoneVisitedTarget, second).ToString();
@@ -56,7 +56,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             if (firstInnocent || !immune || ignoresImmunity)
                 Assert.That(notifications, Does.Contain(targetVisited));
             else Assert.That(notifications, Does.Contain(targetInactive));
-            
+
             if (!immune || ignoresImmunity)
                 Assert.That(notifications, Does.Contain(otherVisited));
             else Assert.That(notifications, Does.Contain(noneVisited));
@@ -74,10 +74,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var roles = new Dictionary<string, bool>()
+            var roles = new Dictionary<string, bool>
             {
                 ["Doctor"] = true,
-                ["Serial Killer"] = false,
+                ["Serial Killer"] = false
             };
 
             foreach (var role in roles)
@@ -87,9 +87,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 
                 foreach (var immune in new[] {true, false})
                 foreach (var ignoresImmunity in new[] {true, false})
-                {
                     yield return new object[] {roleNames, innocent, immune, ignoresImmunity};
-                }
             }
         }
     }

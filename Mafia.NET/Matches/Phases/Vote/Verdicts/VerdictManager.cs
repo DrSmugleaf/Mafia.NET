@@ -26,7 +26,9 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public void AddVerdict(IPlayer voter, Verdict verdict)
         {
-            if (!Active || !Verdicts.TryGetValue(voter, out var oldVerdict)) return;
+            if (!Active ||
+                voter == Accused ||
+                !Verdicts.TryGetValue(voter, out var oldVerdict)) return;
 
             Verdicts[voter] = verdict;
 

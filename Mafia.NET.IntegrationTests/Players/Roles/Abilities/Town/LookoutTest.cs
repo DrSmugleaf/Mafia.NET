@@ -20,10 +20,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new LookoutSetup()
+            match.AbilitySetups.Set(new LookoutSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
-            }, new GodfatherSetup()
+            }, new GodfatherSetup
             {
                 DetectionImmune = immune
             });
@@ -52,15 +52,15 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             Assert.That(notifications[0], Is.EqualTo(localized));
         }
     }
-    
+
     public class LookoutCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            var roles = new Dictionary<string, bool>()
+            var roles = new Dictionary<string, bool>
             {
                 ["Mafioso"] = false,
-                ["Godfather"] = true,
+                ["Godfather"] = true
             };
 
             foreach (var role in roles)
@@ -73,7 +73,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
                 foreach (var ignoresImmunity in new[] {true, false})
                 {
                     if (immune && !canBeImmune) continue;
-                    
+
                     yield return new object[] {roleNames, immune, visit, ignoresImmunity};
                 }
             }

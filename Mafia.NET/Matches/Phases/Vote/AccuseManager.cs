@@ -49,7 +49,7 @@ namespace Mafia.NET.Matches.Phases.Vote
                 notification =
                     Notification.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
 
-            return notification != default;
+            return !Equals(notification, default);
         }
 
         public bool Unaccuse([CanBeNull] [NotNullWhen(true)] out Notification notification)
@@ -94,13 +94,14 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public void Accuse(IPlayer accuser, IPlayer target)
         {
-            if (!Active) return;
+            if (!Active || accuser == target) return;
 
             var accused = Accusers[accuser].Accuse(target, out var notification);
 
             if (accused)
             {
-                foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+                foreach (var player in Match.AllPlayers)
+                    player.OnNotification(notification);
 
                 if (VotesAgainst(target) >= RequiredVotes())
                 {

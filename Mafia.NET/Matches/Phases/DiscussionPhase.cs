@@ -16,7 +16,11 @@ namespace Mafia.NET.Matches.Phases
         public override void Start()
         {
             ChatManager.Main().Pause(false);
-            Match.Priority.OnDayStart();
+            foreach (var participant in ChatManager.Main().Participants)
+                if (participant.Key.Blackmailed)
+                    participant.Value.Muted = true;
+
+            Match.Actions.OnDayStart();
             base.Start();
         }
     }

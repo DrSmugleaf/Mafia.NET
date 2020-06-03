@@ -48,7 +48,6 @@ namespace Mafia.NET.Matches.Phases
 
         public virtual void End()
         {
-            ChatManager.Close();
         }
     }
 }

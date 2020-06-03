@@ -10,9 +10,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         End
     }
 
-    public class ActionPriority
+    public class ActionManager
     {
-        public ActionPriority(IMatch match)
+        public ActionManager(IMatch match)
         {
             Match = match;
             NightSubPhase = NightSubPhase.Start;

@@ -65,7 +65,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             AccuseManager.Active = false;
             base.End();
 
-            Match.Priority.OnDayEnd();
+            Match.Actions.OnDayEnd();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Mafia.NET.Matches.Phases
 
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
-            Match.Priority.OnNightStart();
+            Match.Actions.OnNightStart();
 
             base.Start();
         }
@@ -30,8 +30,8 @@ namespace Mafia.NET.Matches.Phases
         public override void End()
         {
             base.End();
-            Match.Priority.BeforeNightEnd();
-            Match.Priority.OnNightEnd();
+            Match.Actions.BeforeNightEnd();
+            Match.Actions.OnNightEnd();
         }
     }
 }

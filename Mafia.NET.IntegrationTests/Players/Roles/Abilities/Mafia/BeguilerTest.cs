@@ -6,7 +6,6 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
@@ -20,7 +19,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BeguilerSetup()
+            match.AbilitySetups.Set(new BeguilerSetup
             {
                 CanHideBehindMafia = canHideBehindMafia,
                 NotifiesTarget = notifiesTarget
@@ -52,20 +51,18 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
                 : Does.Not.Contain(hideNotification));
         }
     }
-    
+
     public class HideKillCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
         {
-            var roleNames = $"Beguiler,Serial Killer,Citizen,Mafioso";
-            
+            var roleNames = "Beguiler,Serial Killer,Citizen,Mafioso";
+
             foreach (var hide in new[] {true, false})
             foreach (var kill in new[] {true, false})
             foreach (var canHideBehindMafia in new[] {true, false})
             foreach (var notifiesTarget in new[] {true, false})
-            {
                 yield return new object[] {roleNames, hide, kill, canHideBehindMafia, notifiesTarget};
-            }
         }
     }
 }

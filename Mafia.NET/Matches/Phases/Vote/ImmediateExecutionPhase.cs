@@ -21,9 +21,8 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            var entry = Notification.Popup(DayKey.ImmediateExecution, Player);
-
-            foreach (var player in Match.AllPlayers) player.OnNotification(entry);
+            var popup = Notification.Popup(DayKey.ImmediateExecution, Player);
+            foreach (var player in Match.AllPlayers) player.OnNotification(popup);
 
             base.Start();
         }

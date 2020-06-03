@@ -26,11 +26,13 @@ namespace Mafia.NET.Matches.Phases.Vote
                 if (player != Accused)
                     ChatManager.Main().Get(player).Pause();
 
-            if (!Accused.Blackmailed || Match.AbilitySetups.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
+            if (!Accused.Blackmailed ||
+                Match.AbilitySetups.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
                 ChatManager.Main().Mute(Accused, false);
 
-            var notification = Notification.Popup(DayKey.OnTrial, Accused);
+            ChatManager.Main().Pause(false);
 
+            var notification = Notification.Popup(DayKey.OnTrial, Accused);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
             base.Start();
