@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class LookoutSetup : ITownSetup, IIgnoresDetectionImmunity
+    public class LookoutSetup : ITownSetup, IDetectSetup
     {
         public bool CanTargetSelf = false;
         public bool IgnoresDetectionImmunity { get; set; } = true;

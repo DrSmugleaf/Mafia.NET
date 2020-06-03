@@ -65,7 +65,6 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             Detect(match, result);
         }
 
-
         [TestCase("Sheriff,Godfather", true, true, SheriffKey.NotSuspicious)]
         [TestCase("Sheriff,Godfather", true, false, SheriffKey.Mafia)]
         [TestCase("Sheriff,Godfather", false, true, SheriffKey.NotSuspicious)]

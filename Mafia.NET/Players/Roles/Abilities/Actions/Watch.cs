@@ -9,10 +9,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         NoneVisitedTarget
     }
 
-    public class Watch : AbilityAction
+    public class Watch : AbilityAction<IDetectSetup>
     {
         public Watch(
-            IAbility ability,
+            IAbility<IDetectSetup> ability,
             int priority = 9,
             bool direct = true,
             bool stoppable = true) :
@@ -27,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
             var foreignVisits = new EntryBundle();
             foreach (var other in Match.LivingPlayers)
                 if (other != User &&
-                    other.Role.Ability.DetectTarget(out var foreignTarget) &&
+                    other.Role.Ability.DetectTarget(out var foreignTarget, Setup) &&
                     foreignTarget == target)
                     foreignVisits.Chat(Ability, WatchKey.SomeoneVisitedTarget, other);
 

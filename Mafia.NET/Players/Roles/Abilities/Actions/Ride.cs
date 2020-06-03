@@ -1,7 +1,9 @@
-﻿using Mafia.NET.Notifications;
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 
 namespace Mafia.NET.Players.Roles.Abilities.Actions
 {
+    [RegisterKey]
     public enum RideKey
     {
         SelfRide,

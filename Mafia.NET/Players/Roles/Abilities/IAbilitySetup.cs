@@ -29,11 +29,6 @@
         bool DetectionImmune { get; set; }
     }
 
-    public interface IIgnoresDetectionImmunity : IAbilitySetup
-    {
-        bool IgnoresDetectionImmunity { get; set; }
-    }
-
     public interface IRandomExcluded : IAbilitySetup
     {
         bool ExcludedFromRandoms { get; set; }

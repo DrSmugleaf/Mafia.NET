@@ -230,7 +230,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             NightImmunity = Setup is INightImmune nImmuneSetup ? nImmuneSetup.NightImmunity : (int) AttackStrength.None;
             CurrentNightImmunity = NightImmunity;
             DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
-            Cooldown = Setup is ICooldownSetup cooldownSetup ? cooldownSetup.NightsBetweenUses : 0;
+            Cooldown = 0;
             Uses = Setup is IUsesSetup chargeSetup ? chargeSetup.Uses : 0;
 
             TargetManager = new TargetManager(Match, this);
