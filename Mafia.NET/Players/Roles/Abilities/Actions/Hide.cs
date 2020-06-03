@@ -30,14 +30,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
             foreach (var player in Match.LivingPlayers)
             {
                 var targets = player.TargetManager;
-                if (targets[0] == User)
-                {
-                    targets.ForceSet(target);
-                    if (Setup.NotifiesTarget)
-                        target.OnNotification(Notification.Chat(Ability, HideKey.SomeoneHide));
-                }
+                if (targets[0] == User) targets.ForceSet(target);
             }
 
+            if (Setup.NotifiesTarget)
+                target.OnNotification(Notification.Chat(Ability, HideKey.SomeoneHide));
+            
             var notification = target == User
                 ? Notification.Chat(Ability, HideKey.SelfHide)
                 : Notification.Chat(Ability, HideKey.HideAt, target); // TODO: Attribute kills to the Beguiler

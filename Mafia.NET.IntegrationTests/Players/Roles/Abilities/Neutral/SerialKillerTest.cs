@@ -20,9 +20,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         [TestCase("Serial Killer,Citizen", false, true)]
         [TestCase("Serial Killer,Godfather", true, true)]
         [TestCase("Serial Killer,Godfather", false, true)]
-        public void Kill(string namesString, bool attack, bool survived)
+        public void Kill(string rolesString, bool attack, bool survived)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 
@@ -49,14 +49,14 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         [TestCase("Serial Killer,Escort,Mafioso", false, false, true, true, true)]
         [TestCase("Serial Killer,Escort,Mafioso", false, false, true, true, false)]
         public void Blocked(
-            string namesString,
+            string rolesString,
             bool attack,
             bool block,
             bool blockerSurvived,
             bool defenderSurvived,
             bool killsBlockers)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new SerialKillerSetup {KillsRoleBlockers = killsBlockers});
             match.Start();
@@ -83,9 +83,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         [TestCase("Serial Killer,Investigator,Citizen,Citizen", true, false, true)]
         [TestCase("Serial Killer,Investigator,Citizen,Citizen", false, true, false)]
         [TestCase("Serial Killer,Investigator,Citizen,Citizen", false, false, false)]
-        public void Investigator(string namesString, bool attack, bool immune, bool crime)
+        public void Investigator(string rolesString, bool attack, bool immune, bool crime)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new SerialKillerSetup {DetectionImmune = immune});
             match.Start();
@@ -120,9 +120,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
         [TestCase("Serial Killer,Serial Killer,Citizen,Citizen", AttackStrength.Base, true)]
         [TestCase("Serial Killer,Serial Killer,Citizen,Citizen", AttackStrength.None, false)]
-        public void NightImmune(string namesString, AttackStrength immunity, bool survived)
+        public void NightImmune(string rolesString, AttackStrength immunity, bool survived)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new SerialKillerSetup {NightImmunity = (int) immunity});
             match.Start();

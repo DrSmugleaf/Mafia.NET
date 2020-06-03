@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Mafia.NET.Localization;
+using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
@@ -13,12 +13,12 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
     [TestOf(typeof(Agent))]
-    public class AgentTest
+    public class AgentTest : BaseMatchTest
     {
         [TestCaseSource(typeof(AgentCases))]
-        public void Agent(string namesString, bool firstInnocent, bool immune, bool ignoresImmunity)
+        public void Inspect(string rolesString, bool firstInnocent, bool immune, bool ignoresImmunity)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new AgentSetup()
             {
@@ -36,6 +36,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.Skip<NightPhase>();
 
             agent.Target(first);
+            Assert.That(agent.TargetManager[0], Is.Not.Null);
+            
             first.Target(second);
             second.Target(first);
 
@@ -58,6 +60,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             if (!immune || ignoresImmunity)
                 Assert.That(notifications, Does.Contain(otherVisited));
             else Assert.That(notifications, Does.Contain(noneVisited));
+
+            match.Skip<NightPhase>();
+
+            agent.Target(first);
+            Assert.That(agent.TargetManager[0], Is.Null);
+
+            match.Skip<DeathsPhase>();
         }
     }
 

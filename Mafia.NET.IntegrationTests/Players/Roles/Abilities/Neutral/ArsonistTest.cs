@@ -15,9 +15,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
     {
         [TestCase("Arsonist,Investigator,Citizen", true, 2)]
         [TestCase("Arsonist,Investigator,Citizen", false, 1)]
-        public void KillTargets(string namesString, bool killsTargets, int deaths)
+        public void KillTargets(string rolesString, bool killsTargets, int deaths)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new ArsonistSetup
             {
@@ -49,9 +49,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
         [TestCase("Arsonist,Doctor,Citizen", true, 1)]
         [TestCase("Arsonist,Doctor,Citizen", false, 0)]
-        public void AlwaysKill(string namesString, bool alwaysKill, int deaths)
+        public void AlwaysKill(string rolesString, bool alwaysKill, int deaths)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new ArsonistSetup
             {
@@ -83,9 +83,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
         [TestCase("Arsonist,Citizen", true)]
         [TestCase("Arsonist,Citizen", false)]
-        public void VictimNotices(string namesString, bool notices)
+        public void VictimNotices(string rolesString, bool notices)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new ArsonistSetup
             {
@@ -113,9 +113,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
         [TestCase("Arsonist,Escort,Citizen", true)]
         [TestCase("Arsonist,Escort,Citizen", false)]
-        public void DousesBlockers(string namesString, bool dousesBlockers)
+        public void DousesBlockers(string rolesString, bool dousesBlockers)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new ArsonistSetup
             {
@@ -140,9 +140,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
         [TestCase("Arsonist,Bodyguard,Citizen", true, 1)]
         [TestCase("Arsonist,Bodyguard,Citizen", false, 1)]
-        public void Guarded(string namesString, bool guarded, int deaths)
+        public void Guarded(string rolesString, bool guarded, int deaths)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

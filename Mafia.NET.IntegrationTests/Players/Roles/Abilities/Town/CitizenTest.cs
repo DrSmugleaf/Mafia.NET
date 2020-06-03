@@ -12,9 +12,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     {
         [TestCase("Citizen,Mafioso", true)]
         [TestCase("Citizen,Mafioso", false)]
-        public void Vest(string namesString, bool vest)
+        public void Vest(string rolesString, bool vest)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

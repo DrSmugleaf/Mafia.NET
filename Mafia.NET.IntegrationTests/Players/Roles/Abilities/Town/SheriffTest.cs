@@ -48,9 +48,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Sheriff,Cultist", false, SheriffKey.NotSuspicious)]
         [TestCase("Sheriff,Witch Doctor", true, SheriffKey.Cultist)]
         [TestCase("Sheriff,Witch Doctor", false, SheriffKey.NotSuspicious)]
-        public void DetectVulnerable(string namesString, bool detects, Enum result)
+        public void DetectVulnerable(string rolesString, bool detects, Enum result)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new SheriffSetup
             {
@@ -69,9 +69,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Sheriff,Godfather", true, false, SheriffKey.Mafia)]
         [TestCase("Sheriff,Godfather", false, true, SheriffKey.NotSuspicious)]
         [TestCase("Sheriff,Godfather", false, false, SheriffKey.NotSuspicious)]
-        public void DetectImmune(string namesString, bool detects, bool immune, Enum result)
+        public void DetectImmune(string rolesString, bool detects, bool immune, Enum result)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new SheriffSetup
             {

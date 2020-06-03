@@ -14,9 +14,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Doctor,Citizen,Mafioso", false, false)]
         [TestCase("Doctor,Citizen,Mafioso,Mafioso", true, true)]
         [TestCase("Doctor,Citizen,Mafioso,Mafioso", false, false)]
-        public void Heal(string namesString, bool heal, bool alive)
+        public void Heal(string rolesString, bool heal, bool alive)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

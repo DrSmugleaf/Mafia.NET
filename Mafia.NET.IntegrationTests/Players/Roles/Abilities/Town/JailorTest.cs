@@ -21,9 +21,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Jailor,Mafioso,Mafioso,Mafioso", true, false)]
         [TestCase("Jailor,Mafioso,Mafioso,Mafioso", false, false)]
         [TestCase("Jailor,Mafioso,Mafioso,Mafioso", false, true)]
-        public void Execute(string namesString, bool lynch, bool execute)
+        public void Execute(string rolesString, bool lynch, bool execute)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 
@@ -82,9 +82,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
         [TestCase("Jailor,Citizen,Citizen,Citizen", true)]
         [TestCase("Jailor,Citizen,Citizen,Citizen", false)]
-        public void NightChat(string namesString, bool lynch)
+        public void NightChat(string rolesString, bool lynch)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 
@@ -143,9 +143,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Jailor,Jailor,Citizen,Citizen", true, false)]
         [TestCase("Jailor,Jailor,Citizen,Citizen", false, true)]
         [TestCase("Jailor,Jailor,Citizen,Citizen", false, false)]
-        public void Multiple(string namesString, bool lynch, bool execute)
+        public void Multiple(string rolesString, bool lynch, bool execute)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

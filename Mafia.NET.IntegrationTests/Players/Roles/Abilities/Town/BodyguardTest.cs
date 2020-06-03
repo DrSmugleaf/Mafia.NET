@@ -14,9 +14,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Bodyguard,Citizen,Mafioso", false, false)]
         [TestCase("Bodyguard,Citizen,Godfather", true, false)]
         [TestCase("Bodyguard,Citizen,Godfather", false, true)]
-        public void Piercing(string namesString, bool piercing, bool attackerAlive)
+        public void Piercing(string rolesString, bool piercing, bool attackerAlive)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new BodyguardSetup {IgnoresInvulnerability = piercing});
             match.Start();
@@ -39,9 +39,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
         [TestCase("Bodyguard,Citizen,Doctor,Godfather", true)]
         [TestCase("Bodyguard,Citizen,Doctor,Godfather", false)]
-        public void Healing(string namesString, bool healing)
+        public void Healing(string rolesString, bool healing)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new BodyguardSetup {CanBeHealed = healing});
             match.Start();

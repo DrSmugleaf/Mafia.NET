@@ -14,9 +14,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Escort,Citizen,Mafioso", false, false)]
         [TestCase("Escort,Citizen,Godfather", true, true)]
         [TestCase("Escort,Citizen,Godfather", false, false)]
-        public void Block(string namesString, bool blocked, bool alive)
+        public void Block(string rolesString, bool blocked, bool alive)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

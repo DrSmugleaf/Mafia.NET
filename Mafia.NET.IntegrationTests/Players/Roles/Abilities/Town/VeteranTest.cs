@@ -17,9 +17,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Veteran,Mafioso", false, false, true, 0)]
         [TestCase("Veteran,Mafioso,Sheriff,Investigator", true, true, true, 3)]
         [TestCase("Veteran,Lookout,Amnesiac,Coroner,Janitor,Mafioso", true, true, true, 1)]
-        public void Alert(string namesString, bool alert, bool attack, bool survived, int deaths)
+        public void Alert(string rolesString, bool alert, bool attack, bool survived, int deaths)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

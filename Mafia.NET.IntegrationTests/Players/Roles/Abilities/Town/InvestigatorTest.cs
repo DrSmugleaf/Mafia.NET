@@ -17,9 +17,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Investigator,Citizen,Citizen", true, false)]
         [TestCase("Investigator,Citizen,Mafioso", false, true)]
         [TestCase("Investigator,Citizen,Mafioso", false, false)]
-        public void Detect(string namesString, bool isInnocent, bool exact)
+        public void Detect(string rolesString, bool isInnocent, bool exact)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new InvestigatorSetup {DetectsExactRole = exact});
             match.Start();

@@ -13,9 +13,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     public class CrierTest : BaseMatchTest
     {
         [TestCase("Crier,Citizen,Mafioso")]
-        public void NightChat(string namesString)
+        public void NightChat(string rolesString)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

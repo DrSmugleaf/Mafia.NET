@@ -13,9 +13,9 @@ namespace Mafia.NET.IntegrationTests.Matches
     {
         [TestCase(
             "Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Mafioso,Mafioso,Mafioso")]
-        public void NoActionMatch(string namesString)
+        public void NoActionMatch(string rolesString)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 
@@ -56,9 +56,9 @@ namespace Mafia.NET.IntegrationTests.Matches
         }
 
         [TestCase("Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Citizen,Godfather,Mafioso,Agent")]
-        public void OneKill(string namesString)
+        public void OneKill(string rolesString)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.Start();
 

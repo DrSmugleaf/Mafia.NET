@@ -16,9 +16,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     public class LookoutTest : BaseMatchTest
     {
         [TestCaseSource(typeof(LookoutCases))]
-        public void Detect(string namesString, bool visit, bool immune, bool ignoresImmunity)
+        public void Detect(string rolesString, bool visit, bool immune, bool ignoresImmunity)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new LookoutSetup()
             {

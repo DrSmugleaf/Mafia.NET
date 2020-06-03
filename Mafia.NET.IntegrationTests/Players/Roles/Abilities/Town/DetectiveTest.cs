@@ -17,9 +17,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Detective,Citizen,Mafioso", false, true)]
         [TestCase("Detective,Citizen,Godfather", true, true)]
         [TestCase("Detective,Citizen,Godfather", false, false)]
-        public void Detect(string namesString, bool ignores, bool detected)
+        public void Detect(string rolesString, bool ignores, bool detected)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new DetectiveSetup {IgnoresDetectionImmunity = ignores});
             match.Start();

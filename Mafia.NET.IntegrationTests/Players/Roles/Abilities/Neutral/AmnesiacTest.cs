@@ -45,7 +45,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
         [TestCaseSource(typeof(RememberCases))]
         public void Remember(
-            string namesString,
+            string rolesString,
             bool attack,
             bool remember,
             bool announce,
@@ -53,7 +53,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             bool mafia,
             bool killing)
         {
-            var roleNames = namesString.Split(",");
+            var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             match.AbilitySetups.Set(new AmnesiacSetup
             {
