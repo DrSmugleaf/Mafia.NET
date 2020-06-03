@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -15,23 +17,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Lookout", typeof(LookoutSetup))]
     public class Lookout : TownAbility<LookoutSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            User.Crimes.Add(CrimeKey.Trespassing);
-
-            var foreignVisits = new EntryBundle();
-            foreach (var other in Match.LivingPlayers)
-                if (other != User &&
-                    other.Role.Ability.DetectTarget(out var foreignTarget) &&
-                    foreignTarget == target)
-                    foreignVisits.Chat(LookoutKey.SomeoneVisitedTarget, other);
-
-            if (foreignVisits.Entries.Count == 0)
-                foreignVisits.Chat(LookoutKey.NoneVisitedTarget);
-
-            User.OnNotification(foreignVisits);
+            var watch = new Watch(this);
+            actions.Add(watch);
         }
 
         protected override void _onNightStart()

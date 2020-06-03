@@ -1,5 +1,7 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using JetBrains.Annotations;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Neutral
@@ -19,8 +21,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     [RegisterAbility("Amnesiac", typeof(AmnesiacSetup))]
     public class Amnesiac : BaseAbility<AmnesiacSetup>
     {
-        public bool Compatible(IPlayer target)
+        public bool Compatible([CanBeNull] IPlayer target)
         {
+            if (target == null) return false;
+
             var teamId = target.Role.Team.Id;
             var role = target.Role;
 
@@ -36,35 +40,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
             return true;
         }
 
-        public override void Disguise()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            if (target.Alive)
-            {
-                var notification = Notification.Chat(AmnesiacKey.StillAlive);
-                User.OnNotification(notification);
-            }
-            else if (Compatible(target))
-            {
-                if (Setup.NewRoleRevealedToTown)
-                {
-                    var announcement = Notification.Popup(AmnesiacKey.RememberAnnouncement, target.Role);
-                    Match.Graveyard.Announcements.Add(announcement);
-                }
-
-                var notification = Notification.Chat(AmnesiacKey.RememberPersonal, target.Role);
-                User.ChangeRole(target.Role);
-                User.Role.Ability.User = User;
-                User = null;
-
-                target.Role.Ability.User.OnNotification(notification);
-            }
-            else
-            {
-                var notification = Notification.Chat(AmnesiacKey.Unable);
-                User.OnNotification(notification);
-            }
+            var remember = new Remember(this) {Filter = action => Compatible(action.TargetManager[0])};
+            actions.Add(remember);
         }
 
         protected override void _onNightStart()
@@ -86,12 +65,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         }
     }
 
-    public class AmnesiacSetup : IRandomExcluded
+    public class AmnesiacSetup : IRememberSetup, IRandomExcluded
     {
-        public bool CanBecomeKillingRole = true;
-        public bool CanBecomeMafiaTriad = true;
-        public bool CanBecomeTown = true;
-        public bool NewRoleRevealedToTown = true;
+        public bool CanBecomeKillingRole { get; set; } = true;
+        public bool CanBecomeMafiaTriad { get; set; } = true;
+        public bool CanBecomeTown { get; set; } = true;
+        public bool NewRoleRevealedToTown { get; set; } = true;
         public bool ExcludedFromRandoms { get; set; } = false;
     }
 }

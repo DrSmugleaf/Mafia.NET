@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -16,17 +17,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Detective", typeof(DetectiveSetup))]
     public class Detective : TownAbility<DetectiveSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            User.Crimes.Add(CrimeKey.Trespassing);
-
-            var notification = target.Role.Ability.DetectTarget(out var visited, Setup)
-                ? Notification.Chat(DetectiveKey.TargetVisitedSomeone, visited)
-                : Notification.Chat(DetectiveKey.TargetInactive);
-
-            User.OnNotification(notification);
+            var detect = new Detect(this);
+            actions.Add(detect);
         }
 
         protected override void _onNightStart()
@@ -35,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class DetectiveSetup : ITownSetup, IIgnoresDetectionImmunity
+    public class DetectiveSetup : ITownSetup, IDetectSetup
     {
         public bool IgnoresDetectionImmunity { get; set; } = true;
     }

@@ -1,7 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -17,44 +18,42 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     public class Godfather : MafiaAbility<GodfatherSetup>
     {
         // TODO: Different message on sending mafioso to kill, relay targeting messages to mafia members
-        public override void Kill()
+        // TODO: Trespassing crime
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target) ||
-                !Setup.CanKillWithoutMafioso) return;
-            User.Crimes.Add(CrimeKey.Trespassing);
-            Attack(target);
-        }
+            var head = new MafiaHead(this);
+            actions.Add(head);
 
-        public override void Switch()
-        {
-            if (TargetManager.Try(out var target) && TryMafioso(out var mafioso))
+            if (Setup.CanKillWithoutMafioso)
             {
-                mafioso.TargetManager.ForceSet(target);
-                TargetManager.ForceSet(null);
+                var attack = new Attack(this, AttackStrength.Base);
+                actions.Add(attack);
             }
         }
 
-        protected bool TryMafioso([CanBeNull] [NotNullWhen(true)] out IPlayer mafioso)
+        public bool TryMinion([MaybeNullWhen(false)] out IPlayer minion)
         {
-            mafioso = Match.LivingPlayers
-                .FirstOrDefault(player => player.Role.Team == User.Role.Team && player.Role.Ability is Mafioso);
+            minion = Match.LivingPlayers
+                .FirstOrDefault(player =>
+                    player.Role.Team == User.Role.Team &&
+                    player.Ability.AbilitySetup is IMafiaSuggester);
 
-            return mafioso != null;
+            return minion != null;
         }
 
         protected override void _onNightStart()
         {
-            if (Setup.CanKillWithoutMafioso || TryMafioso(out _))
+            if (Setup.CanKillWithoutMafioso || TryMinion(out _))
                 AddTarget(TargetFilter.Living(Match).Except(User.Role.Team),
                     TargetNotification.Enum<GodfatherKey>());
         }
     }
 
-    public class GodfatherSetup : IMafiaSetup, INightImmune, IRoleBlockImmune, IDetectionImmune
+    public class GodfatherSetup : IMafiaHead, IMafiaSetup, INightImmune, IRoleBlockImmune, IDetectionImmune
     {
-        public bool CanKillWithoutMafioso { get; set; } = true;
+        public bool CanKillWithoutMafioso = true;
         public bool DetectionImmune { get; set; } = true;
-        public bool NightImmune { get; set; } = true;
+        public int NightImmunity { get; set; } = (int) AttackStrength.Base;
         public bool RoleBlockImmune { get; set; } = false;
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -16,26 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Janitor", typeof(JanitorSetup))]
     public class Janitor : MafiaAbility<JanitorSetup>
     {
-        public override void Clean()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            var targetThreats = Match.Graveyard.Threats.Where(threat => threat.Victim == target).ToList();
-
-            if (targetThreats.Any())
-            {
-                User.Crimes.Add(CrimeKey.Trespassing);
-                User.Crimes.Add(CrimeKey.DestructionOfProperty);
-                Uses--;
-
-                var threat = targetThreats.First();
-                var lastWill = Notification.Chat(JanitorKey.LastWillReveal, threat.LastWill);
-
-                threat.VictimRole = null;
-                threat.LastWill = "";
-
-                User.OnNotification(lastWill);
-            }
+            var sanitize = new Sanitize(this);
+            actions.Add(sanitize);
         }
 
         protected override void _onNightStart()

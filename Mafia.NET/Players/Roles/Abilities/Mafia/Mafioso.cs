@@ -1,5 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -14,16 +15,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Mafioso", typeof(MafiosoSetup))]
     public class Mafioso : MafiaAbility<MafiosoSetup>
     {
-        public override void Kill()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
+            var suggest = new MafiaSuggest(this, AttackStrength.Base);
+            actions.Add(suggest);
 
-            var otherMafiosoAttacked = Match.Graveyard.ThreatsOn(target)
-                .Any(threat => threat.Killer?.Role.Ability is Mafioso);
-            if (otherMafiosoAttacked) return;
-
-            User.Crimes.Add(CrimeKey.Trespassing);
-            Attack(target);
+            base.NightStart(in actions);
         }
 
         protected override void _onNightStart()
@@ -33,7 +30,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class MafiosoSetup : IMafiaSetup, IRandomExcluded
+    public class MafiosoSetup : IMafiaSuggester, IMafiaSetup, IRandomExcluded
     {
         public bool ExcludedFromRandoms { get; set; } = true;
     }

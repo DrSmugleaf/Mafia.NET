@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -15,20 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Escort", typeof(EscortSetup))]
     public class Escort : TownAbility<EscortSetup>
     {
-        public override void Block()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            User.Crimes.Add(CrimeKey.Soliciting);
-
-            if (target.Role.Team.Id == "Town")
-                User.Crimes.Add(CrimeKey.DisturbingThePeace);
-
-            if (!target.Role.Ability.BlockedBy(User) && Setup.DetectsBlockImmuneTarget)
-            {
-                var notification = Notification.Chat(EscortKey.TargetRoleBlockImmune);
-                User.OnNotification(notification);
-            }
+            var block = new Block(this);
+            actions.Add(block);
         }
 
         protected override void _onNightStart()
@@ -37,9 +28,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class EscortSetup : ITownSetup, IRoleBlockImmune
+    public class EscortSetup : ITownSetup, IRoleBlockImmune, IBlockSetup
     {
-        public bool DetectsBlockImmuneTarget = false;
+        public bool DetectsBlockImmune { get; set; } = false;
         public bool RoleBlockImmune { get; set; } = false;
     }
 }

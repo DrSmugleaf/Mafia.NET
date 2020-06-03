@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -16,18 +17,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Consigliere", typeof(ConsigliereSetup))]
     public class Consigliere : MafiaAbility<ConsigliereSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            User.Crimes.Add(CrimeKey.Trespassing);
-
-            // TODO: Target switch
-            var message = Setup.DetectsExactRole
-                ? Notification.Chat(ConsigliereKey.ExactDetect, target, target.Crimes.RoleName())
-                : target.Crimes.Crime(ConsigliereKey.Detect);
-
-            User.OnNotification(message);
+            var investigate = new Investigate(this);
+            actions.Add(investigate);
         }
 
         protected override void _onNightStart()
@@ -37,8 +30,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class ConsigliereSetup : MafiaSuperMinionSetup
+    public class ConsigliereSetup : MafiaSuperMinionSetup, IInvestigativeSetup
     {
-        public bool DetectsExactRole = false;
+        public bool DetectsExactRole { get; set; } = false;
     }
 }

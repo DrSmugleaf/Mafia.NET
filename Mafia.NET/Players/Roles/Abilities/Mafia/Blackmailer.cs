@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -13,10 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Blackmailer", typeof(BlackmailerSetup))]
     public class Blackmailer : MafiaAbility<BlackmailerSetup>
     {
-        public override void Misc()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-            target.Blackmailed = true;
+            var blackmail = new Blackmail(this);
+            actions.Add(blackmail);
         }
 
         protected override void _onNightStart()
@@ -26,8 +28,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class BlackmailerSetup : MafiaMinionSetup
+    public class BlackmailerSetup : MafiaMinionSetup, IBlackmailSetup
     {
-        public bool BlackmailedTalkDuringTrial = false;
+        public bool BlackmailedTalkDuringTrial { get; set; } = false;
     }
 }

@@ -6,9 +6,10 @@ using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Mafia;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
-using Mafia.NET.Players.Roles.Abilities.Town;
 using Mafia.NET.Players.Roles.Abilities.Triad;
 
 namespace Mafia.NET.Players.Roles
@@ -16,6 +17,7 @@ namespace Mafia.NET.Players.Roles
     [RegisterKey]
     public enum CrimeKey
     {
+        NotGuilty,
         Trespassing,
         Kidnapping,
         Corruption,
@@ -30,10 +32,9 @@ namespace Mafia.NET.Players.Roles
 
     public class Crimes
     {
-        public static readonly IImmutableSet<Key> All = Key.Enum<CrimeKey>().ToImmutableHashSet();
-        public static readonly Key NotGuilty = new Key("CrimeNotGuilty");
-
-        public IPlayer User;
+        public static readonly IImmutableSet<Key> All = Key.Enum<CrimeKey>()
+            .Where(key => !Equals(key, new Key(CrimeKey.NotGuilty)))
+            .ToImmutableHashSet();
 
         public Crimes(IPlayer user)
         {
@@ -41,6 +42,7 @@ namespace Mafia.NET.Players.Roles
             Committed = new HashSet<Key>();
         }
 
+        public IPlayer User { get; set; }
         protected ISet<Key> Committed { get; }
         [CanBeNull] public Framing Framing { get; set; }
 
@@ -49,17 +51,17 @@ namespace Mafia.NET.Players.Roles
             Committed.Add(crime);
         }
 
-        public Notification Crime(Enum key)
+        public Notification Crime(IAbility ability, Enum key)
         {
-            if (Framing != null) return Notification.Chat(key, User, Framing.Crime);
+            if (Framing != null) return Notification.Chat(ability, key, User, Framing.Crime);
 
             if (Committed.Count == 0 || User.Role.Ability.DetectionImmune)
-                return Notification.Chat(NotGuilty, User);
+                return Notification.Chat(CrimeKey.NotGuilty, User);
 
             var crime = Committed
                 .ElementAt(User.Match.Random.Next(Committed.Count));
 
-            return Notification.Chat(key, User, crime);
+            return Notification.Chat(ability, key, User, crime);
         }
 
         public IReadOnlyList<Key> AllCommitted()

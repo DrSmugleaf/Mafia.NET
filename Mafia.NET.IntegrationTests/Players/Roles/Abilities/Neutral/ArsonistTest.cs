@@ -135,7 +135,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             match.Skip<DeathsPhase>();
 
             Assert.That(escort.Doused, Is.EqualTo(dousesBlockers));
-            Assert.That(citizen.Doused, Is.Not.EqualTo(dousesBlockers));
+            Assert.That(citizen.Doused, Is.False);
         }
 
         [TestCase("Arsonist,Bodyguard,Citizen", true, 1)]

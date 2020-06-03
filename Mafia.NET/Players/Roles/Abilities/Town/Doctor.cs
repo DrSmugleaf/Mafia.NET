@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -15,15 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Doctor", typeof(DoctorSetup))]
     public class Doctor : TownAbility<DoctorSetup>
     {
-        public override void Protect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            if (target.Role.Ability.HealedBy(User) && Setup.KnowsIfTargetAttacked)
-            {
-                var notification = Notification.Chat(DoctorKey.TargetAttacked);
-                User.OnNotification(notification);
-            }
+            var heal = new Heal(this);
+            actions.Add(heal);
         }
 
         protected override void _onNightStart()
@@ -32,11 +28,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class DoctorSetup : ITownSetup
+    public class DoctorSetup : ITownSetup, IHealSetup
     {
-        public bool KnowsIfTargetAttacked = true;
         public bool KnowsIfTargetConverted = false;
         public bool PreventsCultistConversion = false; // TODO
         public bool WitchDoctorWhenConverted = false;
+        public bool KnowsIfTargetAttacked { get; set; } = true;
     }
 }

@@ -46,7 +46,7 @@ namespace Mafia.NET.Matches
             if (!setup.Roles.Randomize(Random, this, controllers, out var players))
                 throw new ArgumentException($"Invalid setup {setup}");
 
-            AllPlayers = players;
+            AllPlayers = players.OrderBy(player => player.Number).ToList();
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);

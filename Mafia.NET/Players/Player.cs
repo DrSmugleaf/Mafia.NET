@@ -18,6 +18,7 @@ namespace Mafia.NET.Players
         Guid Id { get; }
         Text Name { get; set; }
         IRole Role { get; set; }
+        IAbility Ability { get; }
         bool Alive { get; set; }
         Note LastWill { get; }
         Note DeathNote { get; }
@@ -68,6 +69,7 @@ namespace Mafia.NET.Players
         public Color Color { get; }
         public Text Name { get; set; }
         public IRole Role { get; set; }
+        public IAbility Ability => Role.Ability;
         public bool Alive { get; set; }
         public Note LastWill { get; }
         public Note DeathNote { get; }
@@ -104,8 +106,9 @@ namespace Mafia.NET.Players
 
         public void ChangeRole(IRole role)
         {
+            Ability.User = null;
             Role = role;
-            role.Ability.User = this;
+            Ability.User = this;
         }
 
         public void ChangeRole(IAbility ability)

@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -20,11 +22,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Sheriff", typeof(SheriffSetup))]
     public class Sheriff : TownAbility<SheriffSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-            var message = target.Crimes.Sheriff(Setup).Chat();
-            User.OnNotification(message);
+            var sheriff = new SheriffAction(this);
+            actions.Add(sheriff);
         }
 
         protected override void _onNightStart()
@@ -40,14 +41,5 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         public bool DetectsArsonist { get; set; } = true;
         public bool DetectsCult { get; set; } = true;
         public bool DetectsMassMurderer { get; set; } = true;
-    }
-
-    public interface ISheriffSetup : IAbilitySetup
-    {
-        bool DetectsMafiaTriad { get; set; }
-        bool DetectsSerialKiller { get; set; }
-        bool DetectsArsonist { get; set; }
-        bool DetectsCult { get; set; }
-        bool DetectsMassMurderer { get; set; }
     }
 }

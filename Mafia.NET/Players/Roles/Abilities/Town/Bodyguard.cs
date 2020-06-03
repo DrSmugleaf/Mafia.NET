@@ -1,5 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -21,24 +22,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             return Match.Graveyard.ThreatsOn(User).Count > 0;
         }
 
-        public override void Protect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            var threats = Match.Graveyard.ThreatsOn(target)
-                .Where(death => death.Direct)
-                .ToList();
-
-            if (threats.Count > 0)
-            {
-                var threat = threats[0];
-                threat.WithVictim(User);
-
-                if (Setup.IgnoresInvulnerability)
-                    PiercingAttack(threat.Killer);
-                else
-                    Attack(threat.Killer);
-            }
+            var guard = new Guard(this);
+            actions.Add(guard);
         }
 
         protected override void _onNightStart()
@@ -47,10 +34,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class BodyguardSetup : ITownSetup
+    public class BodyguardSetup : ITownSetup, IGuardSetup
     {
         public bool CanBeHealed = false;
-        public bool IgnoresInvulnerability = true;
         public bool PreventsCultistConversion = false; // TODO: Prevents conversions
+        public bool IgnoresInvulnerability { get; set; } = true;
     }
 }

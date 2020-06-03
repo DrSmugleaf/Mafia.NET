@@ -1,5 +1,7 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -23,14 +25,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             Uses = Setup.OneBulletproofVest ? 1 : 0;
         }
 
-        public override void Vest()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (Uses == 0 || !TargetManager.Try(out _)) return;
-
-            var notification = Notification.Chat(CitizenKey.UsedUpNow);
-            User.OnNotification(notification);
-
-            CurrentlyNightImmune = true;
+            var vest = new Vest(this, AttackStrength.Base);
+            actions.Add(vest);
         }
 
         protected override void _onNightStart()

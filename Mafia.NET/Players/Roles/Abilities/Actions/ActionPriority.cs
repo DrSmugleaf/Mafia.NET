@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Matches;
 
@@ -16,86 +15,63 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         public ActionPriority(IMatch match)
         {
             Match = match;
-            StartOrder = new List<Action<IAbilityAction>>
-            {
-                ability => ability.Chat(),
-                ability => ability.Detain()
-            };
-
-            EndOrder = new List<Action<IAbilityAction>>
-            {
-                ability => ability.Vest(),
-                ability => ability.Switch(),
-                ability => ability.Block(),
-                ability => ability.Misc(),
-                ability => ability.Kill(),
-                ability => ability.Revenge(),
-                ability => ability.Protect(),
-                ability => ability.Clean(),
-                ability => ability.Detect(),
-                ability => ability.Disguise(),
-                ability => ability.MasonRecruit(),
-                ability => ability.CultRecruit()
-            };
-
             NightSubPhase = NightSubPhase.Start;
         }
 
         public IMatch Match { get; }
-        public IList<Action<IAbilityAction>> StartOrder { get; }
-        public IList<Action<IAbilityAction>> EndOrder { get; }
         public NightSubPhase NightSubPhase { get; set; }
 
-        public IList<IPlayer> Players()
+        public IList<IAbilityAction> ActionsNightStart()
         {
-            var abilities = new List<IPlayer>();
+            var actions = new List<IAbilityAction>();
 
-            foreach (var player in Match.AllPlayers)
-                abilities.Add(player);
+            foreach (var player in Match.AllPlayers) player.Ability.NightStart(actions);
 
-            return abilities.OrderBy(player => player.Number).ToList();
+            return actions
+                .OrderBy(action => action.Priority)
+                .ThenBy(action => action.User.Number)
+                .ToList();
+        }
+
+        public IList<IAbilityAction> ActionsNightEnd()
+        {
+            var actions = new List<IAbilityAction>();
+
+            foreach (var player in Match.AllPlayers) player.Ability.NightEnd(actions);
+
+            return actions
+                .OrderBy(action => action.Priority)
+                .ThenBy(action => action.User.Number)
+                .ToList();
         }
 
         public void OnDayStart()
         {
-            foreach (var player in Players())
-                player.Role.Ability.OnDayStart();
+            foreach (var player in Match.AllPlayers) player.Role.Ability.OnDayStart();
         }
 
         public void OnDayEnd()
         {
-            foreach (var player in Players())
-                player.Role.Ability.OnDayEnd();
+            foreach (var player in Match.AllPlayers) player.Role.Ability.OnDayEnd();
         }
 
         public void OnNightStart()
         {
             NightSubPhase = NightSubPhase.Start;
-
-            foreach (var action in StartOrder)
-            foreach (var player in Players())
-                player.Role.Ability.Try(action);
-
-            foreach (var player in Players())
-                player.Role.Ability.OnNightStart();
+            foreach (var action in ActionsNightStart()) action.TryUse();
+            foreach (var player in Match.AllPlayers) player.Role.Ability.OnNightStart();
         }
 
         public void BeforeNightEnd()
         {
-            foreach (var player in Players())
-                player.Role.Ability.BeforeNightEnd();
+            foreach (var player in Match.AllPlayers) player.Role.Ability.BeforeNightEnd();
         }
 
         public void OnNightEnd()
         {
             NightSubPhase = NightSubPhase.End;
-
-            foreach (var action in EndOrder)
-            foreach (var player in Players())
-                player.Role.Ability.Try(action);
-
-            foreach (var player in Players())
-                player.Role.Ability.OnNightEnd();
+            foreach (var action in ActionsNightEnd()) action.TryUse();
+            foreach (var player in Match.AllPlayers) player.Role.Ability.OnNightEnd();
         }
     }
 }

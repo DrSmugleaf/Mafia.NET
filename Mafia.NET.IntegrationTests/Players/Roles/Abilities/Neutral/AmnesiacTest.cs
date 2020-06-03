@@ -10,6 +10,7 @@ using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
 using NUnit.Framework;
 
@@ -77,7 +78,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             Assert.That(amnesiac.Alive, Is.True);
 
             var dead = victim.Role.Ability.AbilitySetup is INightImmune nImmune
-                ? !nImmune.NightImmune && attack
+                ? attack && nImmune.NightImmunity == (int) AttackStrength.None
                 : attack;
             Assert.That(victim.Alive, Is.EqualTo(!dead));
             Deaths(match, dead ? 1 : 0);

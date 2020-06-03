@@ -53,6 +53,7 @@ namespace Mafia.NET.Matches.Phases
             foreach (var death in Match.Graveyard.UndisclosedDeaths)
             {
                 death.Victim.Alive = false;
+                death.Victim.Ability.Active = false;
 
                 deaths.Popup(DayKey.DeathMorning, death.Victim); // TODO: Randomize
                 // deaths.Add(death.Description); // TODO

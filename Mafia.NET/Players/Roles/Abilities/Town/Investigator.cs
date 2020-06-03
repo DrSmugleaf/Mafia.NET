@@ -1,13 +1,12 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
     [RegisterKey]
     public enum InvestigatorKey
     {
-        ExactDetect,
-        Detect,
         UserAddMessage,
         UserRemoveMessage,
         UserChangeMessage
@@ -16,18 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Investigator", typeof(InvestigatorSetup))]
     public class Investigator : TownAbility<InvestigatorSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            User.Crimes.Add(CrimeKey.Trespassing);
-
-            // TODO: Target switch
-            var message = Setup.DetectsExactRole
-                ? Notification.Chat(InvestigatorKey.ExactDetect, target, target.Crimes.RoleName())
-                : target.Crimes.Crime(InvestigatorKey.Detect);
-
-            User.OnNotification(message);
+            var investigative = new Investigate(this);
+            actions.Add(investigative);
         }
 
         protected override void _onNightStart()
@@ -37,8 +28,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class InvestigatorSetup : ITownSetup
+    public class InvestigatorSetup : ITownSetup, IInvestigativeSetup
     {
-        public bool DetectsExactRole = false;
+        public bool DetectsExactRole { get; set; } = false;
     }
 }

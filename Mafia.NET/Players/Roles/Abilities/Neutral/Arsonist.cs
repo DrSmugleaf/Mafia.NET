@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Actions;
@@ -29,54 +29,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
                 : Notification.Chat(ArsonistKey.UserAddMessage, target);
         }
 
-        public void UnDouse()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            User.Doused = false;
-            var notification = Notification.Chat(ArsonistKey.UnDouse);
-            User.OnNotification(notification);
-        }
+            var douse = new Douse(this);
+            actions.Add(douse);
 
-        public void Douse(IPlayer target)
-        {
-            target.Doused = true;
-
-            if (Setup.VictimNoticesDousing || target.Role.Ability is Arsonist)
-            {
-                var notification = target.Role.Ability is Arsonist
-                    ? Notification.Chat(ArsonistKey.ArsonistDouse)
-                    : Notification.Chat(ArsonistKey.OtherDouse);
-
-                target.OnNotification(notification);
-            }
-        }
-
-        public void Ignite()
-        {
-            foreach (var player in Match.LivingPlayers)
-            {
-                if (!player.Doused) continue;
-
-                var stoppable = !Setup.IgnitionAlwaysKills;
-                PiercingAttack(player, false, stoppable);
-
-                if (Setup.IgnitionKillsVictimsTargets &&
-                    player.TargetManager.Try(out var victimsTarget))
-                    PiercingAttack(victimsTarget, false, stoppable);
-            }
-        }
-
-        public override void Try(Action<IAbilityAction> action)
-        {
-            action(this);
-        }
-
-        public override void Kill()
-        {
-            var target = TargetManager[0];
-
-            if (target == null && Active) UnDouse();
-            else if (target == User && Active) Ignite();
-            else if (target != null) Douse(target);
+            var ignite = new Ignite(this);
+            actions.Add(ignite);
         }
 
         public override bool BlockedBy(IPlayer blocker)
@@ -108,12 +67,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         }
     }
 
-    public class ArsonistSetup : INightImmune
+    public class ArsonistSetup : INightImmune, IDouseSetup, IIgniteSetup
     {
-        public bool DousesRoleBlockers = true;
-        public bool IgnitionAlwaysKills = true;
-        public bool IgnitionKillsVictimsTargets = true;
-        public bool VictimNoticesDousing = true;
-        public bool NightImmune { get; set; } = true;
+        public bool DousesRoleBlockers { get; set; } = true;
+        public bool IgnitionAlwaysKills { get; set; } = true;
+        public bool IgnitionKillsVictimsTargets { get; set; } = true;
+        public bool VictimNoticesDousing { get; set; } = true;
+        public int NightImmunity { get; set; } = (int) AttackStrength.Base;
     }
 }

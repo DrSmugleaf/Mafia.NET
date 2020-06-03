@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -15,19 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Consort", typeof(ConsortSetup))]
     public class Consort : MafiaAbility<ConsortSetup>
     {
-        public override void Block()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            User.Crimes.Add(CrimeKey.Soliciting);
-            if (target.Role.Team.Id == "Town") User.Crimes.Add(CrimeKey.DisturbingThePeace);
-
-            target.Role.Ability.BlockedBy(User);
-            if (target.Role.Ability.Active && Setup.DetectsBlockImmunity)
-            {
-                var message = Notification.Chat(ConsortKey.CantRoleBlock);
-                User.OnNotification(message);
-            }
+            var block = new Block(this);
+            actions.Add(block);
         }
 
         protected override void _onNightStart()
@@ -36,9 +28,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class ConsortSetup : MafiaMinionSetup, IRoleBlockImmune
+    public class ConsortSetup : MafiaMinionSetup, IRoleBlockImmune, IBlockSetup
     {
-        public bool DetectsBlockImmunity = false;
+        public bool DetectsBlockImmune { get; set; } = false;
         public bool RoleBlockImmune { get; set; } = false;
     }
 }

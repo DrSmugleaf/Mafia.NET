@@ -1,5 +1,7 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -27,20 +29,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
                         return Notification.Chat(VigilanteKey.FirstNight);
                     }
                 }
-                : TargetNotification.Enum<VeteranKey>();
+                : TargetNotification.Enum<VigilanteKey>();
         }
 
-        public override void Kill()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target) || Uses == 0) return;
-
-            Uses--;
-
-            if (!Attack(target))
-            {
-                var notification = Notification.Chat(VigilanteKey.TargetImmune);
-                User.OnNotification(notification);
-            }
+            var shoot = new Shoot(this, AttackStrength.Base);
+            actions.Add(shoot);
         }
 
         protected override void _onNightStart()

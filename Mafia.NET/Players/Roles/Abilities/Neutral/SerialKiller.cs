@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
@@ -16,15 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
     [RegisterAbility("Serial Killer", typeof(SerialKillerSetup))]
     public class SerialKiller : BaseAbility<SerialKillerSetup>
     {
-        public override void Try(Action<IAbilityAction> action)
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            action(this);
-        }
-
-        public override void Kill()
-        {
-            if (!TargetManager.Try(out var target)) return;
-            Attack(target);
+            var attack = new SerialKillerAttack(this, AttackStrength.Base);
+            actions.Add(attack);
         }
 
         public override bool BlockedBy(IPlayer blocker)
@@ -55,11 +50,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
         }
     }
 
-    public class SerialKillerSetup : INightImmune, IDetectionImmune
+    public class SerialKillerSetup : ISerialKillerSetup
     {
-        public bool KillsRoleBlockers { get; set; } = false;
+        public bool KillsRoleBlockers { get; set; }
         public bool WinsTiesOverArsonist { get; set; } = false;
-        public bool DetectionImmune { get; set; } = false;
-        public bool NightImmune { get; set; } = true;
+        public bool DetectionImmune { get; set; }
+        public int NightImmunity { get; set; } = (int) AttackStrength.Base;
     }
 }

@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -18,35 +19,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Agent", typeof(AgentSetup))]
     public class Agent : MafiaAbility<AgentSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (Cooldown > 0)
-            {
-                Cooldown--;
-                return;
-            }
-
-            if (!TargetManager.Try(out var target)) return;
-
-            Cooldown = Setup.NightsBetweenUses;
-
-            User.Crimes.Add(CrimeKey.Trespassing);
-
-            var targetVisitMessage = Notification.Chat(AgentKey.TargetInactive);
-            if (target.Role.Ability.DetectTarget(out var targetVisit))
-                targetVisitMessage = Notification.Chat(AgentKey.TargetVisitedSomeone, targetVisit);
-
-            var foreignVisits = new EntryBundle();
-            foreach (var other in Match.LivingPlayers)
-                if (other != User &&
-                    other.Role.Ability.DetectTarget(out var foreignTarget) &&
-                    foreignTarget == target)
-                    foreignVisits.Chat(AgentKey.SomeoneVisitedTarget, other);
-
-            if (foreignVisits.Entries.Count == 0) foreignVisits.Chat(AgentKey.NoneVisitedTarget);
-
-            User.OnNotification(targetVisitMessage);
-            User.OnNotification(foreignVisits);
+            var agent = new AgentAction(this);
+            actions.Add(agent);
         }
 
         protected override void _onNightStart()
@@ -57,8 +33,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         }
     }
 
-    public class AgentSetup : MafiaMinionSetup, ICooldownSetup
+    public class AgentSetup : MafiaMinionSetup, IAgentSetup
     {
         public int NightsBetweenUses { get; set; } = 1;
+        public bool IgnoresDetectionImmunity { get; set; } = false;
     }
 }

@@ -1,5 +1,7 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -16,34 +18,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Bus Driver", typeof(BusDriverSetup))]
     public class BusDriver : TownAbility<BusDriverSetup> // TODO Murder crime
     {
-        public override void Switch()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (TargetManager.Try(out var first) && TargetManager.Try(1, out var second))
-            {
-                var notification1 = SwitchMessage(first);
-                first.OnNotification(notification1);
-
-                var notification2 = SwitchMessage(second);
-                second.OnNotification(notification2);
-
-                foreach (var player in Match.LivingPlayers)
-                {
-                    var targets = player.TargetManager.Get().Targets;
-                    for (var i = 0; i < targets.Count; i++)
-                    {
-                        var target = targets[i];
-                        if (target.Targeted == first) target.ForceSet(second);
-                        else if (target.Targeted == second) target.ForceSet(first);
-                    }
-                }
-            }
-        }
-
-        public Notification SwitchMessage(IPlayer target)
-        {
-            return target == User
-                ? Notification.Chat(BusDriverKey.SelfRide)
-                : Notification.Chat(BusDriverKey.OtherRide);
+            var swap = new Ride(this);
+            actions.Add(swap);
         }
 
         public Notification TargetMessage()

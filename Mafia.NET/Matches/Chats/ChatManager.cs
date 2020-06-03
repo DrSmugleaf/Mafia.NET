@@ -29,13 +29,17 @@ namespace Mafia.NET.Matches.Chats
             return _chats[id] = chat;
         }
 
-        public IChat Open<T>(string id) where T : IChat, new()
+        public IChat Open<T>(string id = null) where T : IChat, new()
         {
-            if (_chats.TryGetValue(id, out var chat))
+            if (id != null && _chats.TryGetValue(id, out var chat))
                 return chat;
 
-            chat = new T {Id = id};
+            chat = new T();
+            if (id != null) chat.Id = id;
+            id = chat.Id;
+
             chat.Initialize(Match);
+
             return _chats[id] = chat;
         }
 
@@ -55,13 +59,11 @@ namespace Mafia.NET.Matches.Chats
             return Open(name, false, players);
         }
 
-        public void DisableExcept(IPlayer player, IChat except = null)
+        public void DisableForExcept(IPlayer player, IChat except = null)
         {
             foreach (var chat in Chats.Values)
-            {
-                if (chat == except) continue;
-                chat.Disable(player);
-            }
+                if (chat != except)
+                    chat.Disable(player);
         }
 
         public IChat Main()

@@ -1,7 +1,8 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
-using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -15,15 +16,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Crier", typeof(CrierSetup))]
     public class Crier : TownAbility<CrierSetup>
     {
-        public override void Chat()
+        public override void NightStart(in IList<IAbilityAction> actions)
         {
-            var chat = Match.Chat.Open<CrierChat>(CrierChat.Name);
-            var participant = chat.Get(User);
-            participant.Nickname = CrierKey.Nickname;
-            participant.Muted = false;
-
-            var notification = Notification.Chat(CrierKey.MayTalk);
-            User.OnNotification(notification);
+            var chat = new ChatAction<CrierChat>(this, "Crier");
+            actions.Add(chat);
         }
     }
 
@@ -38,9 +34,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
 
     public class CrierChat : Chat
     {
-        public static readonly string Name = "Crier";
-
-        public CrierChat() : base(Name)
+        public CrierChat() : base("Crier")
         {
         }
 

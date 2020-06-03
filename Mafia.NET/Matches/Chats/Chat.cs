@@ -33,14 +33,12 @@ namespace Mafia.NET.Matches.Chats
         {
             Id = id;
             Participants = new Dictionary<IPlayer, IChatParticipant>();
-            Initialized = false;
         }
 
         public Chat(string id, Dictionary<IPlayer, IChatParticipant> participants)
         {
             Id = id;
             Participants = participants;
-            Initialized = false;
         }
 
         protected bool Initialized { get; set; }

@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
@@ -25,9 +26,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         public override void Initialize(IPlayer user)
         {
             InitializeBase(user);
+
             if (TryTransform(out var newAbility))
             {
-                newAbility.Initialize(User);
+                newAbility.Initialize(user);
                 User = null;
             }
             else
@@ -36,52 +38,29 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
             }
         }
 
-        public override void Detain()
+        public override void NightStart(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.TryDay(out var prisoner)) return;
+            var kidnap = new Kidnap(this);
+            actions.Add(kidnap);
 
-            User.Crimes.Add(CrimeKey.Kidnapping);
+            base.NightStart(in actions);
+        }
 
-            var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));
-            jail.Get(User).Nickname = KidnapperKey.Nickname;
-            jail.Add(prisoner);
+        public override void NightEnd(in IList<IAbilityAction> actions)
+        {
+            var release = new Release(this);
+            actions.Add(release);
 
-            var allies = Match.LivingPlayers.Where(player =>
-                player.Role.Team == User.Role.Team && player != User);
-            jail.Add(allies, true);
-
-            AddTarget(prisoner.Role.Team == User.Role.Team ? null : prisoner, new TargetNotification
+            var execute = new Execute(this, AttackStrength.Pierce)
             {
-                UserAddMessage = target => Notification.Chat(KidnapperKey.NightUserAddMessage, target),
-                UserRemoveMessage = target => Notification.Chat(KidnapperKey.NightUserRemoveMessage),
-                TargetAddMessage = target => Notification.Chat(KidnapperKey.NightTargetAddMessage, target),
-                TargetRemoveMessage = target => Notification.Chat(KidnapperKey.NightTargetRemoveMessage)
-            });
+                Filter = action =>
+                    action.TargetManager.Try(out var target) &&
+                    action.Uses > 0 &&
+                    action.TargetManager.TryDay(out var prisoner) &&
+                    target == prisoner
+            };
 
-            prisoner.Role.Ability.CurrentlyNightImmune = true;
-
-            if (prisoner.Role.Team != User.Role.Team)
-                Match.Chat.DisableExcept(prisoner, jail);
-
-            prisoner.Role.Ability.PiercingBlockedBy(User);
-        }
-
-        public override void Kill()
-        {
-            if (!TargetManager.Try(out var target) ||
-                Uses == 0 ||
-                !TargetManager.TryDay(out var prisoner) ||
-                target != prisoner)
-                return;
-
-            Uses--;
-            PiercingAttack(target);
-        }
-
-        public override void Block()
-        {
-            if (!TargetManager.Try(out var target)) return;
-            target.Role.Ability.PiercingBlockedBy(User);
+            actions.Add(execute);
         }
 
         protected override void _onDayStart()

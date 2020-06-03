@@ -1,4 +1,6 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia
 {
@@ -13,11 +15,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
     [RegisterAbility("Framer", typeof(FramerSetup))]
     public class Framer : MafiaAbility<FramerSetup>
     {
-        public override void Misc()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-            User.Crimes.Add(CrimeKey.Trespassing);
-            target.Crimes.Framing = new Framing(Match);
+            var frame = new Frame(this);
+            actions.Add(frame);
         }
 
         protected override void _onNightStart()

@@ -1,6 +1,8 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Notifications;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -21,45 +23,27 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Jailor", typeof(JailorSetup))]
     public class Jailor : TownAbility<JailorSetup>
     {
-        public override void Detain()
+        public override void NightStart(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.TryDay(out var prisoner)) return;
+            var jail = new Jail(this);
+            actions.Add(jail);
+        }
 
-            User.Crimes.Add(CrimeKey.Kidnapping);
+        public override void NightEnd(in IList<IAbilityAction> actions)
+        {
+            var release = new Release(this);
+            actions.Add(release);
 
-            var jail = Match.Chat.Open<JailorChat>(JailorChat.Name(prisoner));
-            jail.Get(User).Nickname = JailorKey.Nickname;
-            jail.Add(prisoner);
-
-            AddTarget(Uses > 0 ? prisoner : null, new TargetNotification
+            var execute = new Execute(this, AttackStrength.Pierce)
             {
-                UserAddMessage = target => Notification.Chat(JailorKey.NightUserAddMessage, target),
-                UserRemoveMessage = target => Notification.Chat(JailorKey.NightUserRemoveMessage),
-                TargetAddMessage = target => Notification.Chat(JailorKey.NightTargetAddMessage, target),
-                TargetRemoveMessage = target => Notification.Chat(JailorKey.NightTargetRemoveMessage)
-            });
+                Filter = action =>
+                    action.TargetManager.Try(out var target) &&
+                    action.Uses > 0 &&
+                    action.TargetManager.TryDay(out var prisoner) &&
+                    target == prisoner
+            };
 
-            prisoner.Role.Ability.CurrentlyNightImmune = true;
-            Match.Chat.DisableExcept(prisoner, jail);
-            prisoner.Role.Ability.PiercingBlockedBy(User);
-        }
-
-        public override void Kill()
-        {
-            if (!TargetManager.Try(out var target) ||
-                Uses == 0 ||
-                !TargetManager.TryDay(out var prisoner) ||
-                target != prisoner)
-                return;
-
-            Uses--;
-            PiercingAttack(target);
-        }
-
-        public override void Block()
-        {
-            if (!TargetManager.Try(out var target)) return;
-            target.Role.Ability.PiercingBlockedBy(User);
+            actions.Add(execute);
         }
 
         protected override void _onDayStart()
@@ -93,11 +77,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     {
         public JailorChat() : base(null)
         {
-        }
-
-        public static string Name(IPlayer prisoner)
-        {
-            return $"Jailor-{prisoner.Number}";
         }
     }
 }

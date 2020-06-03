@@ -3,6 +3,7 @@ using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
@@ -47,7 +48,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             }
             else
             {
-                Assert.That(target.Crimes.Crime(InvestigatorKey.Detect).ToString(),
+                Assert.That(target.Crimes.Crime(investigator.Ability, InvestigateKey.Detect).ToString(),
                     isInnocent ? Does.Contain("innocent") : Does.Contain("guilty"));
             }
         }

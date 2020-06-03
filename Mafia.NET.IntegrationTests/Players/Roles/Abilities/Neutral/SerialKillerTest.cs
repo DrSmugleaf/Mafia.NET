@@ -6,8 +6,8 @@ using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Neutral;
-using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
@@ -105,7 +105,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             match.Skip<DeathsPhase>();
 
             Assert.That(notifications.Count, Is.Positive);
-            var detection = crime ? sk.Crimes.Crime(InvestigatorKey.Detect) : Notification.Chat(Crimes.NotGuilty, sk);
+            var detection = crime
+                ? sk.Crimes.Crime(investigator.Ability, InvestigateKey.Detect)
+                : Notification.Chat(CrimeKey.NotGuilty, sk);
 
             Assert.That(notifications[0].ToString(), Is.EqualTo(detection.ToString()));
 
@@ -116,13 +118,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             Deaths(match, attack ? 1 : 0);
         }
 
-        [TestCase("Serial Killer,Serial Killer,Citizen,Citizen", true, true)]
-        [TestCase("Serial Killer,Serial Killer,Citizen,Citizen", false, false)]
-        public void NightImmune(string namesString, bool immune, bool survived)
+        [TestCase("Serial Killer,Serial Killer,Citizen,Citizen", AttackStrength.Base, true)]
+        [TestCase("Serial Killer,Serial Killer,Citizen,Citizen", AttackStrength.None, false)]
+        public void NightImmune(string namesString, AttackStrength immunity, bool survived)
         {
             var roleNames = namesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new SerialKillerSetup {NightImmune = immune});
+            match.AbilitySetups.Set(new SerialKillerSetup {NightImmunity = (int) immunity});
             match.Start();
 
             var sk = match.AllPlayers[0];

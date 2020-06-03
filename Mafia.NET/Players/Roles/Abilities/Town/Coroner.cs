@@ -1,5 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Notifications;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -17,23 +18,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
     [RegisterAbility("Coroner", typeof(CoronerSetup))]
     public class Coroner : TownAbility<CoronerSetup>
     {
-        public override void Detect()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target)) return;
-
-            if (target.Alive)
-            {
-                var notification = Notification.Chat(CoronerKey.StillAlive);
-                User.OnNotification(notification);
-                return;
-            }
-
-            var message = new EntryBundle();
-            message.Chat(CoronerKey.AutopsyRole, target, target.Role);
-            if (Setup.DiscoverLastWill && target.LastWill.Text.Length > 0)
-                message.Chat(CoronerKey.AutopsyLastWill, target.LastWill);
-
-            User.OnNotification(message);
+            var autopsy = new Autopsy(this);
+            actions.Add(autopsy);
         }
 
         protected override void _onNightStart()
@@ -42,10 +30,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
         }
     }
 
-    public class CoronerSetup : ITownSetup
+    public class CoronerSetup : ITownSetup, IAutopsySetup
     {
-        public bool DiscoverAllTargets = true; // TODO: Discover targets
-        public bool DiscoverDeathType = true; // TODO: Death type
-        public bool DiscoverLastWill = true;
+        public bool DiscoverAllTargets { get; set; } = true;
+        public bool DiscoverDeathType { get; set; } = true;
+        public bool DiscoverLastWill { get; set; } = true;
     }
 }

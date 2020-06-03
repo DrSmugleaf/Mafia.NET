@@ -1,18 +1,17 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 using Mafia.NET.Players.Roles.Categories;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    public interface IAbility : IAbilityAction
+    public interface IAbility
     {
         IMatch Match { get; }
         IPlayer User { get; set; }
@@ -22,8 +21,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         IAbilitySetup AbilitySetup { get; set; }
         bool Active { get; set; }
         bool RoleBlockImmune { get; set; }
-        bool NightImmune { get; set; }
-        bool CurrentlyNightImmune { get; set; }
+        int NightImmunity { get; set; }
+        int CurrentNightImmunity { get; set; }
         bool DetectionImmune { get; set; }
         int Cooldown { get; set; }
         int Uses { get; set; }
@@ -33,27 +32,34 @@ namespace Mafia.NET.Players.Roles.Abilities
         Notification VictoryNotification();
         void AddTarget(TargetFilter filter, TargetNotification message);
         void AddTarget(IPlayer target, TargetNotification message);
-        bool Attack(IPlayer victim, bool direct = true, bool stoppable = true);
-        bool PiercingAttack(IPlayer victim, bool direct = true, bool stoppable = true);
+        bool VulnerableTo(int strength);
+        bool VulnerableTo(AttackStrength strength);
         bool HealedBy(IPlayer healer);
         bool BlockedBy(IPlayer blocker);
         bool PiercingBlockedBy(IPlayer blocker);
         bool DetectableBy(ISheriffSetup setup);
         Key DirectSheriff(ISheriffSetup setup);
-        bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null);
+        bool DetectTarget(out IPlayer target, IDetectSetup setup = null);
         bool AloneTeam();
         void OnDayStart();
         bool OnDayEnd();
         void OnNightStart();
         void BeforeNightEnd();
         void OnNightEnd();
+        void NightStart(in IList<IAbilityAction> actions);
+        void NightEnd(in IList<IAbilityAction> actions);
     }
 
-    public abstract class BaseAbility<T> : IAbility where T : class, IAbilitySetup, new()
+    public interface IAbility<out T> : IAbility where T : IAbilitySetup
     {
-        public T Setup => (T) AbilitySetup;
+        public T Setup { get; }
+    }
+
+    public abstract class BaseAbility<T> : IAbility<T> where T : class, IAbilitySetup, new()
+    {
         private int _cooldown { get; set; }
         private int _uses { get; set; }
+        public T Setup => (T) AbilitySetup;
         public IMatch Match => User.Match;
         public IPlayer User { get; set; }
         public string Id { get; set; }
@@ -62,8 +68,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         public IAbilitySetup AbilitySetup { get; set; }
         public bool Active { get; set; }
         public bool RoleBlockImmune { get; set; }
-        public bool NightImmune { get; set; }
-        public bool CurrentlyNightImmune { get; set; }
+        public int NightImmunity { get; set; }
+        public int CurrentNightImmunity { get; set; }
         public bool DetectionImmune { get; set; }
 
         public int Cooldown
@@ -111,27 +117,14 @@ namespace Mafia.NET.Players.Roles.Abilities
             AddTarget(TargetFilter.Only(target), message);
         }
 
-        public virtual void Try(Action<IAbilityAction> action)
+        public bool VulnerableTo(int strength)
         {
-            if (Active) action(this);
+            return CurrentNightImmunity < strength;
         }
 
-        public virtual bool Attack(IPlayer victim, bool direct = true, bool stoppable = true)
+        public bool VulnerableTo(AttackStrength strength)
         {
-            if (victim.Role.Ability.CurrentlyNightImmune) return false;
-
-            var threat = new Death(this, victim, direct, stoppable);
-            User.Crimes.Add(CrimeKey.Murder);
-            Match.Graveyard.Threats.Add(threat);
-            return true;
-        }
-
-        public virtual bool PiercingAttack(IPlayer victim, bool direct = true, bool stoppable = true)
-        {
-            var threat = new Death(this, victim, direct, stoppable);
-            User.Crimes.Add(CrimeKey.Murder);
-            Match.Graveyard.Threats.Add(threat);
-            return true;
+            return VulnerableTo((int) strength);
         }
 
         public virtual bool HealedBy(IPlayer healer)
@@ -172,7 +165,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             return !DetectableBy(setup) || DetectionImmune ? SheriffKey.NotSuspicious : GuiltyName();
         }
 
-        public bool DetectTarget(out IPlayer target, IIgnoresDetectionImmunity setup = null)
+        public bool DetectTarget(out IPlayer target, IDetectSetup setup = null)
         {
             target = null;
 
@@ -191,8 +184,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         public virtual void OnDayStart()
         {
             User.Crimes.Framing = null;
-            CurrentlyNightImmune = NightImmune;
-            Active = true;
+            CurrentNightImmunity = NightImmunity;
+            Active = User.Alive;
             _onDayStart();
         }
 
@@ -219,71 +212,23 @@ namespace Mafia.NET.Players.Roles.Abilities
             TargetManager.Reset(Time.Day);
         }
 
-        public virtual void Chat()
+        public virtual void NightStart(in IList<IAbilityAction> actions)
         {
         }
 
-        public virtual void Detain()
-        {
-        }
-
-        public virtual void Vest()
-        {
-        }
-
-        public virtual void Switch()
-        {
-        }
-
-        public virtual void Block()
-        {
-        }
-
-        public virtual void Misc()
-        {
-        }
-
-        public virtual void Kill()
-        {
-        }
-
-        public virtual void Protect()
-        {
-        }
-
-        public virtual void Clean()
-        {
-        }
-
-        public virtual void Detect()
-        {
-        }
-
-        public virtual void Disguise()
-        {
-        }
-
-        public virtual void MasonRecruit()
-        {
-        }
-
-        public virtual void CultRecruit()
-        {
-        }
-
-        public virtual void Revenge()
+        public virtual void NightEnd(in IList<IAbilityAction> actions)
         {
         }
 
         public void InitializeBase(IPlayer user)
         {
-            Active = true;
             User = user;
+            Active = user.Alive;
             AbilitySetup = Match.AbilitySetups.Setup<T>();
 
             RoleBlockImmune = Setup is IRoleBlockImmune rbImmuneSetup && rbImmuneSetup.RoleBlockImmune;
-            NightImmune = Setup is INightImmune nImmuneSetup && nImmuneSetup.NightImmune;
-            CurrentlyNightImmune = NightImmune;
+            NightImmunity = Setup is INightImmune nImmuneSetup ? nImmuneSetup.NightImmunity : (int) AttackStrength.None;
+            CurrentNightImmunity = NightImmunity;
             DetectionImmune = Setup is IDetectionImmune dImmuneSetup && dImmuneSetup.DetectionImmune;
             Cooldown = Setup is ICooldownSetup cooldownSetup ? cooldownSetup.NightsBetweenUses : 0;
             Uses = Setup is IUsesSetup chargeSetup ? chargeSetup.Uses : 0;

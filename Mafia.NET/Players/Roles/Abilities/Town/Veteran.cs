@@ -1,6 +1,6 @@
-﻿using Mafia.NET.Localization;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
+﻿using System.Collections.Generic;
+using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 
 namespace Mafia.NET.Players.Roles.Abilities.Town
 {
@@ -20,28 +20,13 @@ namespace Mafia.NET.Players.Roles.Abilities.Town
             RoleBlockImmune = true;
         }
 
-        public override void Vest()
+        public override void NightEnd(in IList<IAbilityAction> actions)
         {
-            if (!TargetManager.Try(out var target) || target != User) return;
-            CurrentlyNightImmune = true;
-        }
+            var immune = new Vest(this, AttackStrength.Base); // TODO: UsedUpNow Vest Message
+            actions.Add(immune);
 
-        public override void Revenge()
-        {
-            if (!TargetManager.Try(out var target) || target != User) return;
-
-            foreach (var attacker in Match.LivingPlayers)
-            {
-                var ability = attacker.Role.Ability;
-                if (!ability.TargetManager.Any(User) ||
-                    attacker == User ||
-                    ability is Lookout ||
-                    ability is Amnesiac ||
-                    ability is Coroner ||
-                    ability is Janitor) continue;
-
-                PiercingAttack(attacker);
-            }
+            var alert = new Alert(this, AttackStrength.Pierce);
+            actions.Add(alert);
         }
 
         protected override void _onNightStart()

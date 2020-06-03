@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches.Chats;
+using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Town;
 
 namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
@@ -14,19 +16,18 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
         public override void Initialize(IPlayer user)
         {
             InitializeBase(user);
+
             if (TryTransform(out var newAbility))
             {
-                newAbility.Initialize(User);
+                newAbility.Initialize(user);
                 User = null;
             }
         }
 
-        public override void Chat()
+        public override void NightStart(in IList<IAbilityAction> actions)
         {
-            var chat = Match.Chat.Open<MafiaChat>(MafiaChat.Name);
-            var participant = chat.Get(User);
-            participant.Muted = false;
-            participant.Deaf = false;
+            var chat = new ChatAction<MafiaChat>(this, MafiaChat.Name);
+            actions.Add(chat);
         }
 
         public override bool DetectableBy(ISheriffSetup setup)
@@ -49,16 +50,18 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia // TODO: Disguiser
 
         protected bool TryTransform(out IAbility newAbility)
         {
+            var user = User;
+
             if (Setup is MafiaMinionSetup mafiaSetup &&
                 mafiaSetup.BecomesMafiosoIfAlone &&
                 AloneTeam())
-                User.ChangeRole(Match.Abilities.Ability<Mafioso>());
+                user.ChangeRole(Match.Abilities.Ability<Mafioso>());
             else if (Setup is MafiaSuperMinionSetup superMafiaSetup &&
                      superMafiaSetup.ReplacesGodfather &&
                      NoGodfather())
-                User.ChangeRole(Match.Setup.Roles.Abilities.Ability<Godfather>());
+                user.ChangeRole(Match.Setup.Roles.Abilities.Ability<Godfather>());
 
-            newAbility = User.Role.Ability;
+            newAbility = user.Ability;
             return newAbility != this;
         }
 

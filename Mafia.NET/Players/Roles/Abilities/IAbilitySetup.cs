@@ -16,7 +16,7 @@
 
     public interface INightImmune : IAbilitySetup
     {
-        bool NightImmune { get; set; }
+        int NightImmunity { get; set; }
     }
 
     public interface IRoleBlockImmune : IAbilitySetup

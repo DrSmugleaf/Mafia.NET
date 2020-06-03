@@ -49,6 +49,7 @@ namespace Mafia.NET.Matches
                 else
                 {
                     threat.Victim.Alive = false;
+                    threat.Victim.Ability.Active = false;
                     victims[victim] = threat;
                 }
             }
