@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Mafia.Net.IntegrationTests.Matches;
-using Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;

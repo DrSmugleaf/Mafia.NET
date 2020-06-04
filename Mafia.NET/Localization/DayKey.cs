@@ -25,6 +25,7 @@
         DeathRoleUnknown,
         LastWillAuthor,
         LastWillContent,
+        LastWillUnknown,
         DeathNote,
         DeathNoteContent,
 

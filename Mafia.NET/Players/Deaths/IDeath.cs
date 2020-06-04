@@ -11,7 +11,7 @@ namespace Mafia.NET.Players.Deaths
         [CanBeNull] Key VictimRole { get; set; } // TODO
         DeathCause Cause { get; set; }
         [CanBeNull] IPlayer Killer { get; set; }
-        string LastWill { get; set; }
+        [CanBeNull] string LastWill { get; set; }
         [CanBeNull] string DeathNote { get; set; }
         string Description { get; set; }
         bool Direct { get; set; }

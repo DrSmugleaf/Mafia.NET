@@ -37,7 +37,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
                 var lastWill = Notification.Chat(Ability, SanitizeKey.LastWillReveal, threat.LastWill);
 
                 threat.VictimRole = null;
-                threat.LastWill = "";
+                threat.LastWill = null;
 
                 User.OnNotification(lastWill);
 
