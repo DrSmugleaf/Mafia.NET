@@ -17,7 +17,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
         public override bool Use(IPlayer prisoner)
         {
-            if (!base.Use()) return false;
+            if (!base.Use(prisoner)) return false;
 
             Ability.AddTarget(prisoner.Role.Team == User.Role.Team ? null : prisoner, new TargetNotification
             {

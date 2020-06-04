@@ -24,6 +24,22 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         {
         }
 
+        public override bool TryUse()
+        {
+            return !Match.Graveyard.LynchedToday() && base.TryUse();
+        }
+
+        public override bool ResolveUse()
+        {
+            TargetManager.TryDay(out var first);
+            TargetManager.TryDay(1, out var second);
+
+            if (first == null && second == null) return Use();
+            if (first != null && second != null) return Use(first, second);
+            if (first != null) return Use(first);
+            return false;
+        }
+
         public override bool Use(IPlayer prisoner)
         {
             User.Crimes.Add(CrimeKey.Kidnapping);

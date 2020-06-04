@@ -1,9 +1,11 @@
-﻿using Mafia.Net.IntegrationTests.Matches;
+﻿using System.Collections;
+using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
+using Mafia.NET.Players.Roles.Abilities.Mafia;
 using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
@@ -11,16 +13,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 {
     [TestFixture]
     [TestOf(typeof(Jailor))]
+    [TestOf(typeof(Kidnapper))]
     public class JailorTest : BaseMatchTest
     {
-        [TestCase("Jailor,Citizen,Citizen,Citizen", true, true)]
-        [TestCase("Jailor,Citizen,Citizen,Citizen", true, false)]
-        [TestCase("Jailor,Citizen,Citizen,Citizen", false, false)]
-        [TestCase("Jailor,Citizen,Citizen,Citizen", false, true)]
-        [TestCase("Jailor,Mafioso,Mafioso,Mafioso", true, true)]
-        [TestCase("Jailor,Mafioso,Mafioso,Mafioso", true, false)]
-        [TestCase("Jailor,Mafioso,Mafioso,Mafioso", false, false)]
-        [TestCase("Jailor,Mafioso,Mafioso,Mafioso", false, true)]
+        [TestCaseSource(typeof(ExecuteCases))]
         public void Execute(string rolesString, bool lynch, bool execute)
         {
             var roleNames = rolesString.Split(",");
@@ -228,6 +224,23 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             {
                 Assert.That(first.Role.Ability.Uses, Is.EqualTo(firstUses));
                 Assert.That(second.Role.Ability.Uses, Is.EqualTo(secondUses));
+            }
+        }
+    }
+
+    public class ExecuteCases : IEnumerable
+    {
+        public IEnumerator GetEnumerator()
+        {
+            var jailors = new[] {"Jailor", "Kidnapper"};
+
+            foreach (var jailor in jailors)
+            {
+                var roleNames = $"{jailor},Citizen,Citizen,Mafioso";
+
+                foreach (var lynch in new[] {true, false})
+                foreach (var execute in new[] {true, false})
+                    yield return new object[] {roleNames, lynch, execute};
             }
         }
     }

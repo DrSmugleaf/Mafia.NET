@@ -31,13 +31,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var citizen = match.AllPlayers[2];
 
             match.Skip<NightPhase>();
-            
+
             if (sanitize) janitor.Target(citizen);
             mafioso.Target(citizen);
-            
+
             var lw = "LW";
             citizen.LastWill.Text = lw;
-            
+
             var chat = new List<string>();
             var popups = new List<string>();
             foreach (var player in match.AllPlayers)
@@ -70,13 +70,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
                 Assert.That(popups, Has.None.EqualTo(roleUnknown));
                 Assert.That(chat, Has.Some.EqualTo(lw));
                 Assert.That(chat, Has.None.EqualTo(lwUnknown));
-                
+
                 Assert.That(janitorChat, Has.None.EqualTo(janitorLw));
                 Assert.That(janitorChat, Has.None.EqualTo(role));
             }
         }
     }
-    
+
     public class SanitizeCases : IEnumerable
     {
         public IEnumerator GetEnumerator()

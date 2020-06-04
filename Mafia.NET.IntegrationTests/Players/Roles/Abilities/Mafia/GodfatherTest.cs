@@ -29,18 +29,18 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var target = match.AllPlayers[2];
 
             match.Skip<NightPhase>();
-            
+
             if (godfatherTarget) godfather.Target(target);
             if (allySuggest) mafioso.Target(target);
 
             match.Skip<DeathsPhase>();
-            
+
             Deaths(match, godfatherTarget || allySuggest ? 1 : 0);
             Assert.That(godfather.Alive, Is.True);
             Assert.That(mafioso.Alive, Is.True);
             Assert.That(target.Alive, Is.EqualTo(!godfatherTarget && !allySuggest));
         }
-        
+
         [TestCaseSource(typeof(AloneCases))]
         public void Alone(string rolesString, bool killWithoutMafioso, bool kill)
         {
@@ -56,17 +56,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var target = match.AllPlayers[1];
 
             match.Skip<NightPhase>();
-            
+
             if (kill) godfather.Target(target);
 
             match.Skip<DeathsPhase>();
-            
+
             Deaths(match, killWithoutMafioso && kill ? 1 : 0);
             Assert.That(godfather.Alive, Is.True);
             Assert.That(target.Alive, Is.EqualTo(!killWithoutMafioso || !kill));
         }
-        
-        
+
+
         [TestCaseSource(typeof(GuardAllyCases))]
         public void GuardAlly(string rolesString, bool kill, bool suggest, bool guard, bool ignoresImmunity)
         {
@@ -84,7 +84,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var target = match.AllPlayers[3];
 
             match.Skip<NightPhase>();
-            
+
             if (kill) godfather.Target(target);
             if (suggest) mafioso.Target(target);
             if (guard) bodyguard.Target(target);
@@ -100,9 +100,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             Assert.That(bodyguard.Alive, Is.EqualTo(!fight));
             Assert.That(target.Alive, Is.EqualTo(!attack || fight));
         }
-        
+
         [TestCaseSource(typeof(GuardAloneCases))]
-        public void GuardAlone(string rolesString, bool killWithoutMafioso, bool kill, bool guard, bool immune, bool ignoresImmunity)
+        public void GuardAlone(string rolesString, bool killWithoutMafioso, bool kill, bool guard, bool immune,
+            bool ignoresImmunity)
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
@@ -121,7 +122,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var target = match.AllPlayers[2];
 
             match.Skip<NightPhase>();
-            
+
             if (kill) godfather.Target(target);
             if (guard) bodyguard.Target(target);
 
@@ -137,7 +138,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             Assert.That(target.Alive, Is.EqualTo(!targetDead));
         }
     }
-    
+
     public class AllyCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
@@ -155,7 +156,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             }
         }
     }
-    
+
     public class AloneCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
@@ -172,7 +173,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             }
         }
     }
-    
+
     public class GuardAllyCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
@@ -191,7 +192,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             }
         }
     }
-    
+
     public class GuardAloneCases : IEnumerable
     {
         public IEnumerator GetEnumerator()

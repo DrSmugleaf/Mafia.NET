@@ -58,7 +58,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Neutral
 
         public override bool DetectableBy(ISheriffSetup setup = null)
         {
-            return setup?.DetectsArsonist == true;;
+            return setup?.DetectsArsonist == true;
+            ;
         }
 
         public override Key GuiltyName()

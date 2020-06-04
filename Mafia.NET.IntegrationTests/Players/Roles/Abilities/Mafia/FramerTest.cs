@@ -55,7 +55,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             Assert.That(interrogations[0], Is.EqualTo(interrogation));
         }
     }
-    
+
     public class FrameCases : IEnumerable
     {
         public IEnumerator GetEnumerator()

@@ -45,8 +45,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
     public class GodfatherSetup : IMafiaHead, IMafiaSetup, INightImmune, IRoleBlockImmune, IDetectionImmune
     {
-        public bool CanKillWithoutMafioso { get; set; } = true;
         public bool DetectionImmune { get; set; } = true;
+        public bool CanKillWithoutMafioso { get; set; } = true;
         public int NightImmunity { get; set; } = (int) AttackStrength.Base;
         public bool RoleBlockImmune { get; set; } = false;
     }

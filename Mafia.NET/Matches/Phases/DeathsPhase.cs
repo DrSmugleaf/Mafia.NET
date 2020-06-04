@@ -60,7 +60,10 @@ namespace Mafia.NET.Matches.Phases
                 deaths.Popup(death.VictimRole == null ? DayKey.DeathRoleUnknown : DayKey.DeathRoleReveal, death.Victim,
                     death.Victim.Role); // TODO
 
-                if (death.LastWill == null) deaths.Chat(DayKey.LastWillUnknown);
+                if (death.LastWill == null)
+                {
+                    deaths.Chat(DayKey.LastWillUnknown);
+                }
                 else if (death.LastWill.Length > 0)
                 {
                     deaths.Chat(DayKey.LastWillAuthor, death.Victim);

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Town;
@@ -108,7 +105,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             Detect(match, result);
         }
     }
-    
+
     public class DetectVulnerableCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
@@ -119,7 +116,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
                 var roleNames = RoleRegistry.Default.Names;
                 var name = ability.Key;
                 if (!roleNames.ContainsKey(name) || !RoleRegistry.Default.Names[name].Natural) continue;
-                
+
                 var role = roleNames[name];
                 var roles = $"Sheriff,{name}";
 
