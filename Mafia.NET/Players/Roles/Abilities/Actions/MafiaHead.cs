@@ -25,16 +25,26 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
         public override bool Use(IPlayer target)
         {
-            if (!TryMinion(out var minion)) return false;
+            if (TryMinion(out var minion))
+            {
+                minion.TargetManager.ForceSet(target);
+                TargetManager.ForceSet(null);
 
-            minion.TargetManager.ForceSet(target);
-            TargetManager.ForceSet(null);
+                return true;
+            }
 
-            return true;
+            if (Setup.CanKillWithoutMafioso)
+            {
+                var attack = new Attack(Ability, AttackStrength.Base, Direct, Stoppable, Priority);
+                attack.Use(target);
+            }
+
+            return false;
         }
     }
 
     public interface IMafiaHead : IAbilitySetup
     {
+        public bool CanKillWithoutMafioso { get; set; }
     }
 }

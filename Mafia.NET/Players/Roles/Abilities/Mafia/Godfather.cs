@@ -23,12 +23,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
         {
             var head = new MafiaHead(this);
             actions.Add(head);
-
-            if (Setup.CanKillWithoutMafioso)
-            {
-                var attack = new Attack(this, AttackStrength.Base);
-                actions.Add(attack);
-            }
         }
 
         public bool TryMinion([MaybeNullWhen(false)] out IPlayer minion)
@@ -51,7 +45,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Mafia
 
     public class GodfatherSetup : IMafiaHead, IMafiaSetup, INightImmune, IRoleBlockImmune, IDetectionImmune
     {
-        public bool CanKillWithoutMafioso = true;
+        public bool CanKillWithoutMafioso { get; set; } = true;
         public bool DetectionImmune { get; set; } = true;
         public int NightImmunity { get; set; } = (int) AttackStrength.Base;
         public bool RoleBlockImmune { get; set; } = false;

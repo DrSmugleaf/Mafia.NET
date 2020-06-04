@@ -29,11 +29,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
         public override bool Use(IPlayer victim)
         {
-            var alliedSuggesterAttacked
-                = Match.Graveyard.ThreatsOn(victim)
-                    .Any(threat =>
-                        threat.Killer?.Role.Team == User.Role.Team &&
-                        threat.Killer?.Ability.AbilitySetup is IMafiaSuggester);
+            var alliedSuggesterAttacked = Match.Graveyard
+                .ThreatsOn(victim)
+                .Any(threat =>
+                    threat.Killer?.Role.Team == User.Role.Team &&
+                    threat.Killer?.Ability.AbilitySetup is IMafiaSuggester);
 
             if (alliedSuggesterAttacked) return false;
 
