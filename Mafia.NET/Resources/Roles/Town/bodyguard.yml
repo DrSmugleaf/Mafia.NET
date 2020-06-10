@@ -1,10 +1,14 @@
 ﻿id: Bodyguard
 team: Town
 categories:
-- Town Protective
-- Town Killing
+  - Town Protective
+  - Town Killing
 color: "#00CC66"
+abilities:
+  - Guard
+perks:
+  HealProfile: No Heal
 ability:
   murder_descriptions:
-  - "They were killed in a duel."
-  - "They were slain in a shootout."
+    - "They were killed in a duel."
+    - "They were slain in a shootout."

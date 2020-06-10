@@ -1,42 +1,46 @@
 ﻿using Mafia.NET.Players.Deaths;
+using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Roles.Abilities.Actions
 {
-    public class Attack : AbilityAction
+    public class Attack : Ability
     {
         public Attack(
-            IAbility ability,
-            int strength = 1,
+            AttackStrength strength = AttackStrength.Base,
+            int priority = 5,
             bool direct = true,
-            bool stoppable = true,
-            int priority = 5) :
-            base(ability, priority, direct, stoppable)
+            bool stoppable = true)
         {
             Strength = strength;
+            Priority = priority;
+            Direct = direct;
+            Stoppable = stoppable;
         }
 
-        public Attack(
-            IAbility ability,
-            AttackStrength strength = AttackStrength.Base,
-            bool direct = true,
-            bool stoppable = true,
-            int priority = 5) :
-            this(ability, (int) strength, direct, stoppable, priority)
+        public Attack() : this(AttackStrength.Base)
         {
         }
 
-        public int Strength { get; set; }
+        public AttackStrength Strength { get; set; }
+        public bool Direct { get; set; }
+        public bool Stoppable { get; set; }
 
         public bool VictimVulnerable(IPlayer victim)
         {
-            return victim.Ability.VulnerableTo(Strength);
+            return victim.Perks.CurrentDefense < Strength;
+        }
+
+        public override bool CanUse(IPlayer victim)
+        {
+            return base.CanUse() && VictimVulnerable(victim);
         }
 
         public override bool Use(IPlayer victim)
         {
             if (!VictimVulnerable(victim)) return false;
 
-            var threat = new Death(Ability, victim, Direct, Stoppable);
+            var threat = new Death(this, victim, Direct, Stoppable);
             User.Crimes.Add(CrimeKey.Murder);
             Match.Graveyard.Threats.Add(threat);
             return true;

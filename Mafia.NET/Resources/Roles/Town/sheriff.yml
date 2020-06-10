@@ -1,5 +1,7 @@
 ﻿id: Sheriff
 team: Town
 categories:
-- Town Investigative
+  - Town Investigative
 color: "#00FF00"
+abilities:
+  - Sheriff

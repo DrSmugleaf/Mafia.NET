@@ -1,5 +1,11 @@
 ﻿id: Agent
 team: Mafia
 categories:
-- Mafia Support
+  - Mafia Support
 color: "#FF2244"
+abilities:
+  - Agent
+  - Mafia Minion
+  - Team Chat
+perks:
+  DetectionImmune: true

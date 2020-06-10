@@ -1,11 +1,10 @@
 ﻿using System.Globalization;
-using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
 using NUnit.Framework;
 
-namespace Mafia.NET.IntegrationTests.Matches
+namespace Mafia.Net.IntegrationTests.Matches
 {
     [TestFixture]
     [TestOf(typeof(Match))]
@@ -77,15 +76,15 @@ namespace Mafia.NET.IntegrationTests.Matches
 
             match.Skip<NightPhase>();
 
-            Assert.That(gf.Role.Ability.Id, Is.EqualTo("Godfather"));
+            Assert.That(gf.Role.Id, Is.EqualTo("Godfather"));
 
             foreach (var player in match.AllPlayers)
             {
                 gf.Target(player);
 
                 if (!player.Alive || player.Role.Team == gf.Role.Team)
-                    Assert.That(gf.TargetManager[0], Is.Not.EqualTo(player));
-                else Assert.That(gf.TargetManager[0], Is.EqualTo(player));
+                    Assert.That(gf.Targets[0], Is.Not.EqualTo(player));
+                else Assert.That(gf.Targets[0], Is.EqualTo(player));
             }
 
             gf.Target(citizen);
@@ -109,7 +108,7 @@ namespace Mafia.NET.IntegrationTests.Matches
             match.Skip<DeathsPhase>();
 
             foreach (var living in match.LivingPlayers)
-                Assert.That(living.TargetManager[0], Is.Null);
+                Assert.That(living.Targets[0], Is.Null);
         }
     }
 }

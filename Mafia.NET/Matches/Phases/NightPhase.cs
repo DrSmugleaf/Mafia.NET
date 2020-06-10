@@ -5,7 +5,8 @@ namespace Mafia.NET.Matches.Phases
 {
     public class NightPhase : BasePhase
     {
-        public NightPhase(IMatch match, uint duration = 40) : base(match, "Night", duration)
+        public NightPhase(IMatch match, uint duration = 40) :
+            base(match, "Night", duration)
         {
         }
 
@@ -20,9 +21,13 @@ namespace Mafia.NET.Matches.Phases
             Match.Phase.CurrentTime = Time.Night;
             var notification = Notification.Popup(DayKey.Night, Match.Phase.Day);
 
-            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+            foreach (var player in Match.AllPlayers)
+            {
+                player.OnNotification(notification);
+                player.OnNightStart();
+            }
 
-            Match.Actions.OnNightStart();
+            Match.Executor.OnNightStart();
 
             base.Start();
         }
@@ -30,8 +35,9 @@ namespace Mafia.NET.Matches.Phases
         public override void End()
         {
             base.End();
-            Match.Actions.BeforeNightEnd();
-            Match.Actions.OnNightEnd();
+            foreach (var player in Match.AllPlayers) player.BeforeNightEnd();
+            Match.Executor.OnNightEnd();
+            foreach (var player in Match.AllPlayers) player.OnNightEnd();
         }
     }
 }

@@ -3,14 +3,14 @@ using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Kidnapper))]
+    [TestOf(typeof(Kidnap))]
     public class KidnapperTest : BaseMatchTest
     {
         [TestCaseSource(typeof(KidnapCases))]
@@ -18,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new KidnapperSetup
+            match.AbilitySetups.Set(new KidnapSetup
             {
                 CanKidnapMafiaMembers = kidnapMafia
             });
@@ -45,10 +45,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             if (execute) kidnapper.Target(mafioso);
             mafioso.Target(citizen);
 
-            Assert.That(kidnapper.TargetManager[0], Is.Null);
+            Assert.That(kidnapper.Targets[0], Is.Null);
 
             var jailed = !lynch && kidnap && kidnapMafia;
-            Assert.That(mafioso.TargetManager[0], jailed ? Is.Null : Is.Not.Null);
+            Assert.That(mafioso.Targets[0], jailed ? Is.Null : Is.Not.Null);
 
             match.Skip<DeathsPhase>();
 

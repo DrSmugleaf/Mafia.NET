@@ -56,7 +56,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             Key.Empty,
             Key.Empty,
             category.Roles(registry),
-            category.Team.Color)
+            Team.From(category.Team).Color)
         {
         }
 
@@ -65,7 +65,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             role.Name,
             role.Summary,
             role.Goal,
-            role.Abilities,
+            role.AbilitiesDescription,
             new List<RoleEntry> {role},
             role.Color)
         {

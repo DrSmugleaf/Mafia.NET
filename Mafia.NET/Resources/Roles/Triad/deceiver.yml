@@ -1,8 +1,8 @@
 ﻿id: Deceiver
 team: Triad
 categories:
-- Triad Deception
+  - Triad Deception
 color: "#6969BB"
 ability:
   murder_descriptions:
-  - "They were killed by Asphyxiation."
+    - "They were killed by Asphyxiation."

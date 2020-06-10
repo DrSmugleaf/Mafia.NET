@@ -1,6 +1,8 @@
 ﻿id: Crier
 team: Town
 categories:
-- Town Government
+  - Town Government
 color: "#66CC33"
+abilities:
+  - Crier Chat
 unique: true

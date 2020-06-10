@@ -44,7 +44,8 @@ namespace Mafia.NET.Localization
 
             var catalog = Get(culture);
             var defaultString = catalog.GetStringDefault(key, null);
-            if (defaultString == null) throw new ArgumentException($"Key {key} not found for culture {culture}");
+            if (defaultString == null)
+                throw new ArgumentException($"Key {key} not found for culture {culture}");
 
             var str = catalog.GetStringDefault(key, defaultString);
             return Parser.Parse(str, args);

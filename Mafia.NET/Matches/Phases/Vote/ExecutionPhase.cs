@@ -21,8 +21,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override void Start()
         {
-            Player.Alive = false;
-            Player.Ability.Active = false;
+            Player.Alive = false; // TODO: Ability activity
             var death = new Death(Match.Phase.Day, Player, DeathCause.Lynch, "");
             Match.Graveyard.PublicDeaths.Add(death);
             ChatManager.Main().Get(Player).Muted = true;

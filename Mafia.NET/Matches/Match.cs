@@ -6,8 +6,9 @@ using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Controllers;
+using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Abilities.Actions;
+using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Matches
@@ -23,10 +24,11 @@ namespace Mafia.NET.Matches
         Graveyard Graveyard { get; }
         PhaseManager Phase { get; set; }
         ChatManager Chat { get; }
-        ActionManager Actions { get; }
         RoleSetup RoleSetup { get; }
+        RoleRegistry Roles { get; }
         AbilityRegistry Abilities { get; }
         AbilitySetupRegistry AbilitySetups { get; }
+        AbilityExecutor Executor { get; }
         event EventHandler<MatchEnd> MatchEnd;
 
         void Start();
@@ -50,7 +52,6 @@ namespace Mafia.NET.Matches
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
-            Actions = new ActionManager(this);
         }
 
         public Match(params string[] roles)
@@ -65,7 +66,7 @@ namespace Mafia.NET.Matches
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
-            Actions = new ActionManager(this);
+            Executor = new AbilityExecutor(this);
         }
 
         public Random Random { get; }
@@ -81,17 +82,16 @@ namespace Mafia.NET.Matches
         public Graveyard Graveyard { get; }
         public PhaseManager Phase { get; set; }
         public ChatManager Chat => Phase.Chat;
-        public ActionManager Actions { get; }
         public RoleSetup RoleSetup => Setup.Roles;
+        public RoleRegistry Roles => RoleSetup.Roles;
         public AbilityRegistry Abilities => RoleSetup.Abilities;
         public AbilitySetupRegistry AbilitySetups => RoleSetup.AbilitySetups;
+        public AbilityExecutor Executor { get; }
         public event EventHandler<MatchEnd> MatchEnd;
 
         public void Start()
         {
-            foreach (var player in AllPlayers)
-                player.Role.Ability.Initialize(player);
-
+            foreach (var player in AllPlayers) player.Role.Initialize(player);
             Phase.Start();
         }
 

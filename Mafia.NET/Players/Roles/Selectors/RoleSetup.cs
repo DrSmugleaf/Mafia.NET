@@ -4,6 +4,7 @@ using System.Linq;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Setups;
 
 namespace Mafia.NET.Players.Roles.Selectors
 {
@@ -21,15 +22,18 @@ namespace Mafia.NET.Players.Roles.Selectors
             Selectors = selectors.ToList();
         }
 
-        public RoleSetup(IEnumerable<IRoleSelector> selectors) :
-            this(RoleRegistry.Default, AbilityRegistry.Default, new AbilitySetupRegistry(), selectors)
+        public RoleSetup(IEnumerable<IRoleSelector> selectors)
         {
+            Roles = new RoleRegistry();
+            Abilities = new AbilityRegistry();
+            AbilitySetups = new AbilitySetupRegistry();
+            Selectors = selectors.ToList();
         }
 
         public RoleSetup(params string[] roles)
         {
-            Roles = RoleRegistry.Default;
-            Abilities = AbilityRegistry.Default;
+            Roles = new RoleRegistry();
+            Abilities = new AbilityRegistry();
             AbilitySetups = new AbilitySetupRegistry();
             Selectors = Roles.Selectors(roles);
         }
@@ -39,7 +43,7 @@ namespace Mafia.NET.Players.Roles.Selectors
         }
 
         public RoleRegistry Roles { get; }
-        public AbilityRegistry Abilities { get; }
+        public AbilityRegistry Abilities { get; set; }
         public AbilitySetupRegistry AbilitySetups { get; }
         public List<IRoleSelector> Selectors { get; set; }
 
@@ -60,14 +64,12 @@ namespace Mafia.NET.Players.Roles.Selectors
             for (var i = 0; i < roleEntries.Count; i++)
             {
                 var roleEntry = roleEntries[i];
-                var ability = Abilities.Names[roleEntry.Id].Build();
-                var role = new Role(roleEntry, ability);
+                var role = new Role(roleEntry);
                 var controller = new LobbyController($"Bot {i + 1}", null);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
 
                 players.Add(player);
             }
-
 
             return players;
         }
@@ -97,8 +99,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             {
                 var controller = controllers[i];
                 var roleEntry = roles[i];
-                var ability = Abilities.Names[roleEntry.Id].Build();
-                var role = new Role(roleEntry, ability);
+                var role = new Role(roleEntry);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
 
                 players.Add(player);

@@ -1,6 +1,6 @@
 ﻿id: Informant
 team: Triad
 categories:
-- Triad Deception
-- Triad Killing
+  - Triad Deception
+  - Triad Killing
 color: "#6295DD"

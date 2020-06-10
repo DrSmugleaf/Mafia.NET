@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Globalization;
-using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Localization
 {
@@ -11,8 +11,8 @@ namespace Mafia.NET.Localization
             Args = args;
         }
 
-        public ArgKey(IAbility ability, Enum key, params object[] args) :
-            base(ability.Id + System.Enum.GetName(key.GetType(), key))
+        public ArgKey(IRole role, Enum key, params object[] args) :
+            base(role.Id + System.Enum.GetName(key.GetType(), key))
         {
             Args = args;
         }

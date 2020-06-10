@@ -3,38 +3,44 @@ using System.Drawing;
 using System.Globalization;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
+using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Perks;
+using Mafia.NET.Players.Targeting;
 
 namespace Mafia.NET.Players
 {
     public interface IPlayer : IColorizable
     {
+        bool Alive { get; set; }
         IPlayerController Controller { get; set; }
         IMatch Match { get; }
         int Number { get; }
         Guid Id { get; }
         Text Name { get; set; }
-        IRole Role { get; set; }
-        IAbility Ability { get; }
-        bool Alive { get; set; }
+        IRole Role { get; }
         Note LastWill { get; }
         Note DeathNote { get; }
-        bool Blackmailed { get; set; }
-        bool Doused { get; set; }
         Crimes Crimes { get; }
         CultureInfo Culture { get; }
-        TargetManager TargetManager { get; }
+        TargetManager Targets { get; }
+        AbilityManager Abilities { get; }
+        PerkManager Perks { get; }
         event EventHandler<Text> Chat;
         event EventHandler<Text> Popup;
 
         void OnNotification(Notification notification);
         void OnNotification(EntryBundle bundle);
         void ChangeRole(IRole role);
-        void ChangeRole(IAbility ability);
         void Target(IPlayer target);
+        void OnDayStart();
+        void OnDayEnd();
+        void OnNightStart();
+        void BeforeNightEnd();
+        void OnNightEnd();
     }
 
     public class Player : IPlayer
@@ -47,37 +53,36 @@ namespace Mafia.NET.Players
             IRole role,
             CultureInfo culture = null)
         {
+            Alive = true;
             Match = match;
             Number = number;
             Id = controller.Id;
             Color = PlayerColorsExtensions.From(number).Color();
             Name = new Text(new[] {new Content(name, Color)}, Color.Empty);
             Role = role;
-            Alive = true;
             LastWill = new Note(Match, this);
             DeathNote = new Note(Match, this);
-            Blackmailed = false;
             Crimes = new Crimes(this);
             Controller = controller.Player(this);
             Culture = culture ?? new CultureInfo("en-US");
+            Targets = new TargetManager(this);
         }
 
+        public bool Alive { get; set; }
         public IPlayerController Controller { get; set; }
         public IMatch Match { get; }
         public int Number { get; }
         public Guid Id { get; }
         public Color Color { get; }
         public Text Name { get; set; }
-        public IRole Role { get; set; }
-        public IAbility Ability => Role.Ability;
-        public bool Alive { get; set; }
+        public IRole Role { get; protected set; }
         public Note LastWill { get; }
         public Note DeathNote { get; }
-        public bool Blackmailed { get; set; }
-        public bool Doused { get; set; }
         public Crimes Crimes { get; }
+        public TargetManager Targets { get; }
         public CultureInfo Culture { get; }
-        public TargetManager TargetManager => Role.Ability.TargetManager;
+        public AbilityManager Abilities => Role.Abilities;
+        public PerkManager Perks => Role.Perks;
         public event EventHandler<Text> Chat;
         public event EventHandler<Text> Popup;
 
@@ -106,21 +111,38 @@ namespace Mafia.NET.Players
 
         public void ChangeRole(IRole role)
         {
-            Ability.User = null;
             Role = role;
-            Ability.User = this;
-        }
-
-        public void ChangeRole(IAbility ability)
-        {
-            var roleEntry = Match.RoleSetup.Roles.Names[ability.Id];
-            var role = new Role(roleEntry, ability);
-            ChangeRole(role);
+            Role.ChangeUser(this);
         }
 
         public void Target(IPlayer target)
         {
-            TargetManager.Set(target);
+            Targets.Set(target);
+        }
+
+        public void OnDayStart()
+        {
+            Crimes.OnDayStart();
+            Perks.OnDayStart();
+        }
+
+        public void OnDayEnd()
+        {
+            Targets.Reset(Time.Night);
+        }
+
+        public void OnNightStart()
+        {
+        }
+
+        public void BeforeNightEnd()
+        {
+            Perks.BeforeNightEnd();
+        }
+
+        public void OnNightEnd()
+        {
+            Targets.Reset(Time.Day);
         }
 
         public override string ToString()

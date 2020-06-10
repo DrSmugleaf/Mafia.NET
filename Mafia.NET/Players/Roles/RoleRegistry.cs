@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using Mafia.NET.Extension;
-using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Roles.HealProfiles;
+using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Roles.Selectors;
 using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
@@ -14,64 +13,73 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
 {
-    public class RoleEntry : IColorizable, ILocalizable
-    {
-        public RoleEntry(
-            string id,
-            ITeam team,
-            IList<ICategory> categories,
-            Color color,
-            Color originalColor,
-            bool natural,
-            bool unique)
-        {
-            Id = id;
-            Name = new Key($"{id}name");
-            Summary = new Key($"{id}summary");
-            Goal = new Key($"{id}goal");
-            Abilities = new Key($"{id}abilities");
-            Team = team;
-            Categories = categories.ToImmutableList();
-            Color = color;
-            OriginalColor = originalColor;
-            Natural = natural;
-            Unique = unique;
-        }
-
-        public string Id { get; }
-        public Key Name { get; }
-        public Key Summary { get; }
-        public Key Goal { get; }
-        public Key Abilities { get; }
-        public ITeam Team { get; }
-        public IImmutableList<ICategory> Categories { get; }
-        public Color OriginalColor { get; }
-        public bool Natural { get; }
-        public bool Unique { get; }
-        public Color Color { get; }
-
-        public Text Localize(CultureInfo culture = null)
-        {
-            return Name.Localize(culture);
-        }
-
-        public override string ToString()
-        {
-            return Localize().ToString();
-        }
-    }
-
     public class RoleRegistry
     {
-        private static readonly Lazy<RoleRegistry> Lazy = new Lazy<RoleRegistry>(LoadAll);
-
-        private RoleRegistry(IDictionary<string, RoleEntry> names)
+        public RoleRegistry(IDictionary<string, RoleEntry> names)
         {
-            Names = names.ToImmutableDictionary();
+            Ids = names.ToImmutableDictionary();
         }
 
-        public static RoleRegistry Default => Lazy.Value;
-        public IImmutableDictionary<string, RoleEntry> Names { get; }
+        public RoleRegistry()
+        {
+            var ids = new Dictionary<string, RoleEntry>();
+
+            foreach (var yaml in LoadYaml())
+            {
+                var id = yaml["id"].AsString();
+                var team = yaml["team"].AsString();
+                var categories = new List<ICategory>();
+                var categoryNames = yaml["categories"];
+
+                foreach (var category in (YamlSequenceNode) categoryNames)
+                    categories.Add((Category) category.AsString());
+
+                var children = yaml.Children;
+                var color = yaml["color"].AsColor();
+                var originalColor = children.ContainsKey("original_color") ? yaml["original_color"].AsColor() : color;
+                var natural = !children.ContainsKey("natural") || yaml["natural"].AsBool();
+                var unique = children.ContainsKey("unique") && yaml["unique"].AsBool();
+                var abilities = children.ContainsKey("abilities")
+                    ? yaml["abilities"].AsStringList()
+                    : new List<string>();
+
+                var defense = AttackStrength.None;
+                var detectionImmune = false;
+                var roleBlockImmune = false;
+                // TODO: Detection and heal profiles
+                Func<IPlayer, IHealProfile> healProfile = user => new HealProfile(user);
+                if (yaml.Try("perks", out var perks))
+                {
+                    if (perks.Try("Defense", out var defenseNode))
+                        defense = Enum.Parse<AttackStrength>(defenseNode.AsString(), true);
+
+                    if (perks.Try("DetectionImmune", out var detectionNode))
+                        detectionImmune = detectionNode.AsBool();
+
+                    if (perks.Try("RoleBlockImmune", out var rbNode))
+                        roleBlockImmune = rbNode.AsBool();
+
+                    if (perks.Try("HealProfile", out var profile))
+                    {
+                        if (profile.AsString() == "No Heal")
+                            healProfile = user => new NoHealProfile(user);
+                        else
+                            throw new ArgumentException($"Unknown heal profile {profile.AsString()}");
+                    }
+                }
+
+                var role = new RoleEntry(id, team, categories, color, originalColor, natural, unique, abilities,
+                    defense,
+                    detectionImmune, roleBlockImmune, healProfile);
+                ids.Add(id, role);
+            }
+
+            Ids = ids.ToImmutableDictionary();
+        }
+
+        public IImmutableDictionary<string, RoleEntry> Ids { get; }
+
+        public RoleEntry this[string id] => Ids[id];
 
         public static List<YamlMappingNode> LoadYaml()
         {
@@ -79,71 +87,45 @@ namespace Mafia.NET.Players.Roles
             return yaml.Select(resource => (YamlMappingNode) resource).ToList();
         }
 
-        private static RoleRegistry LoadAll()
-        {
-            var names = new Dictionary<string, RoleEntry>();
-
-            foreach (var yaml in LoadYaml())
-            {
-                var id = yaml["id"].AsString();
-                var team = (Team) yaml["team"].AsString();
-                var categories = new List<ICategory>();
-                var categoryNames = yaml["categories"];
-
-                foreach (var category in (YamlSequenceNode) categoryNames)
-                    categories.Add((Category) category.AsString());
-
-                var color = yaml["color"].AsColor();
-                var originalColor = yaml.Contains("original_color") ? yaml["original_color"].AsColor() : color;
-                var natural = !yaml.Children.ContainsKey("natural") || yaml["natural"].AsBool();
-                var unique = yaml.Children.ContainsKey("unique") && yaml["unique"].AsBool();
-
-                var role = new RoleEntry(id, team, categories, color, originalColor, natural, unique);
-                names.Add(id, role);
-            }
-
-            return new RoleRegistry(names);
-        }
-
         public List<RoleEntry> Get()
         {
-            return Names.Values.ToList();
+            return Ids.Values.ToList();
         }
 
-        public List<RoleEntry> Get(params string[] names)
+        public List<RoleEntry> Get(params string[] ids)
         {
             var roles = new List<RoleEntry>();
 
-            foreach (var name in names)
+            foreach (var name in ids)
             {
-                var role = Names[name];
+                var role = Ids[name];
                 roles.Add(role);
             }
 
             return roles;
         }
 
-        public IRoleSelector Selector(string name)
+        public IRoleSelector Selector(string id)
         {
-            return new RoleSelector(Names[name]);
+            return new RoleSelector(Ids[id]);
         }
 
-        public List<IRoleSelector> Selectors(params string[] names)
+        public List<IRoleSelector> Selectors(params string[] ids)
         {
-            return Get(names).Select(role => new RoleSelector(role)).ToList<IRoleSelector>();
+            return Get(ids).Select(role => new RoleSelector(role)).ToList<IRoleSelector>();
         }
 
         public List<RoleEntry> Category(ICategory category)
         {
-            return Names.Values
+            return Ids.Values
                 .Where(role => role.Categories.Contains(category))
                 .OrderBy(role => role.Id).ToList();
         }
 
         public List<RoleEntry> Team(ITeam team)
         {
-            return Names.Values
-                .Where(role => role.Team == team)
+            return Ids.Values
+                .Where(role => role.Team == team.Id)
                 .OrderBy(role => role.Id).ToList();
         }
     }

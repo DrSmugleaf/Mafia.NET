@@ -1,6 +1,6 @@
 ﻿id: Mayor
 team: Town
 categories:
-- Town Government
+  - Town Government
 color: "#44FF44"
 unique: true

@@ -1,15 +1,22 @@
 ﻿id: Godfather
 team: Mafia
 categories:
-- Mafia Killing
+  - Mafia Killing
 color: "#FF4488"
 unique: true
+abilities:
+  - Mafia Head
+  - Team Chat
+perks:
+  Defense: Base
+  DetectionImmune: true
+  RoleBlockImmune: false
 ability:
   murder_descriptions:
-  - "They were shot at close range."
-  - "They were also riddled with bullets at close range."
-  - "There were signs of struggle. They were shot at close range."
-  - "There were signs of struggle. They were also riddled with bullets at close range."
-  - "There were signs of struggle. Their body was battered and had multiple bone fractures. They were shot at close range."
-  - "Their body had bruises and minor fractures. They were shot at close range."
-  - "Their body had bruises and minor fractures. They were also riddled with bullets at close range."
+    - "They were shot at close range."
+    - "They were also riddled with bullets at close range."
+    - "There were signs of struggle. They were shot at close range."
+    - "There were signs of struggle. They were also riddled with bullets at close range."
+    - "There were signs of struggle. Their body was battered and had multiple bone fractures. They were shot at close range."
+    - "Their body had bruises and minor fractures. They were shot at close range."
+    - "Their body had bruises and minor fractures. They were also riddled with bullets at close range."

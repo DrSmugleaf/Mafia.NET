@@ -4,13 +4,13 @@ using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Matches.Phases.Vote;
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Blackmailer))]
+    [TestOf(typeof(Blackmail))]
     public class BlackmailerTest : BaseMatchTest
     {
         [TestCaseSource(typeof(BlackmailerCases))]
@@ -18,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BlackmailerSetup
+            match.AbilitySetups.Set(new BlackmailSetup
             {
                 BlackmailedTalkDuringTrial = talkDuringTrial
             });
@@ -43,12 +43,12 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 
             match.Skip<NightPhase>();
 
-            Assert.That(target.Blackmailed, Is.False);
+            Assert.That(target.Perks.Blackmailed, Is.False);
             if (blackmail) blackmailer.Target(target);
 
             match.Skip<DeathsPhase>();
 
-            Assert.That(target.Blackmailed, Is.EqualTo(blackmail));
+            Assert.That(target.Perks.Blackmailed, Is.EqualTo(blackmail));
 
             match.Skip<DiscussionPhase>();
 

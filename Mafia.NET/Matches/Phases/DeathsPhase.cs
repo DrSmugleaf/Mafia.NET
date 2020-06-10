@@ -52,8 +52,7 @@ namespace Mafia.NET.Matches.Phases
             var deaths = new EntryBundle();
             foreach (var death in Match.Graveyard.UndisclosedDeaths)
             {
-                death.Victim.Alive = false;
-                death.Victim.Ability.Active = false;
+                death.Victim.Alive = false; // TODO: Action activity
 
                 deaths.Popup(DayKey.DeathMorning, death.Victim); // TODO: Randomize
                 // deaths.Add(death.Description); // TODO

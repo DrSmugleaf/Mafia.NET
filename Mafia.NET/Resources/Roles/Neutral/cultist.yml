@@ -1,5 +1,5 @@
 ﻿id: Cultist
 team: Neutral
 categories:
-- Neutral Evil
+  - Neutral Evil
 color: "#BB44AA"

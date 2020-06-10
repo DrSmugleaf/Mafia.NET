@@ -2,15 +2,14 @@
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Perks;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Godfather))]
+    [TestOf(typeof(MafiaHeadSetup))]
     public class GodfatherTest : BaseMatchTest
     {
         [TestCaseSource(typeof(AllyCases))]
@@ -18,7 +17,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new GodfatherSetup
+            match.AbilitySetups.Set(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso
             });
@@ -46,7 +45,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new GodfatherSetup
+            match.AbilitySetups.Set(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso
             });
@@ -72,7 +71,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BodyguardSetup
+            match.AbilitySetups.Set(new GuardSetup
             {
                 IgnoresInvulnerability = ignoresImmunity
             });
@@ -107,11 +106,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new GodfatherSetup
+            if (!immune) match.Roles["Godfather"].Defense = AttackStrength.None;
+            match.AbilitySetups.Set(new MafiaHeadSetup
             {
-                CanKillWithoutMafioso = killWithoutMafioso,
-                NightImmunity = (int) (immune ? AttackStrength.Base : AttackStrength.None)
-            }, new BodyguardSetup
+                CanKillWithoutMafioso = killWithoutMafioso
+            }, new GuardSetup
             {
                 IgnoresInvulnerability = ignoresImmunity
             });

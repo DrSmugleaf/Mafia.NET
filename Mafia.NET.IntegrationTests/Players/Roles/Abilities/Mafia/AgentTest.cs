@@ -4,9 +4,7 @@ using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
@@ -23,10 +21,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.AbilitySetups.Set(new AgentSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
-            }, new SerialKillerSetup
-            {
-                DetectionImmune = immune
             });
+            match.Roles["Serial Killer"].DetectionImmune = immune;
             match.Start();
 
             var agent = match.AllPlayers[0];
@@ -36,7 +32,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.Skip<NightPhase>();
 
             agent.Target(first);
-            Assert.That(agent.TargetManager[0], Is.Not.Null);
+            Assert.That(agent.Targets[0], Is.Not.Null);
 
             first.Target(second);
             second.Target(first);
@@ -48,10 +44,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 
             Assert.That(notifications.Count, Is.EqualTo(2));
 
-            var targetVisited = Notification.Chat(agent.Ability, DetectKey.TargetVisitedSomeone, second).ToString();
-            var targetInactive = Notification.Chat(agent.Ability, DetectKey.TargetInactive).ToString();
-            var otherVisited = Notification.Chat(agent.Ability, WatchKey.SomeoneVisitedTarget, second).ToString();
-            var noneVisited = Notification.Chat(agent.Ability, WatchKey.NoneVisitedTarget).ToString();
+            var targetVisited = Notification.Chat(agent.Role, DetectKey.TargetVisitedSomeone, second).ToString();
+            var targetInactive = Notification.Chat(agent.Role, DetectKey.TargetInactive).ToString();
+            var otherVisited = Notification.Chat(agent.Role, WatchKey.SomeoneVisitedTarget, second).ToString();
+            var noneVisited = Notification.Chat(agent.Role, WatchKey.NoneVisitedTarget).ToString();
 
             if (firstInnocent || !immune || ignoresImmunity)
                 Assert.That(notifications, Does.Contain(targetVisited));
@@ -64,7 +60,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.Skip<NightPhase>();
 
             agent.Target(first);
-            Assert.That(agent.TargetManager[0], Is.Null);
+            Assert.That(agent.Targets[0], Is.Null);
 
             match.Skip<DeathsPhase>();
         }

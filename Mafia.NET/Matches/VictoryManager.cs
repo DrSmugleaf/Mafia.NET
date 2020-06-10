@@ -20,9 +20,9 @@ namespace Mafia.NET.Matches
         {
             victories = new List<IVictory>();
 
-            foreach (var player in Match.AllPlayers)
-                if (player.Role.Ability.TryVictory(out var victory))
-                    victories.Add(victory);
+            // foreach (var player in Match.AllPlayers)
+            // if (player.Role.TryVictory(out var victory))
+            //     victories.Add(victory);
 
             return victories.Count == Match.LivingPlayers.Count;
         }

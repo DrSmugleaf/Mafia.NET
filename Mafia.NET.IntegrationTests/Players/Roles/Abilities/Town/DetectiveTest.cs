@@ -4,13 +4,13 @@ using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 {
     [TestFixture]
-    [TestOf(typeof(Detective))]
+    [TestOf(typeof(Detect))]
     public class DetectiveTest : BaseMatchTest
     {
         [TestCase("Detective,Citizen,Mafioso", true, true)]
@@ -21,7 +21,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new DetectiveSetup {IgnoresDetectionImmunity = ignores});
+            match.AbilitySetups.Set(new DetectSetup
+            {
+                IgnoresDetectionImmunity = ignores
+            });
             match.Start();
 
             var detective = match.AllPlayers[0];
@@ -41,8 +44,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             Assert.That(notifications.Count, Is.Positive);
 
             var message = detected
-                ? Notification.Chat(DetectiveKey.TargetVisitedSomeone, innocent)
-                : Notification.Chat(DetectiveKey.TargetInactive);
+                ? Notification.Chat(detective.Role, DetectKey.TargetVisitedSomeone, innocent)
+                : Notification.Chat(detective.Role, DetectKey.TargetInactive);
             var localized = message.Localize();
             Assert.That(notifications[0], Is.EqualTo(localized));
         }

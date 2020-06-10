@@ -23,7 +23,7 @@ namespace Mafia.NET.Matches.Chats
         {
             Owner = owner;
             Nickname = nickname;
-            Muted = muted || owner.Blackmailed || !owner.Alive;
+            Muted = muted || owner.Perks.Blackmailed || !owner.Alive;
             Deaf = deaf;
         }
 

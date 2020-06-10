@@ -6,8 +6,6 @@ namespace Mafia.NET.Matches.Chats
 {
     public class MessageRandomizer
     {
-        private static readonly Random Random = new Random();
-
         public MessageRandomizer(IEnumerable<string> messages)
         {
             Messages = messages.ToImmutableList();
@@ -25,9 +23,9 @@ namespace Mafia.NET.Matches.Chats
 
         public IImmutableList<string> Messages { get; }
 
-        public string Get()
+        public string Get(Random random)
         {
-            return Messages[Random.Next(Messages.Count)];
+            return Messages[random.Next(Messages.Count)];
         }
     }
 }

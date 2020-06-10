@@ -1,5 +1,7 @@
 ﻿id: Escort
 team: Town
 categories:
-- Town Protective
+  - Town Protective
 color: "#00FF00"
+abilities:
+  - Block

@@ -1,5 +1,5 @@
 ﻿id: Survivor
 team: Neutral
 categories:
-- Neutral Benign
+  - Neutral Benign
 color: "#FFFF00"

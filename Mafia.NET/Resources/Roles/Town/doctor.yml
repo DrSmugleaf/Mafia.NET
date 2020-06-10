@@ -1,5 +1,7 @@
 ﻿id: Doctor
 team: Town
 categories:
-- Town Protective
+  - Town Protective
 color: "#00FF00"
+abilities:
+  - Heal

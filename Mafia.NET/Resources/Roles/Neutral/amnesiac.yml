@@ -1,6 +1,8 @@
 ﻿id: Amnesiac
 team: Neutral
 categories:
-- Neutral Benign
+  - Neutral Benign
+abilities:
+  - Remember
 original_color: "#66FFCC"
 color: "#79ECC6"

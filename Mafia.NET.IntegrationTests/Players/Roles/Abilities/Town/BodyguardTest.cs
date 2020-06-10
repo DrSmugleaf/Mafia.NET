@@ -1,13 +1,14 @@
 ﻿using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.HealProfiles;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 {
     [TestFixture]
-    [TestOf(typeof(Bodyguard))]
+    [TestOf(typeof(Guard))]
     public class BodyguardTest : BaseMatchTest
     {
         [TestCase("Bodyguard,Citizen,Mafioso", true, false)]
@@ -18,7 +19,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BodyguardSetup {IgnoresInvulnerability = piercing});
+            match.AbilitySetups.Set(new GuardSetup
+            {
+                IgnoresInvulnerability = piercing
+            });
             match.Start();
 
             var bodyguard = match.AllPlayers[0];
@@ -43,7 +47,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BodyguardSetup {CanBeHealed = healing});
+            if (healing) match.Roles["Bodyguard"].HealProfile = user => new HealProfile(user);
             match.Start();
 
             match.Skip<NightPhase>();

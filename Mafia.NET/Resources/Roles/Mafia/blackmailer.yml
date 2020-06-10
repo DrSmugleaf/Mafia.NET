@@ -1,5 +1,9 @@
 ﻿id: Blackmailer
 team: Mafia
 categories:
-- Mafia Support
+  - Mafia Support
 color: "#DD0000"
+abilities:
+  - Blackmail
+  - Mafia Minion
+  - Team Chat

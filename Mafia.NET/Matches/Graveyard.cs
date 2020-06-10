@@ -48,8 +48,7 @@ namespace Mafia.NET.Matches
                 }
                 else
                 {
-                    threat.Victim.Alive = false;
-                    threat.Victim.Ability.Active = false;
+                    threat.Victim.Alive = false; // TODO: Change active depending on the action
                     victims[victim] = threat;
                 }
             }

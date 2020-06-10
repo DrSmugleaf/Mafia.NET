@@ -1,15 +1,15 @@
 ﻿id: Dragon Head
 team: Triad
 categories:
-- Triad Killing
+  - Triad Killing
 color: "#9F8EFF"
 unique: true
 ability:
   murder_descriptions:
-  - "They were shot at close range."
-  - "They were also riddled with bullets at close range."
-  - "There were signs of struggle. They were shot at close range."
-  - "There were signs of struggle. They were also riddled with bullets at close range."
-  - "There were signs of struggle. Their body was battered and had multiple bone fractures. They were shot at close range."
-  - "Their body had bruises and minor fractures. They were shot at close range."
-  - "Their body had bruises and minor fractures. They were also riddled with bullets at close range."
+    - "They were shot at close range."
+    - "They were also riddled with bullets at close range."
+    - "There were signs of struggle. They were shot at close range."
+    - "There were signs of struggle. They were also riddled with bullets at close range."
+    - "There were signs of struggle. Their body was battered and had multiple bone fractures. They were shot at close range."
+    - "Their body had bruises and minor fractures. They were shot at close range."
+    - "Their body had bruises and minor fractures. They were also riddled with bullets at close range."

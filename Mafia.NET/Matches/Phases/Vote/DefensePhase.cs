@@ -2,13 +2,14 @@
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
+using Mafia.NET.Players.Roles.Abilities;
 
 namespace Mafia.NET.Matches.Phases.Vote
 {
     public class DefensePhase : BasePhase
     {
-        public DefensePhase(IMatch match, IPlayer accused, uint duration = 15) : base(match, "Defense", duration)
+        public DefensePhase(IMatch match, IPlayer accused, uint duration = 15) :
+            base(match, "Defense", duration)
         {
             Accused = accused;
         }
@@ -26,8 +27,8 @@ namespace Mafia.NET.Matches.Phases.Vote
                 if (player != Accused)
                     ChatManager.Main().Get(player).Pause();
 
-            if (!Accused.Blackmailed ||
-                Match.AbilitySetups.Setup<BlackmailerSetup>().BlackmailedTalkDuringTrial)
+            if (!Accused.Perks.Blackmailed ||
+                Match.AbilitySetups.Setup<BlackmailSetup>().BlackmailedTalkDuringTrial)
                 ChatManager.Main().Mute(Accused, false);
 
             ChatManager.Main().Pause(false);

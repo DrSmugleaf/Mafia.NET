@@ -5,6 +5,9 @@ using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Categories;
+using Mafia.NET.Players.Roles.DetectionProfiles;
+using Mafia.NET.Players.Roles.HealProfiles;
+using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Teams;
 
 namespace Mafia.NET.Players.Roles
@@ -15,12 +18,17 @@ namespace Mafia.NET.Players.Roles
         Key Name { get; }
         Key Summary { get; }
         Key Goal { get; }
-        Key Abilities { get; }
+        Key AbilitiesDescriptions { get; }
         ITeam Team { get; }
         IReadOnlyList<ICategory> Categories { get; }
-        IAbility Ability { get; set; }
         bool Unique { get; }
+        AbilityManager Abilities { get; }
+        PerkManager Perks { get; }
+        IDetectionProfile DetectionProfile { get; }
+        IHealProfile HealProfile { get; }
 
+        void Initialize(IPlayer user);
+        void ChangeUser(IPlayer user);
         bool IsCategory(string id);
         IReadOnlyList<Goal> Goals();
         IReadOnlyList<Goal> Enemies();
@@ -28,30 +36,58 @@ namespace Mafia.NET.Players.Roles
 
     public class Role : IRole
     {
-        public Role(RoleEntry role, IAbility ability)
+        public Role(RoleEntry role)
         {
             Id = role.Id;
             Name = role.Name;
             Summary = role.Summary;
             Goal = role.Goal;
-            Abilities = role.Abilities;
-            Team = role.Team;
+            AbilitiesDescriptions = role.AbilitiesDescription;
+            Team = (Team) role.Team;
             Categories = role.Categories;
             Color = role.Color;
-            Ability = ability;
             Unique = role.Unique;
+            Abilities = new AbilityManager();
+            Perks = new PerkManager();
+            DetectionProfile = new DetectionProfile(null);
         }
 
         public string Id { get; }
         public Key Name { get; }
         public Key Summary { get; }
         public Key Goal { get; }
-        public Key Abilities { get; }
+        public Key AbilitiesDescriptions { get; }
         public ITeam Team { get; }
         public IReadOnlyList<ICategory> Categories { get; }
         public Color Color { get; }
-        public IAbility Ability { get; set; }
         public bool Unique { get; }
+        public AbilityManager Abilities { get; }
+        public PerkManager Perks { get; }
+        public IDetectionProfile DetectionProfile { get; set; }
+        public IHealProfile HealProfile { get; set; }
+
+        public void Initialize(IPlayer user)
+        {
+            var entry = user.Match.Roles[Id];
+            var registry = user.Match.Abilities;
+            Abilities.Replace(registry, entry.Abilities, user);
+
+            var role = user.Match.Roles[Id];
+            Perks.Defense = role.Defense;
+            Perks.DetectionImmune = role.DetectionImmune;
+            Perks.RoleBlockImmune = role.RoleBlockImmune;
+            HealProfile = role.HealProfile(user);
+
+            ChangeUser(user);
+        }
+
+        public void ChangeUser(IPlayer user)
+        {
+            foreach (var ability in Abilities.All) ability.User = user;
+            Perks.User = user;
+            DetectionProfile.User = user;
+            HealProfile.User = user;
+        }
 
         public bool IsCategory(string id)
         {

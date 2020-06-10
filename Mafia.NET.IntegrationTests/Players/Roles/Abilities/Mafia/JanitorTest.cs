@@ -5,14 +5,13 @@ using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Janitor))]
+    [TestOf(typeof(Sanitize))]
     public class JanitorTest : BaseMatchTest
     {
         [TestCaseSource(typeof(SanitizeCases))]
@@ -20,7 +19,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new JanitorSetup
+            match.AbilitySetups.Set(new SanitizeSetup
             {
                 Uses = uses
             });
@@ -54,7 +53,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var role = citizen.Role.Name.Localize().ToString();
             var roleUnknown = new Key(DayKey.DeathRoleUnknown).ToString();
             var lwUnknown = new Key(DayKey.LastWillUnknown).ToString();
-            var janitorLw = Notification.Chat(janitor.Ability, SanitizeKey.LastWillReveal, lw).ToString();
+            var janitorLw = Notification.Chat(janitor.Role, SanitizeKey.LastWillReveal, lw).ToString();
             if (sanitize)
             {
                 Assert.That(popups, Has.None.Contain(role));

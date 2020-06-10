@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Mafia.NET.Localization;
-using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Notifications
 {
@@ -42,9 +42,9 @@ namespace Mafia.NET.Notifications
             return new Notification(key, NotificationLocation.Chat, args);
         }
 
-        public static Notification Chat(IAbility ability, Enum key, params object[] args)
+        public static Notification Chat(IRole role, Enum key, params object[] args)
         {
-            return Chat(new Key(ability, key), args);
+            return Chat(new Key(role, key), args);
         }
 
         public static Notification Popup(string key, params object[] args)
@@ -57,9 +57,9 @@ namespace Mafia.NET.Notifications
             return new Notification(key, NotificationLocation.Popup, args);
         }
 
-        public static Notification Popup(IAbility ability, Enum key, params object[] args)
+        public static Notification Popup(IRole role, Enum key, params object[] args)
         {
-            return Popup(new Key(ability, key), args);
+            return Popup(new Key(role, key), args);
         }
 
         public override bool Equals(object obj)

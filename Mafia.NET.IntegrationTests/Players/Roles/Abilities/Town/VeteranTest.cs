@@ -1,14 +1,14 @@
 ﻿using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 {
     [TestFixture]
-    [TestOf(typeof(Veteran))]
+    [TestOf(typeof(Alert))]
     public class VeteranTest : BaseMatchTest
     {
         [TestCase("Veteran,Mafioso", true, true, true, 1)]

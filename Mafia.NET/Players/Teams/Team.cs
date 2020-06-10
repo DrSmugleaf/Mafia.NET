@@ -25,6 +25,7 @@ namespace Mafia.NET.Players.Teams
 
     public class Team : ITeam
     {
+        private static readonly RoleRegistry DefaultRoles = new RoleRegistry();
         public static readonly IImmutableList<Team> All = LoadAll();
 
         private Team(string id, Color color, int order)
@@ -42,7 +43,7 @@ namespace Mafia.NET.Players.Teams
 
         public List<RoleEntry> Roles()
         {
-            return RoleRegistry.Default.Team(this);
+            return DefaultRoles.Team(this);
         }
 
         public List<IRoleSelector> Selectors(RoleRegistry roles)
@@ -64,6 +65,11 @@ namespace Mafia.NET.Players.Teams
         public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
+        }
+
+        public static ITeam From(string id)
+        {
+            return All.First(team => team.Id == id);
         }
 
         public static explicit operator Team(string id)

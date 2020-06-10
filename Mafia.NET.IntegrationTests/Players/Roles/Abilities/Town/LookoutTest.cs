@@ -5,14 +5,13 @@ using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 {
     [TestFixture]
-    [TestOf(typeof(Lookout))]
+    [TestOf(typeof(Watch))]
     public class LookoutTest : BaseMatchTest
     {
         [TestCaseSource(typeof(LookoutCases))]
@@ -20,12 +19,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new LookoutSetup
+            match.Roles["Godfather"].DetectionImmune = immune;
+            match.AbilitySetups.Set(new WatchSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
-            }, new GodfatherSetup
-            {
-                DetectionImmune = immune
             });
             match.Start();
 
@@ -46,8 +43,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             Assert.That(notifications.Count, Is.Positive);
             var message = visit && (!immune || ignoresImmunity)
-                ? Notification.Chat(LookoutKey.SomeoneVisitedTarget, visitor)
-                : Notification.Chat(LookoutKey.NoneVisitedTarget);
+                ? Notification.Chat(lookout.Role, WatchKey.SomeoneVisitedTarget, visitor)
+                : Notification.Chat(lookout.Role, WatchKey.NoneVisitedTarget);
             var localized = message.Localize();
             Assert.That(notifications[0], Is.EqualTo(localized));
         }

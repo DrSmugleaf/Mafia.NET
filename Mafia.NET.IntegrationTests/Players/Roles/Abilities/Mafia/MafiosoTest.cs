@@ -2,13 +2,13 @@
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Mafioso))]
+    [TestOf(typeof(MafiaSuggest))]
     public class MafiosoTest : BaseMatchTest
     {
         [TestCaseSource(typeof(MafiosoAloneCases))]

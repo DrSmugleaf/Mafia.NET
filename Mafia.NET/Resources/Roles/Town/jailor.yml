@@ -1,11 +1,13 @@
 ﻿id: Jailor
 team: Town
 categories:
-- Town Killing
+  - Town Killing
 original_categories:
-- Town Killing
-- Town Power
+  - Town Killing
+  - Town Power
 color: "#66CC00"
+abilities:
+  - Jail
 ability:
   murder_descriptions:
-  - "They were executed in a jail cell."
+    - "They were executed in a jail cell."

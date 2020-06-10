@@ -1,5 +1,7 @@
 ﻿id: Detective
 team: Town
 categories:
-- Town Investigative
+  - Town Investigative
 color: "#00FF44"
+abilities:
+  - Detect

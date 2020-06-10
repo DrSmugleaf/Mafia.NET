@@ -1,7 +1,7 @@
 ﻿id: Spy
 team: Town
 categories:
-- Town Investigative
+  - Town Investigative
 original_categories:
-- Town Power
+  - Town Power
 color: "#66AA00"

@@ -1,5 +1,11 @@
 ﻿id: Consort
 team: Mafia
 categories:
-- Mafia Support
+  - Mafia Support
 color: "#FF0000"
+abilities:
+  - Block # TODO Targets (Alive except team)
+  - Mafia Minion
+  - Team Chat
+perks:
+  DetectionImmune: true

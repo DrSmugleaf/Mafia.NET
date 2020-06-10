@@ -1,8 +1,8 @@
 ﻿id: Jester
 team: Neutral
 categories:
-- Neutral Benign
+  - Neutral Benign
 color: "#FCA8FC"
 ability:
   murder_descriptions:
-  - "They apparently shot themselves. Their suicide note expressed grief and guilt over the Jester's death"
+    - "They apparently shot themselves. Their suicide note expressed grief and guilt over the Jester's death"

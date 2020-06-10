@@ -1,12 +1,17 @@
 ﻿id: Serial Killer
 team: Neutral
 categories:
-- Neutral Killing
+  - Neutral Killing
 original_color: "#FF00CC"
 color: "#CC00A3"
+abilities:
+  - Serial Killer
+perks:
+  Defense: Base
+  DetectionImmune: true
 ability:
   murder_descriptions:
-  - "They had multiple stab wounds."
-  - "There were signs of a struggle. They had multiple stab wounds."
-  - "They had bruises and some bone fractures. They had multiple stab wounds."
-  - "Their body was severely battered with many broken bones. They had multiple stab wounds."
+    - "They had multiple stab wounds."
+    - "There were signs of a struggle. They had multiple stab wounds."
+    - "They had bruises and some bone fractures. They had multiple stab wounds."
+    - "Their body was severely battered with many broken bones. They had multiple stab wounds."

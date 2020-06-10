@@ -1,11 +1,15 @@
 ﻿id: Kidnapper
 team: Mafia
 categories:
-- Mafia Killing
+  - Mafia Killing
 original_categories:
-- Mafia Killing
-- Mafia Support
+  - Mafia Killing
+  - Mafia Support
 color: "#AA3333"
+abilities:
+  - Kidnap
+  - Mafia Minion
+  - Team Chat
 ability:
   murder_descriptions:
-  - "They were executed in a jail cell."
+    - "They were executed in a jail cell."

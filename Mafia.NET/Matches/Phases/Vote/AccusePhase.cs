@@ -65,7 +65,8 @@ namespace Mafia.NET.Matches.Phases.Vote
             AccuseManager.Active = false;
             base.End();
 
-            Match.Actions.OnDayEnd();
+            foreach (var player in Match.AllPlayers) player.OnDayEnd();
+            Match.Executor.OnDayEnd();
         }
     }
 }

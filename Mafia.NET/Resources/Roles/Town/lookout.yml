@@ -1,5 +1,7 @@
 ﻿id: Lookout
 team: Town
 categories:
-- Town Investigative
+  - Town Investigative
 color: "#44FF00"
+abilities:
+  - Watch

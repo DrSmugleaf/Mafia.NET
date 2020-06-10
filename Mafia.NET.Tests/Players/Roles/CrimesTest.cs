@@ -1,4 +1,4 @@
-﻿using Mafia.NET.Players.Roles;
+﻿using Mafia.NET.Players;
 using NUnit.Framework;
 
 namespace Mafia.NET.Tests.Players.Roles

@@ -6,13 +6,13 @@ namespace Mafia.NET.Matches.Phases
 {
     public abstract class BasePhase : IPhase
     {
-        public BasePhase(IMatch match, string name, uint duration, bool skippable = false, bool actionable = true)
+        protected BasePhase(IMatch match, string name, uint duration, bool skippable = false, bool actionable = true)
         {
             Match = match;
             Name = new Key($"phase{name}");
             Duration = duration * 1000;
             Skippable = skippable;
-            Actionable = actionable;
+            Actionable = actionable; // TODO
         }
 
         public IMatch Match { get; }

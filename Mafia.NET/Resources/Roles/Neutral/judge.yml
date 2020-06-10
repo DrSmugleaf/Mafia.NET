@@ -1,6 +1,6 @@
 ﻿id: Judge
 team: Neutral
 categories:
-- Neutral Evil
+  - Neutral Evil
 color: "#BB6655"
 unique: true

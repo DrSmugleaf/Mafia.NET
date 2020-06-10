@@ -4,14 +4,13 @@ using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Framer))]
+    [TestOf(typeof(Frame))]
     public class FramerTest : BaseMatchTest
     {
         [TestCaseSource(typeof(FrameCases))]

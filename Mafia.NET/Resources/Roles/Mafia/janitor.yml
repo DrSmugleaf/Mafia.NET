@@ -1,5 +1,9 @@
 ﻿id: Janitor
 team: Mafia
 categories:
-- Mafia Deception
+  - Mafia Deception
 color: "#FF3333"
+abilities:
+  - Sanitize
+  - Mafia Minion
+  - Team Chat

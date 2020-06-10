@@ -1,8 +1,12 @@
 ﻿id: Beguiler
 team: Mafia
 categories:
-- Mafia Deception
+  - Mafia Deception
 color: "#BB3355"
+abilities:
+  - Hide
+  - Mafia Minion
+  - Team Chat
 ability:
   murder_descriptions:
-  - "They were killed by Asphyxiation."
+    - "They were killed by Asphyxiation."

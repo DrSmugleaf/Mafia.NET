@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles;
 
 namespace Mafia.NET.Localization
 {
@@ -21,9 +21,9 @@ namespace Mafia.NET.Localization
                   System.Enum.GetName(key.GetType(), key)).ToLower().Replace(" ", "");
         }
 
-        public Key(IAbility ability, Enum key)
+        public Key(IRole role, Enum key)
         {
-            Id = (ability.Id + System.Enum.GetName(key.GetType(), key))
+            Id = (role.Id + System.Enum.GetName(key.GetType(), key))
                 .ToLower()
                 .Replace(" ", "");
         }

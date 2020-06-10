@@ -6,7 +6,7 @@ Abilities: "Either douse a person in gasoline or kill all previously doused targ
 UserAddMessage: "You will douse <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't douse anyone."
 UserChangeMessage: "You will instead douse <f c={1c}>{1}</f>."
-ArsonistDouse: "You were doused by an Arsonist! You must undouse yourself."
+DouserDouse: "You were doused by an Arsonist! You must undouse yourself."
 OtherDouse: "You were doused by an Arsonist! You are in danger of being burned."
 UnDouse: "You were un-doused!"
 Ignite: "You will burn everybody you doused."

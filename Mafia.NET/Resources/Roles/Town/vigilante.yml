@@ -1,11 +1,13 @@
 ﻿id: Vigilante
 team: Town
 categories:
-- Town Killing
+  - Town Killing
 color: "#88CC00"
+abilities:
+  - Shoot
 ability:
   murder_descriptions:
-  - "They were shot by a high-caliber gun."
-  - "They were ripped apart with several rounds from a high-caliber gun."
-  - "Their body had bruises and minor fractures. They were shot by a high-caliber gun."
-  - "Their body was severely battered with many broken bones. They were shot by a high-caliber gun."
+    - "They were shot by a high-caliber gun."
+    - "They were ripped apart with several rounds from a high-caliber gun."
+    - "Their body had bruises and minor fractures. They were shot by a high-caliber gun."
+    - "Their body was severely battered with many broken bones. They were shot by a high-caliber gun."

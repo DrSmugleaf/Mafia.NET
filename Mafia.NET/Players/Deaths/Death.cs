@@ -1,12 +1,19 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Bases;
 
 namespace Mafia.NET.Players.Deaths
 {
     public class Death : IDeath
     {
-        public Death(int day, IPlayer victim, DeathCause cause, string description, IPlayer killer = null,
-            bool direct = true, bool stoppable = true)
+        public Death(
+            int day,
+            IPlayer victim,
+            DeathCause cause,
+            string description,
+            IPlayer killer = null,
+            bool direct = true,
+            bool stoppable = true)
         {
             Day = day;
             Victim = victim;
@@ -21,12 +28,16 @@ namespace Mafia.NET.Players.Deaths
             Stoppable = stoppable;
         }
 
-        public Death(IAbility ability, IPlayer victim, bool direct = true, bool stoppable = true) :
+        public Death(
+            IAbility ability,
+            IPlayer victim,
+            bool direct = true,
+            bool stoppable = true) :
             this(
                 victim.Match.Phase.Day,
                 victim,
                 DeathCause.Murder,
-                ability.MurderDescriptions.Get(),
+                ability.MurderDescriptions.Get(victim.Match.Random),
                 ability.User,
                 direct,
                 stoppable)

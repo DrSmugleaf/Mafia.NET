@@ -1,5 +1,10 @@
 ﻿id: Consigliere
 team: Mafia
 categories:
-- Mafia Support
+  - Mafia Support
 color: "#FF5533"
+abilities:
+  - Consigliere
+  - Mafia Super Minion
+  - Mafia Minion
+  - Team Chat

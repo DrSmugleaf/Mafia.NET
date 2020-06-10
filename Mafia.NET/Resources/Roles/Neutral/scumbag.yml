@@ -1,6 +1,6 @@
 ﻿id: Scumbag
 team: Neutral
 categories:
-- Neutral Evil
+  - Neutral Evil
 color: "#AAAAAA"
 natural: false

@@ -4,16 +4,13 @@ using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
-using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
-using Mafia.NET.Players.Roles.Abilities.Town;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 {
     [TestFixture]
-    [TestOf(typeof(Investigator))]
-    [TestOf(typeof(Consigliere))]
+    [TestOf(typeof(Investigate))]
     public class InvestigatorTest : BaseMatchTest
     {
         [TestCaseSource(typeof(InvestigateCases))]
@@ -21,7 +18,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new InvestigatorSetup {DetectsExactRole = exact});
+            match.AbilitySetups.Set(new InvestigateSetup
+            {
+                DetectsExactRole = exact
+            });
             match.Start();
 
             var investigator = match.AllPlayers[0];
@@ -44,13 +44,16 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             {
                 var citizenName = citizen.Role.Name;
                 Assert.That(target.Crimes.RoleName(),
-                    innocent ? Is.EqualTo(citizenName) : Is.Not.EqualTo(citizenName));
+                    innocent || target.Perks.CurrentlyDetectionImmune
+                        ? Is.EqualTo(citizenName)
+                        : Is.Not.EqualTo(citizenName));
             }
             else
             {
-                Assert.That(target.Crimes.Crime(investigator.Ability, InvestigateKey.Detect).ToString(), innocent
-                    ? Does.Contain("innocent")
-                    : Does.Contain("guilty"));
+                Assert.That(target.Crimes.Crime(investigator.Role, InvestigateKey.Detect).ToString(),
+                    innocent || target.Perks.CurrentlyDetectionImmune
+                        ? Does.Contain("innocent")
+                        : Does.Contain("guilty"));
             }
         }
     }

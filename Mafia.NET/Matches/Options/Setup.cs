@@ -6,13 +6,13 @@ namespace Mafia.NET.Matches.Options
     {
         public Setup(RoleSetup roles = null, bool trial = true, bool anonymousVoting = false)
         {
-            Roles = roles ?? new RoleSetup();
             Trial = trial;
             AnonymousVoting = anonymousVoting;
+            Roles = roles ?? new RoleSetup();
         }
 
-        public RoleSetup Roles { get; set; }
         public bool Trial { get; set; }
         public bool AnonymousVoting { get; set; }
+        public RoleSetup Roles { get; set; }
     }
 }

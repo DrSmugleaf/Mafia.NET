@@ -10,14 +10,12 @@ using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 {
-    [TestFixture]
-    [TestOf(typeof(Amnesiac))]
+    // [TestFixture]
+    // [TestOf(typeof(Remember))]
     public class AmnesiacTest : BaseMatchTest
     {
         private bool Successful(
@@ -43,7 +41,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
                    };
         }
 
-        [TestCaseSource(typeof(RememberCases))]
+        // [TestCaseSource(typeof(RememberCases))]
         public void Remember(
             string rolesString,
             bool attack,
@@ -55,7 +53,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new AmnesiacSetup
+            match.AbilitySetups.Set(new RememberSetup
             {
                 CanBecomeTown = town,
                 CanBecomeMafiaTriad = mafia,
@@ -77,9 +75,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             Assert.That(amnesiac.Alive, Is.True);
 
-            var dead = victim.Role.Ability.AbilitySetup is INightImmune nImmune
-                ? attack && nImmune.NightImmunity == (int) AttackStrength.None
-                : attack;
+            var dead = attack && victim.Perks.CurrentDefense == 0;
             Assert.That(victim.Alive, Is.EqualTo(!dead));
             Deaths(match, dead ? 1 : 0);
 
@@ -87,14 +83,16 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             if (remember) amnesiac.Target(victim);
             var personalNotifications = new List<Text>();
-            var personalMessage = Notification.Chat(AmnesiacKey.RememberPersonal, victim.Role).Localize();
+            var personalMessage =
+                Notification.Chat(amnesiac.Role, RememberKey.RememberPersonal, victim.Role).Localize();
             amnesiac.Chat += (s, e) =>
             {
                 if (Equals(e, personalMessage)) personalNotifications.Add(e);
             };
 
             var announcements = new List<Text>();
-            var publicAnnouncement = Notification.Popup(AmnesiacKey.RememberAnnouncement, victim.Role).Localize();
+            var publicAnnouncement = Notification.Popup(amnesiac.Role, RememberKey.RememberAnnouncement, victim.Role)
+                .Localize();
             foreach (var player in match.AllPlayers)
                 player.Popup += (s, e) =>
                 {
@@ -104,19 +102,19 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             match.Skip<DeathsPhase>();
 
             var successful = Successful(victim, remember, town, mafia, killing);
-            var isAmnesiac = successful && !(victim.Role.Ability is Amnesiac);
-            Assert.That(amnesiac.Role.Ability, isAmnesiac ? Is.Not.TypeOf<Amnesiac>() : Is.TypeOf<Amnesiac>());
+            var isAmnesiac = successful && victim.Role.Id != "Amnesiac"; // TODO: Based on actions
+            Assert.That(amnesiac.Role.Id, isAmnesiac ? Is.Not.EqualTo("Amnesiac") : Is.EqualTo("Amnesiac"));
 
             if (successful)
             {
-                Assert.That(amnesiac.Role.Ability.User, Is.EqualTo(amnesiac));
+                Assert.That(amnesiac.Abilities.All.Any(ability => ability is Remember), Is.False);
                 Assert.That(amnesiac.Role.Name, Is.EqualTo(victim.Role.Name));
                 Assert.That(amnesiac.Role.Summary, Is.EqualTo(victim.Role.Summary));
                 Assert.That(amnesiac.Role.Team, Is.EqualTo(victim.Role.Team));
             }
             else
             {
-                Assert.That(amnesiac.Role.Ability.User, Is.EqualTo(amnesiac));
+                Assert.That(amnesiac.Role.Id, Is.EqualTo("Amnesiac"));
                 Assert.That(amnesiac.Role.Name.ToString(), Is.EqualTo(roleNames[0]));
             }
 
@@ -135,9 +133,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = "Amnesiac,Serial Killer,{0},Citizen,Citizen,Citizen";
             // TODO: Change to RoleRegistry once all the abilities are done
-            foreach (var role in AbilityRegistry.Default.Names.Keys)
+            var roles = new RoleRegistry();
+            foreach (var role in roles.Ids.Values)
             {
-                if (!RoleRegistry.Default.Names[role].Natural) continue;
+                if (!role.Natural) continue;
 
                 var booleans = 6;
                 var count = Math.Pow(2, booleans);
@@ -148,7 +147,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
                         .PadLeft(booleans, '0')
                         .Select(x => x == '1').Cast<dynamic>().ToList();
 
-                    args.Insert(0, string.Format(roleNames, role));
+                    args.Insert(0, string.Format(roleNames, role.Name));
 
                     yield return args.ToArray();
                 }

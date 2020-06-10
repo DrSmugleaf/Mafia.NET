@@ -3,7 +3,7 @@ Summary: "A dancer working for organized crime."
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Roleblock one player each night."
 
-TargetBlockImmune: "Your target couldn't be role-blocked!"
+TargetRoleBlockImmune: "Your target couldn't be role-blocked!"
 UserAddMessage: "You will role-block <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't role-block anyone."
 UserChangeMessage: "You will instead role-block <f c={1c}>{1}</f>."

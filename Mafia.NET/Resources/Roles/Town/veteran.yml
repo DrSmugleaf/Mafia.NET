@@ -1,12 +1,16 @@
 ﻿id: Veteran
 team: Town
 categories:
-- Town Killing
+  - Town Killing
 original_categories:
-- Town Killing
-- Town Power
+  - Town Killing
+  - Town Power
 color: "#AAFF55"
+abilities:
+  - Alert
+perks:
+  RoleBlockImmune: true
 ability:
   murder_descriptions:
-  - "They were killed with a military-grade assault rifle."
-  - "They had multiple wounds from a fragmentation grenade. They were killed with a military-grade assault rifle."
+    - "They were killed with a military-grade assault rifle."
+    - "They had multiple wounds from a fragmentation grenade. They were killed with a military-grade assault rifle."

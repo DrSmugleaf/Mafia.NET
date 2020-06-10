@@ -1,6 +1,6 @@
 ﻿id: Witch Doctor
 team: Neutral
 categories:
-- Neutral Evil
+  - Neutral Evil
 color: "#AA55FF"
 unique: true

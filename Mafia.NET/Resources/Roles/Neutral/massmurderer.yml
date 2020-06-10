@@ -1,12 +1,12 @@
 ﻿id: Mass Murderer
 team: Neutral
 categories:
-- Neutral Killing
+  - Neutral Killing
 color: "#BB4455"
 ability:
   murder_descriptions:
-  - "They were completely eviscerated."
-  - "They died horribly to chainsaw wounds."
-  - "They were torn to pieces with a chainsaw."
-  - "They became an unrecognizable pile of gore."
-  - "Their entrails were strewn about the house."
+    - "They were completely eviscerated."
+    - "They died horribly to chainsaw wounds."
+    - "They were torn to pieces with a chainsaw."
+    - "They became an unrecognizable pile of gore."
+    - "Their entrails were strewn about the house."

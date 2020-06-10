@@ -1,5 +1,7 @@
 ﻿id: Coroner
 team: Town
 categories:
-- Town Investigative
+  - Town Investigative
 color: "#00DD55"
+abilities:
+  - Autopsy

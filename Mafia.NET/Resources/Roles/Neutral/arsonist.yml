@@ -1,10 +1,14 @@
 ﻿id: Arsonist
 team: Neutral
 categories:
-- Neutral Killing
+  - Neutral Killing
 color: "#FFAA00"
+abilities:
+  - Arson
+perks:
+  Defense: Base
 ability:
   murder_descriptions:
-  - "They were incinerated."
-  - "They were burnt to death."
-  - "They were killed in a fire."
+    - "They were incinerated."
+    - "They were burnt to death."
+    - "They were killed in a fire."

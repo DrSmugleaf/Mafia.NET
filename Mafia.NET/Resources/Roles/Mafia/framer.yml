@@ -1,5 +1,9 @@
 ﻿id: Framer
 team: Mafia
 categories:
-- Mafia Deception
+  - Mafia Deception
 color: "#DD6600"
+abilities:
+  - Frame
+  - Mafia Minion
+  - Team Chat

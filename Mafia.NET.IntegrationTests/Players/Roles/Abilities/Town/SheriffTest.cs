@@ -6,7 +6,6 @@ using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
-using Mafia.NET.Players.Roles.Abilities.Town;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
@@ -68,12 +67,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             });
             match.Start();
 
-            var target = match.AllPlayers[1].Ability;
-            if (target.AbilitySetup is IDetectionImmune immune)
-            {
-                immune.DetectionImmune = false;
-                target.DetectionImmune = false;
-            }
+            var target = match.AllPlayers[1];
+            target.Perks.DetectionImmune = false;
+            target.Perks.CurrentlyDetectionImmune = false;
 
             Detect(match, result);
         }
@@ -97,10 +93,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             match.Start();
 
-            var otherAbility = match.AllPlayers[1].Role.Ability;
-            var setup = (IDetectionImmune) otherAbility.AbilitySetup;
-            setup.DetectionImmune = immune;
-            otherAbility.DetectionImmune = immune;
+            var target = match.AllPlayers[1];
+            target.Perks.DetectionImmune = immune;
+            target.Perks.CurrentlyDetectionImmune = immune;
 
             Detect(match, result);
         }
@@ -111,21 +106,19 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         public IEnumerator GetEnumerator()
         {
             // TODO: Change to RoleRegistry once all the abilities are done
-            foreach (var ability in AbilityRegistry.Default.Names)
+            var roles = new RoleRegistry();
+            foreach (var role in roles.Ids.Values)
             {
-                var roleNames = RoleRegistry.Default.Names;
-                var name = ability.Key;
-                if (!roleNames.ContainsKey(name) || !RoleRegistry.Default.Names[name].Natural) continue;
+                if (!role.Natural) continue;
 
-                var role = roleNames[name];
-                var roles = $"Sheriff,{name}";
+                var roleNames = $"Sheriff,{role.Name}";
 
                 foreach (var detect in new[] {true, false})
                 {
                     var result = detect
-                        ? SheriffTest.Key(role.Team.Id, role.Id)
+                        ? SheriffTest.Key(role.Team, role.Id)
                         : SheriffKey.NotSuspicious;
-                    yield return new object[] {roles, detect, result};
+                    yield return new object[] {roleNames, detect, result};
                 }
             }
         }

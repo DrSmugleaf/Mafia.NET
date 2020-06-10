@@ -1,6 +1,6 @@
 ﻿id: Disguiser
 team: Mafia
 categories:
-- Mafia Deception
-- Mafia Killing
+  - Mafia Deception
+  - Mafia Killing
 color: "#DD6644"

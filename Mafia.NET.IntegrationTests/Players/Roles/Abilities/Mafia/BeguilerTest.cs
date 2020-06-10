@@ -4,14 +4,13 @@ using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Mafia;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
 {
     [TestFixture]
-    [TestOf(typeof(Beguiler))]
+    [TestOf(typeof(Hide))]
     public class BeguilerTest : BaseMatchTest
     {
         [TestCaseSource(typeof(HideKillCases))]
@@ -19,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BeguilerSetup
+            match.AbilitySetups.Set(new HideSetup
             {
                 CanHideBehindMafia = canHideBehindMafia,
                 NotifiesTarget = notifiesTarget
@@ -45,7 +44,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             Assert.That(visitor.Alive, Is.True);
             Assert.That(visited.Alive, Is.EqualTo(!hide || !kill));
 
-            var hideNotification = Notification.Chat(beguiler.Ability, HideKey.SomeoneHide).ToString();
+            var hideNotification = Notification.Chat(beguiler.Role, HideKey.SomeoneHide).ToString();
             Assert.That(notifications, hide && notifiesTarget
                 ? Does.Contain(hideNotification)
                 : Does.Not.Contain(hideNotification));

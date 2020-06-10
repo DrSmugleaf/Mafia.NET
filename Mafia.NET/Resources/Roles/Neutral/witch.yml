@@ -1,10 +1,10 @@
 ﻿id: Witch
 team: Neutral
 categories:
-- Neutral Evil
+  - Neutral Evil
 color: "#6622CC"
 ability:
   murder_descriptions:
-  - "There were signs of struggle, but they apparently committed suicide."
-  - "There were signs of struggle, but they apparently killed themselves."
-  - "There were signs of struggle, but they apparently shot themselves."
+    - "There were signs of struggle, but they apparently committed suicide."
+    - "There were signs of struggle, but they apparently killed themselves."
+    - "There were signs of struggle, but they apparently shot themselves."

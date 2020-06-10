@@ -4,13 +4,13 @@ using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities.Neutral;
+using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 {
     [TestFixture]
-    [TestOf(typeof(Arsonist))]
+    [TestOf(typeof(Arson))]
     public class ArsonistTest : BaseMatchTest
     {
         [TestCase("Arsonist,Investigator,Citizen", true, 2)]
@@ -19,7 +19,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonistSetup
+            match.AbilitySetups.Set(new ArsonSetup
             {
                 IgnitionKillsVictimsTargets = killsTargets
             });
@@ -53,7 +53,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonistSetup
+            match.AbilitySetups.Set(new ArsonSetup
             {
                 IgnitionAlwaysKills = alwaysKill
             });
@@ -87,7 +87,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonistSetup
+            match.AbilitySetups.Set(new ArsonSetup
             {
                 VictimNoticesDousing = notices
             });
@@ -100,7 +100,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             arsonist.Target(citizen);
             var notifications = new List<Text>();
-            var personalMessage = Notification.Chat(ArsonistKey.OtherDouse, citizen.Role).Localize();
+            var personalMessage = Notification.Chat(arsonist.Role, ArsonKey.OtherDouse, citizen.Role).Localize();
             citizen.Chat += (s, e) =>
             {
                 if (Equals(e, personalMessage)) notifications.Add(e);
@@ -117,7 +117,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonistSetup
+            match.AbilitySetups.Set(new ArsonSetup
             {
                 DousesRoleBlockers = dousesBlockers
             });
@@ -134,8 +134,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<DeathsPhase>();
 
-            Assert.That(escort.Doused, Is.EqualTo(dousesBlockers));
-            Assert.That(citizen.Doused, Is.False);
+            Assert.That(escort.Perks.Doused, Is.EqualTo(dousesBlockers));
+            Assert.That(citizen.Perks.Doused, Is.False);
         }
 
         [TestCase("Arsonist,Bodyguard,Citizen", true, 1)]

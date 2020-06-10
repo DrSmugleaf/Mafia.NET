@@ -43,6 +43,20 @@ namespace Mafia.NET.Extension
             return true;
         }
 
+        public static bool TryCast<T>(this YamlNode root, string key, out T node) where T : YamlNode
+        {
+            Try(root, key, out var uncast);
+            node = uncast as T;
+            return node != null;
+        }
+
+        public static T Cast<T>(this YamlNode root, string key) where T : YamlNode
+        {
+            TryCast(root, key, out T node);
+            if (node == null) throw new InvalidCastException();
+            return node;
+        }
+
         public static string AsString(this YamlNode node)
         {
             return ((YamlScalarNode) node).Value;
@@ -71,7 +85,8 @@ namespace Mafia.NET.Extension
 
         public static List<string> AsStringList(this YamlNode node)
         {
-            return ((YamlSequenceNode) node).Children.Select(value => value.AsString()).ToList();
+            return ((YamlSequenceNode) node).Children
+                .Select(value => value.AsString()).ToList();
         }
     }
 }

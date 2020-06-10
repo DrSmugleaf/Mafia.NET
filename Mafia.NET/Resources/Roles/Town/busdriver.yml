@@ -1,11 +1,13 @@
 ﻿id: Bus Driver
 team: Town
 categories:
-- Town Protective
+  - Town Protective
 original_categories:
-- Town Protective
-- Town Power
+  - Town Protective
+  - Town Power
 color: "#55CC11"
+abilities:
+  - Ride
 ability:
   murder_descriptions:
-  - "They were run over by a bus."
+    - "They were run over by a bus."

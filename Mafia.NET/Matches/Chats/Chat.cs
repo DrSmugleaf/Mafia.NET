@@ -29,20 +29,23 @@ namespace Mafia.NET.Matches.Chats
 
     public class Chat : IChat
     {
-        public Chat(string id)
-        {
-            Id = id;
-            Participants = new Dictionary<IPlayer, IChatParticipant>();
-        }
-
         public Chat(string id, Dictionary<IPlayer, IChatParticipant> participants)
         {
             Id = id;
             Participants = participants;
         }
 
-        protected bool Initialized { get; set; }
+        public Chat(string id)
+        {
+            Id = id;
+            Participants = new Dictionary<IPlayer, IChatParticipant>();
+        }
 
+        public Chat() : this(null)
+        {
+        }
+
+        protected bool Initialized { get; set; }
         public string Id { get; set; }
         public bool Paused { get; set; }
         public IDictionary<IPlayer, IChatParticipant> Participants { get; set; }

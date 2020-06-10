@@ -2,7 +2,6 @@
 using System.Globalization;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
-using Mafia.NET.Players.Teams;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
@@ -14,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Categories
         Key Name { get; }
         Key Description { get; }
         Goal Goal { get; }
-        ITeam Team { get; }
+        string Team { get; }
 
         List<RoleEntry> Roles(RoleRegistry registry);
     }
@@ -23,7 +22,7 @@ namespace Mafia.NET.Players.Roles.Categories
     {
         public static readonly IReadOnlyDictionary<string, Category> Categories = LoadAll();
 
-        public Category(string id, Goal goal, ITeam team)
+        public Category(string id, Goal goal, string team)
         {
             Id = id;
             Name = new Key($"{id}name");
@@ -36,7 +35,7 @@ namespace Mafia.NET.Players.Roles.Categories
         public Key Name { get; }
         public Key Description { get; }
         public Goal Goal { get; }
-        public ITeam Team { get; }
+        public string Team { get; }
 
         public List<RoleEntry> Roles(RoleRegistry registry)
         {
@@ -72,7 +71,7 @@ namespace Mafia.NET.Players.Roles.Categories
             {
                 var id = yaml["id"].AsString();
                 var goal = yaml["goal"].AsEnum<Goal>();
-                var team = (Team) yaml["team"].AsString();
+                var team = yaml["team"].AsString();
                 var category = new Category(id, goal, team);
 
                 categories.Add(id, category);

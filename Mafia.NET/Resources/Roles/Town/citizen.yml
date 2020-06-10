@@ -1,5 +1,7 @@
 ﻿id: Citizen
 team: Town
 categories:
-- Town Government
+  - Town Government
 color: "#33CC33"
+abilities:
+  - Vest
