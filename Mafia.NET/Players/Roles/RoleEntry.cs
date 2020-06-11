@@ -7,10 +7,11 @@ using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Roles.HealProfiles;
 using Mafia.NET.Players.Roles.Perks;
+using Mafia.NET.Registries;
 
 namespace Mafia.NET.Players.Roles
 {
-    public class RoleEntry : IColorizable, ILocalizable
+    public class RoleEntry : IRegistrable, IColorizable, ILocalizable
     {
         public RoleEntry(
             string id,
@@ -21,10 +22,10 @@ namespace Mafia.NET.Players.Roles
             bool natural,
             bool unique,
             IList<string> abilities,
-            AttackStrength defense,
-            bool detectionImmune,
-            bool roleBlockImmune,
-            Func<IPlayer, IHealProfile> healProfile)
+            AttackStrength defaultDefense,
+            bool defaultDetectionImmune,
+            bool defaultRoleBlockImmune,
+            Func<IPlayer, IHealProfile> defaultHealProfile)
         {
             Id = id;
             Name = new Key($"{id}name");
@@ -38,13 +39,12 @@ namespace Mafia.NET.Players.Roles
             Natural = natural;
             Unique = unique;
             Abilities = abilities.ToImmutableList();
-            Defense = defense;
-            DetectionImmune = detectionImmune;
-            RoleBlockImmune = roleBlockImmune;
-            HealProfile = healProfile;
+            DefaultDefense = defaultDefense;
+            DefaultDetectionImmune = defaultDetectionImmune;
+            DefaultRoleBlockImmune = defaultRoleBlockImmune;
+            DefaultHealProfile = defaultHealProfile;
         }
 
-        public string Id { get; }
         public Key Name { get; }
         public Key Summary { get; }
         public Key Goal { get; }
@@ -55,16 +55,18 @@ namespace Mafia.NET.Players.Roles
         public bool Natural { get; }
         public bool Unique { get; }
         public IImmutableList<string> Abilities { get; }
-        public AttackStrength Defense { get; set; }
-        public bool DetectionImmune { get; set; }
-        public bool RoleBlockImmune { get; set; }
-        public Func<IPlayer, IHealProfile> HealProfile { get; set; }
+        public AttackStrength DefaultDefense { get; }
+        public bool DefaultDetectionImmune { get; }
+        public bool DefaultRoleBlockImmune { get; }
+        public Func<IPlayer, IHealProfile> DefaultHealProfile { get; }
         public Color Color { get; }
 
         public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
         }
+
+        public string Id { get; }
 
         public IRole Build()
         {

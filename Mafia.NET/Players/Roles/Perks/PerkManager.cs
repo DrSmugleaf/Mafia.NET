@@ -26,19 +26,13 @@ namespace Mafia.NET.Players.Roles.Perks
         }
 
         public IPlayer User { get; set; }
-
         [RegisterPerk] public AttackStrength Defense { get; set; }
-
         public AttackStrength CurrentDefense { get; set; }
-
         [RegisterPerk] public bool DetectionImmune { get; set; }
-
         public bool CurrentlyDetectionImmune { get; set; }
-
         [RegisterPerk] public bool RoleBlockImmune { get; set; }
-
         public bool CurrentlyRoleBlockImmune { get; set; }
-        public IList<IPlayer> RoleBlockers { get; set; }
+        public IList<IPlayer> RoleBlockers { get; }
         public bool RoleBlocked => RoleBlockers.Count > 0;
         public bool Blackmailed { get; set; }
         public bool Doused { get; set; }

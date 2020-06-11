@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using Mafia.NET.Matches.Options;
 using Mafia.NET.Players.Controllers;
 
 namespace Mafia.NET.Matches

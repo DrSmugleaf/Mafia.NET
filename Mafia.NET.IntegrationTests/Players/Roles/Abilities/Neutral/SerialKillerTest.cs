@@ -90,7 +90,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.Roles["Serial Killer"].DetectionImmune = immune;
+            match.Perks["Serial Killer"].DetectionImmune = immune;
             match.Start();
 
             var sk = match.AllPlayers[0];
@@ -127,7 +127,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            if (!immunity) match.Roles["Serial Killer"].Defense = AttackStrength.None;
+            if (!immunity) match.Perks["Serial Killer"].Defense = AttackStrength.None;
             match.Start();
 
             var sk = match.AllPlayers[0];

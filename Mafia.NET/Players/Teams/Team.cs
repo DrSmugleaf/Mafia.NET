@@ -25,7 +25,6 @@ namespace Mafia.NET.Players.Teams
 
     public class Team : ITeam
     {
-        private static readonly RoleRegistry DefaultRoles = new RoleRegistry();
         public static readonly IImmutableList<Team> All = LoadAll();
 
         private Team(string id, Color color, int order)
@@ -43,7 +42,7 @@ namespace Mafia.NET.Players.Teams
 
         public List<RoleEntry> Roles()
         {
-            return DefaultRoles.Team(this);
+            return RoleRegistry.Default.Team(this);
         }
 
         public List<IRoleSelector> Selectors(RoleRegistry roles)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Mafia.NET.Extension;
 using Mafia.NET.Players.Roles.Categories;
@@ -8,22 +7,35 @@ using Mafia.NET.Players.Roles.HealProfiles;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Roles.Selectors;
 using Mafia.NET.Players.Teams;
+using Mafia.NET.Registries;
 using Mafia.NET.Resources;
 using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles
 {
-    public class RoleRegistry
+    public class RoleRegistry : ImmutableRegistry<RoleEntry>
     {
-        public RoleRegistry(IDictionary<string, RoleEntry> names)
+        private static readonly Lazy<RoleRegistry> Lazy = new Lazy<RoleRegistry>(() => new RoleRegistry());
+
+        public RoleRegistry(Dictionary<string, RoleEntry> ids) : base(ids)
         {
-            Ids = names.ToImmutableDictionary();
         }
 
-        public RoleRegistry()
+        private RoleRegistry() : this(LoadAll())
+        {
+        }
+
+        public static RoleRegistry Default => Lazy.Value;
+
+        public static List<YamlMappingNode> LoadYaml()
+        {
+            var yaml = Resource.FromDirectory("Roles", "*.yml");
+            return yaml.Select(resource => (YamlMappingNode) resource).ToList();
+        }
+
+        public static Dictionary<string, RoleEntry> LoadAll()
         {
             var ids = new Dictionary<string, RoleEntry>();
-
             foreach (var yaml in LoadYaml())
             {
                 var id = yaml["id"].AsString();
@@ -68,41 +80,18 @@ namespace Mafia.NET.Players.Roles
                     }
                 }
 
-                var role = new RoleEntry(id, team, categories, color, originalColor, natural, unique, abilities,
-                    defense,
-                    detectionImmune, roleBlockImmune, healProfile);
+                var role = new RoleEntry(
+                    id, team, categories, color, originalColor, natural, unique,
+                    abilities, defense, detectionImmune, roleBlockImmune, healProfile);
                 ids.Add(id, role);
             }
 
-            Ids = ids.ToImmutableDictionary();
-        }
-
-        public IImmutableDictionary<string, RoleEntry> Ids { get; }
-
-        public RoleEntry this[string id] => Ids[id];
-
-        public static List<YamlMappingNode> LoadYaml()
-        {
-            var yaml = Resource.FromDirectory("Roles", "*.yml");
-            return yaml.Select(resource => (YamlMappingNode) resource).ToList();
+            return ids;
         }
 
         public List<RoleEntry> Get()
         {
             return Ids.Values.ToList();
-        }
-
-        public List<RoleEntry> Get(params string[] ids)
-        {
-            var roles = new List<RoleEntry>();
-
-            foreach (var name in ids)
-            {
-                var role = Ids[name];
-                roles.Add(role);
-            }
-
-            return roles;
         }
 
         public IRoleSelector Selector(string id)
@@ -112,7 +101,7 @@ namespace Mafia.NET.Players.Roles
 
         public List<IRoleSelector> Selectors(params string[] ids)
         {
-            return Get(ids).Select(role => new RoleSelector(role)).ToList<IRoleSelector>();
+            return ids.Select(Selector).ToList();
         }
 
         public List<RoleEntry> Category(ICategory category)

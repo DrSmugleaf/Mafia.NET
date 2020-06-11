@@ -5,6 +5,7 @@ using Mafia.NET.Matches;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Setups;
+using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Roles.Selectors
 {
@@ -19,23 +20,24 @@ namespace Mafia.NET.Players.Roles.Selectors
             Roles = roles;
             Abilities = abilities;
             AbilitySetups = abilitySetups;
+            Perks = new PerkRegistry(roles);
             Selectors = selectors.ToList();
         }
 
-        public RoleSetup(IEnumerable<IRoleSelector> selectors)
+        public RoleSetup(IEnumerable<IRoleSelector> selectors) : this(
+            RoleRegistry.Default,
+            new AbilityRegistry(),
+            new AbilitySetupRegistry(),
+            selectors.ToList())
         {
-            Roles = new RoleRegistry();
-            Abilities = new AbilityRegistry();
-            AbilitySetups = new AbilitySetupRegistry();
-            Selectors = selectors.ToList();
         }
 
-        public RoleSetup(params string[] roles)
+        public RoleSetup(params string[] roles) : this(
+            RoleRegistry.Default,
+            new AbilityRegistry(),
+            new AbilitySetupRegistry(),
+            RoleRegistry.Default.Selectors(roles))
         {
-            Roles = new RoleRegistry();
-            Abilities = new AbilityRegistry();
-            AbilitySetups = new AbilitySetupRegistry();
-            Selectors = Roles.Selectors(roles);
         }
 
         public RoleSetup() : this(new List<IRoleSelector>())
@@ -43,8 +45,9 @@ namespace Mafia.NET.Players.Roles.Selectors
         }
 
         public RoleRegistry Roles { get; }
-        public AbilityRegistry Abilities { get; set; }
+        public AbilityRegistry Abilities { get; }
         public AbilitySetupRegistry AbilitySetups { get; }
+        public PerkRegistry Perks { get; }
         public List<IRoleSelector> Selectors { get; set; }
 
         public int Players()

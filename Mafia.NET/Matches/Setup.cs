@@ -1,7 +1,14 @@
 ﻿using Mafia.NET.Players.Roles.Selectors;
 
-namespace Mafia.NET.Matches.Options
+namespace Mafia.NET.Matches
 {
+    public interface ISetup
+    {
+        bool Trial { get; }
+        bool AnonymousVoting { get; }
+        RoleSetup Roles { get; }
+    }
+
     public class Setup : ISetup
     {
         public Setup(RoleSetup roles = null, bool trial = true, bool anonymousVoting = false)

@@ -72,11 +72,11 @@ namespace Mafia.NET.Players.Roles
             var registry = user.Match.Abilities;
             Abilities.Replace(registry, entry.Abilities, user);
 
-            var role = user.Match.Roles[Id];
-            Perks.Defense = role.Defense;
-            Perks.DetectionImmune = role.DetectionImmune;
-            Perks.RoleBlockImmune = role.RoleBlockImmune;
-            HealProfile = role.HealProfile(user);
+            var perks = user.Match.Perks[Id];
+            Perks.Defense = perks.Defense;
+            Perks.DetectionImmune = perks.DetectionImmune;
+            Perks.RoleBlockImmune = perks.RoleBlockImmune;
+            HealProfile = perks.HealProfile(user);
 
             ChangeUser(user);
         }

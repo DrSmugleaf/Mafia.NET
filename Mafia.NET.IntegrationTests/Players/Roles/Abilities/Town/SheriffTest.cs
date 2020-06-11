@@ -106,8 +106,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         public IEnumerator GetEnumerator()
         {
             // TODO: Change to RoleRegistry once all the abilities are done
-            var roles = new RoleRegistry();
-            foreach (var role in roles.Ids.Values)
+            foreach (var role in RoleRegistry.Default.Entries())
             {
                 if (!role.Natural) continue;
 

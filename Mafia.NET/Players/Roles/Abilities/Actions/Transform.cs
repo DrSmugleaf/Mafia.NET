@@ -18,7 +18,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
         public override bool Use()
         {
-            NewRole.Initialize(User);
             User.ChangeRole(NewRole); // TODO: Update current ability iterator after transform?
             return true;
         }

@@ -112,7 +112,7 @@ namespace Mafia.NET.Players
         public void ChangeRole(IRole role)
         {
             Role = role;
-            Role.ChangeUser(this);
+            Role.Initialize(this);
         }
 
         public void Target(IPlayer target)

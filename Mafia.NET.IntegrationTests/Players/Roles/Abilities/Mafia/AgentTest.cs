@@ -22,7 +22,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             {
                 IgnoresDetectionImmunity = ignoresImmunity
             });
-            match.Roles["Serial Killer"].DetectionImmune = immune;
+            match.Perks["Serial Killer"].DetectionImmune = immune;
             match.Start();
 
             var agent = match.AllPlayers[0];

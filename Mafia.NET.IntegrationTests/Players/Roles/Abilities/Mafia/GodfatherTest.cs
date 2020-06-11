@@ -106,7 +106,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            if (!immune) match.Roles["Godfather"].Defense = AttackStrength.None;
+            if (!immune) match.Perks["Godfather"].Defense = AttackStrength.None;
             match.AbilitySetups.Set(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso

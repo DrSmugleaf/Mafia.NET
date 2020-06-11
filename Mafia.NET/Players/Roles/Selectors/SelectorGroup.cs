@@ -10,8 +10,6 @@ namespace Mafia.NET.Players.Roles.Selectors
 {
     public class SelectorGroup : IColorizable, ILocalizable
     {
-        private static readonly RoleRegistry DefaultRoles = new RoleRegistry();
-
         public SelectorGroup(string id, Key name, List<RoleSelector> selectors, Color color)
         {
             Id = id;
@@ -67,7 +65,7 @@ namespace Mafia.NET.Players.Roles.Selectors
 
         public static List<SelectorGroup> Default()
         {
-            return Default(DefaultRoles);
+            return Default(RoleRegistry.Default);
         }
 
         public List<IRoleSelector> Get(params string[] ids)

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Matches.Chats;
-using Mafia.NET.Matches.Options;
 using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Setups;
+using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Roles.Selectors;
 
 namespace Mafia.NET.Matches
@@ -26,6 +26,7 @@ namespace Mafia.NET.Matches
         ChatManager Chat { get; }
         RoleSetup RoleSetup { get; }
         RoleRegistry Roles { get; }
+        PerkRegistry Perks { get; }
         AbilityRegistry Abilities { get; }
         AbilitySetupRegistry AbilitySetups { get; }
         AbilityExecutor Executor { get; }
@@ -84,6 +85,7 @@ namespace Mafia.NET.Matches
         public ChatManager Chat => Phase.Chat;
         public RoleSetup RoleSetup => Setup.Roles;
         public RoleRegistry Roles => RoleSetup.Roles;
+        public PerkRegistry Perks => RoleSetup.Perks;
         public AbilityRegistry Abilities => RoleSetup.Abilities;
         public AbilitySetupRegistry AbilitySetups => RoleSetup.AbilitySetups;
         public AbilityExecutor Executor { get; }

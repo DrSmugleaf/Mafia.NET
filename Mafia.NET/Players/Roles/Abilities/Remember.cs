@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     }
 
     [RegisterAbility("Remember", 10, typeof(RememberSetup))]
-    public class Remember : DayStartAbility<RememberSetup>
+    public class Remember : NightEndAbility<RememberSetup>
     {
         // TODO: Role-block and mind-control immunity, minimum of 1 charge on role change
         public bool Compatible([CanBeNull] IPlayer target)
@@ -42,17 +42,16 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public override void NightStart(in IList<IAbility> abilities)
         {
-            var filter = TargetFilter.Dead(Match)
-                .Where(player => !player.Role.Unique && Compatible(player));
+            var filter = TargetFilter.Dead(Match).Where(Compatible);
             SetupTargets<RememberKey>(abilities, filter);
         }
 
         public override bool CanUse(IPlayer target)
         {
-            return base.CanUse() && Compatible(target);
+            return base.CanUse(target) && Compatible(target);
         }
 
-        public override bool TryUse()
+        public override bool TryUse(IPlayer target)
         {
             if (!Filter(this))
             {
@@ -60,7 +59,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 User.OnNotification(notification);
             }
 
-            return base.TryUse();
+            return base.TryUse(target);
         }
 
         public override bool Use(IPlayer target)
@@ -72,7 +71,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
                 return false;
             }
-            else
+
+            if (Compatible(target))
             {
                 if (Setup.NewRoleRevealedToTown)
                 {
@@ -86,6 +86,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
                 return true;
             }
+
+            return false;
         }
     }
 
