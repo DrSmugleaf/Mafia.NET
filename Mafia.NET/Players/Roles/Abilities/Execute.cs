@@ -28,13 +28,12 @@ namespace Mafia.NET.Players.Roles.Abilities
         public override bool Use(IPlayer target)
         {
             var attack = Attack(Strength, Priority);
-            var vulnerable = attack.VictimVulnerable(target);
             attack.Use(target);
 
             Uses--;
             Detain.Uses--;
 
-            return vulnerable;
+            return true;
         }
     }
 }

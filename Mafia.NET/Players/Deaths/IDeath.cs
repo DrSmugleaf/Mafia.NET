@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Deaths
 {
@@ -14,6 +15,7 @@ namespace Mafia.NET.Players.Deaths
         [CanBeNull] string LastWill { get; set; }
         [CanBeNull] string DeathNote { get; set; }
         string Description { get; set; }
+        AttackStrength Strength { get; set; }
         bool Direct { get; set; }
         bool Stoppable { get; set; }
 

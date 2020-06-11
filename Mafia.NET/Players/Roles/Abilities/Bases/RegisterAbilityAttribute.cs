@@ -14,9 +14,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
             Priority = priority;
 
             if (setup != null && (setup.IsAbstract || setup.IsInterface))
-            {
                 throw new ArgumentException($"Setup type {setup} is not a concrete class");
-            }
 
             Setup = setup;
         }

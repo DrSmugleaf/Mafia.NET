@@ -44,9 +44,9 @@ namespace Mafia.NET.Players.Roles.Abilities
             SetupTargets(abilities, filter, notification);
         }
 
-        public override bool Active()
+        public override bool CanUseAny()
         {
-            return base.Active() && Uses > 0;
+            return base.CanUseAny() && Uses > 0;
         }
 
         public override bool Use(IPlayer victim)

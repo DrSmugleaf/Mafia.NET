@@ -40,7 +40,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 return;
             }
 
-            var usesLeft = Notification.Chat(Role, Uses == 1 ? VestKey.UsesLeft : VestKey.UsesLeftPlural);
+            var usesLeft = Notification.Chat(Role, Uses == 1 ? VestKey.UsesLeft : VestKey.UsesLeftPlural, Uses);
             User.OnNotification(usesLeft);
         }
 

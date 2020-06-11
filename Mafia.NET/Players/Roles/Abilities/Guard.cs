@@ -20,9 +20,18 @@ namespace Mafia.NET.Players.Roles.Abilities
     public class Guard : NightEndAbility<GuardSetup>
     {
         // TODO The Bodyguard will stay together with his guarded target. That means he won't die if a Mass Murderer visits his target, if that target visited someone else that night.
+        // TODO Manipulated to target self
         public override void NightStart(in IList<IAbility> abilities)
         {
             SetupTargets<GuardKey>(abilities, TargetFilter.Living(Match).Except(User));
+        }
+
+        public override void NightEnd(in IList<IAbility> abilities)
+        {
+            base.NightEnd(in abilities);
+
+            var protect = Get<Protect>();
+            abilities.Add(protect);
         }
 
         public override bool Use(IPlayer target)

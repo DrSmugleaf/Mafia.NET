@@ -30,6 +30,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
                 match.Perks[roleNames[1]].DetectionImmune = false;
                 match.Perks[roleNames[2]].DetectionImmune = false;
             }
+
             match.Start();
 
             var agent = match.AllPlayers[0];

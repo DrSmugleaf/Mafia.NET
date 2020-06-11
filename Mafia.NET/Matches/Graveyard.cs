@@ -41,6 +41,8 @@ namespace Mafia.NET.Matches
 
             foreach (var threat in Threats)
             {
+                if (threat.Victim.Perks.CurrentDefense >= threat.Strength) continue;
+
                 var victim = threat.Victim;
                 if (victims.TryGetValue(victim, out _))
                 {

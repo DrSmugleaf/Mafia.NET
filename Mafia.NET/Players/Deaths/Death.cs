@@ -1,5 +1,6 @@
 ﻿using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Deaths
 {
@@ -11,6 +12,7 @@ namespace Mafia.NET.Players.Deaths
             DeathCause cause,
             string description,
             IPlayer killer = null,
+            AttackStrength strength = AttackStrength.Base,
             bool direct = true,
             bool stoppable = true)
         {
@@ -23,6 +25,7 @@ namespace Mafia.NET.Players.Deaths
             LastWill = victim.LastWill;
             DeathNote = killer?.DeathNote;
             Description = description;
+            Strength = strength;
             Direct = direct;
             Stoppable = stoppable;
         }
@@ -30,6 +33,7 @@ namespace Mafia.NET.Players.Deaths
         public Death(
             IAbility ability,
             IPlayer victim,
+            AttackStrength strength = AttackStrength.Base,
             bool direct = true,
             bool stoppable = true) :
             this(
@@ -38,6 +42,7 @@ namespace Mafia.NET.Players.Deaths
                 DeathCause.Murder,
                 ability.MurderDescriptions.Get(victim.Match.Random),
                 ability.User,
+                strength,
                 direct,
                 stoppable)
         {
@@ -52,6 +57,7 @@ namespace Mafia.NET.Players.Deaths
         public string LastWill { get; set; }
         public string DeathNote { get; set; }
         public string Description { get; set; }
+        public AttackStrength Strength { get; set; }
         public bool Direct { get; set; }
         public bool Stoppable { get; set; }
 

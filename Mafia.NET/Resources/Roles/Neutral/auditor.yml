@@ -2,4 +2,6 @@
 team: Neutral
 categories:
   - Neutral Evil
+abilities:
+  - Audit
 color: "#BBCC88"

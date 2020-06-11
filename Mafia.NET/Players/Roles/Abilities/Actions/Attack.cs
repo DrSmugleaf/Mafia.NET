@@ -26,21 +26,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         public bool Direct { get; set; }
         public bool Stoppable { get; set; }
 
-        public bool VictimVulnerable(IPlayer victim)
-        {
-            return victim.Perks.CurrentDefense < Strength;
-        }
-
-        public override bool CanUse(IPlayer victim)
-        {
-            return base.CanUse() && VictimVulnerable(victim);
-        }
-
         public override bool Use(IPlayer victim)
         {
-            if (!VictimVulnerable(victim)) return false;
-
-            var threat = new Death(this, victim, Direct, Stoppable);
+            var threat = new Death(this, victim, Strength, Direct, Stoppable);
             User.Crimes.Add(CrimeKey.Murder);
             Match.Graveyard.Threats.Add(threat);
             return true;
