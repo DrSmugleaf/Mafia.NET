@@ -27,9 +27,14 @@ namespace Mafia.NET.Players.Roles.Abilities
             SetupTargets<AgentKey>(abilities, TargetFilter.Living(Match));
         }
 
+        public override bool Active()
+        {
+            return base.Active() && Cooldown == 0;
+        }
+
         public override bool Use()
         {
-            if (Cooldown > 0) Cooldown--;
+            Cooldown--;
             return false;
         }
 

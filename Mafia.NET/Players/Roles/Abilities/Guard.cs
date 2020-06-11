@@ -51,6 +51,12 @@ namespace Mafia.NET.Players.Roles.Abilities
                 var killer = threat.Killer;
                 if (killer == null) return true;
 
+                foreach (var killerThreat in Match.Graveyard.ThreatsBy(killer))
+                {
+                    if (killerThreat == threat) continue;
+                    Match.Graveyard.Threats.Remove(killerThreat); // TODO: Threats committed at the victim's house
+                }
+
                 var attack = Attack(strength, Priority);
                 attack.Use(killer);
 

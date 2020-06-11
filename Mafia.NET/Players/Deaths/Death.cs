@@ -6,6 +6,7 @@ namespace Mafia.NET.Players.Deaths
 {
     public class Death : IDeath
     {
+        // TODO: Abilities limited by threats and death
         public Death(
             int day,
             IPlayer victim,

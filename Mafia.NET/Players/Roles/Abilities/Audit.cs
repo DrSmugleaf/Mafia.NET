@@ -111,12 +111,10 @@ namespace Mafia.NET.Players.Roles.Abilities
                 return true;
             }
 
-            {
-                var notification = Notification.Chat(Role, AuditKey.CantAudit, target);
-                User.OnNotification(notification);
+            var cantAudit = Notification.Chat(Role, AuditKey.CantAudit, target);
+            User.OnNotification(cantAudit);
 
-                return false;
-            }
+            return false;
         }
     }
 

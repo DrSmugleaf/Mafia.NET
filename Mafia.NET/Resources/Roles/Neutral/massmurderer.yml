@@ -3,6 +3,11 @@ team: Neutral
 categories:
   - Neutral Killing
 color: "#BB4455"
+abilities:
+  - Killing Spree
+perks:
+  Defense: Base
+  DetectionImmune: false
 ability:
   murder_descriptions:
     - "They were completely eviscerated."

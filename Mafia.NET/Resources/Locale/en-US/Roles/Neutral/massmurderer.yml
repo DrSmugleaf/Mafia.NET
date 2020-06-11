@@ -2,3 +2,9 @@
 Summary: "A crazed spree killer who thinks entrail-spilling is an art form."
 Goal: "Be the last person left alive."
 Abilities: "Perform a killing spree at someone's house each night, killing anyone who visits that player at night."
+
+UserAddMessage: "You will perform a killing spree at <f c={0c}>{0}</f>'s house."
+UserRemoveMessage: "You won't perform a killing spree tonight."
+UserChangeMessage: "You will instead perform a killing spree at <f c={1c}>{1}</f>'s house."
+OnCooldown: "You need 1 more day to prepare for the next killing spree."
+OnCooldownPlural: "You need {0} more days to prepare for the next killing spree."

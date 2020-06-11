@@ -74,9 +74,14 @@ namespace Mafia.NET.Matches
             return DiedToday(DeathCause.Lynch);
         }
 
-        public List<IDeath> ThreatsOn(IPlayer player)
+        public List<IDeath> ThreatsOn(IPlayer victim)
         {
-            return Threats.Where(death => death.Victim == player).ToList();
+            return Threats.Where(death => death.Victim != null && death.Victim == victim).ToList();
+        }
+
+        public List<IDeath> ThreatsBy(IPlayer killer)
+        {
+            return Threats.Where(death => death.Killer != null && death.Killer == killer).ToList();
         }
 
         public void Announce()
