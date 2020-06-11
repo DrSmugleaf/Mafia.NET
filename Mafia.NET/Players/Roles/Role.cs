@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using Mafia.NET.Localization;
-using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Managers;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Roles.DetectionProfiles;
 using Mafia.NET.Players.Roles.HealProfiles;

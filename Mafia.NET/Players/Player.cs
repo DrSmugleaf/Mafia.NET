@@ -7,7 +7,7 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Controllers;
 using Mafia.NET.Players.Roles;
-using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Managers;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;
 

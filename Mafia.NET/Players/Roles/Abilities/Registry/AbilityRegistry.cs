@@ -2,61 +2,38 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Bases;
-using Mafia.NET.Players.Roles.Abilities.Setups;
+using Mafia.NET.Registries;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities.Registry
 {
-    public class AbilityEntry
-    {
-        public AbilityEntry(
-            string id,
-            Type ability,
-            int priority,
-            [CanBeNull] Type setup,
-            MessageRandomizer murderDescriptions)
-        {
-            Id = id;
-            Ability = ability;
-            Priority = priority;
-            Setup = setup ?? typeof(EmptySetup);
-            MurderDescriptions = murderDescriptions;
-        }
-
-        public string Id { get; }
-        public Type Ability { get; }
-        public int Priority { get; }
-        public Type Setup { get; }
-        public MessageRandomizer MurderDescriptions { get; }
-
-        public bool ValidSetup(IAbilitySetup setup)
-        {
-            var type = setup.GetType();
-            return type == Setup || type.IsSubclassOf(Setup);
-        }
-
-        public IAbility Build(IPlayer user)
-        {
-            var ability = (IAbility) Activator.CreateInstance(Ability);
-            if (ability == null) throw new NullReferenceException();
-
-            ability.Initialize(this, user);
-
-            return ability;
-        }
-    }
-
-    public class AbilityRegistry
+    public class AbilityRegistry : ImmutableRegistry<AbilityEntry>
     {
         private static readonly MessageRandomizer DefaultMurderDescriptions =
             new MessageRandomizer("They died in mysterious ways");
 
-        public AbilityRegistry()
+        private static readonly Lazy<AbilityRegistry> Lazy = new Lazy<AbilityRegistry>(() => new AbilityRegistry());
+
+        public AbilityRegistry(Dictionary<string, AbilityEntry> ids) : base(ids)
+        {
+            Types = Ids.ToImmutableDictionary(
+                pair => pair.Value.Ability,
+                pair => pair.Value);
+        }
+
+        private AbilityRegistry() : this(LoadAll())
+        {
+        }
+
+        public static AbilityRegistry Default => Lazy.Value;
+        public ImmutableDictionary<Type, AbilityEntry> Types { get; }
+
+        public AbilityEntry this[Type type] => Types[type];
+
+        public static Dictionary<string, AbilityEntry> LoadAll()
         {
             var ids = new Dictionary<string, AbilityEntry>();
-            var types = new Dictionary<Type, AbilityEntry>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             foreach (var type in assembly.GetTypes())
             {
@@ -75,19 +52,11 @@ namespace Mafia.NET.Players.Roles.Abilities
                 if (ids.ContainsKey(id))
                     throw new ArgumentException($"Ability with id {id} is already registered.");
 
-                if (types.ContainsKey(type))
-                    throw new ArgumentException($"Ability with type {type} is already registered.");
-
                 ids[id] = entry;
-                types[type] = entry;
             }
 
-            Ids = ids.ToImmutableDictionary();
-            Types = types.ToImmutableDictionary();
+            return ids;
         }
-
-        public IImmutableDictionary<string, AbilityEntry> Ids { get; }
-        public IImmutableDictionary<Type, AbilityEntry> Types { get; }
 
         public AbilityEntry Entry<T>() where T : IAbility
         {

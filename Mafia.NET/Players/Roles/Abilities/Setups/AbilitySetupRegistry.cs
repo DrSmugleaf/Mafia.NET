@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 
 namespace Mafia.NET.Players.Roles.Abilities.Setups
 {

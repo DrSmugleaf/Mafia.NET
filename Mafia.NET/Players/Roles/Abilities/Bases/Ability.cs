@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Actions;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;

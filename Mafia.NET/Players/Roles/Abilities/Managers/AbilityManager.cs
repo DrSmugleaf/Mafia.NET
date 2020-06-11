@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities.Managers
 {
     public class AbilityManager
     {

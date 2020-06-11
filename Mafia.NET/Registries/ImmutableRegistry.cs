@@ -20,7 +20,7 @@ namespace Mafia.NET.Registries
             return Ids.Values.ToList();
         }
 
-        public List<T> Get(params string[] ids)
+        public List<T> Entries(params string[] ids)
         {
             var entries = new List<T>();
 

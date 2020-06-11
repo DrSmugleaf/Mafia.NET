@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Controllers;
-using Mafia.NET.Players.Roles.Abilities;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 
@@ -26,7 +26,7 @@ namespace Mafia.NET.Players.Roles.Selectors
 
         public RoleSetup(IEnumerable<IRoleSelector> selectors) : this(
             RoleRegistry.Default,
-            new AbilityRegistry(),
+            AbilityRegistry.Default,
             new AbilitySetupRegistry(),
             selectors.ToList())
         {
@@ -34,7 +34,7 @@ namespace Mafia.NET.Players.Roles.Selectors
 
         public RoleSetup(params string[] roles) : this(
             RoleRegistry.Default,
-            new AbilityRegistry(),
+            AbilityRegistry.Default,
             new AbilitySetupRegistry(),
             RoleRegistry.Default.Selectors(roles))
         {

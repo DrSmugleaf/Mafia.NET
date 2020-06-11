@@ -4,7 +4,7 @@ using System.Linq;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities.Managers
 {
     public class AbilityExecutor
     {
