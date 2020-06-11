@@ -9,17 +9,15 @@ using Mafia.NET.Registries;
 
 namespace Mafia.NET.Players.Teams
 {
-    public interface ITeam : IColorizable, ILocalizable
+    public interface ITeam : IColorizable, ILocalizable, IRegistrable
     {
-        string Id { get; }
         Key Name { get; }
         int Order { get; }
 
-        List<RoleEntry> Roles();
         List<IRoleSelector> Selectors(RoleRegistry roles);
     }
 
-    public class Team : ITeam, IRegistrable
+    public class Team : ITeam
     {
         public Team(string id, Color color, int order)
         {
@@ -34,16 +32,11 @@ namespace Mafia.NET.Players.Teams
         public Color Color { get; }
         public int Order { get; }
 
-        public List<RoleEntry> Roles()
-        {
-            return RoleRegistry.Default.Team(this);
-        }
-
         public List<IRoleSelector> Selectors(RoleRegistry roles)
         {
             var selectors = new List<IRoleSelector>();
 
-            foreach (var category in Category.Categories.Values)
+            foreach (var category in CategoryRegistry.Default.Entries())
             {
                 var selector = new RoleSelector(roles, category);
                 selectors.Add(selector);

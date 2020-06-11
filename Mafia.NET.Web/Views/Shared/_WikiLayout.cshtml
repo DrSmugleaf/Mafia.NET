@@ -1,7 +1,9 @@
 ﻿@using Mafia.NET.Extension
+@using Mafia.NET.Players.Roles
 @using Mafia.NET.Players.Teams
 @{
     var teams = TeamRegistry.Default.Entries();
+    var roles = RoleRegistry.Default;
 }
 
 <!DOCTYPE html>
@@ -61,7 +63,7 @@
             {
                 <div class="col">
                     <div>
-                        @foreach (var teamRole in team.Roles())
+                        @foreach (var teamRole in roles.Team(team))
                         {
                             <div class="row">
                                 <a class="w-100 text-decoration-none role-link" asp-controller="Wiki" asp-action="Index" asp-route-role="@teamRole.Id">

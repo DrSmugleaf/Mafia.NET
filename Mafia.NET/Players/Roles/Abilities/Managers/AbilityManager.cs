@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Managers
 
         public bool Any(params Type[] types)
         {
-            return All.Count(ability => types.Contains(ability.GetType())) > 0;
+            return All.Any(ability => types.Contains(ability.GetType()));
         }
 
         public bool Any<T>() where T : IAbility

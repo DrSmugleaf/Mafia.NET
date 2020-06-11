@@ -8,11 +8,11 @@ using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Teams
 {
-    public class TeamRegistry : ImmutableRegistry<Team>
+    public class TeamRegistry : ImmutableRegistry<ITeam>
     {
         private static readonly Lazy<TeamRegistry> Lazy = new Lazy<TeamRegistry>(() => new TeamRegistry());
 
-        public TeamRegistry(Dictionary<string, Team> ids) : base(ids)
+        public TeamRegistry(Dictionary<string, ITeam> ids) : base(ids)
         {
         }
 
@@ -24,14 +24,13 @@ namespace Mafia.NET.Players.Teams
 
         public static List<YamlMappingNode> LoadYaml()
         {
-            var teams = new List<Team>();
-            var yamlTeams = Resource.FromDirectory("Teams", "*.yml");
-            return yamlTeams.Select(team => (YamlMappingNode) team).ToList();
+            var teams = Resource.FromDirectory("Teams", "*.yml");
+            return teams.Select(team => (YamlMappingNode) team).ToList();
         }
 
-        public static Dictionary<string, Team> LoadAll()
+        public static Dictionary<string, ITeam> LoadAll()
         {
-            var teams = new Dictionary<string, Team>();
+            var teams = new Dictionary<string, ITeam>();
 
             foreach (var yaml in LoadYaml())
             {

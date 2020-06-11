@@ -55,7 +55,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             new ArgKey("SelectorCategoryDescription", string.Join(", ", registry.Category(category))),
             Key.Empty,
             Key.Empty,
-            category.Roles(registry),
+            registry.Category(category),
             TeamRegistry.Default[category.Team].Color)
         {
         }

@@ -9,31 +9,26 @@ using YamlDotNet.RepresentationModel;
 namespace Mafia.NET.Tests.Resources
 {
     [TestFixture]
-    public class RoleTest
+    public class CategoryTest
     {
         [Test]
         public void Formatting()
         {
-            foreach (var yaml in RoleRegistry.LoadYaml())
+            foreach (var yaml in CategoryRegistry.LoadYaml())
             {
                 var children = yaml.Children;
 
                 Assert.That(children, Contains.Key((YamlNode) "id"));
                 Assert.That(children["id"].AsString().Length, Is.Positive);
 
+                Assert.That(children, Contains.Key((YamlNode) "goal"));
+                var goal = children["goal"].AsString();
+                Assert.That(goal.Length, Is.Positive);
+
                 Assert.That(children, Contains.Key((YamlNode) "team"));
                 var team = children["team"].AsString();
                 Assert.That(team.Length, Is.Positive);
                 Assert.NotNull(TeamRegistry.Default[team]);
-
-                Assert.That(children, Contains.Key((YamlNode) "categories"));
-                var categoryNames = children["categories"];
-                Assert.That(categoryNames.AsStringList().Count, Is.Positive);
-                foreach (var category in (YamlSequenceNode) categoryNames)
-                    Assert.NotNull(CategoryRegistry.Default[category.AsString()]);
-
-                Assert.That(children, Contains.Key((YamlNode) "color"));
-                Assert.That(children["color"].AsColor(), Is.Not.EqualTo(Color.Empty));
             }
         }
     }

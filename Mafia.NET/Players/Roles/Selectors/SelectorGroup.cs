@@ -50,7 +50,7 @@ namespace Mafia.NET.Players.Roles.Selectors
                 randomSelectors.Add(teamRandom);
             }
 
-            foreach (var category in Category.Categories.Values)
+            foreach (var category in CategoryRegistry.Default.Entries())
             {
                 var selector = new RoleSelector(roles, category);
                 randomSelectors.Add(selector);
