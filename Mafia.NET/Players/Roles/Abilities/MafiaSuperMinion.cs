@@ -8,9 +8,9 @@ namespace Mafia.NET.Players.Roles.Abilities
     [RegisterAbility("Mafia Super Minion", -3, typeof(MafiaSuperMinionSetup))]
     public class MafiaSuperMinion : DayStartAbility<MafiaSuperMinionSetup>
     {
-        public IRole SuperRole { get; set; }
+        public IRole HeadRole { get; set; }
 
-        public bool NoGodfather()
+        public bool NoHead()
         {
             return !Match.LivingPlayers.Any(player =>
                 player.Role.Team == User.Role.Team &&
@@ -19,12 +19,12 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public override bool TryUse()
         {
-            if (Setup.ReplacesGodfather && NoGodfather())
+            if (Setup.ReplacesHead && NoHead())
             {
                 var transform = Get<Transform>();
-                var entry = Role.Team.Id == "Triad"
-                    ? Match.RoleSetup.Roles.Ids["Dragon Head"]
-                    : Match.RoleSetup.Roles.Ids["Godfather"]; // TODO
+                var entry = Role.Team.Id == "Mafia"
+                    ? Match.RoleSetup.Roles.Ids["Godfather"]
+                    : Match.RoleSetup.Roles.Ids["Dragon Head"]; // TODO
                 transform.NewRole = new Role(entry);
                 transform.Use();
                 return true;
@@ -36,6 +36,6 @@ namespace Mafia.NET.Players.Roles.Abilities
 
     public class MafiaSuperMinionSetup : IAbilitySetup
     {
-        public bool ReplacesGodfather = false;
+        public bool ReplacesHead = false;
     }
 }

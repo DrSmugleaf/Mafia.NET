@@ -1,7 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Mafia.NET.Notifications;
-using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 
 namespace Mafia.NET.Players.Targeting

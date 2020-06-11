@@ -6,6 +6,10 @@ original_categories:
   - Triad Killing
   - Triad Support
 color: "#4A62AA"
+abilities:
+  - Kidnap
+  - Mafia Minion
+  - Team Chat
 ability:
   murder_descriptions:
     - "They were executed in a jail cell."

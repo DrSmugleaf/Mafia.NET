@@ -2,3 +2,12 @@
 Summary: '438 - "Deputy Mountain Master" - Armed with state of the art GPS data trackers, this rogue IT professional delivers data to the Triad conglomerate.'
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "See who one person visits and is visited by each night."
+
+TargetInactive: "Your target did not do anything tonight."
+TargetVisitedSomeone: "Your target visited <f c={0c}>{0}</f> tonight."
+SomeoneVisitedTarget: "<f c={0c}>{0}</f> visited your target tonight."
+NoneVisitedTarget: "Your target was not visited by anyone tonight."
+UserAddMessage: "You will watch <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't watch anyone."
+UserChangeMessage: "You will instead watch <f c={1c}>{1}</f>."
+MayTalk: "You may now talk with your allies of the Triad."

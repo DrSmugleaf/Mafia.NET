@@ -25,6 +25,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
+            match.AbilitySetups.Set(new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
+            });
             match.Start();
 
             var jailor = match.AllPlayers[0];
@@ -243,12 +247,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var jailors = new Dictionary<string, Type>
             {
                 ["Jailor"] = typeof(Jail),
-                ["Kidnapper"] = typeof(Kidnap)
+                ["Kidnapper"] = typeof(Kidnap),
+                ["Interrogator"] = typeof(Kidnap)
             };
 
             foreach (var jailor in jailors)
             {
-                var roleNames = $"{jailor.Key},Citizen,Citizen,Mafioso";
+                var roleNames = $"{jailor.Key},Citizen,Citizen";
 
                 foreach (var lynch in new[] {true, false})
                 foreach (var execute in new[] {true, false})

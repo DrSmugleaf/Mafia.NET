@@ -2,3 +2,8 @@
 Summary: '429 - "White Curtain" - A skulking predator armed with a camera and secret recording equipment.'
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Silence."
+
+UserAddMessage: "You will blackmail <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't blackmail anyone."
+UserChangeMessage: "You will instead blackmail <f c={1c}>{1}</f>."
+MayTalk: "You may now talk with your allies of the Triad."

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
@@ -66,7 +67,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var mafiosos = new[] {"Mafioso"};
+            var mafiosos = new[] {"Mafioso", "Enforcer"};
 
             foreach (var mafioso in mafiosos)
             {
@@ -82,11 +83,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var mafiosos = new[] {"Mafioso"};
-
-            foreach (var mafioso in mafiosos)
+            var combinations = new Dictionary<string, string>
             {
-                var roleNames = $"{mafioso},Godfather,Citizen,Citizen";
+                ["Mafioso"] = "Godfather",
+                ["Enforcer"] = "Dragon Head"
+            };
+
+            foreach (var combination in combinations)
+            {
+                var suggester = combination.Key;
+                var head = combination.Value;
+                var roleNames = $"{suggester},{head},Citizen,Citizen";
 
                 foreach (var suggest in new[] {true, false})
                 foreach (var gfAttack in new[] {true, false})

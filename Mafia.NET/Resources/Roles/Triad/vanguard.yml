@@ -3,3 +3,7 @@ team: Triad
 categories:
   - Triad Support
 color: "#697AFF"
+abilities:
+  - Agent
+  - Mafia Minion
+  - Team Chat

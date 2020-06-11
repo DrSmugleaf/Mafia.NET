@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
@@ -21,6 +22,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.AbilitySetups.Set(new KidnapSetup
             {
                 CanKidnapMafiaMembers = kidnapMafia
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
             });
             match.Start();
 
@@ -64,11 +68,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var kidnappers = new[] {"Kidnapper"};
-
-            foreach (var kidnapper in kidnappers)
+            var combinations = new Dictionary<string, string>
             {
-                var roleNames = $"{kidnapper},Mafioso,Citizen,Citizen,Citizen,Citizen";
+                ["Kidnapper"] = "Mafioso",
+                ["Interrogator"] = "Enforcer"
+            };
+
+            foreach (var combination in combinations)
+            {
+                var kidnapper = combination.Key;
+                var suggester = combination.Value;
+                var roleNames = $"{kidnapper},{suggester},Citizen,Citizen";
 
                 foreach (var kidnap in new[] {true, false})
                 foreach (var lynch in new[] {true, false})

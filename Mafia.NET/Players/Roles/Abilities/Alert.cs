@@ -19,7 +19,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         // TODO: Early immunity
         private static readonly ImmutableArray<string> ImmuneRoles =
-            ImmutableArray.Create("Lookout", "Amnesiac", "Coroner", "Janitor");
+            ImmutableArray.Create("Lookout", "Amnesiac", "Coroner", "Janitor", "Incense Master");
 
         public AttackStrength Strength { get; set; } = AttackStrength.Pierce;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Localization;
@@ -18,6 +19,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
+            match.AbilitySetups.Set(new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
+            });
             match.Start();
 
             var framer = match.AllPlayers[0];
@@ -49,7 +54,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
                 : Does.Contain("innocent"));
 
             var interrogation = new Key(frame
-                ? SheriffKey.Mafia
+                ? framer.Role.Team.Id == "Mafia" ? SheriffKey.Mafia : SheriffKey.Triad
                 : SheriffKey.NotSuspicious).Localize();
             Assert.That(interrogations[0], Is.EqualTo(interrogation));
         }
@@ -59,11 +64,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var framers = new[] {"Framer"};
+            var framers = new[] {"Framer", "Forger"};
 
             foreach (var framer in framers)
             {
-                var roleNames = $"{framer},Citizen,Investigator,Sheriff,Mafioso";
+                var roleNames = $"{framer},Citizen,Investigator,Sheriff";
 
                 foreach (var block in new[] {true, false})
                     yield return new object[] {roleNames, block};

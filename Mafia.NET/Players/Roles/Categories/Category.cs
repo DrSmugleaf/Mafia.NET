@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using Mafia.NET.Extension;
+﻿using System.Globalization;
 using Mafia.NET.Localization;
 using Mafia.NET.Registries;
-using Mafia.NET.Resources;
-using YamlDotNet.RepresentationModel;
 
 namespace Mafia.NET.Players.Roles.Categories
 {

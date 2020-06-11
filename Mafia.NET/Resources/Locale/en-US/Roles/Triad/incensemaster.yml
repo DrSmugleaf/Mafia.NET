@@ -2,3 +2,9 @@
 Summary: '432 - "Incense Master" - Proxy for the Mountain (Dragon Master), this Triad member sanitizes those who dare to decline membership.'
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Sanitize one player each night."
+
+LastWillReveal: "Your target's last will was:\n{0}"
+UserAddMessage: "You will sanitize <f c={0c}>{0}</f>'s death."
+UserRemoveMessage: "You won't sanitize anyone's death."
+UserChangeMessage: "You will instead sanitize <f c={1c}>{1}</f>'s death."
+MayTalk: "You may now talk with your allies of the Triad."

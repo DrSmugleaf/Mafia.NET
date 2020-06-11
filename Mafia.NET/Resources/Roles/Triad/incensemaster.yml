@@ -3,3 +3,7 @@ team: Triad
 categories:
   - Triad Deception
 color: "#5B84FF"
+abilities:
+  - Sanitize
+  - Mafia Minion
+  - Team Chat

@@ -3,6 +3,10 @@ team: Triad
 categories:
   - Triad Deception
 color: "#6969BB"
+abilities:
+  - Hide
+  - Mafia Minion
+  - Team Chat
 ability:
   murder_descriptions:
     - "They were killed by Asphyxiation."

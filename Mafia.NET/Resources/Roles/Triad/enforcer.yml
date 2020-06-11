@@ -3,6 +3,9 @@ team: Triad
 categories:
   - Triad Killing
 color: "#2851CC"
+abilities:
+  - Mafia Suggest
+  - Team Chat
 ability:
   murder_descriptions:
     - "They were shot at close range."

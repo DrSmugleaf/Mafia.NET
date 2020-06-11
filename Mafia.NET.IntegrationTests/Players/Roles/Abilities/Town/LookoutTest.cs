@@ -19,7 +19,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.Perks["Godfather"].DetectionImmune = immune;
+            if (!immune) match.Perks[roleNames[2]].DetectionImmune = false;
             match.AbilitySetups.Set(new WatchSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
@@ -57,6 +57,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var roles = new Dictionary<string, bool>
             {
                 ["Mafioso"] = false,
+                ["Enforcer"] = false,
                 ["Godfather"] = true
             };
 

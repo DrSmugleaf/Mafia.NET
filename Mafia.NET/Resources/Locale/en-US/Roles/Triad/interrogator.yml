@@ -2,3 +2,14 @@
 Summary: '426 - "Red Pole" - With a modular cage system, this Triad member engages in masterful entrapment.'
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Jail, Anonymous night chat, Execute."
+
+DayUserAddMessage: "You will jail <f c={0c}>{0}</f>."
+DayUserRemoveMessage: "You won't jail anyone."
+DayUserChangeMessage: "You will instead jail <f c={1c}>{1}</f>."
+UnableToJail: "You are unable to jail anyone due to today's lynch."
+UserAddMessage: "You will execute <f c={0c}>{0}</f>."
+UserRemoveMessage: "You changed your mind."
+TargetAddMessage: "Jailor will execute <f c={0c}>{0}</f>."
+TargetRemoveMessage: "Jailor changed their mind."
+Nickname: "Jailor"
+MayTalk: "You may now talk with your allies of the Triad."

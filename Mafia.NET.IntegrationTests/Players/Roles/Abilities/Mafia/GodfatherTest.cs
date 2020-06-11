@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Mafia.Net.IntegrationTests.Matches;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
@@ -106,7 +107,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            if (!immune) match.Perks["Godfather"].Defense = AttackStrength.None;
+            if (!immune) match.Perks[roleNames[0]].Defense = AttackStrength.None;
             match.AbilitySetups.Set(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso
@@ -142,11 +143,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var godfathers = new[] {"Godfather"};
-
-            foreach (var godfather in godfathers)
+            var combinations = new Dictionary<string, string>
             {
-                var roleNames = $"{godfather},Mafioso,Citizen";
+                ["Godfather"] = "Mafioso",
+                ["Dragon Head"] = "Enforcer"
+            };
+
+            foreach (var combination in combinations)
+            {
+                var head = combination.Key;
+                var suggester = combination.Value;
+                var roleNames = $"{head},{suggester},Citizen";
 
                 foreach (var killWithoutMafioso in new[] {true, false})
                 foreach (var godfatherTarget in new[] {true, false})
@@ -160,7 +167,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var godfathers = new[] {"Godfather"};
+            var godfathers = new[] {"Godfather", "Dragon Head"};
 
             foreach (var godfather in godfathers)
             {
@@ -177,11 +184,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var godfathers = new[] {"Godfather"};
-
-            foreach (var godfather in godfathers)
+            var combinations = new Dictionary<string, string>
             {
-                var roleNames = $"{godfather},Mafioso,Bodyguard,Citizen";
+                ["Godfather"] = "Mafioso",
+                ["Dragon Head"] = "Enforcer"
+            };
+
+            foreach (var combination in combinations)
+            {
+                var head = combination.Key;
+                var suggester = combination.Value;
+                var roleNames = $"{head},{suggester},Bodyguard,Citizen";
 
                 foreach (var kill in new[] {true, false})
                 foreach (var guard in new[] {true, false})
@@ -196,7 +209,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var godfathers = new[] {"Godfather"};
+            var godfathers = new[] {"Godfather", "Dragon Head"};
 
             foreach (var godfather in godfathers)
             {

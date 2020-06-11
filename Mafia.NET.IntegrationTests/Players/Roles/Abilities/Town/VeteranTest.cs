@@ -16,11 +16,15 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         [TestCase("Veteran,Mafioso", false, true, false, 1)]
         [TestCase("Veteran,Mafioso", false, false, true, 0)]
         [TestCase("Veteran,Mafioso,Sheriff,Investigator", true, true, true, 3)]
-        [TestCase("Veteran,Lookout,Amnesiac,Coroner,Janitor,Mafioso", true, true, true, 1)]
-        public void Alert(string rolesString, bool alert, bool attack, bool survived, int deaths)
+        [TestCase("Veteran,Lookout,Amnesiac,Coroner,Janitor,Incense Master", true, true, true, 0)]
+        public void Alert(string rolesString, bool alert, bool target, bool survived, int deaths)
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
+            match.AbilitySetups.Set(new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
+            });
             match.Start();
 
             var veteran = match.AllPlayers[0];
@@ -29,7 +33,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
 
             if (alert) veteran.Target(veteran);
 
-            if (attack)
+            if (target)
             {
                 var living = match.LivingPlayers;
 

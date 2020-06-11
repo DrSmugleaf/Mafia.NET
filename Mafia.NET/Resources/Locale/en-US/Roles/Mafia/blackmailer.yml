@@ -2,7 +2,7 @@
 Summary: "A manipulative eavesdropper who uses information to shut people up."
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Silence."
-  
+
 UserAddMessage: "You will blackmail <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't blackmail anyone."
 UserChangeMessage: "You will instead blackmail <f c={1c}>{1}</f>."

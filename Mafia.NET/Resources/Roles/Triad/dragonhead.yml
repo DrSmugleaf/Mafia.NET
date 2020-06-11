@@ -4,6 +4,13 @@ categories:
   - Triad Killing
 color: "#9F8EFF"
 unique: true
+abilities:
+  - Mafia Head
+  - Team Chat
+perks:
+  Defense: Base
+  DetectionImmune: true
+  RoleBlockImmune: false
 ability:
   murder_descriptions:
     - "They were shot at close range."

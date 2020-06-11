@@ -2,7 +2,7 @@
 Summary: "A stealthy sneak who uses manipulation and redirection to survive."
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Hide."
-  
+
 SomeoneHide: "Someone hid in your house tonight."
 SelfHide: "You cower in the corner, hiding behind yourself."
 HideAt: "You went to hide behind <f c={0c}>{0}</f>."

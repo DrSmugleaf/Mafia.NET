@@ -22,6 +22,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             {
                 CanHideBehindMafia = canHideBehindMafia,
                 NotifiesTarget = notifiesTarget
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
             });
             match.Start();
 
@@ -55,13 +58,18 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var roleNames = "Beguiler,Serial Killer,Citizen,Mafioso";
+            var beguilers = new[] {"Beguiler", "Deceiver"};
 
-            foreach (var hide in new[] {true, false})
-            foreach (var kill in new[] {true, false})
-            foreach (var canHideBehindMafia in new[] {true, false})
-            foreach (var notifiesTarget in new[] {true, false})
-                yield return new object[] {roleNames, hide, kill, canHideBehindMafia, notifiesTarget};
+            foreach (var beguiler in beguilers)
+            {
+                var roleNames = $"{beguiler},Serial Killer,Citizen,Citizen";
+
+                foreach (var hide in new[] {true, false})
+                foreach (var kill in new[] {true, false})
+                foreach (var canHideBehindMafia in new[] {true, false})
+                foreach (var notifiesTarget in new[] {true, false})
+                    yield return new object[] {roleNames, hide, kill, canHideBehindMafia, notifiesTarget};
+            }
         }
     }
 }

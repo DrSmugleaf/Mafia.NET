@@ -19,6 +19,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             match.AbilitySetups.Set(new SerialKillerSetup
             {
                 KillsRoleBlockers = false
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
             });
             match.Start();
 
@@ -42,11 +45,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     {
         public IEnumerator GetEnumerator()
         {
-            var blockers = new[] {"Escort", "Consort"};
+            var blockers = new[] {"Escort", "Consort", "Liaison"};
 
             foreach (var blocker in blockers)
             {
-                var roleNames = $"{blocker},Citizen,Serial Killer,Mafioso";
+                var roleNames = $"{blocker},Citizen,Serial Killer";
 
                 foreach (var block in new[] {true, false})
                     yield return new object[] {roleNames, block};

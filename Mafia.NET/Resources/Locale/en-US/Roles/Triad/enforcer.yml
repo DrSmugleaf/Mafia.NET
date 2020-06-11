@@ -2,3 +2,8 @@
 Summary: '000 - "Blue Lantern" - A low-life criminal killer affiliated with the Triad conglomerate.'
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Kill."
+
+UserAddMessage: "You suggest to kill <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't suggest anyone."
+UserChangeMessage: "You instead suggest to kill <f c={1c}>{1}</f>."
+MayTalk: "You may now talk with your allies of the Triad."

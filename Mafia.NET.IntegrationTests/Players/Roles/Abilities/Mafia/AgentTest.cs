@@ -21,8 +21,15 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.AbilitySetups.Set(new AgentSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
             });
-            match.Perks["Serial Killer"].DetectionImmune = immune;
+            if (!immune)
+            {
+                match.Perks[roleNames[1]].DetectionImmune = false;
+                match.Perks[roleNames[2]].DetectionImmune = false;
+            }
             match.Start();
 
             var agent = match.AllPlayers[0];
@@ -70,15 +77,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
+            var agents = new[] {"Agent", "Vanguard"};
             var roles = new Dictionary<string, bool>
             {
                 ["Doctor"] = true,
                 ["Serial Killer"] = false
             };
 
+            foreach (var agent in agents)
             foreach (var role in roles)
             {
-                var roleNames = $"Agent,{role.Key},Serial Killer,Mafioso";
+                var roleNames = $"{agent},{role.Key},Serial Killer,Citizen";
                 var innocent = role.Value;
 
                 foreach (var immune in new[] {true, false})

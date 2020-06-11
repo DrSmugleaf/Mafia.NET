@@ -17,7 +17,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public override bool ResolveUse()
         {
-            if (Setup.BecomesMafiosoIfAlone && AloneOnTeam())
+            if (Setup.BecomesHenchmanIfAlone && AloneOnTeam())
             {
                 var transform = new Transform();
                 transform.FromParent(this);
@@ -35,6 +35,6 @@ namespace Mafia.NET.Players.Roles.Abilities
 
     public class MafiaMinionSetup : IAbilitySetup
     {
-        public bool BecomesMafiosoIfAlone = true;
+        public bool BecomesHenchmanIfAlone = true;
     }
 }

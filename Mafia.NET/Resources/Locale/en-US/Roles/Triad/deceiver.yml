@@ -2,3 +2,11 @@
 Summary: '432 - "Straw Sandal" - An expert con-man for the Triad.'
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Hide."
+
+SomeoneHide: "Someone hid in your house tonight."
+SelfHide: "You cower in the corner, hiding behind yourself."
+HideAt: "You went to hide behind <f c={0c}>{0}</f>."
+UserAddMessage: "You will hide behind <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't hide behind anyone."
+UserChangeMessage: "You will instead hide behind <f c={1c}>{1}</f>."
+MayTalk: "You may now talk with your allies of the Triad."

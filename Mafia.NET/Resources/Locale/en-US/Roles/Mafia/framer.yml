@@ -2,7 +2,7 @@
 Summary: "A skilled forger working for organized crime."
 Goal: "Kill off the Town and everyone else who would oppose you."
 Abilities: "Frame one player each night."
-  
+
 UserAddMessage: "You will frame <f c={0c}>{0}</f>."
 UserRemoveMessage: "You won't frame anyone."
 UserChangeMessage: "You will instead frame <f c={1c}>{1}</f>."

@@ -3,3 +3,9 @@ team: Triad
 categories:
   - Triad Support
 color: "#3366FF"
+abilities:
+  - Block # TODO Targets (Alive except team)
+  - Mafia Minion
+  - Team Chat
+perks:
+  RoleBlockImmune: false

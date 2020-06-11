@@ -21,6 +21,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.AbilitySetups.Set(new BlackmailSetup
             {
                 BlackmailedTalkDuringTrial = talkDuringTrial
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
             });
             match.Start();
 
@@ -100,11 +103,16 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var roleNames = "Blackmailer,Citizen,Mafioso";
+            var blackmailers = new[] {"Blackmailer", "Silencer"};
 
-            foreach (var blackmail in new[] {true, false})
-            foreach (var talkDuringTrial in new[] {true, false})
-                yield return new object[] {roleNames, blackmail, talkDuringTrial};
+            foreach (var blackmailer in blackmailers)
+            {
+                var roleNames = $"{blackmailer},Citizen,Citizen";
+
+                foreach (var blackmail in new[] {true, false})
+                foreach (var talkDuringTrial in new[] {true, false})
+                    yield return new object[] {roleNames, blackmail, talkDuringTrial};
+            }
         }
     }
 }

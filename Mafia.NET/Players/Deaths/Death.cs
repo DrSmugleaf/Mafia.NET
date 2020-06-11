@@ -1,5 +1,4 @@
 ﻿using Mafia.NET.Localization;
-using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 
 namespace Mafia.NET.Players.Deaths

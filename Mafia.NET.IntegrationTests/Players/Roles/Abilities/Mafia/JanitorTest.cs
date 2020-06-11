@@ -22,17 +22,20 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             match.AbilitySetups.Set(new SanitizeSetup
             {
                 Uses = uses
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
             });
             match.Start();
 
             var janitor = match.AllPlayers[0];
-            var mafioso = match.AllPlayers[1];
+            var killer = match.AllPlayers[1];
             var citizen = match.AllPlayers[2];
 
             match.Skip<NightPhase>();
 
             if (sanitize) janitor.Target(citizen);
-            mafioso.Target(citizen);
+            killer.Target(citizen);
 
             var lw = "LW";
             citizen.LastWill.Text = lw;
@@ -80,11 +83,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
     {
         public IEnumerator GetEnumerator()
         {
-            var janitors = new[] {"Janitor"};
+            var janitors = new[] {"Janitor", "Incense Master"};
 
             foreach (var janitor in janitors)
             {
-                var roleNames = $"{janitor},Mafioso,Citizen,Citizen,Citizen,Citizen";
+                var roleNames = $"{janitor},Serial Killer,Citizen,Citizen";
 
                 foreach (var sanitize in new[] {true, false})
                     yield return new object[] {roleNames, sanitize, 2};

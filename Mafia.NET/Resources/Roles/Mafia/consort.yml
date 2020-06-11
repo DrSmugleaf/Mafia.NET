@@ -8,4 +8,4 @@ abilities:
   - Mafia Minion
   - Team Chat
 perks:
-  DetectionImmune: true
+  RoleBlockImmune: false

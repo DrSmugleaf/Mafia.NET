@@ -21,6 +21,12 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             match.AbilitySetups.Set(new InvestigateSetup
             {
                 DetectsExactRole = exact
+            }, new MafiaMinionSetup
+            {
+                BecomesHenchmanIfAlone = false
+            }, new MafiaSuperMinionSetup
+            {
+                ReplacesHead = false
             });
             match.Start();
 
@@ -62,7 +68,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
     {
         public IEnumerator GetEnumerator()
         {
-            var investigators = new[] {"Investigator", "Consigliere"};
+            var investigators = new[] {"Investigator", "Consigliere", "Administrator"};
             var targets = new Dictionary<string, bool>
             {
                 ["Citizen"] = true,
@@ -73,7 +79,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             foreach (var target in targets)
             {
                 var targetRole = target.Key;
-                var roleNames = $"{investigator},Citizen,{targetRole},Mafioso";
+                var roleNames = $"{investigator},Citizen,{targetRole}";
                 var innocent = target.Value;
 
                 foreach (var exact in new[] {true, false})

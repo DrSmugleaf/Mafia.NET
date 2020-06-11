@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using Mafia.NET.Extension;
-using Mafia.NET.Players.Roles;
+﻿using Mafia.NET.Extension;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 using NUnit.Framework;
