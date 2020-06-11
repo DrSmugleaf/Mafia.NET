@@ -115,7 +115,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
                 foreach (var detect in new[] {true, false})
                 {
                     var result = detect
-                        ? SheriffTest.Key(role.Team, role.Id)
+                        ? SheriffTest.Key(role.Team.Id, role.Id)
                         : SheriffKey.NotSuspicious;
                     yield return new object[] {roleNames, detect, result};
                 }

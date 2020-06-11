@@ -43,7 +43,7 @@ namespace Mafia.NET.Players.Roles
             Summary = role.Summary;
             Goal = role.Goal;
             AbilitiesDescriptions = role.AbilitiesDescription;
-            Team = (Team) role.Team;
+            Team = role.Team;
             Categories = role.Categories;
             Color = role.Color;
             Unique = role.Unique;

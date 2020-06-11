@@ -22,9 +22,9 @@ namespace Mafia.NET.Tests.Resources
                 Assert.That(children["id"].AsString().Length, Is.Positive);
 
                 Assert.That(children, Contains.Key((YamlNode) "team"));
-                var teamName = children["team"].AsString();
-                Assert.That(teamName.Length, Is.Positive);
-                Assert.NotNull((Team) teamName);
+                var team = children["team"].AsString();
+                Assert.That(team.Length, Is.Positive);
+                Assert.NotNull(TeamRegistry.Default[team]);
 
                 Assert.That(children, Contains.Key((YamlNode) "categories"));
                 var categoryNames = children["categories"];

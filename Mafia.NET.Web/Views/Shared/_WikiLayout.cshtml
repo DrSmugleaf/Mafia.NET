@@ -1,7 +1,7 @@
 ﻿@using Mafia.NET.Extension
 @using Mafia.NET.Players.Teams
 @{
-    var teams = Team.All;
+    var teams = TeamRegistry.Default.Entries();
 }
 
 <!DOCTYPE html>

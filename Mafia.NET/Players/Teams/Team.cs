@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using Mafia.NET.Extension;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Roles.Selectors;
-using Mafia.NET.Resources;
-using YamlDotNet.RepresentationModel;
+using Mafia.NET.Registries;
 
 namespace Mafia.NET.Players.Teams
 {
@@ -23,11 +19,9 @@ namespace Mafia.NET.Players.Teams
         List<IRoleSelector> Selectors(RoleRegistry roles);
     }
 
-    public class Team : ITeam
+    public class Team : ITeam, IRegistrable
     {
-        public static readonly IImmutableList<Team> All = LoadAll();
-
-        private Team(string id, Color color, int order)
+        public Team(string id, Color color, int order)
         {
             Id = id;
             Name = new Key($"{id}name");
@@ -64,33 +58,6 @@ namespace Mafia.NET.Players.Teams
         public Text Localize(CultureInfo culture = null)
         {
             return Name.Localize(culture);
-        }
-
-        public static ITeam From(string id)
-        {
-            return All.First(team => team.Id == id);
-        }
-
-        public static explicit operator Team(string id)
-        {
-            return All.First(team => team.Id == id);
-        }
-
-        private static ImmutableList<Team> LoadAll()
-        {
-            var teams = new List<Team>();
-            var yamlTeams = Resource.FromDirectory("Teams", "*.yml");
-
-            foreach (YamlMappingNode yaml in yamlTeams)
-            {
-                var id = yaml["id"].AsString();
-                var color = yaml["color"].AsColor();
-                var order = yaml["order"].AsInt();
-                var team = new Team(id, color, order);
-                teams.Add(team);
-            }
-
-            return teams.OrderBy(team => team.Order).ToImmutableList();
         }
 
         public override string ToString()

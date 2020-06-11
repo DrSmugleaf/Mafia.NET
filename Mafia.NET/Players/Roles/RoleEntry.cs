@@ -7,6 +7,7 @@ using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Roles.HealProfiles;
 using Mafia.NET.Players.Roles.Perks;
+using Mafia.NET.Players.Teams;
 using Mafia.NET.Registries;
 
 namespace Mafia.NET.Players.Roles
@@ -15,7 +16,7 @@ namespace Mafia.NET.Players.Roles
     {
         public RoleEntry(
             string id,
-            string team,
+            ITeam team,
             IList<ICategory> categories,
             Color color,
             Color originalColor,
@@ -49,7 +50,7 @@ namespace Mafia.NET.Players.Roles
         public Key Summary { get; }
         public Key Goal { get; }
         public Key AbilitiesDescription { get; }
-        public string Team { get; }
+        public ITeam Team { get; }
         public IImmutableList<ICategory> Categories { get; }
         public Color OriginalColor { get; }
         public bool Natural { get; }

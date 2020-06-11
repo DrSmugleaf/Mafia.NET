@@ -1,9 +1,8 @@
 ﻿@using Mafia.NET.Extension
 @using Mafia.NET.Players.Roles
-@using Mafia.NET.Players.Teams
 @{
     var role = (RoleEntry) ViewData["Role"];
-    var team = Team.From(role.Team);
+    var team = role.Team;
     ViewData["Title"] = role.Name;
     Layout = "_WikiLayout";
 }

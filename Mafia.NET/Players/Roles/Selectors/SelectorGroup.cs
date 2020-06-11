@@ -36,7 +36,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             var anyRandom = new RoleSelector(roles);
             randomSelectors.Add(anyRandom);
 
-            var teams = Team.All;
+            var teams = TeamRegistry.Default.Entries();
             foreach (var team in teams)
             {
                 var selectors = roles.Team(team)

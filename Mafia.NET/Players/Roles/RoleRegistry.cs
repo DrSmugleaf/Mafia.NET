@@ -39,7 +39,7 @@ namespace Mafia.NET.Players.Roles
             foreach (var yaml in LoadYaml())
             {
                 var id = yaml["id"].AsString();
-                var team = yaml["team"].AsString();
+                var team = TeamRegistry.Default[yaml["team"].AsString()];
                 var categories = new List<ICategory>();
                 var categoryNames = yaml["categories"];
 
@@ -114,7 +114,7 @@ namespace Mafia.NET.Players.Roles
         public List<RoleEntry> Team(ITeam team)
         {
             return Ids.Values
-                .Where(role => role.Team == team.Id)
+                .Where(role => role.Team == team)
                 .OrderBy(role => role.Id).ToList();
         }
     }

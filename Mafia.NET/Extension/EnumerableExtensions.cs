@@ -11,5 +11,11 @@ namespace Mafia.NET.Extension
             var sourceArray = source.ToArray();
             return sourceArray.ElementAt(random.Next(sourceArray.Length));
         }
+
+        public static Dictionary<TKey, TElement> ToDictionary<TKey, TElement>(
+            this IEnumerable<KeyValuePair<TKey, TElement>> source)
+        {
+            return source.ToDictionary(x => x.Key, x => x.Value);
+        }
     }
 }
