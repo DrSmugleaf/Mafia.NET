@@ -1,5 +1,4 @@
-﻿using System;
-using Mafia.NET.Players.Roles.HealProfiles;
+﻿using Mafia.NET.Players.Roles.HealProfiles;
 using Mafia.NET.Registries;
 
 namespace Mafia.NET.Players.Roles.Perks
@@ -14,8 +13,13 @@ namespace Mafia.NET.Players.Roles.Perks
         public AttackStrength Defense { get; set; }
         public bool DetectionImmune { get; set; }
         public bool RoleBlockImmune { get; set; }
-        public Func<IPlayer, IHealProfile> HealProfile { get; set; }
+        public HealProfileEntry HealProfile { get; set; }
 
         public string Id { get; }
+
+        public void SetHeal<T>() where T : IHealProfile
+        {
+            HealProfile = HealProfileRegistry.Default.Entry<T>();
+        }
     }
 }

@@ -69,14 +69,13 @@ namespace Mafia.NET.Players.Roles
         public void Initialize(IPlayer user)
         {
             var entry = user.Match.Roles[Id];
-            var registry = user.Match.Abilities;
-            Abilities.Replace(registry, entry.Abilities, user);
+            Abilities.Replace(entry.Abilities, user);
 
             var perks = user.Match.Perks[Id];
             Perks.Defense = perks.Defense;
             Perks.DetectionImmune = perks.DetectionImmune;
             Perks.RoleBlockImmune = perks.RoleBlockImmune;
-            HealProfile = perks.HealProfile(user);
+            HealProfile = perks.HealProfile.Build(user);
 
             ChangeUser(user);
         }

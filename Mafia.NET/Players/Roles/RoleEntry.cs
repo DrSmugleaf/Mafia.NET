@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Globalization;
 using Mafia.NET.Localization;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Roles.HealProfiles;
 using Mafia.NET.Players.Roles.Perks;
@@ -22,11 +22,11 @@ namespace Mafia.NET.Players.Roles
             Color originalColor,
             bool natural,
             bool unique,
-            IList<string> abilities,
+            IList<AbilityEntry> abilities,
             AttackStrength defaultDefense,
             bool defaultDetectionImmune,
             bool defaultRoleBlockImmune,
-            Func<IPlayer, IHealProfile> defaultHealProfile)
+            HealProfileEntry defaultHealProfile)
         {
             Id = id;
             Name = new Key($"{id}name");
@@ -55,11 +55,11 @@ namespace Mafia.NET.Players.Roles
         public Color OriginalColor { get; }
         public bool Natural { get; }
         public bool Unique { get; }
-        public IImmutableList<string> Abilities { get; }
+        public IImmutableList<AbilityEntry> Abilities { get; }
         public AttackStrength DefaultDefense { get; }
         public bool DefaultDetectionImmune { get; }
         public bool DefaultRoleBlockImmune { get; }
-        public Func<IPlayer, IHealProfile> DefaultHealProfile { get; }
+        public HealProfileEntry DefaultHealProfile { get; }
         public Color Color { get; }
 
         public Text Localize(CultureInfo culture = null)

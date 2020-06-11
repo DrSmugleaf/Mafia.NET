@@ -47,7 +47,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            if (healing) match.Perks["Bodyguard"].HealProfile = user => new HealProfile(user);
+            if (healing) match.Perks["Bodyguard"].SetHeal<HealProfile>();
             match.Start();
 
             match.Skip<NightPhase>();

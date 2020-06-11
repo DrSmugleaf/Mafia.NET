@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mafia.NET.Extension;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Roles.HealProfiles;
 using Mafia.NET.Players.Roles.Perks;
@@ -52,14 +53,14 @@ namespace Mafia.NET.Players.Roles
                 var natural = !children.ContainsKey("natural") || yaml["natural"].AsBool();
                 var unique = children.ContainsKey("unique") && yaml["unique"].AsBool();
                 var abilities = children.ContainsKey("abilities")
-                    ? yaml["abilities"].AsStringList()
-                    : new List<string>();
+                    ? AbilityRegistry.Default.Entries(yaml["abilities"].AsStringList())
+                    : new List<AbilityEntry>();
 
                 var defense = AttackStrength.None;
                 var detectionImmune = false;
                 var roleBlockImmune = false;
                 // TODO: Detection and heal profiles
-                Func<IPlayer, IHealProfile> healProfile = user => new HealProfile(user);
+                var healProfile = HealProfileRegistry.Default.Entry<HealProfile>();
                 if (yaml.Try("perks", out var perks))
                 {
                     if (perks.Try("Defense", out var defenseNode))
@@ -72,12 +73,7 @@ namespace Mafia.NET.Players.Roles
                         roleBlockImmune = rbNode.AsBool();
 
                     if (perks.Try("HealProfile", out var profile))
-                    {
-                        if (profile.AsString() == "No Heal")
-                            healProfile = user => new NoHealProfile(user);
-                        else
-                            throw new ArgumentException($"Unknown heal profile {profile.AsString()}");
-                    }
+                        healProfile = HealProfileRegistry.Default[profile.AsString()];
                 }
 
                 var role = new RoleEntry(

@@ -16,9 +16,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Managers
 
         public IList<IAbility> All { get; set; }
 
-        public void Replace(AbilityRegistry registry, IEnumerable<string> ids, IPlayer user)
+        public void Replace(IEnumerable<AbilityEntry> abilities, IPlayer user)
         {
-            All = registry.Abilities(user, ids);
+            All = abilities.Select(ability => ability.Build(user)).ToList();
         }
 
         public bool Any(params Type[] types)

@@ -32,5 +32,10 @@ namespace Mafia.NET.Registries
 
             return entries;
         }
+
+        public List<T> Entries(List<string> ids)
+        {
+            return Entries(ids.ToArray());
+        }
     }
 }

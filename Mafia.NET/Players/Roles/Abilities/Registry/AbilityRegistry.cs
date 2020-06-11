@@ -62,10 +62,10 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
         {
             var type = typeof(T);
 
-            if (!Types.ContainsKey(type))
-                throw new ArgumentException("No ability found with type " + type);
+            if (!Types.TryGetValue(type, out var entry))
+                throw new ArgumentException($"No ability found with type {type}");
 
-            return Types[type];
+            return entry;
         }
 
         public T Ability<T>(IPlayer user) where T : IAbility, new()
