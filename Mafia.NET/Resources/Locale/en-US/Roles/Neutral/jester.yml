@@ -2,3 +2,10 @@
 Summary: "A lunatic whose life's goal is to be publicly executed."
 Goal: "Die by being lynched during the day."
 Abilities: "Annoy another player at night, indicating to that player that he was visited by a Jester."
+
+UserAddMessage: "You will annoy <f c={0c}>{0}</f>."
+UserRemoveMessage: "You won't annoy anyone tonight."
+UserChangeMessage: "You will instead annoy <f c={1c}>{1}</f>."
+UserAnnoy: "You went to annoy <f c={0c}>{0}</f>."
+Annoyed: "A crazy person annoyed you tonight."
+AnnoyedShoot: "A crazy person annoys you tonight. You now want them dead, so you pull your gun."

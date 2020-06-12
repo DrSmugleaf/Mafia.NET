@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
@@ -6,16 +7,19 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class LastWordsPhase : BasePhase
     {
-        public LastWordsPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Last Words", duration)
+        public LastWordsPhase(IMatch match, VerdictManager verdicts, uint duration = 10) : base(match, "Last Words",
+            duration)
         {
-            Player = player;
+            Player = verdicts.Accused;
+            Verdicts = verdicts;
         }
 
         public IPlayer Player { get; }
+        protected VerdictManager Verdicts { get; }
 
         public override IPhase NextPhase()
         {
-            return new ExecutionPhase(Match, Player) {Supersedes = Supersedes};
+            return new ExecutionPhase(Match, Verdicts) {Supersedes = Supersedes};
         }
 
         public override void Start()

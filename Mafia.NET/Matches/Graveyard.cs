@@ -59,19 +59,34 @@ namespace Mafia.NET.Matches
             UndisclosedDeaths.AddRange(victims.Values);
         }
 
-        public bool DiedOn(int day, DeathCause cause)
+        public IList<IDeath> DeathsOn(int day, DeathCause cause)
         {
-            return AllDeaths().Any(death => death.Day == day && death.Cause == cause);
+            return AllDeaths().Where(death => death.Day == day && death.Cause == cause).ToList();
         }
 
-        public bool DiedToday(DeathCause cause)
+        public bool AnyDeathsOn(int day, DeathCause cause)
         {
-            return DiedOn(Match.Phase.Day, cause);
+            return DeathsOn(day, cause).Any();
         }
 
-        public bool LynchedToday()
+        public IList<IDeath> DeathsToday(DeathCause cause)
         {
-            return DiedToday(DeathCause.Lynch);
+            return DeathsOn(Match.Phase.Day, cause);
+        }
+
+        public bool AnyDeathsToday(DeathCause cause)
+        {
+            return DeathsToday(cause).Any();
+        }
+
+        public IList<IDeath> LynchesToday()
+        {
+            return DeathsToday(DeathCause.Lynch);
+        }
+
+        public bool AnyLynchesToday()
+        {
+            return LynchesToday().Any();
         }
 
         public List<IDeath> ThreatsOn(IPlayer victim)

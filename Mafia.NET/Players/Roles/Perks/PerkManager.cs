@@ -6,7 +6,9 @@ namespace Mafia.NET.Players.Roles.Perks
     {
         None = 0,
         Base = 1,
-        Pierce = 2
+        Pierce = 2,
+        Lynch = 3,
+        Suicide = 4
     }
 
     public class PerkManager

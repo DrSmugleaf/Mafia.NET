@@ -47,7 +47,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
         public override void DayEnd(in IList<IAbility> abilities)
         {
-            if (Match.Graveyard.LynchedToday())
+            if (Match.Graveyard.AnyLynchesToday())
             {
                 Targets.ForceSet(null);
                 User.OnNotification(Notification.Chat(Role, DetainKey.UnableToJail));
@@ -64,7 +64,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
         public override bool TryUse(IPlayer target)
         {
-            return !Match.Graveyard.LynchedToday() && base.TryUse();
+            return !Match.Graveyard.AnyLynchesToday() && base.TryUse();
         }
 
         public override bool ResolveUse()

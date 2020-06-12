@@ -13,7 +13,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
     public class WitchTest : BaseMatchTest
     {
         [TestCaseSource(typeof(ControlCases))]
-        public void Control(string rolesString, bool controlFirst, bool controlSecond, bool attack, bool causesSelf, bool knows)
+        public void Control(string rolesString, bool controlFirst, bool controlSecond, bool attack, bool causesSelf,
+            bool knows)
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
@@ -42,10 +43,10 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             Assert.True(killer.Alive);
             Assert.That(originalTarget.Alive, Is.EqualTo(control || !attack));
             Assert.That(newTarget.Alive, Is.EqualTo(!control));
-            
+
             Deaths(match, control || attack ? 1 : 0);
         }
-        
+
         [TestCaseSource(typeof(SelfTargetCases))]
         public void SelfTarget(string rolesString, bool control, bool attack, bool causesSelf, bool knows)
         {
@@ -69,16 +70,17 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
                 witch.Targets[0] = killer;
                 witch.Targets[1] = killer;
             }
+
             if (attack) killer.Target(witch);
 
             match.Skip<DeathsPhase>();
 
             Assert.That(witch.Alive, Is.EqualTo(control && causesSelf || !attack));
             Assert.That(killer.Alive, Is.EqualTo(!control || !causesSelf));
-            
+
             Deaths(match, control && causesSelf || attack ? 1 : 0);
         }
-        
+
         [TestCaseSource(typeof(ToWitchCases))]
         public void ToWitch(string rolesString, bool control, bool attack, bool heal, bool causesSelf, bool knows)
         {
@@ -102,6 +104,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
                 witch.Targets[0] = healer;
                 witch.Targets[1] = witch;
             }
+
             if (attack) killer.Target(witch);
             if (heal) healer.Target(witch);
 
@@ -111,11 +114,11 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             Assert.That(witch.Alive, Is.EqualTo(witchAlive));
             Assert.True(killer.Alive);
             Assert.True(healer.Alive);
-            
+
             Deaths(match, witchAlive ? 0 : 1);
         }
     }
-    
+
     public class ControlCases : IEnumerable
     {
         public IEnumerator GetEnumerator()
@@ -130,7 +133,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
                 yield return new object[] {roleNames, controlFirst, controlSecond, attack, causesSelf, knows};
         }
     }
-    
+
     public class SelfTargetCases : IEnumerable
     {
         public IEnumerator GetEnumerator()

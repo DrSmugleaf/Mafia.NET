@@ -61,7 +61,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public override bool Use(IPlayer first, IPlayer second)
         {
             first.Targets.ForceSet(second);
-            
+
             var userNotification = first == second
                 ? Notification.Chat(Role, ControlKey.UserTargetSelfTarget, first)
                 : Notification.Chat(Role, ControlKey.UserTargetControlled, first, second);

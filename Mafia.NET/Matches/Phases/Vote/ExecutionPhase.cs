@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
@@ -7,12 +8,15 @@ namespace Mafia.NET.Matches.Phases.Vote
 {
     public class ExecutionPhase : BasePhase
     {
-        public ExecutionPhase(IMatch match, IPlayer player, uint duration = 10) : base(match, "Execution", duration)
+        public ExecutionPhase(IMatch match, VerdictManager verdicts, uint duration = 10) : base(match, "Execution",
+            duration)
         {
-            Player = player;
+            Player = verdicts.Accused;
+            Verdicts = verdicts;
         }
 
         public IPlayer Player { get; }
+        protected VerdictManager Verdicts { get; }
 
         public override IPhase NextPhase()
         {
@@ -22,7 +26,7 @@ namespace Mafia.NET.Matches.Phases.Vote
         public override void Start()
         {
             Player.Alive = false; // TODO: Ability activity
-            var death = new Death(Match.Phase.Day, Player, DeathCause.Lynch, "");
+            var death = new Lynch(Match.Phase.Day, Player, DeathCause.Lynch, Verdicts);
             Match.Graveyard.PublicDeaths.Add(death);
             ChatManager.Main().Get(Player).Muted = true;
             ChatManager.Main().Pause(false);

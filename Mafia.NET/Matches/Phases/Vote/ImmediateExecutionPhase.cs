@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
@@ -16,7 +17,10 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public override IPhase NextPhase()
         {
-            return new ExecutionPhase(Match, Player) {Supersedes = Supersedes};
+            var verdicts = new VerdictManager(Player);
+            verdicts.End();
+
+            return new ExecutionPhase(Match, verdicts) {Supersedes = Supersedes};
         }
 
         public override void Start()

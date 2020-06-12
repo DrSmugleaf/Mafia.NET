@@ -2,7 +2,7 @@
 {
     public enum Verdict
     {
-        Abstain,
+        Abstain = 0,
         Innocent,
         Guilty
     }

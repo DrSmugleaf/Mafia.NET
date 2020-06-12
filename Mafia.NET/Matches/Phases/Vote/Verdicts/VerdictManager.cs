@@ -9,12 +9,12 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
     public class VerdictManager
     {
-        public VerdictManager(IMatch match, IPlayer accused)
+        public VerdictManager(IPlayer accused)
         {
-            Match = match;
+            Match = accused.Match;
             Accused = accused;
             Active = true;
-            Verdicts = match.LivingPlayers
+            Verdicts = Match.LivingPlayers
                 .Where(voter => voter != accused)
                 .ToDictionary(voter => voter, voter => Verdict.Abstain);
         }
@@ -44,6 +44,14 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
             var notification = Notification.Chat(key, voter);
             foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+        }
+
+        public IList<IPlayer> Voters(Verdict verdict)
+        {
+            return Verdicts
+                .Where(vote => vote.Value == verdict)
+                .Select(vote => vote.Key)
+                .ToList();
         }
 
         public IDictionary<Verdict, int> VerdictCount()

@@ -5,19 +5,19 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 {
     public class VerdictResultPhase : BasePhase
     {
-        public VerdictResultPhase(IMatch match, VerdictManager verdicts, uint duration = 10) : base(match,
-            "Vote Recount", duration)
+        public VerdictResultPhase(IMatch match, VerdictManager verdicts, uint duration = 10) :
+            base(match, "Vote Recount", duration)
         {
             Verdicts = verdicts;
         }
 
-        private VerdictManager Verdicts { get; }
+        protected VerdictManager Verdicts { get; }
 
         public override IPhase NextPhase()
         {
             return Verdicts.Innocent()
                 ? Supersedes
-                : new LastWordsPhase(Match, Verdicts.Accused) {Supersedes = Supersedes};
+                : new LastWordsPhase(Match, Verdicts) {Supersedes = Supersedes};
         }
 
         public override void Start()
