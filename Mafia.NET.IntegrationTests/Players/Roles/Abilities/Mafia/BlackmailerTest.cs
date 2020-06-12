@@ -18,9 +18,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new BlackmailSetup
+            match.AbilitySetups.Replace(new BlackmailSetup
             {
-                BlackmailedTalkDuringTrial = talkDuringTrial
+                TalkDuringTrial = talkDuringTrial
             }, new MafiaMinionSetup
             {
                 BecomesHenchmanIfAlone = false

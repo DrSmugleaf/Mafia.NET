@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -34,6 +35,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
+    [RegisterSetup]
     public class MafiaSuperMinionSetup : IAbilitySetup
     {
         public bool ReplacesHead = false;

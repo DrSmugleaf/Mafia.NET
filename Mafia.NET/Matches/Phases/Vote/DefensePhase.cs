@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Localization;
+﻿using System.Linq;
+using Mafia.NET.Localization;
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
@@ -21,15 +22,23 @@ namespace Mafia.NET.Matches.Phases.Vote
             return new VerdictVotePhase(Match, Accused) {Supersedes = Supersedes};
         }
 
+        public bool CanTalk(IPlayer player)
+        {
+            return player == Accused &&
+                   (!player.Perks.Blackmailed ||
+                    player.Perks.Blackmailers
+                        .Select(bm => bm.Abilities.Get<Blackmail>())
+                        .Where(ability => ability != null)
+                        .All(ability => ability.Setup.TalkDuringTrial));
+        }
+
         public override void Start()
         {
             foreach (var player in Match.AllPlayers)
                 if (player != Accused)
                     ChatManager.Main().Get(player).Pause();
 
-            if (!Accused.Perks.Blackmailed ||
-                Match.AbilitySetups.Setup<BlackmailSetup>().BlackmailedTalkDuringTrial)
-                ChatManager.Main().Mute(Accused, false);
+            if (CanTalk(Accused)) ChatManager.Main().Mute(Accused, false);
 
             ChatManager.Main().Pause(false);
 

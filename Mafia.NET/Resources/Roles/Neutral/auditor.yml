@@ -3,5 +3,6 @@ team: Neutral
 categories:
   - Neutral Evil
 abilities:
-  - Audit
+  - Audit:
+      uses: 3
 color: "#BBCC88"

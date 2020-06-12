@@ -1,7 +1,11 @@
 ﻿namespace Mafia.NET.Registries
 {
-    public interface IRegistrable
+    public interface IRegistrable<out T>
     {
-        string Id { get; }
+        T Id { get; }
+    }
+
+    public interface IRegistrable : IRegistrable<string>
+    {
     }
 }

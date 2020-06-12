@@ -32,18 +32,18 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<DeathsPhase>();
 
-            Assert.AreEqual(auditor.Role.Id, roleNames[0]);
+            Assert.That(auditor.Role.Id, Is.EqualTo(roleNames[0]));
 
             if (audit)
             {
                 Assert.AreNotEqual(target.Role.Id, roleNames[1]);
-                Assert.AreEqual(target.Role.Id, auditedRole);
-                Assert.AreEqual(ability.Uses, uses - 1);
+                Assert.That(target.Role.Id, Is.EqualTo(auditedRole));
+                Assert.That(ability.Uses, Is.EqualTo(uses - 1));
             }
             else
             {
-                Assert.AreEqual(target.Role.Id, roleNames[1]);
-                Assert.AreEqual(ability.Uses, uses);
+                Assert.That(target.Role.Id, Is.EqualTo(roleNames[1]));
+                Assert.That(ability.Uses, Is.EqualTo(uses));
             }
 
             Deaths(match, 0);
@@ -71,9 +71,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<DeathsPhase>();
 
-            Assert.AreEqual(auditor.Role.Id, roleNames[0]);
-            Assert.AreEqual(target.Role.Id, roleNames[1]);
-            Assert.AreEqual(ability.Uses, uses);
+            Assert.That(auditor.Role.Id, Is.EqualTo(roleNames[0]));
+            Assert.That(target.Role.Id, Is.EqualTo(roleNames[1]));
+            Assert.That(ability.Uses, Is.EqualTo(uses));
 
             Deaths(match, 0);
         }

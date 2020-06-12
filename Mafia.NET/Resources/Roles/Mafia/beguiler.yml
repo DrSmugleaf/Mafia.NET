@@ -4,7 +4,8 @@ categories:
   - Mafia Deception
 color: "#BB3355"
 abilities:
-  - Hide
+  - Hide:
+      uses: 2
   - Mafia Minion
   - Team Chat
 ability:

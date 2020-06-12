@@ -7,7 +7,8 @@ original_categories:
   - Town Power
 color: "#66CC00"
 abilities:
-  - Jail
+  - Jail:
+      uses: 1
 ability:
   murder_descriptions:
     - "They were executed in a jail cell."

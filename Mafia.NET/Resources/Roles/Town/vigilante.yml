@@ -4,7 +4,8 @@ categories:
   - Town Killing
 color: "#88CC00"
 abilities:
-  - Shoot
+  - Shoot:
+      uses: 2
 ability:
   murder_descriptions:
     - "They were shot by a high-caliber gun."

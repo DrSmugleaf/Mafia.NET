@@ -20,7 +20,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             if (!immune) match.Perks[roleNames[2]].DetectionImmune = false;
-            match.AbilitySetups.Set(new WatchSetup
+            match.AbilitySetups.Replace(new WatchSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
             });

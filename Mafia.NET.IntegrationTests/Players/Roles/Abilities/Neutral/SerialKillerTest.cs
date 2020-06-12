@@ -58,7 +58,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new SerialKillerSetup
+            match.AbilitySetups.Replace(new SerialKillerSetup
             {
                 KillsRoleBlockers = killsBlockers
             });

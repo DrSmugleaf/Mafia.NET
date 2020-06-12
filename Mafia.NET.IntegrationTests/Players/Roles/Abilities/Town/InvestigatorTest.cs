@@ -18,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new InvestigateSetup
+            match.AbilitySetups.Replace(new InvestigateSetup
             {
                 DetectsExactRole = exact
             }, new MafiaMinionSetup

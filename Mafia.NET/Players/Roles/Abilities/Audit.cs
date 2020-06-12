@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;
@@ -118,16 +119,16 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
-    public interface IAuditSetup : IUsesSetup
+    public interface IAuditSetup : IAbilitySetup
     {
         bool ConvertsMafiaToMafioso { get; }
         bool ConvertsTriadToEnforcer { get; }
         bool ImmunityPreventsConversion { get; }
     }
 
+    [RegisterSetup]
     public class AuditSetup : IAuditSetup
     {
-        public int Uses { get; set; } = 3;
         public bool ConvertsMafiaToMafioso { get; } = true;
         public bool ConvertsTriadToEnforcer { get; } = true;
         public bool ImmunityPreventsConversion { get; } = true;

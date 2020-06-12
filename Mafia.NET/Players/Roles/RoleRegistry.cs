@@ -52,14 +52,40 @@ namespace Mafia.NET.Players.Roles
                 var originalColor = children.ContainsKey("original_color") ? yaml["original_color"].AsColor() : color;
                 var natural = !children.ContainsKey("natural") || yaml["natural"].AsBool();
                 var unique = children.ContainsKey("unique") && yaml["unique"].AsBool();
-                var abilities = children.ContainsKey("abilities")
-                    ? AbilityRegistry.Default.Entries(yaml["abilities"].AsStringList())
-                    : new List<AbilityEntry>();
+
+                var abilities = new List<AbilityEntry>();
+                if (yaml.TryCast<YamlSequenceNode>("abilities", out var abilitiesNode))
+                    foreach (var node in abilitiesNode)
+                    {
+                        string ability;
+                        int? uses = null;
+                        if (node is YamlMappingNode mapping)
+                        {
+                            var pair = mapping.Children.First();
+                            ability = pair.Key.AsString();
+
+                            var traits = (YamlMappingNode) pair.Value;
+
+                            if (traits.Try("uses", out var usesNode))
+                                uses = usesNode.AsInt();
+                        }
+                        else if (node is YamlScalarNode sequence)
+                        {
+                            ability = sequence.AsString();
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                        var entry = AbilityRegistry.Default[ability].With(uses);
+                        abilities.Add(entry);
+                    }
 
                 var defense = AttackStrength.None;
                 var detectionImmune = false;
                 var roleBlockImmune = false;
-                // TODO: Detection and heal profiles
+                // TODO: Detection profiles
                 var healProfile = HealProfileRegistry.Default.Entry<HealProfile>();
                 if (yaml.Try("perks", out var perks))
                 {

@@ -21,7 +21,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new MafiaMinionSetup
+            match.AbilitySetups.Replace(new MafiaMinionSetup
             {
                 BecomesHenchmanIfAlone = false
             });

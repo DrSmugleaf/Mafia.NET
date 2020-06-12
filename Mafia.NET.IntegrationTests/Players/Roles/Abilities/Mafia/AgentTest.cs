@@ -18,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new AgentSetup
+            match.AbilitySetups.Replace(new AgentSetup
             {
                 IgnoresDetectionImmunity = ignoresImmunity
             }, new MafiaMinionSetup

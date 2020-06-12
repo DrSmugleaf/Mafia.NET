@@ -2,7 +2,7 @@
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
-using Mafia.NET.Players.Roles.Abilities.Setups;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;
 
@@ -18,8 +18,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         FirstNight
     }
 
-    [RegisterAbility("Shoot", 5, typeof(ShootSetup))]
-    public class Shoot : NightEndAbility<ShootSetup>
+    [RegisterAbility("Shoot", 5)]
+    public class Shoot : NightEndAbility
     {
         public AttackStrength Strength { get; set; } = AttackStrength.Base;
 
@@ -61,10 +61,5 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             return true;
         }
-    }
-
-    public class ShootSetup : IUsesSetup
-    {
-        public int Uses { get; set; } = 2;
     }
 }

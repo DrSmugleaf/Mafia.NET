@@ -4,6 +4,7 @@
     {
     }
 
+    [RegisterSetup]
     public class EmptySetup : IAbilitySetup
     {
     }
@@ -11,11 +12,6 @@
     public interface ICooldownSetup : IAbilitySetup
     {
         int NightsBetweenUses { get; set; }
-    }
-
-    public interface IUsesSetup : IAbilitySetup
-    {
-        int Uses { get; set; }
     }
 
     public interface IRandomExcluded : IAbilitySetup

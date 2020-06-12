@@ -2,6 +2,7 @@
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
@@ -45,6 +46,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         bool IgnoresDetectionImmunity { get; set; }
     }
 
+    [RegisterSetup]
     public class DetectSetup : IDetectSetup
     {
         public bool IgnoresDetectionImmunity { get; set; } = true;

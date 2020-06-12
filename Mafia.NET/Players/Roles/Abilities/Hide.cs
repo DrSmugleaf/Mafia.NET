@@ -2,6 +2,7 @@
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
@@ -56,10 +57,10 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
-    public class HideSetup : IUsesSetup
+    [RegisterSetup]
+    public class HideSetup : IAbilitySetup
     {
         public bool CanHideBehindMafia = false;
         public bool NotifiesTarget { get; set; }
-        public int Uses { get; set; } = 2;
     }
 }

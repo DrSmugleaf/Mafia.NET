@@ -1,7 +1,8 @@
 ﻿using System;
 using JetBrains.Annotations;
+using Mafia.NET.Players.Roles.Abilities.Bases;
 
-namespace Mafia.NET.Players.Roles.Abilities.Bases
+namespace Mafia.NET.Players.Roles.Abilities.Registry
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     [BaseTypeRequired(typeof(IAbility))]

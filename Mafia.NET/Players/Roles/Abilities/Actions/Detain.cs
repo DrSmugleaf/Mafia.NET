@@ -2,7 +2,6 @@
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
-using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 
@@ -22,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         Nickname
     }
 
-    public class Detain : NightStartAbility<DetainSetup>
+    public class Detain : NightStartAbility
     {
         public Detain()
         {
@@ -32,14 +31,18 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         public Release Release { get; set; }
         public Execute Execute { get; set; }
 
-        public override void Initialize(AbilityEntry entry, IPlayer player)
+        public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
             if (Initialized) return;
 
-            base.Initialize(entry, player);
+            base.Initialize(setup, user);
+
             Release = Get<Release>();
+
             Execute = Get<Execute>();
             Execute.Detain = this;
+            Execute.HasUses = HasUses;
+            Execute.Uses = Uses;
         }
 
         public override void DayEnd(in IList<IAbility> abilities)
@@ -94,21 +97,16 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
         }
     }
 
-    public class Detain<T> : Detain where T : DetainSetup
+    public class Detain<T> : Detain where T : IAbilitySetup
     {
         public new T Setup { get; set; }
 
-        public override void Initialize(AbilityEntry entry, IPlayer user)
+        public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
             if (Initialized) return;
 
-            base.Initialize(entry, user);
+            base.Initialize(setup, user);
             Setup = (T) base.Setup;
         }
-    }
-
-    public class DetainSetup : IUsesSetup
-    {
-        public int Uses { get; set; } = 1;
     }
 }

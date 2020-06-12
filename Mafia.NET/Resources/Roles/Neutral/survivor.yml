@@ -2,4 +2,7 @@
 team: Neutral
 categories:
   - Neutral Benign
+abilities:
+  - Vest:
+      uses: 3
 color: "#FFFF00"

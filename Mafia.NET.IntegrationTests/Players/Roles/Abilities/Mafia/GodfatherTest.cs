@@ -18,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new MafiaHeadSetup
+            match.AbilitySetups.Replace(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso
             });
@@ -46,7 +46,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new MafiaHeadSetup
+            match.AbilitySetups.Replace(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso
             });
@@ -72,7 +72,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new GuardSetup
+            match.AbilitySetups.Replace(new GuardSetup
             {
                 IgnoresInvulnerability = ignoresImmunity
             });
@@ -108,7 +108,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
             if (!immune) match.Perks[roleNames[0]].Defense = AttackStrength.None;
-            match.AbilitySetups.Set(new MafiaHeadSetup
+            match.AbilitySetups.Replace(new MafiaHeadSetup
             {
                 CanKillWithoutMafioso = killWithoutMafioso
             }, new GuardSetup

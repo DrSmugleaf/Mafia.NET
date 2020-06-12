@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Registries;
 
 namespace Mafia.NET.Players.Roles.Abilities.Registry
@@ -74,18 +75,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
             return (T) entry.Build(user);
         }
 
-        public IList<IAbility> Abilities(IPlayer user, IEnumerable<string> ids)
+        public List<AbilityEntry> Entries(IAbilitySetup setup)
         {
-            var abilities = new List<IAbility>();
-
-            foreach (var id in ids)
-            {
-                var entry = Ids[id];
-                var ability = entry.Build(user);
-                abilities.Add(ability);
-            }
-
-            return abilities;
+            return Ids.Values.Where(entry => entry.Setup == setup.GetType()).ToList();
         }
     }
 }

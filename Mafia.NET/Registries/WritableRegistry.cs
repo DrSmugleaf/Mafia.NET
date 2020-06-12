@@ -5,33 +5,35 @@ using System.Linq;
 
 namespace Mafia.NET.Registries
 {
-    public abstract class WritableRegistry<T> where T : IRegistrable
+    public abstract class WritableRegistry<T, TId> where T : IRegistrable<TId>
     {
-        protected WritableRegistry(Dictionary<string, T> ids)
+        protected WritableRegistry(Dictionary<TId, T> ids)
         {
-            Ids = new ConcurrentDictionary<string, T>(ids);
+            Ids = new ConcurrentDictionary<TId, T>(ids);
         }
 
         protected WritableRegistry()
         {
-            Ids = new ConcurrentDictionary<string, T>();
+            Ids = new ConcurrentDictionary<TId, T>();
         }
 
-        protected ConcurrentDictionary<string, T> Ids { get; }
+        protected ConcurrentDictionary<TId, T> Ids { get; }
 
-        public virtual T this[string id]
+        public T this[TId id]
         {
-            get => Ids.GetOrAdd(id, Create);
+            // ReSharper disable once HeapView.CanAvoidClosure
+            get => Ids.GetOrAdd(id, newId => Register(Create(newId), true));
             set => Register(value, true);
         }
 
-        public void Register(T entry, bool ignore = false)
+        public virtual T Register(T entry, bool ignore = false)
         {
             var id = entry.Id;
             if (!ignore && Ids.ContainsKey(id))
                 throw new ArgumentException($"Key with id {id} already exists.");
 
             Ids[id] = entry;
+            return entry;
         }
 
         public List<T> All()
@@ -39,7 +41,7 @@ namespace Mafia.NET.Registries
             return Ids.Values.ToList();
         }
 
-        public List<T> Get(params string[] ids)
+        public List<T> Get(params TId[] ids)
         {
             var entries = new List<T>();
 
@@ -52,6 +54,11 @@ namespace Mafia.NET.Registries
             return entries;
         }
 
-        public abstract T Create(string id);
+        public abstract T Create(TId id);
+    }
+
+    public abstract class WritableRegistry<T> : WritableRegistry<T, string>
+        where T : IRegistrable<string>
+    {
     }
 }

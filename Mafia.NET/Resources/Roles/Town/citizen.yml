@@ -4,4 +4,5 @@ categories:
   - Town Government
 color: "#33CC33"
 abilities:
-  - Vest
+  - Vest:
+      uses: 1

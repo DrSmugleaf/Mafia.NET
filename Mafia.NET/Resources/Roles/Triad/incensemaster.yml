@@ -4,6 +4,7 @@ categories:
   - Triad Deception
 color: "#5B84FF"
 abilities:
-  - Sanitize
+  - Sanitize:
+      uses: 2
   - Mafia Minion
   - Team Chat

@@ -18,7 +18,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new HideSetup
+            match.AbilitySetups.Replace(new HideSetup
             {
                 CanHideBehindMafia = canHideBehindMafia,
                 NotifiesTarget = notifiesTarget

@@ -54,7 +54,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new RememberSetup
+            match.AbilitySetups.Replace(new RememberSetup
             {
                 CanBecomeTown = town,
                 CanBecomeMafiaTriad = mafia,

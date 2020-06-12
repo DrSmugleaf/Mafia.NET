@@ -16,7 +16,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new SerialKillerSetup
+            match.AbilitySetups.Replace(new SerialKillerSetup
             {
                 KillsRoleBlockers = false
             }, new MafiaMinionSetup

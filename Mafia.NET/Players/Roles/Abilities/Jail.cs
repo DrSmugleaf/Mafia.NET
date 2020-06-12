@@ -2,11 +2,12 @@
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Targeting;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    [RegisterAbility("Jail", -2, typeof(DetainSetup))]
+    [RegisterAbility("Jail", -2)]
     public class Jail : Detain
     {
         public override void DayStart(in IList<IAbility> abilities)

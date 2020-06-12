@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
@@ -58,6 +59,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
+    [RegisterSetup]
     public class AgentSetup : IWatchSetup, ICooldownSetup
     {
         public int NightsBetweenUses { get; set; } = 1;

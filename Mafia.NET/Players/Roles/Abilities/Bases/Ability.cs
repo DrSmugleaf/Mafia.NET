@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;
@@ -25,7 +24,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         Func<IAbility, bool> Filter { get; set; }
         MessageRandomizer MurderDescriptions { get; set; }
 
-        void Initialize(AbilityEntry entry, IPlayer user);
+        void Initialize(AbilitySetupEntry setup, IPlayer user);
         void FromParent(IAbility ability);
         bool Is(Type type);
         void DayStart(in IList<IAbility> abilities);
@@ -51,6 +50,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         }
 
         public bool Initialized { get; private set; }
+        public bool HasUses { get; set; }
 
         public IPlayer User { get; set; }
         public IAbilitySetup Setup { get; set; }
@@ -63,7 +63,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         public int Uses
         {
             get => _uses;
-            set => _uses = value >= 0 ? value : 0;
+            set => _uses = !HasUses || value < 0 ? 0 : value;
         }
 
         public int Cooldown
@@ -75,15 +75,19 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         public Func<IAbility, bool> Filter { get; set; }
         public MessageRandomizer MurderDescriptions { get; set; }
 
-        public virtual void Initialize(AbilityEntry entry, IPlayer user)
+        public virtual void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
             if (Initialized) return;
 
             User = user;
-            Setup = user.Match.AbilitySetups.Setup(entry);
-            MurderDescriptions = entry.MurderDescriptions;
-            Uses = Setup is IUsesSetup usesSetup ? usesSetup.Uses : 0;
-            Priority = entry.Priority;
+            Setup = setup.ResolveSetup();
+            MurderDescriptions = setup.Ability.MurderDescriptions;
+
+            var uses = setup.ResolveUses(Role);
+            HasUses = uses > 0;
+            Uses = uses;
+
+            Priority = setup.Ability.Priority;
 
             Initialized = true;
         }
@@ -263,11 +267,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
     {
         public new T Setup { get; set; }
 
-        public override void Initialize(AbilityEntry entry, IPlayer player)
+        public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
             if (Initialized) return;
 
-            base.Initialize(entry, player);
+            base.Initialize(setup, user);
             Setup = (T) base.Setup;
         }
 

@@ -7,7 +7,8 @@ original_categories:
   - Town Power
 color: "#AAFF55"
 abilities:
-  - Alert
+  - Alert:
+      uses: 2
 perks:
   RoleBlockImmune: true
 ability:

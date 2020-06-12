@@ -4,6 +4,7 @@ categories:
   - Mafia Deception
 color: "#FF3333"
 abilities:
-  - Sanitize
+  - Sanitize:
+      uses: 2
   - Mafia Minion
   - Team Chat

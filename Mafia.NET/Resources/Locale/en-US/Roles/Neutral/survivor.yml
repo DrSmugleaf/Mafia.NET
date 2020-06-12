@@ -2,3 +2,10 @@
 Summary: "An apathetic individual who just wants to stay alive."
 Goal: "Survive to the end of the game, regardless of whether or not the Town or Mafia win."
 Abilities: "Use a Bulletproof Vest (number received based on host settings), protecting the Survivor from being killed at night."
+
+UsesLeft: "Your bulletproof vest has 1 use left."
+UsesLeftPlural: "Your bulletproof vest has {0} uses left."
+UsedUp: "Your bulletproof vest is used up."
+UsedUpNow: "Your bulletproof vest is now used up."
+UserAddMessage: "You put on your bulletproof vest."
+UserRemoveMessage: "You take off your bulletproof vest."

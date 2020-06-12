@@ -4,7 +4,8 @@ categories:
   - Triad Deception
 color: "#6969BB"
 abilities:
-  - Hide
+  - Hide:
+      uses: 2
   - Mafia Minion
   - Team Chat
 ability:

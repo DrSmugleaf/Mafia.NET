@@ -3,7 +3,7 @@ using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
-using Mafia.NET.Players.Roles.Abilities.Setups;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Targeting;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -17,8 +17,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         UserChangeMessage
     }
 
-    [RegisterAbility("Sanitize", 8, typeof(SanitizeSetup))]
-    public class Sanitize : NightEndAbility<SanitizeSetup>
+    [RegisterAbility("Sanitize", 8)]
+    public class Sanitize : NightEndAbility
     {
         public override void NightStart(in IList<IAbility> abilities)
         {
@@ -54,10 +54,5 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             return false;
         }
-    }
-
-    public class SanitizeSetup : IUsesSetup
-    {
-        public int Uses { get; set; } = 2;
     }
 }

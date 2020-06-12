@@ -13,7 +13,7 @@ namespace Mafia.NET.Registries
 
         public ImmutableDictionary<string, T> Ids { get; }
 
-        public virtual T this[string id] => Ids[id];
+        public T this[string id] => Ids[id];
 
         public List<T> Entries()
         {

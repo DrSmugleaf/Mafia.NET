@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Perks
             RoleBlockImmune = false;
             CurrentlyRoleBlockImmune = false;
             RoleBlockers = new List<IPlayer>();
-            Blackmailed = false;
+            Blackmailers = new List<IPlayer>();
             Doused = false;
         }
 
@@ -34,7 +34,8 @@ namespace Mafia.NET.Players.Roles.Perks
         public bool CurrentlyRoleBlockImmune { get; set; }
         public IList<IPlayer> RoleBlockers { get; }
         public bool RoleBlocked => RoleBlockers.Count > 0;
-        public bool Blackmailed { get; set; }
+        public IList<IPlayer> Blackmailers { get; }
+        public bool Blackmailed => Blackmailers.Count > 0;
         public bool Doused { get; set; }
 
         public bool RoleBlock(bool piercing = false, params IPlayer[] blockers)
@@ -61,7 +62,7 @@ namespace Mafia.NET.Players.Roles.Perks
 
         public void BeforeNightEnd()
         {
-            Blackmailed = false;
+            Blackmailers.Clear();
             // TODO: Reduce cooldowns
         }
     }

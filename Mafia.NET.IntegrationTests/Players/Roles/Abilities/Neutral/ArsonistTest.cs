@@ -19,7 +19,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonSetup
+            match.AbilitySetups.Replace(new ArsonSetup
             {
                 IgnitionKillsVictimsTargets = killsTargets
             });
@@ -53,7 +53,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonSetup
+            match.AbilitySetups.Replace(new ArsonSetup
             {
                 IgnitionAlwaysKills = alwaysKill
             });
@@ -87,7 +87,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonSetup
+            match.AbilitySetups.Replace(new ArsonSetup
             {
                 VictimNoticesDousing = notices
             });
@@ -117,7 +117,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
         {
             var roleNames = rolesString.Split(",");
             var match = new Match(roleNames);
-            match.AbilitySetups.Set(new ArsonSetup
+            match.AbilitySetups.Replace(new ArsonSetup
             {
                 DousesRoleBlockers = dousesBlockers
             });

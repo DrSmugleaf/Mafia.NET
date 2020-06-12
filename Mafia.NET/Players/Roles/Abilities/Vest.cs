@@ -22,12 +22,11 @@ namespace Mafia.NET.Players.Roles.Abilities
     [RegisterAbility("Vest", 1, typeof(VestSetup))]
     public class Vest : NightEndAbility<VestSetup>
     {
-        public override void Initialize(AbilityEntry entry, IPlayer user)
+        public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
             if (Initialized) return;
 
-            base.Initialize(entry, user);
-            Uses = Setup.OneBulletproofVest ? 1 : 0;
+            base.Initialize(setup, user);
         }
 
         public override void NightStart(in IList<IAbility> abilities)
@@ -61,9 +60,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
+    [RegisterSetup]
     public class VestSetup : IAbilitySetup
     {
-        public bool OneBulletproofVest = true;
         public bool WinTiesAgainstMafia = true; // TODO 1:1s and tiebreakers
     }
 }

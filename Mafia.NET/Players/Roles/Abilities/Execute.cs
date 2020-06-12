@@ -1,11 +1,12 @@
 ﻿using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
-    [RegisterAbility("Execute", 5, typeof(DetainSetup))]
-    public class Execute : NightEndAbility<DetainSetup>
+    [RegisterAbility("Execute", 5)]
+    public class Execute : NightEndAbility
     {
         public Execute()
         {

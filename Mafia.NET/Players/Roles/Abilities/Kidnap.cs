@@ -3,6 +3,8 @@ using System.Linq;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
+using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -13,7 +15,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public override void DayStart(in IList<IAbility> abilities)
         {
             var filter = TargetFilter.Living(Match).Except(User);
-            if (!Setup.CanKidnapMafiaMembers) filter = filter.Except(User.Role.Team);
+            if (!Setup.CanKidnapTeamMembers) filter = filter.Except(User.Role.Team);
             var notification = new TargetNotification
             {
                 UserAddMessage = target => Notification.Chat(Role, DetainKey.DayUserAddMessage, target),
@@ -49,8 +51,9 @@ namespace Mafia.NET.Players.Roles.Abilities
         }
     }
 
-    public class KidnapSetup : DetainSetup
+    [RegisterSetup]
+    public class KidnapSetup : IAbilitySetup
     {
-        public bool CanKidnapMafiaMembers = false;
+        public bool CanKidnapTeamMembers = false;
     }
 }

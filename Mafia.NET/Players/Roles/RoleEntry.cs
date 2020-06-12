@@ -39,7 +39,7 @@ namespace Mafia.NET.Players.Roles
             OriginalColor = originalColor;
             Natural = natural;
             Unique = unique;
-            Abilities = abilities.ToImmutableList();
+            Abilities = abilities.ToImmutableDictionary(x => x.Id, x => x);
             DefaultDefense = defaultDefense;
             DefaultDetectionImmune = defaultDetectionImmune;
             DefaultRoleBlockImmune = defaultRoleBlockImmune;
@@ -55,7 +55,7 @@ namespace Mafia.NET.Players.Roles
         public Color OriginalColor { get; }
         public bool Natural { get; }
         public bool Unique { get; }
-        public IImmutableList<AbilityEntry> Abilities { get; }
+        public IImmutableDictionary<string, AbilityEntry> Abilities { get; }
         public AttackStrength DefaultDefense { get; }
         public bool DefaultDetectionImmune { get; }
         public bool DefaultRoleBlockImmune { get; }

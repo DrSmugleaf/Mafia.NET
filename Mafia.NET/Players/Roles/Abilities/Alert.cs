@@ -2,7 +2,7 @@
 using System.Collections.Immutable;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities.Bases;
-using Mafia.NET.Players.Roles.Abilities.Setups;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Roles.Abilities
@@ -14,8 +14,8 @@ namespace Mafia.NET.Players.Roles.Abilities
         UserRemoveMessage
     }
 
-    [RegisterAbility("Alert", 5, typeof(AlertSetup))]
-    public class Alert : NightEndAbility<AlertSetup>
+    [RegisterAbility("Alert", 5)]
+    public class Alert : NightEndAbility
     {
         // TODO: Early immunity
         private static readonly ImmutableArray<string> ImmuneRoles =
@@ -54,10 +54,5 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             return true;
         }
-    }
-
-    public class AlertSetup : IUsesSetup
-    {
-        public int Uses { get; set; } = 2;
     }
 }

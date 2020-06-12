@@ -1,5 +1,5 @@
 ﻿using Mafia.NET.Players.Roles.Abilities.Actions;
-using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {

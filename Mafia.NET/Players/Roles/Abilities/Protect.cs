@@ -1,4 +1,5 @@
 ﻿using Mafia.NET.Players.Roles.Abilities.Bases;
+using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Roles.Abilities

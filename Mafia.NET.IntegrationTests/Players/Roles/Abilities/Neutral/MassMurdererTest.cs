@@ -66,9 +66,9 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             match.Skip<DeathsPhase>();
 
-            Assert.AreEqual(ability.Cooldown, spree
+            Assert.That(ability.Cooldown, Is.EqualTo(spree
                 ? cooldown - 1
-                : cooldown);
+                : cooldown));
             Assert.True(massMurderer.Alive);
             Assert.True(target.Alive);
             Deaths(match, spree ? roleNames.Length - 2 : 0);
