@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Bases;
@@ -37,6 +38,7 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             var chatId = $"Jailor-{prisoner.Number}";
             var jail = Match.Chat.Open(chatId);
+            jail.Participants[User].Nickname = new Key(Role, ChatKey.Nickname); // TODO: Teammates seeing the real name
             Match.Chat.DisableForExcept(prisoner, jail);
 
             var allies = Match.LivingPlayers.Where(player =>

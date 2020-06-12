@@ -36,11 +36,20 @@ namespace Mafia.Net.IntegrationTests.Matches
                 foreach (var listener in listeners)
                     Assert.That(message.Listeners, Does.Contain(listener));
 
-                Assert.That(message.Sender.Owner, Is.EqualTo(sender));
+                var author = message.Author;
+                Assert.That(author.Owner, Is.EqualTo(sender));
                 Assert.That(message.Text, Is.EqualTo(text));
 
-                Assert.That(message.Sender.Nickname, Is.Not.Null);
-                Assert.That(message.Sender.Nickname, Is.EqualTo(nickname));
+                if (nickname == null)
+                {
+                    foreach (var listener in listeners)
+                        Assert.That(author.DisplayName(listener), Is.EqualTo(author.Owner.Name));
+                }
+                else
+                {
+                    Assert.NotNull(author.Nickname);
+                    Assert.That(author.Nickname, Is.EqualTo(nickname));
+                }
 
                 Assert.That(message.DisplayText(sender).String, Does.Not.Contain(sender.Name));
 

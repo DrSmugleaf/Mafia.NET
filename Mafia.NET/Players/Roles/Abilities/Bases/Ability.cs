@@ -32,6 +32,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         void NightStart(in IList<IAbility> abilities);
         void NightEnd(in IList<IAbility> abilities);
         bool ResolveUse();
+        bool IsTeammate(IPlayer player);
     }
 
     public interface IAbility<T> : IAbility where T : IAbilitySetup
@@ -133,6 +134,11 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
             return false;
         }
 
+        public virtual bool IsTeammate(IPlayer player)
+        {
+            return false;
+        }
+
         public virtual PhaseTargeting ResolveTargets()
         {
             return Targets.GetAll();
@@ -228,7 +234,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         [Pure]
         public SetupTargets SetupTargets(TargetFilter filter, TargetNotification notification)
         {
-            var targets = new SetupTargets(filter, notification) {User = User};
+            var targets = new SetupTargets(this, filter, notification) {User = User};
             return targets;
         }
 

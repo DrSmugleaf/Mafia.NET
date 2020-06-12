@@ -2,3 +2,11 @@
 Summary: "A believer of a shadowy cult, secretly attempting to convert the town to darkness."
 Goal: "Wins if the Town, Mafia, and all other killing roles are dead or converted to Cultists."
 Abilities: "Speak together at night with other Cultists and attempt to convert a player to a Cultist."
+
+UserAddMessage: "You vote to convert <f c={0c}>{0}</f>."
+UserRemoveMessage: "You removed your vote."
+UserChangeMessage: "You instead vote to convert <f c={0c}>{0}</f>."
+TeamAddMessage: "<f c={0c}>{0}</f> votes to convert <f c={1c}>{1}</f>."
+TeamRemoveMessage: "<f c={0c}>{0}</f> removed their vote."
+TeamChangeMessage: "<f c={0c}>{0}</f> votes to convert <f c={2c}>{2}</f> instead."
+MayTalk: "You may now talk with your allies of the cult."

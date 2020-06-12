@@ -23,7 +23,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
             // TODO: Default to team as id? (Mafia, Triad, Cultist, Mason)
             var chat = Match.Chat.Open<T>(ChatId);
             var participant = chat.Get(User);
-            participant.Nickname = new Key(Role, ChatKey.Nickname);
             participant.Muted = Muted;
             participant.Deaf = Deaf;
 

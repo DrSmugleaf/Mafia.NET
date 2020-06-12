@@ -37,11 +37,6 @@ namespace Mafia.NET.Players.Targeting
             Targets.Add(target);
         }
 
-        public void Add([CanBeNull] TargetNotification message = null, params IPlayer[] targets)
-        {
-            Add(TargetFilter.Of(targets).Build(User, message));
-        }
-
         public void Set([CanBeNull] IPlayer target)
         {
             if (Targets.Count == 0) return;
@@ -63,11 +58,6 @@ namespace Mafia.NET.Players.Targeting
         {
             Reset();
             Targets.Add(target);
-        }
-
-        public void Reset(TargetNotification message, params IPlayer[] targets)
-        {
-            Reset(TargetFilter.Of(targets).Build(User, message));
         }
     }
 }

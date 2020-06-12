@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using JetBrains.Annotations;
 using Mafia.NET.Matches;
+using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Teams;
 
 namespace Mafia.NET.Players.Targeting
@@ -109,9 +110,9 @@ namespace Mafia.NET.Players.Targeting
                 .ToList());
         }
 
-        public Target Build(IPlayer user, [CanBeNull] TargetNotification message)
+        public Target Build(IAbility ability, [CanBeNull] TargetNotification message)
         {
-            return new Target(user, this, message);
+            return new Target(ability, this, message);
         }
     }
 }

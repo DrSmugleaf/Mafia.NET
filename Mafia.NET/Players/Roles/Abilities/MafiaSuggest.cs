@@ -30,7 +30,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public override void NightStart(in IList<IAbility> abilities)
         {
             SetupTargets<MafiaSuggestKey>(abilities, TargetFilter.Living(Match).Except(User.Role.Team));
-            // TODO: Change messages when alone
+            // TODO: Change messages when alone, teammate messages
         }
 
         public override bool Use(IPlayer victim)

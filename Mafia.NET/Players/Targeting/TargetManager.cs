@@ -125,11 +125,6 @@ namespace Mafia.NET.Players.Targeting
             Get().Add(target);
         }
 
-        public void Add(TargetNotification message, params IPlayer[] targets)
-        {
-            Get().Add(message, targets);
-        }
-
         public void Set([CanBeNull] IPlayer target)
         {
             Get().Set(target);
@@ -153,11 +148,6 @@ namespace Mafia.NET.Players.Targeting
         public void Reset(Target target)
         {
             Get().Reset(target);
-        }
-
-        public void Reset(TargetNotification message, params IPlayer[] targets)
-        {
-            Get().Reset(message, targets);
         }
     }
 }

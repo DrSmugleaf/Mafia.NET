@@ -1,4 +1,5 @@
-﻿using Mafia.NET.Matches;
+﻿using Mafia.NET.Localization;
+using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Registry;
@@ -23,8 +24,14 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             foreach (var player in match.AllPlayers)
                 if (player.Abilities.Any<CrierChatAbility>())
+                {
                     Mute(player, false);
-                else Mute(player);
+                    Participants[player].Nickname = new Key(player.Role, ChatKey.Nickname);
+                }
+                else
+                {
+                    Mute(player);
+                }
 
             Initialized = true;
         }

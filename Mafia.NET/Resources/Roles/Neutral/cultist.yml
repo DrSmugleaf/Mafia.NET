@@ -3,3 +3,6 @@ team: Neutral
 categories:
   - Neutral Evil
 color: "#BB44AA"
+abilities:
+  - Cult Chat
+  - Cult Suggest

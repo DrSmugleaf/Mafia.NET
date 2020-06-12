@@ -19,9 +19,9 @@ namespace Mafia.NET.Matches.Chats
 
     public class MessageOut
     {
-        public MessageOut(IChatParticipant sender, string text, HashSet<IPlayer> listeners = null)
+        public MessageOut(IChatParticipant author, string text, HashSet<IPlayer> listeners = null)
         {
-            Sender = sender;
+            Author = author;
             Listeners = listeners?.ToImmutableHashSet() ?? ImmutableHashSet<IPlayer>.Empty;
             Text = text;
         }
@@ -31,13 +31,13 @@ namespace Mafia.NET.Matches.Chats
         {
         }
 
-        public IChatParticipant Sender { get; }
+        public IChatParticipant Author { get; }
         public IImmutableSet<IPlayer> Listeners { get; }
         public string Text { get; }
 
         public Text DisplayText(IPlayer listener)
         {
-            return Sender.DisplayName(listener).With($": {Text}");
+            return Author.DisplayName(listener).With($": {Text}");
         }
     }
 }
