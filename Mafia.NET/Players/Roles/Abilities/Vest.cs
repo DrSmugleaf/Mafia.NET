@@ -22,13 +22,6 @@ namespace Mafia.NET.Players.Roles.Abilities
     [RegisterAbility("Vest", 1, typeof(VestSetup))]
     public class Vest : NightEndAbility<VestSetup>
     {
-        public override void Initialize(AbilitySetupEntry setup, IPlayer user)
-        {
-            if (Initialized) return;
-
-            base.Initialize(setup, user);
-        }
-
         public override void NightStart(in IList<IAbility> abilities)
         {
             SetupTargets<VestKey>(abilities, User);

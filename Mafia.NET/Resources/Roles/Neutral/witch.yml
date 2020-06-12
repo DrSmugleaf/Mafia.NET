@@ -3,6 +3,8 @@ team: Neutral
 categories:
   - Neutral Evil
 color: "#6622CC"
+abilities:
+  - Control
 ability:
   murder_descriptions:
     - "There were signs of struggle, but they apparently committed suicide."

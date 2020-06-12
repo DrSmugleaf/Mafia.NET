@@ -24,7 +24,7 @@ namespace Mafia.NET.Players.Roles.Abilities
         public Notification UserMessage()
         {
             var first = Targets[0];
-            var second = Targets[0];
+            var second = Targets[1];
 
             if (first == null && second == null) return Notification.Chat(RideKey.NoTargets);
             if (first != null && second != null) return Notification.Chat(RideKey.TwoTargets, first, second);
@@ -41,8 +41,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public override void NightStart(in IList<IAbility> abilities)
         {
-            var filter = TargetFilter.Living(Match);
-            if (!Setup.CanTargetSelf) filter = filter.Except(User); // TODO Except already targeted
+            var filter = TargetFilter.Living(Match).Except(Targets);
+            if (!Setup.CanTargetSelf) filter = filter.Except(User);
 
             var notification = new TargetNotification
             {

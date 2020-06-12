@@ -85,6 +85,17 @@ namespace Mafia.NET.Players.Targeting
             });
         }
 
+        public TargetFilter Except(TargetManager manager)
+        {
+            return new TargetFilter(players =>
+            {
+                players = Filter(players);
+                return players
+                    .Where(player => !manager.Any(player))
+                    .ToList();
+            });
+        }
+
         public TargetFilter And(TargetFilter filter)
         {
             return new TargetFilter(players => filter.Filter(Filter(players)));

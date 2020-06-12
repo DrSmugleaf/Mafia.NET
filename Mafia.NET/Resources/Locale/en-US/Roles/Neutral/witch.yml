@@ -2,3 +2,13 @@
 Summary: "A malicious mystic who uses their manipulative powers for evil."
 Goal: "Survive and see the town lose the game."
 Abilities: "Force one person to use their night ability on a target of the Witch's choice."
+
+NoTargets: "You won't control anyone tonight."
+ControlAdd: "You will control <f c={0c}>{0}</f>."
+SelfAdd: "You will make <f c={0c}>{0}</f> target themselves tonight."
+BothAdd: "You will make <f c={0c}>{0}</f> target <f c={1c}>{1}</f> tonight."
+TargetStopped: "You feel a dominating spell that is stopping your actions. You were manipulated!"
+TargetControlled: "You feel a dominating spell that is controlling your actions. You were manipulated!"
+ForcedSuicide: "You committed suicide because of a Witch's control."
+UserTargetControlled: "You made <f c={0c}>{0}</f> target <f c={1c}>{1}</f>."
+UserTargetSelfTarget: "You made <f c={0c}>{0}</f> target themself."
