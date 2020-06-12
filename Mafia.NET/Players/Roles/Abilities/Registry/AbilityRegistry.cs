@@ -46,7 +46,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
 
                 var id = ability.Id;
                 var priority = ability.Priority;
-                var setup = ability.Setup;
+                var setup = ability.DefaultSetup;
                 var murderDescriptions = DefaultMurderDescriptions;
                 var entry = new AbilityEntry(id, type, priority, setup, murderDescriptions);
 

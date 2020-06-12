@@ -9,19 +9,19 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
     [MeansImplicitUse]
     public class RegisterAbilityAttribute : Attribute
     {
-        public RegisterAbilityAttribute(string id, int priority, [CanBeNull] Type setup = null)
+        public RegisterAbilityAttribute(string id, int priority, [CanBeNull] Type defaultSetup = null)
         {
             Id = id;
             Priority = priority;
 
-            if (setup != null && (setup.IsAbstract || setup.IsInterface))
-                throw new ArgumentException($"Setup type {setup} is not a concrete class");
+            if (defaultSetup != null && (defaultSetup.IsAbstract || defaultSetup.IsInterface))
+                throw new ArgumentException($"Setup type {defaultSetup} is not a concrete class");
 
-            Setup = setup;
+            DefaultSetup = defaultSetup;
         }
 
         public string Id { get; }
         public int Priority { get; }
-        [CanBeNull] public Type Setup { get; }
+        [CanBeNull] public Type DefaultSetup { get; }
     }
 }

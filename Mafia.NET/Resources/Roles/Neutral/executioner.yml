@@ -3,3 +3,7 @@ team: Neutral
 categories:
   - Neutral Benign
 color: "#AACCFF"
+abilities:
+  - Obsession
+perks:
+  Defense: None

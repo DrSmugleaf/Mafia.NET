@@ -59,6 +59,15 @@ namespace Mafia.NET.Matches
             UndisclosedDeaths.AddRange(victims.Values);
         }
 
+        public bool DeathOf(IPlayer player, out IDeath death)
+        {
+            death = default;
+            
+            death = AllDeaths().FirstOrDefault(death => death.Victim == player);
+
+            return death != default;
+        }
+
         public IList<IDeath> DeathsOn(int day, DeathCause cause)
         {
             return AllDeaths().Where(death => death.Day == day && death.Cause == cause).ToList();

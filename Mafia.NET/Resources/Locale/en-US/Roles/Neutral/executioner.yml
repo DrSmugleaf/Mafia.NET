@@ -2,3 +2,8 @@
 Summary: "An obsessed hunter whose life's goal is to get his target justly executed."
 Goal: "Live to see his target lynched during the day."
 Abilities: "None."
+
+Target: "You are obsessed with <f c={0c}>{0}</f>, you must get them lynched during the day in order to win."
+Success: "You have successfully gotten <f c={0c}>{0}</f> lynched!"
+Fail: "<f c={0c}>{0}</f>'s death during the night has left you without purpose."
+Jester: "<f c={0c}>{0}</f>'s death during the night has left you without purpose. You have become a Jester! Get yourself lynched in order to win."

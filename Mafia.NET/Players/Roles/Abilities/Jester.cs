@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Mafia.NET.Localization;
+using Mafia.NET.Notifications;
 using Mafia.NET.Players.Deaths;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Registry;
@@ -7,6 +9,12 @@ using Mafia.NET.Players.Roles.Perks;
 
 namespace Mafia.NET.Players.Roles.Abilities
 {
+    [RegisterKey]
+    public enum JesterKey
+    {
+        Suicide
+    }
+    
     [RegisterAbility("Jester", 0, typeof(JesterSetup))]
     public class Jester : NightEndAbility<IJesterSetup>
     {
@@ -33,6 +41,9 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             var attack = Attack(AttackStrength.Suicide, 0, false, false);
             attack.Use(suicide);
+
+            var suicideNotification = Notification.Chat(Role, JesterKey.Suicide);
+            suicide.OnNotification(suicideNotification);
 
             return true;
         }
