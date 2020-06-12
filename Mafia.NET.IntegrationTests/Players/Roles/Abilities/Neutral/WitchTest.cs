@@ -78,6 +78,42 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             
             Deaths(match, control && causesSelf || attack ? 1 : 0);
         }
+        
+        [TestCaseSource(typeof(ToWitchCases))]
+        public void ToWitch(string rolesString, bool control, bool attack, bool heal, bool causesSelf, bool knows)
+        {
+            var roleNames = rolesString.Split(",");
+            var match = new Match(roleNames);
+            match.AbilitySetups.Replace(new ControlSetup
+            {
+                CanCauseSelfTargets = causesSelf,
+                VictimKnows = knows
+            });
+            match.Start();
+
+            var witch = match.AllPlayers[0];
+            var killer = match.AllPlayers[1];
+            var healer = match.AllPlayers[2];
+
+            match.Skip<NightPhase>();
+
+            if (control)
+            {
+                witch.Targets[0] = healer;
+                witch.Targets[1] = witch;
+            }
+            if (attack) killer.Target(witch);
+            if (heal) healer.Target(witch);
+
+            match.Skip<DeathsPhase>();
+
+            var witchAlive = control || heal || !attack;
+            Assert.That(witch.Alive, Is.EqualTo(witchAlive));
+            Assert.True(killer.Alive);
+            Assert.True(healer.Alive);
+            
+            Deaths(match, witchAlive ? 0 : 1);
+        }
     }
     
     public class ControlCases : IEnumerable
@@ -106,6 +142,21 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             foreach (var causesSelf in new[] {true, false})
             foreach (var knows in new[] {true, false})
                 yield return new object[] {roleNames, control, attack, causesSelf, knows};
+        }
+    }
+
+    public class ToWitchCases : IEnumerable
+    {
+        public IEnumerator GetEnumerator()
+        {
+            var roleNames = "Witch,Serial Killer,Doctor";
+
+            foreach (var control in new[] {true, false})
+            foreach (var attack in new[] {true, false})
+            foreach (var heal in new[] {true, false})
+            foreach (var causesSelf in new[] {true, false})
+            foreach (var knows in new[] {true, false})
+                yield return new object[] {roleNames, control, attack, heal, causesSelf, knows};
         }
     }
 }

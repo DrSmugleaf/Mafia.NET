@@ -39,8 +39,13 @@ namespace Mafia.NET.Players.Roles.Abilities
 
         public override void NightStart(in IList<IAbility> abilities)
         {
-            var filter = TargetFilter.Living(Match).Except(User);
-            if (!Setup.CanCauseSelfTargets) filter = filter.Except(Targets);
+            var controlFilter = TargetFilter.Living(Match).Except(User);
+            var targetFilter = TargetFilter.Living(Match);
+            if (!Setup.CanCauseSelfTargets)
+            {
+                controlFilter = controlFilter.Except(Targets);
+                targetFilter = targetFilter.Except(Targets);
+            }
 
             var notification = new TargetNotification
             {
@@ -49,8 +54,8 @@ namespace Mafia.NET.Players.Roles.Abilities
                 UserChangeMessage = (old, current) => UserMessage()
             };
 
-            SetupTargets(abilities, filter, notification);
-            SetupTargets(abilities, filter, notification);
+            SetupTargets(abilities, controlFilter, notification);
+            SetupTargets(abilities, targetFilter, notification);
         }
 
         public override bool Use(IPlayer first, IPlayer second)
