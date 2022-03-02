@@ -53,8 +53,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         public bool Initialized { get; private set; }
         public bool HasUses { get; set; }
 
-        public IPlayer User { get; set; }
-        public IAbilitySetup Setup { get; set; }
+        public IPlayer User { get; set; } = null!;
+        public IAbilitySetup Setup { get; set; } = null!;
         public IRole Role => User.Role;
         public IMatch Match => User.Match;
         public TargetManager Targets => User.Targets;
@@ -74,7 +74,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         }
 
         public Func<IAbility, bool> Filter { get; set; }
-        public MessageRandomizer MurderDescriptions { get; set; }
+        public MessageRandomizer MurderDescriptions { get; set; } = null!;
 
         public virtual void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
@@ -239,7 +239,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
         }
 
         [Pure]
-        public SetupTargets SetupTargets(IPlayer target, TargetNotification notification)
+        public SetupTargets SetupTargets(IPlayer? target, TargetNotification notification)
         {
             return SetupTargets(TargetFilter.Only(target), notification);
         }
@@ -271,7 +271,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Bases
 
     public abstract class Ability<T> : Ability, IAbility<T> where T : IAbilitySetup
     {
-        public new T Setup { get; set; }
+        public new T Setup { get; set; } = default!;
 
         public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {

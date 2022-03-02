@@ -32,16 +32,16 @@ namespace Mafia.NET.Matches
             Task.Delay(3000).ContinueWith(t => match.Start());
         }
 
-        public virtual void OnMatchEnd(object sender, MatchEnd match)
+        public virtual void OnMatchEnd(object? sender, MatchEnd match)
         {
             Matches.TryRemove(match.Match.Id, out _);
         }
 
-        public virtual void OnChat(object sender, Text notification)
+        public virtual void OnChat(object? sender, Text notification)
         {
         }
 
-        public virtual void OnPopup(object sender, Text notification)
+        public virtual void OnPopup(object? sender, Text notification)
         {
         }
     }

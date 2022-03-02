@@ -22,7 +22,8 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             var survivor = match.AllPlayers[0];
             var killer = match.AllPlayers[1];
-            var ability = survivor.Abilities.Get<Vest>();
+            var ability = survivor.Abilities.Get<Vest>()!;
+            Assert.NotNull(ability);
             Assert.That(ability.Uses, Is.EqualTo(DefaultUses));
 
             match.Skip<NightPhase>();

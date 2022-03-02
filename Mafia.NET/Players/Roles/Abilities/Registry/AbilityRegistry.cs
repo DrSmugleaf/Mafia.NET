@@ -38,7 +38,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             foreach (var type in assembly.GetTypes())
             {
-                var ability = (RegisterAbilityAttribute) type
+                var ability = (RegisterAbilityAttribute?) type
                     .GetCustomAttributes(typeof(RegisterAbilityAttribute), true)
                     .FirstOrDefault();
 

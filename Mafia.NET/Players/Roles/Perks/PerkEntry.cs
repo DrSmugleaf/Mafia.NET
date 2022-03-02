@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Perks
         public AttackStrength Defense { get; set; }
         public bool DetectionImmune { get; set; }
         public bool RoleBlockImmune { get; set; }
-        public HealProfileEntry HealProfile { get; set; }
+        public HealProfileEntry HealProfile { get; set; } = null!;
 
         public string Id { get; }
 

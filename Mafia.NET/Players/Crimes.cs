@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Extension;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
@@ -42,7 +41,7 @@ namespace Mafia.NET.Players
 
         public IPlayer User { get; set; }
         protected ISet<Key> Committed { get; }
-        [CanBeNull] public Framing Framing { get; set; }
+        public Framing? Framing { get; set; }
 
         public void Add(Key crime)
         {

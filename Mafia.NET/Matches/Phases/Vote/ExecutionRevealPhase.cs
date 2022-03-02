@@ -14,7 +14,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             Player = player;
         }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return Supersedes;
         }

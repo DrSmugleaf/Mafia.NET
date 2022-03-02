@@ -29,12 +29,12 @@ namespace Mafia.NET.Players.Roles.Categories
         public Goal Goal { get; }
         public string Team { get; }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Name.Localize(culture);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ICategory o && Id.Equals(o.Id);
         }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Mafia.NET.Registries
 {
-    public abstract class WritableRegistry<T, TId> where T : IRegistrable<TId>
+    public abstract class WritableRegistry<T, TId> where T : IRegistrable<TId> where TId : notnull
     {
         protected WritableRegistry(Dictionary<TId, T> ids)
         {

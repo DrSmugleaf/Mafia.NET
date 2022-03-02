@@ -29,7 +29,7 @@ namespace Mafia.NET.Players.Roles.Abilities
             if (first == null && second == null) return Notification.Chat(RideKey.NoTargets);
             if (first != null && second != null) return Notification.Chat(RideKey.TwoTargets, first, second);
             if (first != null) return Notification.Chat(RideKey.OneTarget, first);
-            return Notification.Chat(RideKey.OneTarget, second);
+            return Notification.Chat(RideKey.OneTarget, second!);
         }
 
         public Notification SwitchMessage(IPlayer target)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 
@@ -8,9 +7,9 @@ namespace Mafia.NET.Players.Targeting
 {
     public class Target
     {
-        [CanBeNull] private IPlayer _targeted;
+        private IPlayer? _targeted;
 
-        public Target(IAbility ability, TargetFilter filter, [CanBeNull] TargetNotification message = null)
+        public Target(IAbility ability, TargetFilter filter, TargetNotification? message = null)
         {
             Ability = ability;
             Filter = filter;
@@ -20,8 +19,7 @@ namespace Mafia.NET.Players.Targeting
         public IAbility Ability { get; }
         public IPlayer User => Ability.User;
 
-        [CanBeNull]
-        public IPlayer Targeted
+        public IPlayer? Targeted
         {
             get => _targeted;
             set
@@ -37,8 +35,7 @@ namespace Mafia.NET.Players.Targeting
                     User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetRemove(User, old);
-                    // ReSharper disable once ConstantConditionalAccessQualifier
-                    old?.OnNotification(targetNotification);
+                    old.OnNotification(targetNotification);
 
                     var teamNotification = Message.TeamRemove(User, old);
                     foreach (var player in User.Match.AllPlayers)
@@ -53,7 +50,6 @@ namespace Mafia.NET.Players.Targeting
                     User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetAdd(User, Targeted);
-                    // ReSharper disable once ConstantConditionalAccessQualifier
                     Targeted?.OnNotification(targetNotification);
 
                     var teamNotification = Message.TeamAdd(User, old);
@@ -69,12 +65,10 @@ namespace Mafia.NET.Players.Targeting
                     User.OnNotification(userNotification);
 
                     var targetNotification = Message.TargetChange(User, old, Targeted);
-                    // ReSharper disable once ConstantConditionalAccessQualifier
-                    old?.OnNotification(targetNotification);
-                    // ReSharper disable once ConstantConditionalAccessQualifier
+                    old.OnNotification(targetNotification);
                     Targeted?.OnNotification(targetNotification);
 
-                    var teamNotification = Message.TeamChange(User, old, Targeted);
+                    var teamNotification = Message.TeamChange(User, old, Targeted!);
                     foreach (var player in User.Match.AllPlayers)
                     {
                         if (player == User || !Ability.IsTeammate(player)) continue;
@@ -93,12 +87,12 @@ namespace Mafia.NET.Players.Targeting
             return target != null;
         }
 
-        public void Set([CanBeNull] IPlayer target)
+        public void Set(IPlayer? target)
         {
             Targeted = target;
         }
 
-        public void ForceSet([CanBeNull] IPlayer target)
+        public void ForceSet(IPlayer? target)
         {
             _targeted = target;
         }

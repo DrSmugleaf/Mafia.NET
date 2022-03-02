@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles.HealProfiles
     {
         public HealProfile(IPlayer user)
         {
-            User = User;
+            User = user;
         }
 
         public IPlayer User { get; set; }

@@ -14,7 +14,7 @@ namespace Mafia.NET.Matches.Phases
 
         public IList<IVictory> Victories { get; set; }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return this;
         }

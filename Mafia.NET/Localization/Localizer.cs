@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using JetBrains.Annotations;
 using Mafia.NET.Extension;
 using Mafia.NET.Resources;
 using NGettext;
@@ -27,7 +26,7 @@ namespace Mafia.NET.Localization
 
         public static Localizer Default => Lazy.Value;
 
-        public Catalog Get([CanBeNull] CultureInfo culture = null)
+        public Catalog Get(CultureInfo? culture = null)
         {
             culture ??= DefaultCulture;
 
@@ -37,7 +36,7 @@ namespace Mafia.NET.Localization
             return Catalogs[culture];
         }
 
-        public Text Get(string key, [CanBeNull] CultureInfo culture = null, params object[] args)
+        public Text Get(string key, CultureInfo? culture = null, params object[] args)
         {
             if (key.Length == 0) return Text.Empty;
             culture ??= DefaultCulture;

@@ -14,6 +14,7 @@ namespace Mafia.NET.Extension
 
         public static Dictionary<TKey, TElement> ToDictionary<TKey, TElement>(
             this IEnumerable<KeyValuePair<TKey, TElement>> source)
+            where TKey : notnull
         {
             return source.ToDictionary(x => x.Key, x => x.Value);
         }

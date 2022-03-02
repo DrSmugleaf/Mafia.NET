@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+﻿using System.Diagnostics.CodeAnalysis;
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities;
 
@@ -8,11 +8,11 @@ namespace Mafia.NET.Players.Roles.DetectionProfiles
     {
         IPlayer User { get; set; }
 
-        bool DetectableBy([CanBeNull] SheriffSetup setup = null);
-        Key ResolveKey([CanBeNull] SheriffSetup setup = null);
-        bool TargetDetectableBy([CanBeNull] IDetectSetup setup = null);
-        bool TryDetectTarget(out IPlayer target, [CanBeNull] IDetectSetup setup = null);
-        bool DetectProperty([CanBeNull] SheriffSetup setup = null);
+        bool DetectableBy(SheriffSetup? setup = null);
+        Key ResolveKey(SheriffSetup? setup = null);
+        bool TargetDetectableBy(IDetectSetup? setup = null);
+        bool TryDetectTarget([NotNullWhen(true)] out IPlayer? target, IDetectSetup? setup = null);
+        bool DetectProperty(SheriffSetup? setup = null);
         Key GuiltyKey();
     }
 
@@ -25,30 +25,30 @@ namespace Mafia.NET.Players.Roles.DetectionProfiles
 
         public IPlayer User { get; set; }
 
-        public bool DetectableBy(SheriffSetup setup = null)
+        public bool DetectableBy(SheriffSetup? setup = null)
         {
             return !User.Perks.CurrentlyDetectionImmune && DetectProperty(setup);
         }
 
-        public Key ResolveKey(SheriffSetup setup = null)
+        public Key ResolveKey(SheriffSetup? setup = null)
         {
             if (DetectableBy(setup)) return GuiltyKey();
             return SheriffKey.NotSuspicious;
         }
 
-        public bool TargetDetectableBy(IDetectSetup setup = null)
+        public bool TargetDetectableBy(IDetectSetup? setup = null)
         {
             return !User.Perks.CurrentlyDetectionImmune ||
                    setup?.IgnoresDetectionImmunity == true;
         }
 
-        public bool TryDetectTarget(out IPlayer target, IDetectSetup setup = null)
+        public bool TryDetectTarget([NotNullWhen(true)] out IPlayer? target, IDetectSetup? setup = null)
         {
             target = TargetDetectableBy(setup) ? User.Targets[0] : null;
             return target != null;
         }
 
-        public bool DetectProperty(SheriffSetup setup = null)
+        public bool DetectProperty(SheriffSetup? setup = null)
         {
             return User.Role.Team.Id switch
             {

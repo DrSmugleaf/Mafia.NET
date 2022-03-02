@@ -21,7 +21,7 @@ namespace Mafia.NET.Players.Roles.HealProfiles
 
         public IHealProfile Build(IPlayer user)
         {
-            return (IHealProfile) Activator.CreateInstance(Profile, user);
+            return (IHealProfile) Activator.CreateInstance(Profile, user)!;
         }
     }
 }

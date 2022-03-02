@@ -13,7 +13,7 @@ namespace Mafia.NET.Matches.Phases.Vote.Verdicts
 
         public VerdictManager Verdicts { get; }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return new VerdictResultPhase(Match, Verdicts) {Supersedes = Supersedes};
         }

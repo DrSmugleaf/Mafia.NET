@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Deaths;
@@ -18,9 +19,9 @@ namespace Mafia.NET.Players.Roles.Abilities
     [RegisterAbility("Jester", 0, typeof(JesterSetup))]
     public class Jester : NightEndAbility<IJesterSetup>
     {
-        public bool UserLynchedToday(out ILynch lynch)
+        public bool UserLynchedToday([NotNullWhen(true)] out ILynch? lynch)
         {
-            lynch = (ILynch) User.Match.Graveyard.LynchesToday().FirstOrDefault(death => death.Victim == User);
+            lynch = (ILynch?) User.Match.Graveyard.LynchesToday().FirstOrDefault(death => death.Victim == User);
 
             return lynch != default;
         }

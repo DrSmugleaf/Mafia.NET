@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Registries;
 
@@ -7,7 +6,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Setups
 {
     public class AbilitySetupEntry : IRegistrable
     {
-        private IAbilitySetup _setup;
+        private IAbilitySetup? _setup;
 
         public AbilitySetupEntry(AbilityEntry ability)
         {
@@ -17,13 +16,12 @@ namespace Mafia.NET.Players.Roles.Abilities.Setups
 
         public AbilityEntry Ability { get; set; }
 
-        [CanBeNull]
-        public IAbilitySetup Setup
+        public IAbilitySetup? Setup
         {
             private get => _setup;
             set
             {
-                if (!Ability.ValidSetup(value))
+                if (value == null || !Ability.ValidSetup(value))
                     throw new ArgumentException($"Invalid setup {value?.GetType()}");
 
                 _setup = value;
@@ -36,7 +34,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Setups
 
         public IAbilitySetup ResolveSetup()
         {
-            return (IAbilitySetup) (Setup ?? Activator.CreateInstance(Ability.Setup));
+            return (IAbilitySetup) (Setup ?? Activator.CreateInstance(Ability.Setup)!);
         }
 
         public int ResolveUses(IRole role)

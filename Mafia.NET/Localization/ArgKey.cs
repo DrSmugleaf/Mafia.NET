@@ -19,12 +19,12 @@ namespace Mafia.NET.Localization
 
         public object[] Args { get; }
 
-        public override Text Localize(CultureInfo culture = null)
+        public override Text Localize(CultureInfo? culture = null)
         {
             return Localizer.Default.Get(Id, culture, Args);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ArgKey o &&
                    Id.Equals(o.Id) &&

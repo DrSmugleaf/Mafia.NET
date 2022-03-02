@@ -10,7 +10,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
             NewRole = newRole;
         }
 
-        public Transform() : this(null)
+        public Transform() : this(null!)
         {
         }
 

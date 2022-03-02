@@ -4,8 +4,8 @@ namespace Mafia.NET.Web.Models
 {
     public class JoinGameViewModel
     {
-        public string Name { get; set; }
-        public string Lobby { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Lobby { get; set; } = string.Empty;
 
         public Guid LobbyGuid()
         {

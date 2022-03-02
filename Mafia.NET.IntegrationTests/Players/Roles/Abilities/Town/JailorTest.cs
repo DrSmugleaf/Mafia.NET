@@ -74,13 +74,13 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             }
 
             var abilities = jailor.Abilities;
-            var uses = abilities.Get(ability).Uses; // TODO
+            var uses = abilities.Get(ability)!.Uses; // TODO
 
             match.Skip<DeathsPhase>();
 
             Deaths(match, lynch || execute ? 1 : 0);
 
-            var newUses = abilities.Get(ability).Uses;
+            var newUses = abilities.Get(ability)!.Uses;
             if (!lynch && execute)
                 Assert.That(newUses, Is.EqualTo(uses - 1));
             else Assert.That(newUses, Is.EqualTo(uses));
@@ -218,15 +218,15 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
             Messages(firstMessages, lynch ? 0 : 1, first, firstText, nickname, first, second, prisoner);
             Messages(secondMessages, lynch ? 0 : 1, second, secondText, nickname, first, second, prisoner);
 
-            var firstUses = first.Abilities.Get(ability).Uses;
-            var secondUses = second.Abilities.Get(ability).Uses;
+            var firstUses = first.Abilities.Get(ability)!.Uses;
+            var secondUses = second.Abilities.Get(ability)!.Uses;
 
             match.Skip<DeathsPhase>();
 
             Deaths(match, lynch || execute ? 1 : 0);
 
-            var firstNewUses = first.Abilities.Get(ability).Uses;
-            var secondNewUses = second.Abilities.Get(ability).Uses;
+            var firstNewUses = first.Abilities.Get(ability)!.Uses;
+            var secondNewUses = second.Abilities.Get(ability)!.Uses;
             if (!lynch && execute)
             {
                 Assert.That(firstNewUses, Is.EqualTo(firstUses - 1));

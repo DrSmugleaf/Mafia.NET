@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Teams;
@@ -39,7 +38,7 @@ namespace Mafia.NET.Players.Targeting
             return new TargetFilter(() => match.AllPlayers.Where(player => !player.Alive).ToList());
         }
 
-        public static TargetFilter Only(IPlayer player)
+        public static TargetFilter Only(IPlayer? player)
         {
             if (player == null) return None();
 
@@ -110,7 +109,7 @@ namespace Mafia.NET.Players.Targeting
                 .ToList());
         }
 
-        public Target Build(IAbility ability, [CanBeNull] TargetNotification message)
+        public Target Build(IAbility ability, TargetNotification? message)
         {
             return new Target(ability, this, message);
         }

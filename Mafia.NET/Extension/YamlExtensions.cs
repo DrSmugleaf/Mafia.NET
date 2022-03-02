@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using YamlDotNet.RepresentationModel;
@@ -33,7 +34,7 @@ namespace Mafia.NET.Extension
             return node.Children.ContainsKey(key);
         }
 
-        public static bool Try(this YamlNode root, string key, out YamlNode node)
+        public static bool Try(this YamlNode root, string key, [NotNullWhen(true)] out YamlNode? node)
         {
             node = null;
             var mapping = root as YamlMappingNode;
@@ -43,28 +44,28 @@ namespace Mafia.NET.Extension
             return true;
         }
 
-        public static bool TryCast<T>(this YamlNode root, string key, out T node) where T : YamlNode
+        public static bool TryCast<T>(this YamlNode root, string key, [NotNullWhen(true)] out T? node) where T : YamlNode
         {
-            Try(root, key, out var uncast);
-            node = uncast as T;
+            Try(root, key, out var unCast);
+            node = unCast as T;
             return node != null;
         }
 
         public static T Cast<T>(this YamlNode root, string key) where T : YamlNode
         {
-            TryCast(root, key, out T node);
+            TryCast(root, key, out T? node);
             if (node == null) throw new InvalidCastException();
             return node;
         }
 
         public static string AsString(this YamlNode node)
         {
-            return ((YamlScalarNode) node).Value;
+            return ((YamlScalarNode) node).Value!;
         }
 
         public static int AsInt(this YamlNode node)
         {
-            return int.Parse(((YamlScalarNode) node).Value);
+            return int.Parse(((YamlScalarNode) node).Value!);
         }
 
         public static Color AsColor(this YamlNode node)

@@ -17,6 +17,7 @@ namespace Mafia.NET.Players.Controllers
         {
             Name = name;
             Id = id;
+            _player = player;
             Player = player;
             player.Controller = this;
         }

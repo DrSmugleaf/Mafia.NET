@@ -42,12 +42,15 @@ namespace Mafia.NET.Players.Roles.Abilities
                 Uses--;
 
                 var threat = targetThreats.First();
-                var lastWill = Notification.Chat(Role, SanitizeKey.LastWillReveal, threat.LastWill);
+
+                if (threat.LastWill != null)
+                {
+                    var lastWill = Notification.Chat(Role, SanitizeKey.LastWillReveal, threat.LastWill);
+                    User.OnNotification(lastWill);
+                }
 
                 threat.VictimRole = null;
                 threat.LastWill = null;
-
-                User.OnNotification(lastWill);
 
                 return true;
             }

@@ -31,7 +31,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             SetupTargets(
                 Uses > 0 ? prisoner : null,
-                TargetNotification.Enum<DetainKey>(this)).Use();
+                TargetNotification.Enum<DetainKey>(this)
+            ).Use();
 
             var chatId = $"Jailor-{prisoner.Number}";
             var jail = Match.Chat.Open(chatId);

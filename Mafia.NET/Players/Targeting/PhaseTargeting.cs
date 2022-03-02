@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mafia.NET.Matches.Phases;
 
 namespace Mafia.NET.Players.Targeting
@@ -8,7 +7,7 @@ namespace Mafia.NET.Players.Targeting
     {
         public PhaseTargeting(IPlayer user, Time phase, IList<Target> targets)
         {
-            User = User;
+            User = user;
             Phase = phase;
             Targets = targets;
         }
@@ -21,8 +20,7 @@ namespace Mafia.NET.Players.Targeting
         public Time Phase { get; }
         public IList<Target> Targets { get; set; }
 
-        [CanBeNull]
-        public Target this[int index]
+        public Target? this[int index]
         {
             get => index < Targets.Count ? Targets[index] : null;
             set
@@ -37,13 +35,13 @@ namespace Mafia.NET.Players.Targeting
             Targets.Add(target);
         }
 
-        public void Set([CanBeNull] IPlayer target)
+        public void Set(IPlayer? target)
         {
             if (Targets.Count == 0) return;
             Targets[0].Targeted = target;
         }
 
-        public void ForceSet([CanBeNull] IPlayer target)
+        public void ForceSet(IPlayer? target)
         {
             if (Targets.Count == 0) return;
             Targets[0].ForceSet(target);

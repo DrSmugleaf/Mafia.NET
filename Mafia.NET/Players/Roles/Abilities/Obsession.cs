@@ -24,7 +24,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     {
         public bool Failed { get; set; }
         public bool Success { get;set; }
-        public IPlayer Target { get; set; }
+        public IPlayer Target { get; set; } = null!;
 
         // TODO: Victory condition
         // TODO: Avoid self confirming roles (Mayor, Marshall, Crier...)

@@ -5,7 +5,7 @@ namespace Mafia.NET.Web.Controllers
 {
     public class WikiController : BaseController
     {
-        public IActionResult Index(string role)
+        public IActionResult Index(string? role)
         {
             if (role == null) return View("Index");
             if (!RoleRegistry.Default.Ids.ContainsKey(role)) return NotFound();

@@ -20,13 +20,13 @@ namespace Mafia.NET.Matches.Phases
         public double Duration { get; protected set; }
         public DateTime StartTime { get; protected set; }
         public double Elapsed { get; protected set; }
-        public IPhase Supersedes { get; set; }
-        public IPhase SupersededBy { get; set; }
+        public IPhase? Supersedes { get; set; }
+        public IPhase? SupersededBy { get; set; }
         public bool Skippable { get; }
         public ChatManager ChatManager => Match.Chat;
         public bool Actionable { get; }
 
-        public abstract IPhase NextPhase();
+        public abstract IPhase? NextPhase();
 
         public virtual void Start()
         {

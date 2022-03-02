@@ -48,7 +48,7 @@ namespace Mafia.NET.Players.Teams
             return selectors;
         }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Name.Localize(culture);
         }

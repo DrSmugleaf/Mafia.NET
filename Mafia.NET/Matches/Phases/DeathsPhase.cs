@@ -13,7 +13,7 @@ namespace Mafia.NET.Matches.Phases
 
         public VictoryManager VictoryManager { get; }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             if (VictoryManager.TryVictory(out var victory))
                 return new ConclusionPhase(victory, Match);

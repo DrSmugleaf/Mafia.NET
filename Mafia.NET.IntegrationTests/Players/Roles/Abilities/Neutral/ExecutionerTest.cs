@@ -21,7 +21,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             match.Start();
 
             var executioner = match.AllPlayers[0];
-            var ability = executioner.Abilities.Get<Obsession>();
+            var ability = executioner.Abilities.Get<Obsession>()!;
             var target = ability.Target;
 
             if (lynch)

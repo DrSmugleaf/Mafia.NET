@@ -23,7 +23,7 @@ namespace Mafia.NET.Localization
         public Color Color { get; }
         public double Size { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is IContent o &&
                    Str.Equals(o.Str) &&

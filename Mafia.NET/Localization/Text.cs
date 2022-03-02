@@ -42,7 +42,7 @@ namespace Mafia.NET.Localization
             return new Text(Contents.Add(new Content(text)), Background);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is IText o &&
                    String.Equals(o.String) &&

@@ -68,7 +68,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             {
                 var roleEntry = roleEntries[i];
                 var role = new Role(roleEntry);
-                var controller = new LobbyController($"Bot {i + 1}", null);
+                var controller = new LobbyController($"Bot {i + 1}", null!);
                 var player = new Player(controller, match, i + 1, controller.Name, role);
 
                 players.Add(player);

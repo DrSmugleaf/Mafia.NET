@@ -9,7 +9,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
     [MeansImplicitUse]
     public class RegisterAbilityAttribute : Attribute
     {
-        public RegisterAbilityAttribute(string id, int priority, [CanBeNull] Type defaultSetup = null)
+        public RegisterAbilityAttribute(string id, int priority, Type? defaultSetup = null)
         {
             Id = id;
             Priority = priority;
@@ -22,6 +22,6 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
 
         public string Id { get; }
         public int Priority { get; }
-        [CanBeNull] public Type DefaultSetup { get; }
+        public Type? DefaultSetup { get; }
     }
 }

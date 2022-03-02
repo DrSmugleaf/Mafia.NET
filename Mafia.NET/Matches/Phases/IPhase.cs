@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches.Chats;
 
@@ -12,13 +11,13 @@ namespace Mafia.NET.Matches.Phases
         double Duration { get; }
         DateTime StartTime { get; }
         double Elapsed { get; }
-        [CanBeNull] IPhase Supersedes { get; set; }
-        [CanBeNull] IPhase SupersededBy { get; set; }
+        IPhase? Supersedes { get; set; }
+        IPhase? SupersededBy { get; set; }
         bool Skippable { get; }
         ChatManager ChatManager { get; }
         bool Actionable { get; }
 
-        IPhase NextPhase();
+        IPhase? NextPhase();
         void Start();
         void Pause();
         double Resume();

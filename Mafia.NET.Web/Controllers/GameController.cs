@@ -22,16 +22,16 @@ namespace Mafia.NET.Web.Controllers
             _hub = hub;
         }
 
-        public override void OnChat(object sender, Text notification)
+        public override void OnChat(object? sender, Text notification)
         {
-            var player = (IPlayer) sender;
+            var player = (IPlayer) sender!;
 
             _hub.Clients.User(player.Id.ToString()).SendAsync("Notification", notification); // TODO
         }
 
-        public override void OnPopup(object sender, Text notification)
+        public override void OnPopup(object? sender, Text notification)
         {
-            var player = (IPlayer) sender;
+            var player = (IPlayer) sender!;
 
             _hub.Clients.User(player.Id.ToString()).SendAsync("Notification", notification); // TODO
         }

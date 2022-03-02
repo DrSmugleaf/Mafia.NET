@@ -27,7 +27,7 @@ namespace Mafia.NET.Players
             }
         }
 
-        public static implicit operator string(Note note)
+        public static implicit operator string(Note? note)
         {
             return $"{note?.Text}";
         }

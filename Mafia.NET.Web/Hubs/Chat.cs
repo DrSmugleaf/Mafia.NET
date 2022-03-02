@@ -5,6 +5,6 @@ namespace Mafia.NET.Web.Hubs
 {
     public abstract class Chat : Hub
     {
-        public ISession Session => Context.GetHttpContext().Session;
+        public ISession? Session => Context.GetHttpContext()?.Session;
     }
 }

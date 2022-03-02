@@ -9,7 +9,7 @@ namespace Mafia.NET.Matches.Phases
         {
         }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return new AccusePhase(Match);
         }

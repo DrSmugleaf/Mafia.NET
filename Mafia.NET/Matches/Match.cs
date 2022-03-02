@@ -54,6 +54,7 @@ namespace Mafia.NET.Matches
             Controllers = AllPlayers.Select(player => player.Controller).ToList();
             Graveyard = new Graveyard(this);
             Phase = new PhaseManager(this);
+            Executor = new AbilityExecutor(this);
         }
 
         public Match(params string[] roles)
@@ -90,7 +91,7 @@ namespace Mafia.NET.Matches
         public AbilityRegistry Abilities => RoleSetup.Abilities;
         public AbilitySetupRegistry AbilitySetups => RoleSetup.AbilitySetups;
         public AbilityExecutor Executor { get; }
-        public event EventHandler<MatchEnd> MatchEnd;
+        public event EventHandler<MatchEnd>? MatchEnd;
 
         public void Start()
         {

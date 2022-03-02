@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Lobby";
     Layout = "_LobbyLayout";
-    var groups = (List<SelectorGroup>) ViewData["SelectorGroups"];
+    var groups = (List<SelectorGroup>) ViewBag.SelectorGroups;
 }
 
 <div class="lobby-screen container-fluid">

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 
@@ -9,7 +8,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Managers
 {
     public class AbilityManager
     {
-        public AbilityManager([CanBeNull] IEnumerable<IAbility> abilities = null)
+        public AbilityManager(IEnumerable<IAbility>? abilities = null)
         {
             All = abilities?.ToList() ?? new List<IAbility>();
         }
@@ -31,16 +30,14 @@ namespace Mafia.NET.Players.Roles.Abilities.Managers
             return Any(typeof(T));
         }
 
-        [CanBeNull]
-        public IAbility Get(Type type)
+        public IAbility? Get(Type type)
         {
             return All.FirstOrDefault(ability => ability.Is(type));
         }
 
-        [CanBeNull]
-        public T Get<T>() where T : IAbility
+        public T? Get<T>() where T : IAbility
         {
-            return (T) Get(typeof(T));
+            return (T?) Get(typeof(T));
         }
 
         public IList<IAbility> DayStart()

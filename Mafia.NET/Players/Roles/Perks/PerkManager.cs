@@ -13,7 +13,7 @@ namespace Mafia.NET.Players.Roles.Perks
 
     public class PerkManager
     {
-        public PerkManager(IPlayer user = null)
+        public PerkManager(IPlayer? user = null)
         {
             User = user;
             Defense = AttackStrength.None;
@@ -27,7 +27,7 @@ namespace Mafia.NET.Players.Roles.Perks
             Doused = false;
         }
 
-        public IPlayer User { get; set; }
+        public IPlayer? User { get; set; }
         [RegisterPerk] public AttackStrength Defense { get; set; }
         public AttackStrength CurrentDefense { get; set; }
         [RegisterPerk] public bool DetectionImmune { get; set; }
@@ -59,7 +59,7 @@ namespace Mafia.NET.Players.Roles.Perks
             CurrentlyRoleBlockImmune = RoleBlockImmune;
             RoleBlockers.Clear();
 
-            if (Blackmailed) User.Match.Chat.Main().Mute(User);
+            if (Blackmailed) User?.Match.Chat.Main().Mute(User);
         }
 
         public void BeforeNightEnd()

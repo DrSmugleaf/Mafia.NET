@@ -10,13 +10,19 @@ namespace Mafia.NET.Web.Hubs
     {
         public override async Task OnConnectedAsync()
         {
-            if (!Session.TryLobbyController(out var connected))
+            var connection = Context.UserIdentifier;
+            if (connection == null)
+            {
+                Context.Abort();
+                throw new InvalidOperationException($"No user identifier found for connection {Context.ConnectionId}");
+            }
+            
+            if (Session == null || !Session.TryLobbyController(out var connected))
             {
                 Context.Abort();
                 throw new InvalidOperationException($"No lobby controller found for connection {Context.ConnectionId}");
             }
 
-            var connection = Context.UserIdentifier;
             Session.Connection(connection);
 
             var lobby = connected.Lobby;
@@ -37,15 +43,15 @@ namespace Mafia.NET.Web.Hubs
             await base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override Task OnDisconnectedAsync(Exception? exception)
         {
-            if (Session.TryLobbyController(out var controller))
+            if (Session != null && Session.TryLobbyController(out var controller))
             {
                 var others = controller.Lobby.IdsExcept(controller);
                 Clients.Users(others).SendAsync("Leave", controller.Name);
             }
 
-            Session.Connection(null);
+            Session?.Connection(null);
             return base.OnDisconnectedAsync(exception);
         }
 
@@ -53,7 +59,7 @@ namespace Mafia.NET.Web.Hubs
         {
             text = text.Trim();
             text = text.Substring(0, Math.Min(text.Length, 500));
-            if (text.Length == 0 || !Session.TryLobbyController(out var sender)) return;
+            if (text.Length == 0 || Session == null || !Session.TryLobbyController(out var sender)) return;
 
             var users = sender.Lobby.ControllerIds();
             await Clients.Users(users).SendAsync("Message", $"{sender.Name}: {text}");
@@ -61,7 +67,7 @@ namespace Mafia.NET.Web.Hubs
 
         public async Task Start()
         {
-            if (Session.TryLobbyController(out var host)) return;
+            if (Session == null || !Session.TryLobbyController(out var host)) return;
 
             var lobby = host.Lobby;
             if (lobby.Started || host != lobby.Host) return;

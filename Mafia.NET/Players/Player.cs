@@ -51,7 +51,7 @@ namespace Mafia.NET.Players
             int number,
             string name,
             IRole role,
-            CultureInfo culture = null)
+            CultureInfo? culture = null)
         {
             Alive = true;
             Match = match;
@@ -83,8 +83,8 @@ namespace Mafia.NET.Players
         public CultureInfo Culture { get; }
         public AbilityManager Abilities => Role.Abilities;
         public PerkManager Perks => Role.Perks;
-        public event EventHandler<Text> Chat;
-        public event EventHandler<Text> Popup;
+        public event EventHandler<Text>? Chat;
+        public event EventHandler<Text>? Popup;
 
         public void OnNotification(Notification notification)
         {

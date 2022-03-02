@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Mafia.NET.Localization;
+﻿using Mafia.NET.Localization;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
@@ -7,7 +6,7 @@ namespace Mafia.NET.Matches.Chats
     public interface IChatParticipant
     {
         IPlayer Owner { get; }
-        [CanBeNull] Key Nickname { get; set; }
+        Key? Nickname { get; set; }
         bool Muted { get; set; }
         bool Deaf { get; set; }
 
@@ -19,7 +18,7 @@ namespace Mafia.NET.Matches.Chats
 
     public class ChatParticipant : IChatParticipant
     {
-        public ChatParticipant(IPlayer owner, Key nickname, bool muted = false, bool deaf = false)
+        public ChatParticipant(IPlayer owner, Key? nickname, bool muted = false, bool deaf = false)
         {
             Owner = owner;
             Nickname = nickname;
@@ -35,7 +34,7 @@ namespace Mafia.NET.Matches.Chats
         public bool Paused { get; set; }
 
         public IPlayer Owner { get; }
-        public Key Nickname { get; set; }
+        public Key? Nickname { get; set; }
         public bool Muted { get; set; }
         public bool Deaf { get; set; }
 

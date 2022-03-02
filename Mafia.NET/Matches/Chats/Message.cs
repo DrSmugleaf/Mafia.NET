@@ -19,14 +19,14 @@ namespace Mafia.NET.Matches.Chats
 
     public class MessageOut
     {
-        public MessageOut(IChatParticipant author, string text, HashSet<IPlayer> listeners = null)
+        public MessageOut(IChatParticipant author, string text, HashSet<IPlayer>? listeners = null)
         {
             Author = author;
             Listeners = listeners?.ToImmutableHashSet() ?? ImmutableHashSet<IPlayer>.Empty;
             Text = text;
         }
 
-        public MessageOut(MessageIn message, HashSet<IPlayer> listeners = null) : this(message.Sender, message.Text,
+        public MessageOut(MessageIn message, HashSet<IPlayer>? listeners = null) : this(message.Sender, message.Text,
             listeners)
         {
         }

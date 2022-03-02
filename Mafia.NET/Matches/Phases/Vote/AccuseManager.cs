@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
@@ -22,19 +21,18 @@ namespace Mafia.NET.Matches.Phases.Vote
         }
 
         public IPlayer Player { get; set; }
-        [CanBeNull] protected IPlayer Target { get; set; }
+        protected IPlayer? Target { get; set; }
         public Text Name { get; set; }
         public bool AnonymousVote { get; set; }
         public int Power { get; set; }
         public bool Active { get; set; }
 
-        [CanBeNull]
-        public IPlayer Accusing()
+        public IPlayer? Accusing()
         {
             return Target;
         }
 
-        public bool Accuse(IPlayer target, [CanBeNull] [NotNullWhen(true)] out Notification notification)
+        public bool Accuse(IPlayer target, [NotNullWhen(true)] out Notification? notification)
         {
             notification = default;
             if (!Active || Target == target) return false;
@@ -52,7 +50,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             return !Equals(notification, default);
         }
 
-        public bool Unaccuse([CanBeNull] [NotNullWhen(true)] out Notification notification)
+        public bool UnAccuse([NotNullWhen(true)] out Notification? notification)
         {
             notification = default;
             if (!Active || Target == null) return false;
@@ -101,7 +99,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             if (accused)
             {
                 foreach (var player in Match.AllPlayers)
-                    player.OnNotification(notification);
+                    player.OnNotification(notification!);
 
                 if (VotesAgainst(target) >= RequiredVotes())
                 {
@@ -120,11 +118,11 @@ namespace Mafia.NET.Matches.Phases.Vote
         {
             if (!Active) return;
 
-            var unaccused = Accusers[accuser].Unaccuse(out var notification);
+            var unaccused = Accusers[accuser].UnAccuse(out var notification);
 
             if (unaccused)
                 foreach (var player in Match.AllPlayers)
-                    player.OnNotification(notification);
+                    player.OnNotification(notification!);
         }
 
         public IList<Accuser> GetAccusers(IPlayer player)

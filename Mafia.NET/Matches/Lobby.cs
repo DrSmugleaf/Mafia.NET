@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Players.Controllers;
 
 namespace Mafia.NET.Matches
@@ -23,7 +22,7 @@ namespace Mafia.NET.Matches
     {
         private readonly List<ILobbyController> _controllers;
 
-        public Lobby(Guid id, string hostName, Guid hostId, Setup setup = null)
+        public Lobby(Guid id, string hostName, Guid hostId, Setup? setup = null)
         {
             Id = id;
             Setup = setup ?? new Setup();
@@ -32,7 +31,7 @@ namespace Mafia.NET.Matches
             Started = false;
         }
 
-        [CanBeNull] protected IMatch Match { get; set; }
+        protected IMatch? Match { get; set; }
 
         public Guid Id { get; }
         public Setup Setup { get; set; }
@@ -54,7 +53,7 @@ namespace Mafia.NET.Matches
 
         public IMatch Start()
         {
-            if (Started) return Match;
+            if (Started) return Match!;
 
             Started = true;
             Match = new Match(Id, Setup, _controllers);

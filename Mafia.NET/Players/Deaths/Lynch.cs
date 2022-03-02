@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches.Phases.Vote.Verdicts;
 using Mafia.NET.Players.Roles.Perks;
@@ -12,7 +11,7 @@ namespace Mafia.NET.Players.Deaths
             int day,
             IPlayer victim,
             DeathCause cause,
-            [CanBeNull] VerdictManager verdicts = null)
+            VerdictManager? verdicts = null)
         {
             Day = day;
             Victim = victim;
@@ -34,11 +33,11 @@ namespace Mafia.NET.Players.Deaths
         public int Day { get; set; }
         public IPlayer Victim { get; protected set; }
         public Text VictimName { get; set; }
-        public Key VictimRole { get; set; }
+        public Key? VictimRole { get; set; }
         public DeathCause Cause { get; set; }
-        public IPlayer Killer { get; set; }
-        public string LastWill { get; set; }
-        public string DeathNote { get; set; }
+        public IPlayer? Killer { get; set; }
+        public string? LastWill { get; set; }
+        public string? DeathNote { get; set; }
         public string Description { get; set; }
         public AttackStrength Strength { get; set; }
         public bool Direct { get; set; }

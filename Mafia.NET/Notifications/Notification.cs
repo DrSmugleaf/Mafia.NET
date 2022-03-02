@@ -27,7 +27,7 @@ namespace Mafia.NET.Notifications
         public NotificationLocation Location { get; }
         public object[] Args { get; }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Localizer.Default.Get(Key, culture, Args);
         }
@@ -62,7 +62,7 @@ namespace Mafia.NET.Notifications
             return Popup(new Key(role, key), args);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Notification o &&
                    Key.Equals(o.Key) &&

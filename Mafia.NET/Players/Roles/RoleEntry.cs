@@ -62,7 +62,7 @@ namespace Mafia.NET.Players.Roles
         public HealProfileEntry DefaultHealProfile { get; }
         public Color Color { get; }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Name.Localize(culture);
         }

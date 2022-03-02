@@ -28,8 +28,8 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
             Priority = -2;
         }
 
-        public Release Release { get; set; }
-        public Execute Execute { get; set; }
+        public Release Release { get; set; } = null!;
+        public Execute Execute { get; set; } = null!;
 
         public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {
@@ -99,7 +99,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
     public class Detain<T> : Detain where T : IAbilitySetup
     {
-        public new T Setup { get; set; }
+        public new T Setup { get; set; } = default!;
 
         public override void Initialize(AbilitySetupEntry setup, IPlayer user)
         {

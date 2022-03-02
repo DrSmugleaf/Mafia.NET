@@ -33,7 +33,7 @@ namespace Mafia.NET.Players.Roles.HealProfiles
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             foreach (var type in assembly.GetTypes())
             {
-                var profile = (RegisterHealAttribute) type
+                var profile = (RegisterHealAttribute?) type
                     .GetCustomAttributes(typeof(RegisterHealAttribute), true)
                     .FirstOrDefault();
 

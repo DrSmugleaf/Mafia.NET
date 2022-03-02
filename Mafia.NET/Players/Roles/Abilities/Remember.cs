@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
@@ -22,7 +21,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     public class Remember : NightEndAbility<RememberSetup>
     {
         // TODO: Role-block and mind-control immunity, minimum of 1 charge on role change
-        public bool Compatible([CanBeNull] IPlayer target)
+        public bool Compatible(IPlayer? target)
         {
             if (target == null) return false;
 

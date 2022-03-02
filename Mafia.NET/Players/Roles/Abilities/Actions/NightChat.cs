@@ -14,7 +14,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Actions
 
     public class NightChat<T> : NightStartAbility where T : IChat, new()
     {
-        public virtual string ChatId { get; set; }
+        public virtual string? ChatId { get; set; }
         public bool Muted { get; set; }
         public bool Deaf { get; set; }
 

@@ -17,7 +17,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public IPlayer Accused { get; }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return new VerdictVotePhase(Match, Accused) {Supersedes = Supersedes};
         }
@@ -29,7 +29,7 @@ namespace Mafia.NET.Matches.Phases.Vote
                     player.Perks.Blackmailers
                         .Select(bm => bm.Abilities.Get<Blackmail>())
                         .Where(ability => ability != null)
-                        .All(ability => ability.Setup.TalkDuringTrial));
+                        .All(ability => ability!.Setup.TalkDuringTrial));
         }
 
         public override void Start()

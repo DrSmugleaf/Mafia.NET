@@ -10,7 +10,7 @@ namespace Mafia.NET.Tests.Players.Roles
         [Test]
         public void All()
         {
-            var crimes = new Crimes(null);
+            var crimes = new Crimes(null!);
 
             for (var i = 0; i < 2; i++)
                 foreach (var crime in Crimes.All)
@@ -27,7 +27,7 @@ namespace Mafia.NET.Tests.Players.Roles
         {
             foreach (var key in Crimes.All)
             {
-                var crimes = new Crimes(null);
+                var crimes = new Crimes(null!);
                 crimes.Add(key);
                 var committed = crimes.AllCommitted();
 

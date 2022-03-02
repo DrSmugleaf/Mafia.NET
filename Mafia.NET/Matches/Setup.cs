@@ -11,7 +11,7 @@ namespace Mafia.NET.Matches
 
     public class Setup : ISetup
     {
-        public Setup(RoleSetup roles = null, bool trial = true, bool anonymousVoting = false)
+        public Setup(RoleSetup? roles = null, bool trial = true, bool anonymousVoting = false)
         {
             Trial = trial;
             AnonymousVoting = anonymousVoting;

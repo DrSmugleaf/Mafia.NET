@@ -12,7 +12,7 @@ namespace Mafia.NET.Players.Deaths
             IPlayer victim,
             DeathCause cause,
             string description,
-            IPlayer killer = null,
+            IPlayer? killer = null,
             AttackStrength strength = AttackStrength.Base,
             bool direct = true,
             bool stoppable = true)
@@ -52,11 +52,11 @@ namespace Mafia.NET.Players.Deaths
         public int Day { get; set; }
         public IPlayer Victim { get; protected set; }
         public Text VictimName { get; set; }
-        public Key VictimRole { get; set; }
+        public Key? VictimRole { get; set; }
         public DeathCause Cause { get; set; }
-        public IPlayer Killer { get; set; }
-        public string LastWill { get; set; }
-        public string DeathNote { get; set; }
+        public IPlayer? Killer { get; set; }
+        public string? LastWill { get; set; }
+        public string? DeathNote { get; set; }
         public string Description { get; set; }
         public AttackStrength Strength { get; set; }
         public bool Direct { get; set; }

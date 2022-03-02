@@ -12,7 +12,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             Lynches = 1;
         }
 
-        public AccuseManager AccuseManager { get; protected set; }
+        public AccuseManager AccuseManager { get; protected set; } = null!;
         public bool Trial { get; set; }
         public int Lynches { get; set; }
 
@@ -25,7 +25,7 @@ namespace Mafia.NET.Matches.Phases.Vote
             Match.Phase.SupersedePhase(phase);
         }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return new NightPhase(Match);
         }

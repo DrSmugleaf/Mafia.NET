@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using JetBrains.Annotations;
+using System.Diagnostics.CodeAnalysis;
 using Mafia.NET.Players.Controllers;
 using Microsoft.AspNetCore.Http;
 
@@ -39,8 +39,7 @@ namespace Mafia.NET.Web.Extensions
             session.Set("guid", guid.ToByteArray());
         }
 
-        [CanBeNull]
-        public static ILobbyController LobbyController(this ISession session)
+        public static ILobbyController? LobbyController(this ISession session)
         {
             if (session.TryGuid(out var guid) && LobbyControllers.TryGetValue(guid, out var controller))
                 return controller;
@@ -48,7 +47,7 @@ namespace Mafia.NET.Web.Extensions
             return default;
         }
 
-        public static bool TryLobbyController(this ISession session, out ILobbyController controller)
+        public static bool TryLobbyController(this ISession session, [NotNullWhen(true)] out ILobbyController? controller)
         {
             controller = session.LobbyController();
             return controller != default;
@@ -62,8 +61,7 @@ namespace Mafia.NET.Web.Extensions
             LobbyControllers[guid] = controller;
         }
 
-        [CanBeNull]
-        public static IPlayerController PlayerController(this ISession session)
+        public static IPlayerController? PlayerController(this ISession session)
         {
             if (session.TryGuid(out var guid) && PlayerControllers.TryGetValue(guid, out var controller))
                 return controller;
@@ -71,7 +69,7 @@ namespace Mafia.NET.Web.Extensions
             return default;
         }
 
-        public static bool TryPlayerController(this ISession session, out IPlayerController controller)
+        public static bool TryPlayerController(this ISession session, [NotNullWhen(true)] out IPlayerController? controller)
         {
             controller = session.PlayerController();
             return controller != default;
@@ -85,13 +83,12 @@ namespace Mafia.NET.Web.Extensions
             PlayerControllers[guid] = controller;
         }
 
-        [CanBeNull]
-        public static string Connection(this ISession session)
+        public static string? Connection(this ISession session)
         {
             return session.GetString("connection");
         }
 
-        public static void Connection(this ISession session, string connection)
+        public static void Connection(this ISession session, string? connection)
         {
             if (connection == null)
             {

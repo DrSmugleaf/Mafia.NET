@@ -49,7 +49,7 @@ namespace Mafia.NET.Players.Roles
             Unique = role.Unique;
             Abilities = new AbilityManager();
             Perks = new PerkManager();
-            DetectionProfile = new DetectionProfile(null);
+            DetectionProfile = new DetectionProfile(null!);
         }
 
         public string Id { get; }
@@ -64,7 +64,7 @@ namespace Mafia.NET.Players.Roles
         public AbilityManager Abilities { get; }
         public PerkManager Perks { get; }
         public IDetectionProfile DetectionProfile { get; set; }
-        public IHealProfile HealProfile { get; set; }
+        public IHealProfile HealProfile { get; set; } = null!;
 
         public void Initialize(IPlayer user)
         {
@@ -103,7 +103,7 @@ namespace Mafia.NET.Players.Roles
             return Categories.SelectMany(category => category.Goal.Enemies()).ToList();
         }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Name.Localize(culture);
         }

@@ -25,7 +25,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             if (audit) auditor.Target(target);
 
-            var ability = auditor.Abilities.Get<Audit>();
+            var ability = auditor.Abilities.Get<Audit>()!;
             Assert.NotNull(ability);
 
             var uses = ability.Uses;
@@ -64,7 +64,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
 
             if (audit) auditor.Target(target);
 
-            var ability = auditor.Abilities.Get<Audit>();
+            var ability = auditor.Abilities.Get<Audit>()!;
             Assert.NotNull(ability);
 
             var uses = ability.Uses;

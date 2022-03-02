@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using JetBrains.Annotations;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Phases;
 
@@ -33,15 +32,13 @@ namespace Mafia.NET.Players.Targeting
         public Time CurrentTime => Match.Phase.CurrentTime;
         public IReadOnlyDictionary<Time, PhaseTargeting> Phases { get; }
 
-        [CanBeNull]
-        public IPlayer this[Time phase, int index]
+        public IPlayer? this[Time phase, int index]
         {
             get => Phases[phase][index]?.Targeted;
             set => Phases[phase][index]?.Set(value);
         }
 
-        [CanBeNull]
-        public IPlayer this[int index]
+        public IPlayer? this[int index]
         {
             get => Get()[index]?.Targeted;
             set => Get()[index]?.Set(value);
@@ -72,14 +69,12 @@ namespace Mafia.NET.Players.Targeting
             return GetAll(CurrentTime);
         }
 
-        [CanBeNull]
-        public IPlayer Day(int index = 0)
+        public IPlayer? Day(int index = 0)
         {
             return this[Time.Day, index];
         }
 
-        [CanBeNull]
-        public IPlayer Night(int index = 0)
+        public IPlayer? Night(int index = 0)
         {
             return this[Time.Night, index];
         }
@@ -125,12 +120,12 @@ namespace Mafia.NET.Players.Targeting
             Get().Add(target);
         }
 
-        public void Set([CanBeNull] IPlayer target)
+        public void Set(IPlayer? target)
         {
             Get().Set(target);
         }
 
-        public void ForceSet([CanBeNull] IPlayer target)
+        public void ForceSet(IPlayer? target)
         {
             Get().ForceSet(target);
         }

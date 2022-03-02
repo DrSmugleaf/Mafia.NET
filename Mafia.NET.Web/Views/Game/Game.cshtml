@@ -5,9 +5,9 @@
 @{
     ViewData["Title"] = "Game";
     Layout = "_GameLayout";
-    var players = (IReadOnlyList<IPlayer>) ViewData["Players"];
-    var role = (IRole) ViewData["Role"];
-    var roleList = (List<IRoleSelector>) ViewData["RoleList"];
+    var players = (IReadOnlyList<IPlayer>) ViewBag.Players;
+    var role = (IRole) ViewBag.Role;
+    var roleList = (List<IRoleSelector>) ViewBag.RoleList;
 }
 
 <div>

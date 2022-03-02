@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Setups;
@@ -13,7 +12,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
             string id,
             Type ability,
             int priority,
-            [CanBeNull] Type setup,
+            Type? setup,
             MessageRandomizer murderDescriptions,
             int? defaultUses = null)
         {
@@ -49,7 +48,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
 
         public T Build(IPlayer user)
         {
-            var ability = (IAbility) Activator.CreateInstance(Ability);
+            var ability = (IAbility?) Activator.CreateInstance(Ability);
             if (ability == null) throw new NullReferenceException();
             var setup = user.Match.AbilitySetups[Id];
 
@@ -65,7 +64,7 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
             string id,
             Type ability,
             int priority,
-            [CanBeNull] Type setup,
+            Type? setup,
             MessageRandomizer murderDescriptions,
             int? defaultUses = null) :
             base(id, ability, priority, setup, murderDescriptions, defaultUses)

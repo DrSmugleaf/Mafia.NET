@@ -13,7 +13,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public IPlayer Accused { get; }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             return new DefensePhase(Match, Accused) {Supersedes = Supersedes};
         }

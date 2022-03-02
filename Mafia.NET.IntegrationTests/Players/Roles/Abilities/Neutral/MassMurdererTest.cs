@@ -21,7 +21,7 @@ namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
             match.Start();
 
             var massMurderer = match.AllPlayers[0];
-            var ability = massMurderer.Abilities.Get<KillingSpree>();
+            var ability = massMurderer.Abilities.Get<KillingSpree>()!;
             Assert.NotNull(ability);
 
             var target = match.AllPlayers[1];

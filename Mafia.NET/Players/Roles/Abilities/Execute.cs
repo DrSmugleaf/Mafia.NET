@@ -18,7 +18,7 @@ namespace Mafia.NET.Players.Roles.Abilities
                 target == prisoner;
         }
 
-        public Detain Detain { get; set; }
+        public Detain Detain { get; set; } = null!;
         public AttackStrength Strength { get; set; }
 
         public override bool Active()

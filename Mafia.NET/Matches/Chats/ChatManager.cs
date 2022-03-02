@@ -29,7 +29,7 @@ namespace Mafia.NET.Matches.Chats
             return _chats[id] = chat;
         }
 
-        public IChat Open<T>(string id = null) where T : IChat, new()
+        public IChat Open<T>(string? id = null) where T : IChat, new()
         {
             if (id != null && _chats.TryGetValue(id, out var chat))
                 return chat;
@@ -59,7 +59,7 @@ namespace Mafia.NET.Matches.Chats
             return Open(name, false, players);
         }
 
-        public void DisableForExcept(IPlayer player, IChat except = null)
+        public void DisableForExcept(IPlayer player, IChat? except = null)
         {
             foreach (var chat in Chats.Values)
                 if (chat != except)

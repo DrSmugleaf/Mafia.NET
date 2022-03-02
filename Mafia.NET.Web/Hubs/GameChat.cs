@@ -10,7 +10,7 @@ namespace Mafia.NET.Web.Hubs
     {
         public override Task OnConnectedAsync()
         {
-            if (!Session.TryPlayerController(out _))
+            if (Session == null || !Session.TryPlayerController(out _))
             {
                 Context.Abort();
                 throw new InvalidOperationException(
@@ -23,9 +23,9 @@ namespace Mafia.NET.Web.Hubs
             return base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override Task OnDisconnectedAsync(Exception? exception)
         {
-            Session.Connection(null);
+            Session?.Connection(null);
             return base.OnDisconnectedAsync(exception);
         }
 
@@ -33,7 +33,7 @@ namespace Mafia.NET.Web.Hubs
         {
             text = text.Trim();
             text = text.Substring(0, Math.Min(text.Length, 500));
-            if (text.Length == 0 || !Session.TryPlayerController(out var sender)) return;
+            if (text.Length == 0 || Session == null || !Session.TryPlayerController(out var sender)) return;
 
             var messages = sender.Player.Match.Chat.Send(sender.Player, text);
 

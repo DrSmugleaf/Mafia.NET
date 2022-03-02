@@ -15,7 +15,7 @@ namespace Mafia.NET.Matches.Phases.Vote
 
         public IPlayer Player { get; }
 
-        public override IPhase NextPhase()
+        public override IPhase? NextPhase()
         {
             var verdicts = new VerdictManager(Player);
             verdicts.End();

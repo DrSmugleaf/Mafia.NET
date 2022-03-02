@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Mafia.NET.Players;
 
 namespace Mafia.NET.Matches.Chats
@@ -21,8 +22,8 @@ namespace Mafia.NET.Matches.Chats
         IChat Disable(bool disabled = true);
         IChat Pause(bool paused = true);
         bool CanSend(MessageIn messageIn);
-        bool TrySend(MessageIn messageIn, out MessageOut messageOut);
-        bool TrySend(IPlayer player, string text, out MessageOut messageOut);
+        bool TrySend(MessageIn messageIn, [NotNullWhen(true)] out MessageOut? messageOut);
+        bool TrySend(IPlayer player, string text, [NotNullWhen(true)] out MessageOut? messageOut);
 
         void Close();
     }
@@ -41,7 +42,7 @@ namespace Mafia.NET.Matches.Chats
             Participants = new Dictionary<IPlayer, IChatParticipant>();
         }
 
-        public Chat() : this(null)
+        public Chat() : this(string.Empty)
         {
         }
 
@@ -136,9 +137,9 @@ namespace Mafia.NET.Matches.Chats
                    messageIn.Text.Length > 0;
         }
 
-        public bool TrySend(MessageIn messageIn, out MessageOut messageOut)
+        public bool TrySend(MessageIn messageIn, [NotNullWhen(true)] out MessageOut? messageOut)
         {
-            messageOut = default;
+            messageOut = null;
             if (!CanSend(messageIn)) return false;
 
             var listeners = new HashSet<IPlayer>();
@@ -149,12 +150,12 @@ namespace Mafia.NET.Matches.Chats
 
             messageOut = new MessageOut(messageIn, listeners);
 
-            return messageOut != default;
+            return true;
         }
 
-        public bool TrySend(IPlayer player, string text, out MessageOut messageOut)
+        public bool TrySend(IPlayer player, string text, [NotNullWhen(true)] out MessageOut? messageOut)
         {
-            messageOut = default;
+            messageOut = null;
             if (!Participants.TryGetValue(player, out var participant)) return false;
 
             var messageIn = new MessageIn(participant, text);

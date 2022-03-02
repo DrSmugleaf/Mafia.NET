@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
@@ -59,10 +60,10 @@ namespace Mafia.NET.Matches
             UndisclosedDeaths.AddRange(victims.Values);
         }
 
-        public bool DeathOf(IPlayer player, out IDeath death)
+        public bool DeathOf(IPlayer player, [NotNullWhen(true)] out IDeath? death)
         {
             death = default;
-            
+
             death = AllDeaths().FirstOrDefault(death => death.Victim == player);
 
             return death != default;
@@ -100,7 +101,7 @@ namespace Mafia.NET.Matches
 
         public List<IDeath> ThreatsOn(IPlayer victim)
         {
-            return Threats.Where(death => death.Victim != null && death.Victim == victim).ToList();
+            return Threats.Where(death => death.Victim == victim).ToList();
         }
 
         public List<IDeath> ThreatsBy(IPlayer killer)

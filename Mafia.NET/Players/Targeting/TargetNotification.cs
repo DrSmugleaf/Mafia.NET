@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 
@@ -10,7 +9,7 @@ namespace Mafia.NET.Players.Targeting
         public static readonly TargetNotification Empty = new TargetNotification();
 
         public static readonly Func<IPlayer, Notification> DefaultUser = target => Notification.Empty;
-        public static readonly Func<IPlayer, IPlayer, Notification> DefaultOther = (user, target) => Notification.Empty;
+        public static readonly Func<IPlayer, IPlayer?, Notification> DefaultOther = (user, target) => Notification.Empty;
 
         public static readonly Func<IPlayer, IPlayer, Notification>
             DefaultChangeUser = (old, current) => Notification.Empty;
@@ -19,15 +18,15 @@ namespace Mafia.NET.Players.Targeting
             DefaultChangeOther = (user, old, current) => Notification.Empty;
 
         public TargetNotification(
-            Func<IPlayer, Notification> userAdd = null,
-            Func<IPlayer, Notification> userRemove = null,
-            Func<IPlayer, IPlayer, Notification> userChange = null,
-            Func<IPlayer, IPlayer, Notification> targetAdd = null,
-            Func<IPlayer, IPlayer, Notification> targetRemove = null,
-            Func<IPlayer, IPlayer, IPlayer, Notification> targetChange = null,
-            Func<IPlayer, IPlayer, Notification> teamAdd = null,
-            Func<IPlayer, IPlayer, Notification> teamRemove = null,
-            Func<IPlayer, IPlayer, IPlayer, Notification> teamChange = null)
+            Func<IPlayer, Notification>? userAdd = null,
+            Func<IPlayer, Notification>? userRemove = null,
+            Func<IPlayer, IPlayer, Notification>? userChange = null,
+            Func<IPlayer, IPlayer, Notification>? targetAdd = null,
+            Func<IPlayer, IPlayer, Notification>? targetRemove = null,
+            Func<IPlayer, IPlayer, IPlayer, Notification>? targetChange = null,
+            Func<IPlayer, IPlayer?, Notification>? teamAdd = null,
+            Func<IPlayer, IPlayer, Notification>? teamRemove = null,
+            Func<IPlayer, IPlayer, IPlayer, Notification>? teamChange = null)
         {
             UserAddMessage = userAdd;
             UserRemoveMessage = userRemove;
@@ -40,30 +39,30 @@ namespace Mafia.NET.Players.Targeting
             TeamChangeMessage = teamChange;
         }
 
-        [CanBeNull] public Func<IPlayer, Notification> UserAddMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, Notification> UserRemoveMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, Notification> UserChangeMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, Notification> TargetAddMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, Notification> TargetRemoveMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, IPlayer, Notification> TargetChangeMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, Notification> TeamAddMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, Notification> TeamRemoveMessage { get; set; }
-        [CanBeNull] public Func<IPlayer, IPlayer, IPlayer, Notification> TeamChangeMessage { get; set; }
+        public Func<IPlayer, Notification>? UserAddMessage { get; set; }
+        public Func<IPlayer, Notification>? UserRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, Notification>? UserChangeMessage { get; set; }
+        public Func<IPlayer, IPlayer, Notification>? TargetAddMessage { get; set; }
+        public Func<IPlayer, IPlayer, Notification>? TargetRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, IPlayer, Notification>? TargetChangeMessage { get; set; }
+        public Func<IPlayer, IPlayer?, Notification>? TeamAddMessage { get; set; }
+        public Func<IPlayer, IPlayer, Notification>? TeamRemoveMessage { get; set; }
+        public Func<IPlayer, IPlayer, IPlayer, Notification>? TeamChangeMessage { get; set; }
 
         public static TargetNotification Enum<T>(IAbility ability) where T : Enum
         {
             var type = typeof(T);
             var names = System.Enum.GetValues(type);
 
-            Func<IPlayer, Notification> userAdd = null;
-            Func<IPlayer, Notification> userRemove = null;
-            Func<IPlayer, IPlayer, Notification> userChange = null;
-            Func<IPlayer, IPlayer, Notification> targetAdd = null;
-            Func<IPlayer, IPlayer, Notification> targetRemove = null;
-            Func<IPlayer, IPlayer, IPlayer, Notification> targetChange = null;
-            Func<IPlayer, IPlayer, Notification> teamAdd = null;
-            Func<IPlayer, IPlayer, Notification> teamRemove = null;
-            Func<IPlayer, IPlayer, IPlayer, Notification> teamChange = null;
+            Func<IPlayer, Notification>? userAdd = null;
+            Func<IPlayer, Notification>? userRemove = null;
+            Func<IPlayer, IPlayer, Notification>? userChange = null;
+            Func<IPlayer, IPlayer, Notification>? targetAdd = null;
+            Func<IPlayer, IPlayer, Notification>? targetRemove = null;
+            Func<IPlayer, IPlayer, IPlayer, Notification>? targetChange = null;
+            Func<IPlayer, IPlayer?, Notification>? teamAdd = null;
+            Func<IPlayer, IPlayer, Notification>? teamRemove = null;
+            Func<IPlayer, IPlayer, IPlayer, Notification>? teamChange = null;
             var role = ability.Role;
             foreach (T key in names)
                 switch (key.ToString())
@@ -87,7 +86,7 @@ namespace Mafia.NET.Players.Targeting
                         targetChange = (user, old, current) => Notification.Chat(role, key, user, old, current);
                         break;
                     case "TeamAddMessage":
-                        teamAdd = (user, target) => Notification.Chat(role, key, user, target);
+                        teamAdd = (user, target) => Notification.Chat(role, key, user, target!);
                         break;
                     case "TeamRemoveMessage":
                         teamRemove = (user, target) => Notification.Chat(role, key, user, target);
@@ -139,7 +138,7 @@ namespace Mafia.NET.Players.Targeting
             return (TargetChangeMessage ?? DefaultChangeOther)(user, old, current);
         }
 
-        public Notification TeamAdd(IPlayer user, IPlayer target)
+        public Notification TeamAdd(IPlayer user, IPlayer? target)
         {
             return (TeamAddMessage ?? DefaultOther)(user, target);
         }

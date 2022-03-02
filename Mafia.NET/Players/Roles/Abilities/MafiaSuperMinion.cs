@@ -9,7 +9,7 @@ namespace Mafia.NET.Players.Roles.Abilities
     [RegisterAbility("Mafia Super Minion", -3, typeof(MafiaSuperMinionSetup))]
     public class MafiaSuperMinion : DayStartAbility<MafiaSuperMinionSetup>
     {
-        public IRole HeadRole { get; set; }
+        public IRole? HeadRole { get; set; }
 
         public bool NoHead()
         {

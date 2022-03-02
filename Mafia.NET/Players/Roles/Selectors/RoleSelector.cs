@@ -73,7 +73,7 @@ namespace Mafia.NET.Players.Roles.Selectors
 
         public RoleSelector(RoleRegistry registry, ITeam team)
         {
-            Id = Id;
+            Id = team.Id;
             Name = new Key($"Selector{team.Id}Random");
             Summary = new Key($"Selector{team.Id}RandomDescription");
             Goal = Key.Empty;
@@ -135,7 +135,7 @@ namespace Mafia.NET.Players.Roles.Selectors
             return true;
         }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Name.Localize(culture);
         }

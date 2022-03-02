@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using JetBrains.Annotations;
 using Mafia.NET.Localization;
 using Mafia.NET.Matches;
 using Mafia.NET.Matches.Chats;
@@ -26,7 +25,7 @@ namespace Mafia.Net.IntegrationTests.Matches
             int amount,
             IPlayer sender,
             string text,
-            [CanBeNull] Key nickname,
+            Key? nickname,
             params IPlayer[] listeners)
         {
             Assert.That(messages.Count, Is.EqualTo(amount));

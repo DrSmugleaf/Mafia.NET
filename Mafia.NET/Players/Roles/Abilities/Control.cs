@@ -32,8 +32,8 @@ namespace Mafia.NET.Players.Roles.Abilities
 
             if (first == null && second == null) return Notification.Chat(Role, ControlKey.NoTargets);
             if (first != null && second == null) return Notification.Chat(Role, ControlKey.ControlAdd, first);
-            if (first == second) return Notification.Chat(Role, ControlKey.SelfAdd, first);
-            if (first != null) return Notification.Chat(Role, ControlKey.BothAdd, first, second);
+            if (first == second) return Notification.Chat(Role, ControlKey.SelfAdd, first!);
+            if (first != null) return Notification.Chat(Role, ControlKey.BothAdd, first, second!);
             return Notification.Empty;
         }
 

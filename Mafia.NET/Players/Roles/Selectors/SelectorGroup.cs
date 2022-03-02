@@ -23,7 +23,7 @@ namespace Mafia.NET.Players.Roles.Selectors
         public List<RoleSelector> Selectors { get; }
         public Color Color { get; }
 
-        public Text Localize(CultureInfo culture = null)
+        public Text Localize(CultureInfo? culture = null)
         {
             return Name.Localize(culture);
         }
