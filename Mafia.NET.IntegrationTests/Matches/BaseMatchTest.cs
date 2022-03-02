@@ -8,6 +8,7 @@ using NUnit.Framework;
 
 namespace Mafia.Net.IntegrationTests.Matches
 {
+    [Parallelizable(ParallelScope.All)]
     public abstract class BaseMatchTest
     {
         protected void Deaths(IMatch match, int deaths)
