@@ -5,48 +5,47 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum SheriffKey
 {
-    [RegisterKey]
-    public enum SheriffKey
+    NotSuspicious,
+    Mafia,
+    Triad,
+    Cultist,
+    Arsonist,
+    MassMurderer,
+    SerialKiller,
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Sheriff", 9, typeof(SheriffSetup))]
+public class Sheriff : NightEndAbility<SheriffSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        NotSuspicious,
-        Mafia,
-        Triad,
-        Cultist,
-        Arsonist,
-        MassMurderer,
-        SerialKiller,
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        var filter = TargetFilter.Living(Match).Except(User);
+        SetupTargets<SheriffKey>(abilities, filter);
     }
 
-    [RegisterAbility("Sheriff", 9, typeof(SheriffSetup))]
-    public class Sheriff : NightEndAbility<SheriffSetup>
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            var filter = TargetFilter.Living(Match).Except(User);
-            SetupTargets<SheriffKey>(abilities, filter);
-        }
+        var message = target.Crimes.Sheriff(Setup).Chat();
+        User.OnNotification(message);
 
-        public override bool Use(IPlayer target)
-        {
-            var message = target.Crimes.Sheriff(Setup).Chat();
-            User.OnNotification(message);
-
-            return true;
-        }
+        return true;
     }
+}
 
-    [RegisterSetup]
-    public class SheriffSetup : IAbilitySetup
-    {
-        public bool DetectsMafiaTriad { get; set; } = true;
-        public bool DetectsSerialKiller { get; set; } = true;
-        public bool DetectsArsonist { get; set; } = true;
-        public bool DetectsCult { get; set; } = true;
-        public bool DetectsMassMurderer { get; set; } = true;
-    }
+[RegisterSetup]
+public class SheriffSetup : IAbilitySetup
+{
+    public bool DetectsMafiaTriad { get; set; } = true;
+    public bool DetectsSerialKiller { get; set; } = true;
+    public bool DetectsArsonist { get; set; } = true;
+    public bool DetectsCult { get; set; } = true;
+    public bool DetectsMassMurderer { get; set; } = true;
 }

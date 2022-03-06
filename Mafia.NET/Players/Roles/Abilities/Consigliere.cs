@@ -5,39 +5,38 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum ConsigliereKey
 {
-    [RegisterKey]
-    public enum ConsigliereKey
+    ExactDetect,
+    Detect,
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Consigliere", 9, typeof(ConsigliereSetup))]
+public class Consigliere : NightEndAbility<ConsigliereSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        ExactDetect,
-        Detect,
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        SetupTargets<ConsigliereKey>(abilities, TargetFilter.Living(Match).Except(User.Role.Team));
     }
 
-    [RegisterAbility("Consigliere", 9, typeof(ConsigliereSetup))]
-    public class Consigliere : NightEndAbility<ConsigliereSetup>
+    public override void NightEnd(in IList<IAbility> abilities)
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            SetupTargets<ConsigliereKey>(abilities, TargetFilter.Living(Match).Except(User.Role.Team));
-        }
-
-        public override void NightEnd(in IList<IAbility> abilities)
-        {
-            var investigate = Get<Investigate>();
-            abilities.Add(investigate);
-        }
+        var investigate = Get<Investigate>();
+        abilities.Add(investigate);
     }
+}
 
-    [RegisterSetup]
-    public class ConsigliereSetup : InvestigateSetup
+[RegisterSetup]
+public class ConsigliereSetup : InvestigateSetup
+{
+    public ConsigliereSetup()
     {
-        public ConsigliereSetup()
-        {
-            DetectsExactRole = false;
-        }
+        DetectsExactRole = false;
     }
 }

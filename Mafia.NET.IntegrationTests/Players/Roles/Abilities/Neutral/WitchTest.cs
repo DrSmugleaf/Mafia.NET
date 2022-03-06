@@ -6,160 +6,159 @@ using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Perks;
 using NUnit.Framework;
 
-namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral
+namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Neutral;
+
+[TestFixture]
+[TestOf(typeof(Control))]
+public class WitchTest : BaseMatchTest
 {
-    [TestFixture]
-    [TestOf(typeof(Control))]
-    public class WitchTest : BaseMatchTest
+    [TestCaseSource(typeof(ControlCases))]
+    public void Control(string rolesString, bool controlFirst, bool controlSecond, bool attack, bool causesSelf,
+        bool knows)
     {
-        [TestCaseSource(typeof(ControlCases))]
-        public void Control(string rolesString, bool controlFirst, bool controlSecond, bool attack, bool causesSelf,
-            bool knows)
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.AbilitySetups.Replace(new ControlSetup
         {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.AbilitySetups.Replace(new ControlSetup
-            {
-                CanCauseSelfTargets = causesSelf,
-                VictimKnows = knows
-            });
-            match.Start();
+            CanCauseSelfTargets = causesSelf,
+            VictimKnows = knows
+        });
+        match.Start();
 
-            var witch = match.AllPlayers[0];
-            var killer = match.AllPlayers[1];
-            var originalTarget = match.AllPlayers[2];
-            var newTarget = match.AllPlayers[3];
+        var witch = match.AllPlayers[0];
+        var killer = match.AllPlayers[1];
+        var originalTarget = match.AllPlayers[2];
+        var newTarget = match.AllPlayers[3];
 
-            match.Skip<NightPhase>();
+        match.Skip<NightPhase>();
 
-            if (controlFirst) witch.Targets[0] = killer;
-            if (controlSecond) witch.Targets[1] = newTarget;
-            if (attack) killer.Target(originalTarget);
+        if (controlFirst) witch.Targets[0] = killer;
+        if (controlSecond) witch.Targets[1] = newTarget;
+        if (attack) killer.Target(originalTarget);
 
-            match.Skip<DeathsPhase>();
+        match.Skip<DeathsPhase>();
 
-            var control = controlFirst && controlSecond;
-            Assert.True(witch.Alive);
-            Assert.True(killer.Alive);
-            Assert.That(originalTarget.Alive, Is.EqualTo(control || !attack));
-            Assert.That(newTarget.Alive, Is.EqualTo(!control));
+        var control = controlFirst && controlSecond;
+        Assert.True(witch.Alive);
+        Assert.True(killer.Alive);
+        Assert.That(originalTarget.Alive, Is.EqualTo(control || !attack));
+        Assert.That(newTarget.Alive, Is.EqualTo(!control));
 
-            Deaths(match, control || attack ? 1 : 0);
-        }
-
-        [TestCaseSource(typeof(SelfTargetCases))]
-        public void SelfTarget(string rolesString, bool control, bool attack, bool causesSelf, bool knows)
-        {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.Perks["Serial Killer"].Defense = AttackStrength.None;
-            match.AbilitySetups.Replace(new ControlSetup
-            {
-                CanCauseSelfTargets = causesSelf,
-                VictimKnows = knows
-            });
-            match.Start();
-
-            var witch = match.AllPlayers[0];
-            var killer = match.AllPlayers[1];
-
-            match.Skip<NightPhase>();
-
-            if (control)
-            {
-                witch.Targets[0] = killer;
-                witch.Targets[1] = killer;
-            }
-
-            if (attack) killer.Target(witch);
-
-            match.Skip<DeathsPhase>();
-
-            Assert.That(witch.Alive, Is.EqualTo(control && causesSelf || !attack));
-            Assert.That(killer.Alive, Is.EqualTo(!control || !causesSelf));
-
-            Deaths(match, control && causesSelf || attack ? 1 : 0);
-        }
-
-        [TestCaseSource(typeof(ToWitchCases))]
-        public void ToWitch(string rolesString, bool control, bool attack, bool heal, bool causesSelf, bool knows)
-        {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.AbilitySetups.Replace(new ControlSetup
-            {
-                CanCauseSelfTargets = causesSelf,
-                VictimKnows = knows
-            });
-            match.Start();
-
-            var witch = match.AllPlayers[0];
-            var killer = match.AllPlayers[1];
-            var healer = match.AllPlayers[2];
-
-            match.Skip<NightPhase>();
-
-            if (control)
-            {
-                witch.Targets[0] = healer;
-                witch.Targets[1] = witch;
-            }
-
-            if (attack) killer.Target(witch);
-            if (heal) healer.Target(witch);
-
-            match.Skip<DeathsPhase>();
-
-            var witchAlive = control || heal || !attack;
-            Assert.That(witch.Alive, Is.EqualTo(witchAlive));
-            Assert.True(killer.Alive);
-            Assert.True(healer.Alive);
-
-            Deaths(match, witchAlive ? 0 : 1);
-        }
+        Deaths(match, control || attack ? 1 : 0);
     }
 
-    public class ControlCases : IEnumerable
+    [TestCaseSource(typeof(SelfTargetCases))]
+    public void SelfTarget(string rolesString, bool control, bool attack, bool causesSelf, bool knows)
     {
-        public IEnumerator GetEnumerator()
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.Perks["Serial Killer"].Defense = AttackStrength.None;
+        match.AbilitySetups.Replace(new ControlSetup
         {
-            var roleNames = "Witch,Serial Killer,Citizen,Citizen";
+            CanCauseSelfTargets = causesSelf,
+            VictimKnows = knows
+        });
+        match.Start();
 
-            foreach (var controlFirst in new[] {true, false})
-            foreach (var controlSecond in new[] {true, false})
-            foreach (var attack in new[] {true, false})
-            foreach (var causesSelf in new[] {true, false})
-            foreach (var knows in new[] {true, false})
-                yield return new object[] {roleNames, controlFirst, controlSecond, attack, causesSelf, knows};
+        var witch = match.AllPlayers[0];
+        var killer = match.AllPlayers[1];
+
+        match.Skip<NightPhase>();
+
+        if (control)
+        {
+            witch.Targets[0] = killer;
+            witch.Targets[1] = killer;
         }
+
+        if (attack) killer.Target(witch);
+
+        match.Skip<DeathsPhase>();
+
+        Assert.That(witch.Alive, Is.EqualTo(control && causesSelf || !attack));
+        Assert.That(killer.Alive, Is.EqualTo(!control || !causesSelf));
+
+        Deaths(match, control && causesSelf || attack ? 1 : 0);
     }
 
-    public class SelfTargetCases : IEnumerable
+    [TestCaseSource(typeof(ToWitchCases))]
+    public void ToWitch(string rolesString, bool control, bool attack, bool heal, bool causesSelf, bool knows)
     {
-        public IEnumerator GetEnumerator()
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.AbilitySetups.Replace(new ControlSetup
         {
-            var roleNames = "Witch,Serial Killer,Citizen";
+            CanCauseSelfTargets = causesSelf,
+            VictimKnows = knows
+        });
+        match.Start();
 
-            foreach (var control in new[] {true, false})
-            foreach (var attack in new[] {true, false})
-            foreach (var causesSelf in new[] {true, false})
-            foreach (var knows in new[] {true, false})
-                yield return new object[] {roleNames, control, attack, causesSelf, knows};
+        var witch = match.AllPlayers[0];
+        var killer = match.AllPlayers[1];
+        var healer = match.AllPlayers[2];
+
+        match.Skip<NightPhase>();
+
+        if (control)
+        {
+            witch.Targets[0] = healer;
+            witch.Targets[1] = witch;
         }
+
+        if (attack) killer.Target(witch);
+        if (heal) healer.Target(witch);
+
+        match.Skip<DeathsPhase>();
+
+        var witchAlive = control || heal || !attack;
+        Assert.That(witch.Alive, Is.EqualTo(witchAlive));
+        Assert.True(killer.Alive);
+        Assert.True(healer.Alive);
+
+        Deaths(match, witchAlive ? 0 : 1);
     }
+}
 
-    public class ToWitchCases : IEnumerable
+public class ControlCases : IEnumerable
+{
+    public IEnumerator GetEnumerator()
     {
-        public IEnumerator GetEnumerator()
-        {
-            var roleNames = "Witch,Serial Killer,Doctor";
+        var roleNames = "Witch,Serial Killer,Citizen,Citizen";
 
-            foreach (var control in new[] {true, false})
-            foreach (var attack in new[] {true, false})
-            foreach (var heal in new[] {true, false})
-            foreach (var causesSelf in new[] {true, false})
-            foreach (var knows in new[] {true, false})
-                yield return new object[] {roleNames, control, attack, heal, causesSelf, knows};
-        }
+        foreach (var controlFirst in new[] {true, false})
+        foreach (var controlSecond in new[] {true, false})
+        foreach (var attack in new[] {true, false})
+        foreach (var causesSelf in new[] {true, false})
+        foreach (var knows in new[] {true, false})
+            yield return new object[] {roleNames, controlFirst, controlSecond, attack, causesSelf, knows};
+    }
+}
+
+public class SelfTargetCases : IEnumerable
+{
+    public IEnumerator GetEnumerator()
+    {
+        var roleNames = "Witch,Serial Killer,Citizen";
+
+        foreach (var control in new[] {true, false})
+        foreach (var attack in new[] {true, false})
+        foreach (var causesSelf in new[] {true, false})
+        foreach (var knows in new[] {true, false})
+            yield return new object[] {roleNames, control, attack, causesSelf, knows};
+    }
+}
+
+public class ToWitchCases : IEnumerable
+{
+    public IEnumerator GetEnumerator()
+    {
+        var roleNames = "Witch,Serial Killer,Doctor";
+
+        foreach (var control in new[] {true, false})
+        foreach (var attack in new[] {true, false})
+        foreach (var heal in new[] {true, false})
+        foreach (var causesSelf in new[] {true, false})
+        foreach (var knows in new[] {true, false})
+            yield return new object[] {roleNames, control, attack, heal, causesSelf, knows};
     }
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Mafia.NET.Web.Hubs
+namespace Mafia.NET.Web.Hubs;
+
+public abstract class Chat : Hub
 {
-    public abstract class Chat : Hub
-    {
-        public ISession? Session => Context.GetHttpContext()?.Session;
-    }
+    public ISession? Session => Context.GetHttpContext()?.Session;
 }

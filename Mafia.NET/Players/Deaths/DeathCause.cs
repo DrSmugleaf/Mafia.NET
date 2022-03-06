@@ -1,9 +1,8 @@
-﻿namespace Mafia.NET.Players.Deaths
+﻿namespace Mafia.NET.Players.Deaths;
+
+public enum DeathCause
 {
-    public enum DeathCause
-    {
-        Lynch,
-        Murder,
-        Suicide
-    }
+    Lynch,
+    Murder,
+    Suicide
 }

@@ -2,87 +2,86 @@
 using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Abilities;
 
-namespace Mafia.NET.Players.Roles.DetectionProfiles
-{
-    public interface IDetectionProfile
-    {
-        IPlayer User { get; set; }
+namespace Mafia.NET.Players.Roles.DetectionProfiles;
 
-        bool DetectableBy(SheriffSetup? setup = null);
-        Key ResolveKey(SheriffSetup? setup = null);
-        bool TargetDetectableBy(IDetectSetup? setup = null);
-        bool TryDetectTarget([NotNullWhen(true)] out IPlayer? target, IDetectSetup? setup = null);
-        bool DetectProperty(SheriffSetup? setup = null);
-        Key GuiltyKey();
+public interface IDetectionProfile
+{
+    IPlayer User { get; set; }
+
+    bool DetectableBy(SheriffSetup? setup = null);
+    Key ResolveKey(SheriffSetup? setup = null);
+    bool TargetDetectableBy(IDetectSetup? setup = null);
+    bool TryDetectTarget([NotNullWhen(true)] out IPlayer? target, IDetectSetup? setup = null);
+    bool DetectProperty(SheriffSetup? setup = null);
+    Key GuiltyKey();
+}
+
+public class DetectionProfile : IDetectionProfile
+{
+    public DetectionProfile(IPlayer user)
+    {
+        User = user;
     }
 
-    public class DetectionProfile : IDetectionProfile
+    public IPlayer User { get; set; }
+
+    public bool DetectableBy(SheriffSetup? setup = null)
     {
-        public DetectionProfile(IPlayer user)
-        {
-            User = user;
-        }
+        return !User.Perks.CurrentlyDetectionImmune && DetectProperty(setup);
+    }
 
-        public IPlayer User { get; set; }
+    public Key ResolveKey(SheriffSetup? setup = null)
+    {
+        if (DetectableBy(setup)) return GuiltyKey();
+        return SheriffKey.NotSuspicious;
+    }
 
-        public bool DetectableBy(SheriffSetup? setup = null)
-        {
-            return !User.Perks.CurrentlyDetectionImmune && DetectProperty(setup);
-        }
+    public bool TargetDetectableBy(IDetectSetup? setup = null)
+    {
+        return !User.Perks.CurrentlyDetectionImmune ||
+               setup?.IgnoresDetectionImmunity == true;
+    }
 
-        public Key ResolveKey(SheriffSetup? setup = null)
-        {
-            if (DetectableBy(setup)) return GuiltyKey();
-            return SheriffKey.NotSuspicious;
-        }
+    public bool TryDetectTarget([NotNullWhen(true)] out IPlayer? target, IDetectSetup? setup = null)
+    {
+        target = TargetDetectableBy(setup) ? User.Targets[0] : null;
+        return target != null;
+    }
 
-        public bool TargetDetectableBy(IDetectSetup? setup = null)
+    public bool DetectProperty(SheriffSetup? setup = null)
+    {
+        return User.Role.Team.Id switch
         {
-            return !User.Perks.CurrentlyDetectionImmune ||
-                   setup?.IgnoresDetectionImmunity == true;
-        }
-
-        public bool TryDetectTarget([NotNullWhen(true)] out IPlayer? target, IDetectSetup? setup = null)
-        {
-            target = TargetDetectableBy(setup) ? User.Targets[0] : null;
-            return target != null;
-        }
-
-        public bool DetectProperty(SheriffSetup? setup = null)
-        {
-            return User.Role.Team.Id switch
+            "Mafia" => setup?.DetectsMafiaTriad,
+            "Triad" => setup?.DetectsMafiaTriad,
+            _ => User.Role.Id switch
             {
-                "Mafia" => setup?.DetectsMafiaTriad,
-                "Triad" => setup?.DetectsMafiaTriad,
-                _ => User.Role.Id switch
-                {
-                    "Arsonist" => setup?.DetectsArsonist,
-                    "Cultist" => setup?.DetectsCult,
-                    "Mass Murderer" => setup?.DetectsMassMurderer,
-                    "Serial Killer" => setup?.DetectsSerialKiller,
-                    "Witch Doctor" => setup?.DetectsCult,
-                    _ => true
-                }
-            } == true;
-        }
+                "Arsonist" => setup?.DetectsArsonist,
+                "Cultist" => setup?.DetectsCult,
+                "Mass Murderer" => setup?.DetectsMassMurderer,
+                "Serial Killer" => setup?.DetectsSerialKiller,
+                "Witch Doctor" => setup?.DetectsCult,
+                _ => true
+            }
+        } == true;
+    }
 
-        public Key GuiltyKey()
+    public Key GuiltyKey()
+    {
+        return User.Role.Team.Id switch
         {
-            return User.Role.Team.Id switch
+            "Town" => SheriffKey.NotSuspicious,
+            "Mafia" => SheriffKey.Mafia,
+            "Triad" => SheriffKey.Triad,
+            _ => User.Role.Id switch
             {
-                "Town" => SheriffKey.NotSuspicious,
-                "Mafia" => SheriffKey.Mafia,
-                "Triad" => SheriffKey.Triad,
-                _ => User.Role.Id switch
-                {
-                    "Arsonist" => SheriffKey.Arsonist,
-                    "Cultist" => SheriffKey.Cultist,
-                    "Mass Murderer" => SheriffKey.MassMurderer,
-                    "Serial Killer" => SheriffKey.SerialKiller,
-                    "Witch Doctor" => SheriffKey.Cultist,
-                    _ => SheriffKey.NotSuspicious
-                }
-            };
-        }
+                "Arsonist" => SheriffKey.Arsonist,
+                "Cultist" => SheriffKey.Cultist,
+                "Mass Murderer" => SheriffKey.MassMurderer,
+                "Serial Killer" => SheriffKey.SerialKiller,
+                "Witch Doctor" => SheriffKey.Cultist,
+                _ => SheriffKey.NotSuspicious
+            }
+        };
     }
 }

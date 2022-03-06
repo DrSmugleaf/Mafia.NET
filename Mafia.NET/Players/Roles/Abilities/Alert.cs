@@ -5,54 +5,53 @@ using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Perks;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum AlertKey
 {
-    [RegisterKey]
-    public enum AlertKey
+    UserAddMessage,
+    UserRemoveMessage
+}
+
+[RegisterAbility("Alert", 5)]
+public class Alert : NightEndAbility
+{
+    // TODO: Early immunity
+    private static readonly ImmutableArray<string> ImmuneRoles =
+        ImmutableArray.Create("Lookout", "Amnesiac", "Coroner", "Janitor", "Incense Master");
+
+    public AttackStrength Strength { get; set; } = AttackStrength.Pierce;
+
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        UserAddMessage,
-        UserRemoveMessage
+        SetupTargets<AlertKey>(abilities, User);
     }
 
-    [RegisterAbility("Alert", 5)]
-    public class Alert : NightEndAbility
+    public override bool Active()
     {
-        // TODO: Early immunity
-        private static readonly ImmutableArray<string> ImmuneRoles =
-            ImmutableArray.Create("Lookout", "Amnesiac", "Coroner", "Janitor", "Incense Master");
+        return base.Active() && Uses > 0;
+    }
 
-        public AttackStrength Strength { get; set; } = AttackStrength.Pierce;
+    public override bool Use(IPlayer target)
+    {
+        if (target != User || Uses == 0) return false;
 
-        public override void NightStart(in IList<IAbility> abilities)
+        Uses--;
+        target.Perks.CurrentDefense = AttackStrength.Base;
+
+        foreach (var visitor in Match.LivingPlayers)
         {
-            SetupTargets<AlertKey>(abilities, User);
+            // TODO: Targets vs visits (witch 1st vs 2nd)
+            var role = visitor.Role.Id;
+            if (!visitor.Targets.Any(User) ||
+                visitor == User ||
+                ImmuneRoles.Contains(role)) continue;
+
+            var attack = Attack(Strength);
+            attack.Use(visitor);
         }
 
-        public override bool Active()
-        {
-            return base.Active() && Uses > 0;
-        }
-
-        public override bool Use(IPlayer target)
-        {
-            if (target != User || Uses == 0) return false;
-
-            Uses--;
-            target.Perks.CurrentDefense = AttackStrength.Base;
-
-            foreach (var visitor in Match.LivingPlayers)
-            {
-                // TODO: Targets vs visits (witch 1st vs 2nd)
-                var role = visitor.Role.Id;
-                if (!visitor.Targets.Any(User) ||
-                    visitor == User ||
-                    ImmuneRoles.Contains(role)) continue;
-
-                var attack = Attack(Strength);
-                attack.Use(visitor);
-            }
-
-            return true;
-        }
+        return true;
     }
 }

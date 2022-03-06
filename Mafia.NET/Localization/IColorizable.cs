@@ -1,9 +1,8 @@
 ﻿using System.Drawing;
 
-namespace Mafia.NET.Localization
+namespace Mafia.NET.Localization;
+
+public interface IColorizable
 {
-    public interface IColorizable
-    {
-        Color Color { get; }
-    }
+    Color Color { get; }
 }

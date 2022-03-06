@@ -6,76 +6,75 @@ using Mafia.NET.Localization;
 using Mafia.NET.Players.Roles.Categories;
 using Mafia.NET.Players.Teams;
 
-namespace Mafia.NET.Players.Roles.Selectors
+namespace Mafia.NET.Players.Roles.Selectors;
+
+public class SelectorGroup : IColorizable, ILocalizable
 {
-    public class SelectorGroup : IColorizable, ILocalizable
+    public SelectorGroup(string id, Key name, List<RoleSelector> selectors, Color color)
     {
-        public SelectorGroup(string id, Key name, List<RoleSelector> selectors, Color color)
+        Id = id;
+        Name = name;
+        Selectors = selectors;
+        Color = color;
+    }
+
+    public string Id { get; }
+    public Key Name { get; }
+    public List<RoleSelector> Selectors { get; }
+    public Color Color { get; }
+
+    public Text Localize(CultureInfo? culture = null)
+    {
+        return Name.Localize(culture);
+    }
+
+    public static List<SelectorGroup> Default(RoleRegistry roles)
+    {
+        var groups = new List<SelectorGroup>();
+
+        var randomSelectors = new List<RoleSelector>();
+        var anyRandom = new RoleSelector(roles);
+        randomSelectors.Add(anyRandom);
+
+        var teams = TeamRegistry.Default.Entries();
+        foreach (var team in teams)
         {
-            Id = id;
-            Name = name;
-            Selectors = selectors;
-            Color = color;
+            var selectors = roles.Team(team)
+                .Where(role => role.Natural)
+                .Select(role => new RoleSelector(role)).ToList();
+
+            var group = new SelectorGroup(team.Id, team.Name, selectors, team.Color);
+            groups.Add(group);
+
+            var teamRandom = new RoleSelector(roles, team);
+            randomSelectors.Add(teamRandom);
         }
 
-        public string Id { get; }
-        public Key Name { get; }
-        public List<RoleSelector> Selectors { get; }
-        public Color Color { get; }
-
-        public Text Localize(CultureInfo? culture = null)
+        foreach (var category in CategoryRegistry.Default.Entries())
         {
-            return Name.Localize(culture);
+            var selector = new RoleSelector(roles, category);
+            randomSelectors.Add(selector);
         }
 
-        public static List<SelectorGroup> Default(RoleRegistry roles)
-        {
-            var groups = new List<SelectorGroup>();
+        var randomGroup = new SelectorGroup("Random", SelectorKey.Random, randomSelectors,
+            ColorTranslator.FromHtml("#00CCFF"));
+        groups.Add(randomGroup);
 
-            var randomSelectors = new List<RoleSelector>();
-            var anyRandom = new RoleSelector(roles);
-            randomSelectors.Add(anyRandom);
+        return groups;
+    }
 
-            var teams = TeamRegistry.Default.Entries();
-            foreach (var team in teams)
-            {
-                var selectors = roles.Team(team)
-                    .Where(role => role.Natural)
-                    .Select(role => new RoleSelector(role)).ToList();
+    public static List<SelectorGroup> Default()
+    {
+        return Default(RoleRegistry.Default);
+    }
 
-                var group = new SelectorGroup(team.Id, team.Name, selectors, team.Color);
-                groups.Add(group);
+    public List<IRoleSelector> Get(params string[] ids)
+    {
+        return Selectors.Where(selector => ids.Contains(selector.Id)).Cast<IRoleSelector>().ToList();
+    }
 
-                var teamRandom = new RoleSelector(roles, team);
-                randomSelectors.Add(teamRandom);
-            }
-
-            foreach (var category in CategoryRegistry.Default.Entries())
-            {
-                var selector = new RoleSelector(roles, category);
-                randomSelectors.Add(selector);
-            }
-
-            var randomGroup = new SelectorGroup("Random", SelectorKey.Random, randomSelectors,
-                ColorTranslator.FromHtml("#00CCFF"));
-            groups.Add(randomGroup);
-
-            return groups;
-        }
-
-        public static List<SelectorGroup> Default()
-        {
-            return Default(RoleRegistry.Default);
-        }
-
-        public List<IRoleSelector> Get(params string[] ids)
-        {
-            return Selectors.Where(selector => ids.Contains(selector.Id)).Cast<IRoleSelector>().ToList();
-        }
-
-        public override string ToString()
-        {
-            return Localize().ToString();
-        }
+    public override string ToString()
+    {
+        return Localize().ToString();
     }
 }

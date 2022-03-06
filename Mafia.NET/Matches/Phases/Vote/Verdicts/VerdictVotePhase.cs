@@ -2,36 +2,35 @@
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
-namespace Mafia.NET.Matches.Phases.Vote.Verdicts
+namespace Mafia.NET.Matches.Phases.Vote.Verdicts;
+
+public class VerdictVotePhase : BasePhase
 {
-    public class VerdictVotePhase : BasePhase
+    public VerdictVotePhase(IMatch match, IPlayer player, uint duration = 15) : base(match, "Vote", duration)
     {
-        public VerdictVotePhase(IMatch match, IPlayer player, uint duration = 15) : base(match, "Vote", duration)
-        {
-            Verdicts = new VerdictManager(player);
-        }
+        Verdicts = new VerdictManager(player);
+    }
 
-        public VerdictManager Verdicts { get; }
+    public VerdictManager Verdicts { get; }
 
-        public override IPhase? NextPhase()
-        {
-            return new VerdictResultPhase(Match, Verdicts) {Supersedes = Supersedes};
-        }
+    public override IPhase? NextPhase()
+    {
+        return new VerdictResultPhase(Match, Verdicts) {Supersedes = Supersedes};
+    }
 
-        public override void Start()
-        {
-            ChatManager.Main().Pause(false);
+    public override void Start()
+    {
+        ChatManager.Main().Pause(false);
 
-            var notification = Notification.Popup(DayKey.MayVote, Verdicts.Accused);
-            foreach (var player in Match.AllPlayers) player.OnNotification(notification);
+        var notification = Notification.Popup(DayKey.MayVote, Verdicts.Accused);
+        foreach (var player in Match.AllPlayers) player.OnNotification(notification);
 
-            base.Start();
-        }
+        base.Start();
+    }
 
-        public override void End()
-        {
-            base.End();
-            Verdicts.End();
-        }
+    public override void End()
+    {
+        base.End();
+        Verdicts.End();
     }
 }

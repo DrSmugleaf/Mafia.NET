@@ -3,103 +3,102 @@ using System.Diagnostics.CodeAnalysis;
 using Mafia.NET.Matches;
 using Mafia.NET.Players.Roles.Abilities.Bases;
 
-namespace Mafia.NET.Players.Targeting
+namespace Mafia.NET.Players.Targeting;
+
+public class Target
 {
-    public class Target
+    private IPlayer? _targeted;
+
+    public Target(IAbility ability, TargetFilter filter, TargetNotification? message = null)
     {
-        private IPlayer? _targeted;
+        Ability = ability;
+        Filter = filter;
+        Message = message ?? TargetNotification.Empty;
+    }
 
-        public Target(IAbility ability, TargetFilter filter, TargetNotification? message = null)
+    public IAbility Ability { get; }
+    public IPlayer User => Ability.User;
+
+    public IPlayer? Targeted
+    {
+        get => _targeted;
+        set
         {
-            Ability = ability;
-            Filter = filter;
-            Message = message ?? TargetNotification.Empty;
-        }
+            if (value != null && !Filter.Valid(value)) return;
 
-        public IAbility Ability { get; }
-        public IPlayer User => Ability.User;
+            var old = _targeted;
+            _targeted = value;
 
-        public IPlayer? Targeted
-        {
-            get => _targeted;
-            set
+            if (Targeted == null && old != null)
             {
-                if (value != null && !Filter.Valid(value)) return;
+                var userNotification = Message.UserRemove(old);
+                User.OnNotification(userNotification);
 
-                var old = _targeted;
-                _targeted = value;
+                var targetNotification = Message.TargetRemove(User, old);
+                old.OnNotification(targetNotification);
 
-                if (Targeted == null && old != null)
+                var teamNotification = Message.TeamRemove(User, old);
+                foreach (var player in User.Match.AllPlayers)
                 {
-                    var userNotification = Message.UserRemove(old);
-                    User.OnNotification(userNotification);
-
-                    var targetNotification = Message.TargetRemove(User, old);
-                    old.OnNotification(targetNotification);
-
-                    var teamNotification = Message.TeamRemove(User, old);
-                    foreach (var player in User.Match.AllPlayers)
-                    {
-                        if (player == User || !Ability.IsTeammate(player)) continue;
-                        player.OnNotification(teamNotification);
-                    }
+                    if (player == User || !Ability.IsTeammate(player)) continue;
+                    player.OnNotification(teamNotification);
                 }
-                else if (Targeted != null && old == null)
+            }
+            else if (Targeted != null && old == null)
+            {
+                var userNotification = Message.UserAdd(Targeted);
+                User.OnNotification(userNotification);
+
+                var targetNotification = Message.TargetAdd(User, Targeted);
+                Targeted?.OnNotification(targetNotification);
+
+                var teamNotification = Message.TeamAdd(User, old);
+                foreach (var player in User.Match.AllPlayers)
                 {
-                    var userNotification = Message.UserAdd(Targeted);
-                    User.OnNotification(userNotification);
-
-                    var targetNotification = Message.TargetAdd(User, Targeted);
-                    Targeted?.OnNotification(targetNotification);
-
-                    var teamNotification = Message.TeamAdd(User, old);
-                    foreach (var player in User.Match.AllPlayers)
-                    {
-                        if (player == User || !Ability.IsTeammate(player)) continue;
-                        player.OnNotification(teamNotification);
-                    }
+                    if (player == User || !Ability.IsTeammate(player)) continue;
+                    player.OnNotification(teamNotification);
                 }
-                else if (Targeted != null && old != null)
+            }
+            else if (Targeted != null && old != null)
+            {
+                var userNotification = Message.UserChange(old, Targeted);
+                User.OnNotification(userNotification);
+
+                var targetNotification = Message.TargetChange(User, old, Targeted);
+                old.OnNotification(targetNotification);
+                Targeted?.OnNotification(targetNotification);
+
+                var teamNotification = Message.TeamChange(User, old, Targeted!);
+                foreach (var player in User.Match.AllPlayers)
                 {
-                    var userNotification = Message.UserChange(old, Targeted);
-                    User.OnNotification(userNotification);
-
-                    var targetNotification = Message.TargetChange(User, old, Targeted);
-                    old.OnNotification(targetNotification);
-                    Targeted?.OnNotification(targetNotification);
-
-                    var teamNotification = Message.TeamChange(User, old, Targeted!);
-                    foreach (var player in User.Match.AllPlayers)
-                    {
-                        if (player == User || !Ability.IsTeammate(player)) continue;
-                        player.OnNotification(teamNotification);
-                    }
+                    if (player == User || !Ability.IsTeammate(player)) continue;
+                    player.OnNotification(teamNotification);
                 }
             }
         }
+    }
 
-        public TargetFilter Filter { get; }
-        public TargetNotification Message { get; set; }
+    public TargetFilter Filter { get; }
+    public TargetNotification Message { get; set; }
 
-        public bool Try([MaybeNullWhen(false)] out IPlayer target)
-        {
-            target = Targeted;
-            return target != null;
-        }
+    public bool Try([MaybeNullWhen(false)] out IPlayer target)
+    {
+        target = Targeted;
+        return target != null;
+    }
 
-        public void Set(IPlayer? target)
-        {
-            Targeted = target;
-        }
+    public void Set(IPlayer? target)
+    {
+        Targeted = target;
+    }
 
-        public void ForceSet(IPlayer? target)
-        {
-            _targeted = target;
-        }
+    public void ForceSet(IPlayer? target)
+    {
+        _targeted = target;
+    }
 
-        public IReadOnlyList<IPlayer> ValidTargets(IMatch match)
-        {
-            return Filter.Filter(match.AllPlayers);
-        }
+    public IReadOnlyList<IPlayer> ValidTargets(IMatch match)
+    {
+        return Filter.Filter(match.AllPlayers);
     }
 }

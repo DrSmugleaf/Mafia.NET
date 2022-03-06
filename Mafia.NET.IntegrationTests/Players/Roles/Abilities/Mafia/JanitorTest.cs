@@ -8,88 +8,87 @@ using Mafia.NET.Notifications;
 using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
-namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia
+namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Mafia;
+
+[TestFixture]
+[TestOf(typeof(Sanitize))]
+public class JanitorTest : BaseMatchTest
 {
-    [TestFixture]
-    [TestOf(typeof(Sanitize))]
-    public class JanitorTest : BaseMatchTest
+    [TestCaseSource(typeof(SanitizeCases))]
+    public void Sanitize(string rolesString, bool sanitize, int uses)
     {
-        [TestCaseSource(typeof(SanitizeCases))]
-        public void Sanitize(string rolesString, bool sanitize, int uses)
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.AbilitySetups.Role(roleNames[0]).Ability<Sanitize>().Uses = uses;
+        match.AbilitySetups.Replace(new MafiaMinionSetup
         {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.AbilitySetups.Role(roleNames[0]).Ability<Sanitize>().Uses = uses;
-            match.AbilitySetups.Replace(new MafiaMinionSetup
-            {
-                BecomesHenchmanIfAlone = false
-            });
-            match.Start();
+            BecomesHenchmanIfAlone = false
+        });
+        match.Start();
 
-            var janitor = match.AllPlayers[0];
-            var killer = match.AllPlayers[1];
-            var citizen = match.AllPlayers[2];
+        var janitor = match.AllPlayers[0];
+        var killer = match.AllPlayers[1];
+        var citizen = match.AllPlayers[2];
 
-            match.Skip<NightPhase>();
+        match.Skip<NightPhase>();
 
-            if (sanitize) janitor.Target(citizen);
-            killer.Target(citizen);
+        if (sanitize) janitor.Target(citizen);
+        killer.Target(citizen);
 
-            var lw = "LW";
-            citizen.LastWill.Text = lw;
+        var lw = "LW";
+        citizen.LastWill.Text = lw;
 
-            var chat = new List<string>();
-            var popups = new List<string>();
-            foreach (var player in match.AllPlayers)
-            {
-                player.Chat += (s, e) => chat.Add(e.ToString());
-                player.Popup += (s, e) => popups.Add(e.ToString());
-            }
+        var chat = new List<string>();
+        var popups = new List<string>();
+        foreach (var player in match.AllPlayers)
+        {
+            player.Chat += (s, e) => chat.Add(e.ToString());
+            player.Popup += (s, e) => popups.Add(e.ToString());
+        }
 
-            var janitorChat = new List<string>();
-            janitor.Chat += (s, e) => janitorChat.Add(e.ToString());
+        var janitorChat = new List<string>();
+        janitor.Chat += (s, e) => janitorChat.Add(e.ToString());
 
-            match.Skip<DeathsPhase>();
+        match.Skip<DeathsPhase>();
 
-            var role = citizen.Role.Name.Localize().ToString();
-            var roleUnknown = new Key(DayKey.DeathRoleUnknown).ToString();
-            var lwUnknown = new Key(DayKey.LastWillUnknown).ToString();
-            var janitorLw = Notification.Chat(janitor.Role, SanitizeKey.LastWillReveal, lw).ToString();
-            if (sanitize)
-            {
-                Assert.That(popups, Has.None.Contain(role));
-                Assert.That(popups, Has.Some.EqualTo(roleUnknown));
-                Assert.That(chat, Has.None.EqualTo(lw));
-                Assert.That(chat, Has.Some.EqualTo(lwUnknown));
-                Assert.That(janitorChat, Has.One.EqualTo(janitorLw));
-                Assert.That(janitorChat, Has.None.EqualTo(role));
-            }
-            else
-            {
-                Assert.That(popups, Has.Some.Contain(role));
-                Assert.That(popups, Has.None.EqualTo(roleUnknown));
-                Assert.That(chat, Has.Some.EqualTo(lw));
-                Assert.That(chat, Has.None.EqualTo(lwUnknown));
+        var role = citizen.Role.Name.Localize().ToString();
+        var roleUnknown = new Key(DayKey.DeathRoleUnknown).ToString();
+        var lwUnknown = new Key(DayKey.LastWillUnknown).ToString();
+        var janitorLw = Notification.Chat(janitor.Role, SanitizeKey.LastWillReveal, lw).ToString();
+        if (sanitize)
+        {
+            Assert.That(popups, Has.None.Contain(role));
+            Assert.That(popups, Has.Some.EqualTo(roleUnknown));
+            Assert.That(chat, Has.None.EqualTo(lw));
+            Assert.That(chat, Has.Some.EqualTo(lwUnknown));
+            Assert.That(janitorChat, Has.One.EqualTo(janitorLw));
+            Assert.That(janitorChat, Has.None.EqualTo(role));
+        }
+        else
+        {
+            Assert.That(popups, Has.Some.Contain(role));
+            Assert.That(popups, Has.None.EqualTo(roleUnknown));
+            Assert.That(chat, Has.Some.EqualTo(lw));
+            Assert.That(chat, Has.None.EqualTo(lwUnknown));
 
-                Assert.That(janitorChat, Has.None.EqualTo(janitorLw));
-                Assert.That(janitorChat, Has.None.EqualTo(role));
-            }
+            Assert.That(janitorChat, Has.None.EqualTo(janitorLw));
+            Assert.That(janitorChat, Has.None.EqualTo(role));
         }
     }
+}
 
-    public class SanitizeCases : IEnumerable
+public class SanitizeCases : IEnumerable
+{
+    public IEnumerator GetEnumerator()
     {
-        public IEnumerator GetEnumerator()
+        var janitors = new[] {"Janitor", "Incense Master"};
+
+        foreach (var janitor in janitors)
         {
-            var janitors = new[] {"Janitor", "Incense Master"};
+            var roleNames = $"{janitor},Serial Killer,Citizen,Citizen";
 
-            foreach (var janitor in janitors)
-            {
-                var roleNames = $"{janitor},Serial Killer,Citizen,Citizen";
-
-                foreach (var sanitize in new[] {true, false})
-                    yield return new object[] {roleNames, sanitize, 2};
-            }
+            foreach (var sanitize in new[] {true, false})
+                yield return new object[] {roleNames, sanitize, 2};
         }
     }
 }

@@ -5,65 +5,64 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum AgentKey
 {
-    [RegisterKey]
-    public enum AgentKey
+    TargetInactive,
+    TargetVisitedSomeone,
+    SomeoneVisitedTarget,
+    NoneVisitedTarget,
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Agent", 9, typeof(AgentSetup))]
+public class Agent : NightEndAbility<AgentSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        TargetInactive,
-        TargetVisitedSomeone,
-        SomeoneVisitedTarget,
-        NoneVisitedTarget,
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        if (Cooldown > 0) return;
+        SetupTargets<AgentKey>(abilities, TargetFilter.Living(Match));
     }
 
-    [RegisterAbility("Agent", 9, typeof(AgentSetup))]
-    public class Agent : NightEndAbility<AgentSetup>
+    public override bool Active()
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            if (Cooldown > 0) return;
-            SetupTargets<AgentKey>(abilities, TargetFilter.Living(Match));
-        }
+        return base.Active() && Cooldown == 0;
+    }
 
-        public override bool Active()
-        {
-            return base.Active() && Cooldown == 0;
-        }
+    public override bool Use()
+    {
+        Cooldown--;
+        return false;
+    }
 
-        public override bool Use()
+    public override bool Use(IPlayer target)
+    {
+        if (Cooldown > 0)
         {
             Cooldown--;
             return false;
         }
 
-        public override bool Use(IPlayer target)
-        {
-            if (Cooldown > 0)
-            {
-                Cooldown--;
-                return false;
-            }
+        var detect = Get<Detect>();
+        var watch = Get<Watch>();
 
-            var detect = Get<Detect>();
-            var watch = Get<Watch>();
+        detect.Use(target);
+        watch.Use(target);
 
-            detect.Use(target);
-            watch.Use(target);
+        Cooldown = Setup.NightsBetweenUses;
 
-            Cooldown = Setup.NightsBetweenUses;
-
-            return true;
-        }
+        return true;
     }
+}
 
-    [RegisterSetup]
-    public class AgentSetup : IWatchSetup, ICooldownSetup
-    {
-        public int NightsBetweenUses { get; set; } = 1;
-        public bool IgnoresDetectionImmunity { get; set; }
-        public bool CanTargetSelf { get; set; } = true;
-    }
+[RegisterSetup]
+public class AgentSetup : IWatchSetup, ICooldownSetup
+{
+    public int NightsBetweenUses { get; set; } = 1;
+    public bool IgnoresDetectionImmunity { get; set; }
+    public bool CanTargetSelf { get; set; } = true;
 }

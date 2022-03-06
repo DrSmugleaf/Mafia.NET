@@ -8,55 +8,54 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum JesterKey
 {
-    [RegisterKey]
-    public enum JesterKey
-    {
-        Suicide
-    }
+    Suicide
+}
     
-    [RegisterAbility("Jester", 0, typeof(JesterSetup))]
-    public class Jester : NightEndAbility<IJesterSetup>
+[RegisterAbility("Jester", 0, typeof(JesterSetup))]
+public class Jester : NightEndAbility<IJesterSetup>
+{
+    public bool UserLynchedToday([NotNullWhen(true)] out ILynch? lynch)
     {
-        public bool UserLynchedToday([NotNullWhen(true)] out ILynch? lynch)
-        {
-            lynch = (ILynch?) User.Match.Graveyard.LynchesToday().FirstOrDefault(death => death.Victim == User);
+        lynch = (ILynch?) User.Match.Graveyard.LynchesToday().FirstOrDefault(death => death.Victim == User);
 
-            return lynch != default;
-        }
-
-        public override bool Active()
-        {
-            return UserLynchedToday(out _) && Setup.RandomGuiltyVoterDies;
-        }
-
-        public override bool Use()
-        {
-            if (!Setup.RandomGuiltyVoterDies ||
-                !UserLynchedToday(out var lynch) ||
-                lynch.For.Count == 0) return false;
-
-            var random = Match.Random.Next(lynch.For.Count);
-            var suicide = lynch.For[random];
-
-            var attack = Attack(AttackStrength.Suicide, 0, false, false);
-            attack.Use(suicide);
-
-            var suicideNotification = Notification.Chat(Role, JesterKey.Suicide);
-            suicide.OnNotification(suicideNotification);
-
-            return true;
-        }
+        return lynch != default;
     }
 
-    public interface IJesterSetup : IAbilitySetup
+    public override bool Active()
     {
-        bool RandomGuiltyVoterDies { get; set; }
+        return UserLynchedToday(out _) && Setup.RandomGuiltyVoterDies;
     }
 
-    public class JesterSetup : IJesterSetup
+    public override bool Use()
     {
-        public bool RandomGuiltyVoterDies { get; set; } = true;
+        if (!Setup.RandomGuiltyVoterDies ||
+            !UserLynchedToday(out var lynch) ||
+            lynch.For.Count == 0) return false;
+
+        var random = Match.Random.Next(lynch.For.Count);
+        var suicide = lynch.For[random];
+
+        var attack = Attack(AttackStrength.Suicide, 0, false, false);
+        attack.Use(suicide);
+
+        var suicideNotification = Notification.Chat(Role, JesterKey.Suicide);
+        suicide.OnNotification(suicideNotification);
+
+        return true;
     }
+}
+
+public interface IJesterSetup : IAbilitySetup
+{
+    bool RandomGuiltyVoterDies { get; set; }
+}
+
+public class JesterSetup : IJesterSetup
+{
+    public bool RandomGuiltyVoterDies { get; set; } = true;
 }

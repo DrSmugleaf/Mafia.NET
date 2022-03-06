@@ -1,8 +1,7 @@
-﻿namespace Mafia.NET.Notifications
+﻿namespace Mafia.NET.Notifications;
+
+public enum NotificationLocation
 {
-    public enum NotificationLocation
-    {
-        Chat,
-        Popup
-    }
+    Chat,
+    Popup
 }

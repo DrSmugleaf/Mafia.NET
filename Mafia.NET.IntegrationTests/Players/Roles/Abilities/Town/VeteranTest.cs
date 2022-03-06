@@ -5,49 +5,48 @@ using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
-namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
+namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town;
+
+[TestFixture]
+[TestOf(typeof(Alert))]
+public class VeteranTest : BaseMatchTest
 {
-    [TestFixture]
-    [TestOf(typeof(Alert))]
-    public class VeteranTest : BaseMatchTest
+    [TestCase("Veteran,Mafioso", true, true, true, 1)]
+    [TestCase("Veteran,Mafioso", true, false, true, 0)]
+    [TestCase("Veteran,Mafioso", false, true, false, 1)]
+    [TestCase("Veteran,Mafioso", false, false, true, 0)]
+    [TestCase("Veteran,Mafioso,Sheriff,Investigator", true, true, true, 3)]
+    [TestCase("Veteran,Lookout,Amnesiac,Coroner,Janitor,Incense Master", true, true, true, 0)]
+    public void Alert(string rolesString, bool alert, bool target, bool survived, int deaths)
     {
-        [TestCase("Veteran,Mafioso", true, true, true, 1)]
-        [TestCase("Veteran,Mafioso", true, false, true, 0)]
-        [TestCase("Veteran,Mafioso", false, true, false, 1)]
-        [TestCase("Veteran,Mafioso", false, false, true, 0)]
-        [TestCase("Veteran,Mafioso,Sheriff,Investigator", true, true, true, 3)]
-        [TestCase("Veteran,Lookout,Amnesiac,Coroner,Janitor,Incense Master", true, true, true, 0)]
-        public void Alert(string rolesString, bool alert, bool target, bool survived, int deaths)
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.AbilitySetups.Replace(new MafiaMinionSetup
         {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.AbilitySetups.Replace(new MafiaMinionSetup
+            BecomesHenchmanIfAlone = false
+        });
+        match.Start();
+
+        var veteran = match.AllPlayers[0];
+
+        match.Skip<NightPhase>();
+
+        if (alert) veteran.Target(veteran);
+
+        if (target)
+        {
+            var living = match.LivingPlayers;
+
+            for (var i = 1; i < living.Count; i++)
             {
-                BecomesHenchmanIfAlone = false
-            });
-            match.Start();
-
-            var veteran = match.AllPlayers[0];
-
-            match.Skip<NightPhase>();
-
-            if (alert) veteran.Target(veteran);
-
-            if (target)
-            {
-                var living = match.LivingPlayers;
-
-                for (var i = 1; i < living.Count; i++)
-                {
-                    var attacker = living[i];
-                    attacker.Target(veteran);
-                }
+                var attacker = living[i];
+                attacker.Target(veteran);
             }
-
-            match.Skip<DeathsPhase>();
-
-            Assert.That(veteran.Alive, survived ? (IResolveConstraint) Is.True : Is.False);
-            Deaths(match, deaths);
         }
+
+        match.Skip<DeathsPhase>();
+
+        Assert.That(veteran.Alive, survived ? (IResolveConstraint) Is.True : Is.False);
+        Deaths(match, deaths);
     }
 }

@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
 
-namespace Mafia.NET.Matches
+namespace Mafia.NET.Matches;
+
+public interface IVictoryManager
 {
-    public interface IVictoryManager
+    IMatch Match { get; }
+}
+
+public class VictoryManager : IVictoryManager
+{
+    public VictoryManager(IMatch match)
     {
-        IMatch Match { get; }
+        Match = match;
     }
 
-    public class VictoryManager : IVictoryManager
+    public IMatch Match { get; }
+
+    public bool TryVictory(out IList<IVictory> victories) // TODO better victory checking
     {
-        public VictoryManager(IMatch match)
-        {
-            Match = match;
-        }
+        victories = new List<IVictory>();
 
-        public IMatch Match { get; }
+        // foreach (var player in Match.AllPlayers)
+        // if (player.Role.TryVictory(out var victory))
+        //     victories.Add(victory);
 
-        public bool TryVictory(out IList<IVictory> victories) // TODO better victory checking
-        {
-            victories = new List<IVictory>();
-
-            // foreach (var player in Match.AllPlayers)
-            // if (player.Role.TryVictory(out var victory))
-            //     victories.Add(victory);
-
-            return victories.Count == Match.LivingPlayers.Count;
-        }
+        return victories.Count == Match.LivingPlayers.Count;
     }
 }

@@ -1,40 +1,39 @@
 ﻿using System;
 using Mafia.NET.Matches;
 
-namespace Mafia.NET.Players
+namespace Mafia.NET.Players;
+
+public class Note
 {
-    public class Note
+    public Note(IMatch match, IPlayer player)
     {
-        public Note(IMatch match, IPlayer player)
-        {
-            Match = match;
-            Owner = player;
-            _text = "";
-        }
+        Match = match;
+        Owner = player;
+        _text = "";
+    }
 
-        public IMatch Match { get; }
-        public IPlayer Owner { get; }
-        private string _text { get; set; }
+    public IMatch Match { get; }
+    public IPlayer Owner { get; }
+    private string _text { get; set; }
 
-        public string Text
+    public string Text
+    {
+        get => _text;
+        set
         {
-            get => _text;
-            set
-            {
-                value ??= "";
-                if (!Owner.Alive || !Match.Phase.CurrentPhase.Actionable) return;
-                _text = value.Trim().Substring(0, Math.Min(value.Length, 500));
-            }
+            value ??= "";
+            if (!Owner.Alive || !Match.Phase.CurrentPhase.Actionable) return;
+            _text = value.Trim().Substring(0, Math.Min(value.Length, 500));
         }
+    }
 
-        public static implicit operator string(Note? note)
-        {
-            return $"{note?.Text}";
-        }
+    public static implicit operator string(Note? note)
+    {
+        return $"{note?.Text}";
+    }
 
-        public override string ToString()
-        {
-            return this;
-        }
+    public override string ToString()
+    {
+        return this;
     }
 }

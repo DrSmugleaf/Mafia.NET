@@ -7,76 +7,75 @@ using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Registries;
 
-namespace Mafia.NET.Players.Roles.Abilities.Registry
+namespace Mafia.NET.Players.Roles.Abilities.Registry;
+
+public class AbilityRegistry : ImmutableRegistry<AbilityEntry>
 {
-    public class AbilityRegistry : ImmutableRegistry<AbilityEntry>
+    private static readonly MessageRandomizer DefaultMurderDescriptions = new("They died in mysterious ways");
+
+    private static readonly Lazy<AbilityRegistry> Lazy = new(() => new AbilityRegistry());
+
+    public AbilityRegistry(Dictionary<string, AbilityEntry> ids) : base(ids)
     {
-        private static readonly MessageRandomizer DefaultMurderDescriptions = new("They died in mysterious ways");
+        Types = Ids.ToImmutableDictionary(
+            pair => pair.Value.Ability,
+            pair => pair.Value);
+    }
 
-        private static readonly Lazy<AbilityRegistry> Lazy = new(() => new AbilityRegistry());
+    private AbilityRegistry() : this(LoadAll())
+    {
+    }
 
-        public AbilityRegistry(Dictionary<string, AbilityEntry> ids) : base(ids)
+    public static AbilityRegistry Default => Lazy.Value;
+    public ImmutableDictionary<Type, AbilityEntry> Types { get; }
+
+    public AbilityEntry this[Type type] => Types[type];
+
+    public static Dictionary<string, AbilityEntry> LoadAll()
+    {
+        var ids = new Dictionary<string, AbilityEntry>();
+        foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+        foreach (var type in assembly.GetTypes())
         {
-            Types = Ids.ToImmutableDictionary(
-                pair => pair.Value.Ability,
-                pair => pair.Value);
+            var ability = (RegisterAbilityAttribute?) type
+                .GetCustomAttributes(typeof(RegisterAbilityAttribute), true)
+                .FirstOrDefault();
+
+            if (ability == null) continue;
+
+            var id = ability.Id;
+            var priority = ability.Priority;
+            var setup = ability.DefaultSetup;
+            var murderDescriptions = DefaultMurderDescriptions;
+            var entry = new AbilityEntry(id, type, priority, setup, murderDescriptions);
+
+            if (ids.ContainsKey(id))
+                throw new ArgumentException($"Ability with id {id} is already registered.");
+
+            ids[id] = entry;
         }
 
-        private AbilityRegistry() : this(LoadAll())
-        {
-        }
+        return ids;
+    }
 
-        public static AbilityRegistry Default => Lazy.Value;
-        public ImmutableDictionary<Type, AbilityEntry> Types { get; }
+    public AbilityEntry Entry<T>() where T : IAbility
+    {
+        var type = typeof(T);
 
-        public AbilityEntry this[Type type] => Types[type];
+        if (!Types.TryGetValue(type, out var entry))
+            throw new ArgumentException($"No ability found with type {type}");
 
-        public static Dictionary<string, AbilityEntry> LoadAll()
-        {
-            var ids = new Dictionary<string, AbilityEntry>();
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            foreach (var type in assembly.GetTypes())
-            {
-                var ability = (RegisterAbilityAttribute?) type
-                    .GetCustomAttributes(typeof(RegisterAbilityAttribute), true)
-                    .FirstOrDefault();
+        return entry;
+    }
 
-                if (ability == null) continue;
+    public T Ability<T>(IPlayer user) where T : IAbility, new()
+    {
+        var entry = Entry<T>();
+        return (T) entry.Build(user);
+    }
 
-                var id = ability.Id;
-                var priority = ability.Priority;
-                var setup = ability.DefaultSetup;
-                var murderDescriptions = DefaultMurderDescriptions;
-                var entry = new AbilityEntry(id, type, priority, setup, murderDescriptions);
-
-                if (ids.ContainsKey(id))
-                    throw new ArgumentException($"Ability with id {id} is already registered.");
-
-                ids[id] = entry;
-            }
-
-            return ids;
-        }
-
-        public AbilityEntry Entry<T>() where T : IAbility
-        {
-            var type = typeof(T);
-
-            if (!Types.TryGetValue(type, out var entry))
-                throw new ArgumentException($"No ability found with type {type}");
-
-            return entry;
-        }
-
-        public T Ability<T>(IPlayer user) where T : IAbility, new()
-        {
-            var entry = Entry<T>();
-            return (T) entry.Build(user);
-        }
-
-        public List<AbilityEntry> Entries(IAbilitySetup setup)
-        {
-            return Ids.Values.Where(entry => entry.Setup == setup.GetType()).ToList();
-        }
+    public List<AbilityEntry> Entries(IAbilitySetup setup)
+    {
+        return Ids.Values.Where(entry => entry.Setup == setup.GetType()).ToList();
     }
 }

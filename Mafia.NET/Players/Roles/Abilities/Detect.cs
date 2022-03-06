@@ -6,49 +6,48 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum DetectKey
 {
-    [RegisterKey]
-    public enum DetectKey
+    TargetInactive,
+    TargetVisitedSomeone,
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Detect", 9, typeof(DetectSetup))]
+public class Detect : NightEndAbility<IDetectSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        TargetInactive,
-        TargetVisitedSomeone,
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        SetupTargets<DetectKey>(abilities, TargetFilter.Living(Match).Except(User));
     }
 
-    [RegisterAbility("Detect", 9, typeof(DetectSetup))]
-    public class Detect : NightEndAbility<IDetectSetup>
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            SetupTargets<DetectKey>(abilities, TargetFilter.Living(Match).Except(User));
-        }
+        User.Crimes.Add(CrimeKey.Trespassing);
 
-        public override bool Use(IPlayer target)
-        {
-            User.Crimes.Add(CrimeKey.Trespassing);
+        var notification =
+            target.Role.DetectionProfile.TryDetectTarget(out var visited, Setup)
+                ? Notification.Chat(Role, DetectKey.TargetVisitedSomeone, visited)
+                : Notification.Chat(Role, DetectKey.TargetInactive);
 
-            var notification =
-                target.Role.DetectionProfile.TryDetectTarget(out var visited, Setup)
-                    ? Notification.Chat(Role, DetectKey.TargetVisitedSomeone, visited)
-                    : Notification.Chat(Role, DetectKey.TargetInactive);
+        User.OnNotification(notification);
 
-            User.OnNotification(notification);
-
-            return true;
-        }
+        return true;
     }
+}
 
-    public interface IDetectSetup : IAbilitySetup
-    {
-        bool IgnoresDetectionImmunity { get; set; }
-    }
+public interface IDetectSetup : IAbilitySetup
+{
+    bool IgnoresDetectionImmunity { get; set; }
+}
 
-    [RegisterSetup]
-    public class DetectSetup : IDetectSetup
-    {
-        public bool IgnoresDetectionImmunity { get; set; } = true;
-    }
+[RegisterSetup]
+public class DetectSetup : IDetectSetup
+{
+    public bool IgnoresDetectionImmunity { get; set; } = true;
 }

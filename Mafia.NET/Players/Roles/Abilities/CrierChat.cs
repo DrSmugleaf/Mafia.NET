@@ -4,36 +4,35 @@ using Mafia.NET.Matches.Chats;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterAbility("Crier Chat", -1)]
+public class CrierChatAbility : NightChat<CrierChat>
 {
-    [RegisterAbility("Crier Chat", -1)]
-    public class CrierChatAbility : NightChat<CrierChat>
+    public override string ChatId => "Crier";
+}
+
+public class CrierChat : Chat
+{
+    public CrierChat() : base("Crier")
     {
-        public override string ChatId => "Crier";
     }
 
-    public class CrierChat : Chat
+    public override void Initialize(IMatch match)
     {
-        public CrierChat() : base("Crier")
-        {
-        }
+        if (Initialized) return;
 
-        public override void Initialize(IMatch match)
-        {
-            if (Initialized) return;
+        foreach (var player in match.AllPlayers)
+            if (player.Abilities.Any<CrierChatAbility>())
+            {
+                Mute(player, false);
+                Participants[player].Nickname = new Key(player.Role, ChatKey.Nickname);
+            }
+            else
+            {
+                Mute(player);
+            }
 
-            foreach (var player in match.AllPlayers)
-                if (player.Abilities.Any<CrierChatAbility>())
-                {
-                    Mute(player, false);
-                    Participants[player].Nickname = new Key(player.Role, ChatKey.Nickname);
-                }
-                else
-                {
-                    Mute(player);
-                }
-
-            Initialized = true;
-        }
+        Initialized = true;
     }
 }

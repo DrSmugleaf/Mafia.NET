@@ -6,44 +6,43 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum InvestigateKey
 {
-    [RegisterKey]
-    public enum InvestigateKey
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage,
+    ExactDetect,
+    Detect
+}
+
+[RegisterAbility("Investigate", 9, typeof(InvestigateSetup))]
+public class Investigate : NightEndAbility<InvestigateSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage,
-        ExactDetect,
-        Detect
+        SetupTargets<InvestigateKey>(abilities, TargetFilter.Living(Match).Except(User));
     }
 
-    [RegisterAbility("Investigate", 9, typeof(InvestigateSetup))]
-    public class Investigate : NightEndAbility<InvestigateSetup>
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            SetupTargets<InvestigateKey>(abilities, TargetFilter.Living(Match).Except(User));
-        }
+        User.Crimes.Add(CrimeKey.Trespassing);
 
-        public override bool Use(IPlayer target)
-        {
-            User.Crimes.Add(CrimeKey.Trespassing);
+        // TODO: Target switch
+        var message = Setup.DetectsExactRole
+            ? Notification.Chat(Role, InvestigateKey.ExactDetect, target, target.Crimes.RoleName())
+            : target.Crimes.Crime(Role, InvestigateKey.Detect);
 
-            // TODO: Target switch
-            var message = Setup.DetectsExactRole
-                ? Notification.Chat(Role, InvestigateKey.ExactDetect, target, target.Crimes.RoleName())
-                : target.Crimes.Crime(Role, InvestigateKey.Detect);
+        User.OnNotification(message);
 
-            User.OnNotification(message);
-
-            return true;
-        }
+        return true;
     }
+}
 
-    [RegisterSetup]
-    public class InvestigateSetup : IAbilitySetup
-    {
-        public bool DetectsExactRole { get; set; } = false;
-    }
+[RegisterSetup]
+public class InvestigateSetup : IAbilitySetup
+{
+    public bool DetectsExactRole { get; set; } = false;
 }

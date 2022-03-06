@@ -1,22 +1,21 @@
-﻿namespace Mafia.NET.Players.Roles.Abilities.Setups
+﻿namespace Mafia.NET.Players.Roles.Abilities.Setups;
+
+public interface IAbilitySetup
 {
-    public interface IAbilitySetup
-    {
-    }
+}
 
-    [RegisterSetup]
-    public class EmptySetup : IAbilitySetup
-    {
-    }
+[RegisterSetup]
+public class EmptySetup : IAbilitySetup
+{
+}
 
-    public interface ICooldownSetup : IAbilitySetup
-    {
-        int NightsBetweenUses { get; set; }
-    }
+public interface ICooldownSetup : IAbilitySetup
+{
+    int NightsBetweenUses { get; set; }
+}
 
-    public interface IRandomExcluded : IAbilitySetup
-    {
-        // TODO: Add to all roles
-        bool ExcludedFromRandoms { get; set; }
-    }
+public interface IRandomExcluded : IAbilitySetup
+{
+    // TODO: Add to all roles
+    bool ExcludedFromRandoms { get; set; }
 }

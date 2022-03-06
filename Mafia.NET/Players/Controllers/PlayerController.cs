@@ -1,38 +1,37 @@
 ﻿using System;
 
-namespace Mafia.NET.Players.Controllers
+namespace Mafia.NET.Players.Controllers;
+
+public interface IPlayerController
 {
-    public interface IPlayerController
+    string Name { get; set; }
+    Guid Id { get; set; }
+    IPlayer Player { get; set; }
+}
+
+public class PlayerController : IPlayerController
+{
+    private IPlayer _player;
+
+    public PlayerController(string name, Guid id, IPlayer player)
     {
-        string Name { get; set; }
-        Guid Id { get; set; }
-        IPlayer Player { get; set; }
+        Name = name;
+        Id = id;
+        _player = player;
+        Player = player;
+        player.Controller = this;
     }
 
-    public class PlayerController : IPlayerController
+    public string Name { get; set; }
+    public Guid Id { get; set; }
+
+    public IPlayer Player
     {
-        private IPlayer _player;
-
-        public PlayerController(string name, Guid id, IPlayer player)
+        get => _player;
+        set
         {
-            Name = name;
-            Id = id;
-            _player = player;
-            Player = player;
-            player.Controller = this;
-        }
-
-        public string Name { get; set; }
-        public Guid Id { get; set; }
-
-        public IPlayer Player
-        {
-            get => _player;
-            set
-            {
-                _player = value;
-                _player.Controller = this;
-            }
+            _player = value;
+            _player.Controller = this;
         }
     }
 }

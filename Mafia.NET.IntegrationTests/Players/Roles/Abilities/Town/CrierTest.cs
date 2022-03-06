@@ -7,28 +7,27 @@ using Mafia.NET.Players.Roles.Abilities;
 using Mafia.NET.Players.Roles.Abilities.Actions;
 using NUnit.Framework;
 
-namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
+namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town;
+
+[TestFixture]
+[TestOf(typeof(CrierChatAbility))]
+public class CrierTest : BaseMatchTest
 {
-    [TestFixture]
-    [TestOf(typeof(CrierChatAbility))]
-    public class CrierTest : BaseMatchTest
+    [TestCase("Crier,Citizen,Mafioso")]
+    public void NightChat(string rolesString)
     {
-        [TestCase("Crier,Citizen,Mafioso")]
-        public void NightChat(string rolesString)
-        {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.Start();
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.Start();
 
-            var crier = match.AllPlayers[0];
+        var crier = match.AllPlayers[0];
 
-            match.Skip<NightPhase>();
+        match.Skip<NightPhase>();
 
-            var text = "Hey there folks, DJ Crier here";
-            var messages = match.Chat.Send(crier, text);
-            var nickname = new Key(crier.Role, ChatKey.Nickname);
+        var text = "Hey there folks, DJ Crier here";
+        var messages = match.Chat.Send(crier, text);
+        var nickname = new Key(crier.Role, ChatKey.Nickname);
 
-            Messages(messages, 1, crier, text, nickname, match.AllPlayers.ToArray());
-        }
+        Messages(messages, 1, crier, text, nickname, match.AllPlayers.ToArray());
     }
 }

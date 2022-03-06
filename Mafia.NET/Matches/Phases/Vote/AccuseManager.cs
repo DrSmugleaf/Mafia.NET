@@ -6,143 +6,142 @@ using Mafia.NET.Localization;
 using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 
-namespace Mafia.NET.Matches.Phases.Vote
+namespace Mafia.NET.Matches.Phases.Vote;
+
+public class Accuser
 {
-    public class Accuser
+    public Accuser(IPlayer player, bool anonymousVote)
     {
-        public Accuser(IPlayer player, bool anonymousVote)
+        Player = player;
+        Target = null;
+        Name = Player.Name;
+        AnonymousVote = anonymousVote;
+        Power = 1;
+        Active = true;
+    }
+
+    public IPlayer Player { get; set; }
+    protected IPlayer? Target { get; set; }
+    public Text Name { get; set; }
+    public bool AnonymousVote { get; set; }
+    public int Power { get; set; }
+    public bool Active { get; set; }
+
+    public IPlayer? Accusing()
+    {
+        return Target;
+    }
+
+    public bool Accuse(IPlayer target, [NotNullWhen(true)] out Notification? notification)
+    {
+        notification = default;
+        if (!Active || Target == target) return false;
+
+        var change = Target != null;
+        Target = target;
+
+        if (change)
+            notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player,
+                target);
+        else
+            notification =
+                Notification.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
+
+        return !Equals(notification, default);
+    }
+
+    public bool UnAccuse([NotNullWhen(true)] out Notification? notification)
+    {
+        notification = default;
+        if (!Active || Target == null) return false;
+
+        Target = null;
+        notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryRemove : DayKey.TryRemove, Player);
+
+        return !notification.Equals(default);
+    }
+}
+
+public class AccuseManager
+{
+    public AccuseManager(IMatch match, Action<IPlayer> enoughVotes)
+    {
+        Match = match;
+        Accusers = new Dictionary<IPlayer, Accuser>();
+        EnoughVotes = enoughVotes;
+        Active = true;
+
+        foreach (var player in Match.LivingPlayers)
+            Accusers[player] = new Accuser(player, match.Setup.AnonymousVoting);
+    }
+
+    public IMatch Match { get; set; }
+    protected IDictionary<IPlayer, Accuser> Accusers { get; set; }
+    protected Action<IPlayer> EnoughVotes { get; }
+    private bool _active { get; set; }
+
+    public bool Active
+    {
+        get => _active;
+        set
         {
-            Player = player;
-            Target = null;
-            Name = Player.Name;
-            AnonymousVote = anonymousVote;
-            Power = 1;
-            Active = true;
-        }
-
-        public IPlayer Player { get; set; }
-        protected IPlayer? Target { get; set; }
-        public Text Name { get; set; }
-        public bool AnonymousVote { get; set; }
-        public int Power { get; set; }
-        public bool Active { get; set; }
-
-        public IPlayer? Accusing()
-        {
-            return Target;
-        }
-
-        public bool Accuse(IPlayer target, [NotNullWhen(true)] out Notification? notification)
-        {
-            notification = default;
-            if (!Active || Target == target) return false;
-
-            var change = Target != null;
-            Target = target;
-
-            if (change)
-                notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryChange : DayKey.TryChange, Player,
-                    target);
-            else
-                notification =
-                    Notification.Chat(AnonymousVote ? DayKey.AnonymousTryAdd : DayKey.TryAdd, Player, target);
-
-            return !Equals(notification, default);
-        }
-
-        public bool UnAccuse([NotNullWhen(true)] out Notification? notification)
-        {
-            notification = default;
-            if (!Active || Target == null) return false;
-
-            Target = null;
-            notification = Notification.Chat(AnonymousVote ? DayKey.AnonymousTryRemove : DayKey.TryRemove, Player);
-
-            return !notification.Equals(default);
+            _active = value;
+            foreach (var accuser in Accusers.Values) accuser.Active = value;
         }
     }
 
-    public class AccuseManager
+    public void Accuse(IPlayer accuser, IPlayer target)
     {
-        public AccuseManager(IMatch match, Action<IPlayer> enoughVotes)
+        if (!Active || accuser == target) return;
+
+        var accused = Accusers[accuser].Accuse(target, out var notification);
+
+        if (accused)
         {
-            Match = match;
-            Accusers = new Dictionary<IPlayer, Accuser>();
-            EnoughVotes = enoughVotes;
-            Active = true;
+            foreach (var player in Match.AllPlayers)
+                player.OnNotification(notification!);
 
-            foreach (var player in Match.LivingPlayers)
-                Accusers[player] = new Accuser(player, match.Setup.AnonymousVoting);
-        }
-
-        public IMatch Match { get; set; }
-        protected IDictionary<IPlayer, Accuser> Accusers { get; set; }
-        protected Action<IPlayer> EnoughVotes { get; }
-        private bool _active { get; set; }
-
-        public bool Active
-        {
-            get => _active;
-            set
+            if (VotesAgainst(target) >= RequiredVotes())
             {
-                _active = value;
-                foreach (var accuser in Accusers.Values) accuser.Active = value;
+                Active = false;
+                EnoughVotes(target);
             }
         }
+    }
 
-        public void Accuse(IPlayer accuser, IPlayer target)
-        {
-            if (!Active || accuser == target) return;
+    public Accuser Get(IPlayer accuser)
+    {
+        return Accusers[accuser];
+    }
 
-            var accused = Accusers[accuser].Accuse(target, out var notification);
+    public void Unaccuse(IPlayer accuser)
+    {
+        if (!Active) return;
 
-            if (accused)
-            {
-                foreach (var player in Match.AllPlayers)
-                    player.OnNotification(notification!);
+        var unaccused = Accusers[accuser].UnAccuse(out var notification);
 
-                if (VotesAgainst(target) >= RequiredVotes())
-                {
-                    Active = false;
-                    EnoughVotes(target);
-                }
-            }
-        }
+        if (unaccused)
+            foreach (var player in Match.AllPlayers)
+                player.OnNotification(notification!);
+    }
 
-        public Accuser Get(IPlayer accuser)
-        {
-            return Accusers[accuser];
-        }
+    public IList<Accuser> GetAccusers(IPlayer player)
+    {
+        return Accusers.Values.Where(accuser => accuser.Accusing() == player).ToList();
+    }
 
-        public void Unaccuse(IPlayer accuser)
-        {
-            if (!Active) return;
+    public int VotesAgainst(IPlayer player)
+    {
+        return GetAccusers(player).Count;
+    }
 
-            var unaccused = Accusers[accuser].UnAccuse(out var notification);
+    public int TotalVotes()
+    {
+        return Accusers.Count;
+    }
 
-            if (unaccused)
-                foreach (var player in Match.AllPlayers)
-                    player.OnNotification(notification!);
-        }
-
-        public IList<Accuser> GetAccusers(IPlayer player)
-        {
-            return Accusers.Values.Where(accuser => accuser.Accusing() == player).ToList();
-        }
-
-        public int VotesAgainst(IPlayer player)
-        {
-            return GetAccusers(player).Count;
-        }
-
-        public int TotalVotes()
-        {
-            return Accusers.Count;
-        }
-
-        public int RequiredVotes()
-        {
-            return TotalVotes() / 2 + 1;
-        }
+    public int RequiredVotes()
+    {
+        return TotalVotes() / 2 + 1;
     }
 }

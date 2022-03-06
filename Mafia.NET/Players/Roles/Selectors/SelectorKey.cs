@@ -1,12 +1,11 @@
 ﻿using Mafia.NET.Localization;
 
-namespace Mafia.NET.Players.Roles.Selectors
+namespace Mafia.NET.Players.Roles.Selectors;
+
+[RegisterKey]
+public enum SelectorKey
 {
-    [RegisterKey]
-    public enum SelectorKey
-    {
-        Random,
-        AnyRandom,
-        AnyRandomDescription
-    }
+    Random,
+    AnyRandom,
+    AnyRandomDescription
 }

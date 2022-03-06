@@ -1,82 +1,81 @@
-﻿namespace Mafia.NET.Localization
+﻿namespace Mafia.NET.Localization;
+
+[RegisterKey]
+public enum DayKey
 {
-    [RegisterKey]
-    public enum DayKey
-    {
-        MoveIntoTown,
-        YourRole,
+    MoveIntoTown,
+    YourRole,
 
-        Day,
+    Day,
 
-        Deaths1,
-        Deaths3,
-        Deaths5,
-        Deaths7,
-        Deaths9,
-        Deaths11,
-        Deaths13,
-        Deaths15,
+    Deaths1,
+    Deaths3,
+    Deaths5,
+    Deaths7,
+    Deaths9,
+    Deaths11,
+    Deaths13,
+    Deaths15,
 
-        DeathMorning,
-        DeathBrutal,
-        DeathBeforeSunrise,
-        DeathHeartAttack,
-        DeathRoleReveal,
-        DeathRoleUnknown,
-        LastWillAuthor,
-        LastWillContent,
-        LastWillUnknown,
-        DeathNote,
-        DeathNoteContent,
+    DeathMorning,
+    DeathBrutal,
+    DeathBeforeSunrise,
+    DeathHeartAttack,
+    DeathRoleReveal,
+    DeathRoleUnknown,
+    LastWillAuthor,
+    LastWillContent,
+    LastWillUnknown,
+    DeathNote,
+    DeathNoteContent,
 
-        VotingBegin,
-        VotesNeeded,
+    VotingBegin,
+    VotesNeeded,
 
-        TryAdd,
-        AnonymousTryAdd,
-        TryRemove,
-        AnonymousTryRemove,
-        TryChange,
-        AnonymousTryChange,
+    TryAdd,
+    AnonymousTryAdd,
+    TryRemove,
+    AnonymousTryRemove,
+    TryChange,
+    AnonymousTryChange,
 
-        ImmediateExecution,
+    ImmediateExecution,
 
-        PutToTrial,
-        OnTrial,
+    PutToTrial,
+    OnTrial,
 
-        MayVote,
+    MayVote,
 
-        VoteAdd,
-        VoteRemove,
-        VoteChange,
+    VoteAdd,
+    VoteRemove,
+    VoteChange,
 
-        TrialOver,
+    TrialOver,
 
-        VerdictAbstain,
-        VerdictInnocent,
-        VerdictGuilty,
+    VerdictAbstain,
+    VerdictInnocent,
+    VerdictGuilty,
 
-        DecisionPardon,
-        DecisionGuilty,
+    DecisionPardon,
+    DecisionGuilty,
 
-        AnyLastWords,
+    AnyLastWords,
 
-        ExecutionMercy,
+    ExecutionMercy,
 
-        ExecutionRole,
+    ExecutionRole,
 
-        DayEnd,
-        Night,
+    DayEnd,
+    Night,
 
-        Conclusion,
-        TownVictory,
-        MafiaVictory,
-        TriadVictory,
-        BenignVictory,
-        KillingVictory,
-        CultVictory,
-        EvilVictory,
-        ConclusionRoleReveal,
-        Congratulations
-    }
+    Conclusion,
+    TownVictory,
+    MafiaVictory,
+    TriadVictory,
+    BenignVictory,
+    KillingVictory,
+    CultVictory,
+    EvilVictory,
+    ConclusionRoleReveal,
+    Congratulations
 }

@@ -6,89 +6,88 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum ControlKey
 {
-    [RegisterKey]
-    public enum ControlKey
+    NoTargets,
+    ControlAdd,
+    SelfAdd,
+    BothAdd,
+    TargetStopped, // TODO
+    TargetControlled,
+    ForcedSuicide, // TODO
+    UserTargetControlled,
+    UserTargetSelfTarget
+}
+
+[RegisterAbility("Control", 2, typeof(ControlSetup))]
+public class Control : NightEndAbility<IControlSetup>
+{
+    public Notification UserMessage()
     {
-        NoTargets,
-        ControlAdd,
-        SelfAdd,
-        BothAdd,
-        TargetStopped, // TODO
-        TargetControlled,
-        ForcedSuicide, // TODO
-        UserTargetControlled,
-        UserTargetSelfTarget
+        var first = Targets[0];
+        var second = Targets[1];
+
+        if (first == null && second == null) return Notification.Chat(Role, ControlKey.NoTargets);
+        if (first != null && second == null) return Notification.Chat(Role, ControlKey.ControlAdd, first);
+        if (first == second) return Notification.Chat(Role, ControlKey.SelfAdd, first!);
+        if (first != null) return Notification.Chat(Role, ControlKey.BothAdd, first, second!);
+        return Notification.Empty;
     }
 
-    [RegisterAbility("Control", 2, typeof(ControlSetup))]
-    public class Control : NightEndAbility<IControlSetup>
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        public Notification UserMessage()
+        var controlFilter = TargetFilter.Living(Match).Except(User);
+        var targetFilter = TargetFilter.Living(Match);
+        if (!Setup.CanCauseSelfTargets)
         {
-            var first = Targets[0];
-            var second = Targets[1];
-
-            if (first == null && second == null) return Notification.Chat(Role, ControlKey.NoTargets);
-            if (first != null && second == null) return Notification.Chat(Role, ControlKey.ControlAdd, first);
-            if (first == second) return Notification.Chat(Role, ControlKey.SelfAdd, first!);
-            if (first != null) return Notification.Chat(Role, ControlKey.BothAdd, first, second!);
-            return Notification.Empty;
+            controlFilter = controlFilter.Except(Targets);
+            targetFilter = targetFilter.Except(Targets);
         }
 
-        public override void NightStart(in IList<IAbility> abilities)
+        var notification = new TargetNotification
         {
-            var controlFilter = TargetFilter.Living(Match).Except(User);
-            var targetFilter = TargetFilter.Living(Match);
-            if (!Setup.CanCauseSelfTargets)
-            {
-                controlFilter = controlFilter.Except(Targets);
-                targetFilter = targetFilter.Except(Targets);
-            }
+            UserAddMessage = target => UserMessage(),
+            UserRemoveMessage = target => UserMessage(),
+            UserChangeMessage = (old, current) => UserMessage()
+        };
 
-            var notification = new TargetNotification
-            {
-                UserAddMessage = target => UserMessage(),
-                UserRemoveMessage = target => UserMessage(),
-                UserChangeMessage = (old, current) => UserMessage()
-            };
+        SetupTargets(abilities, controlFilter, notification);
+        SetupTargets(abilities, targetFilter, notification);
+    }
 
-            SetupTargets(abilities, controlFilter, notification);
-            SetupTargets(abilities, targetFilter, notification);
+    public override bool Use(IPlayer first, IPlayer second)
+    {
+        first.Targets.ForceSet(second);
+
+        var userNotification = first == second
+            ? Notification.Chat(Role, ControlKey.UserTargetSelfTarget, first)
+            : Notification.Chat(Role, ControlKey.UserTargetControlled, first, second);
+        User.OnNotification(userNotification);
+
+        if (Setup.VictimKnows)
+        {
+            var targetNotification = Notification.Chat(Role, ControlKey.TargetControlled);
+            first.OnNotification(targetNotification);
         }
 
-        public override bool Use(IPlayer first, IPlayer second)
-        {
-            first.Targets.ForceSet(second);
-
-            var userNotification = first == second
-                ? Notification.Chat(Role, ControlKey.UserTargetSelfTarget, first)
-                : Notification.Chat(Role, ControlKey.UserTargetControlled, first, second);
-            User.OnNotification(userNotification);
-
-            if (Setup.VictimKnows)
-            {
-                var targetNotification = Notification.Chat(Role, ControlKey.TargetControlled);
-                first.OnNotification(targetNotification);
-            }
-
-            return true;
-        }
+        return true;
     }
+}
 
-    public interface IControlSetup : IAbilitySetup
-    {
-        bool CanCauseSelfTargets { get; set; }
-        bool VictimKnows { get; set; }
-        bool WitchDoctorWhenConverted { get; set; } // TODO
-    }
+public interface IControlSetup : IAbilitySetup
+{
+    bool CanCauseSelfTargets { get; set; }
+    bool VictimKnows { get; set; }
+    bool WitchDoctorWhenConverted { get; set; } // TODO
+}
 
-    [RegisterSetup]
-    public class ControlSetup : IControlSetup
-    {
-        public bool CanCauseSelfTargets { get; set; } = true;
-        public bool VictimKnows { get; set; } = true;
-        public bool WitchDoctorWhenConverted { get; set; } = true;
-    }
+[RegisterSetup]
+public class ControlSetup : IControlSetup
+{
+    public bool CanCauseSelfTargets { get; set; } = true;
+    public bool VictimKnows { get; set; } = true;
+    public bool WitchDoctorWhenConverted { get; set; } = true;
 }

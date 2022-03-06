@@ -8,129 +8,128 @@ using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum AuditKey
 {
-    [RegisterKey]
-    public enum AuditKey
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage,
+    UserAudited,
+    TargetAudited,
+    CantAudit,
+    AuditsLeft,
+    AuditsLeftPlural,
+    OutOfAudits,
+    AlreadyAudited
+}
+
+[RegisterAbility("Audit", 11, typeof(AuditSetup))]
+public class Audit : NightEndAbility<IAuditSetup>
+{
+    public bool Auditable(IPlayer target)
     {
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage,
-        UserAudited,
-        TargetAudited,
-        CantAudit,
-        AuditsLeft,
-        AuditsLeftPlural,
-        OutOfAudits,
-        AlreadyAudited
+        var role = target.Role.Id;
+
+        return !AlreadyAudited(target) &&
+               target.Alive &&
+               target.Role.Perks.CurrentDefense <= AttackStrength.None &&
+               role != "Cultist" && // TODO
+               role != "Witch Doctor";
     }
 
-    [RegisterAbility("Audit", 11, typeof(AuditSetup))]
-    public class Audit : NightEndAbility<IAuditSetup>
+    public bool AlreadyAudited(IPlayer target)
     {
-        public bool Auditable(IPlayer target)
-        {
-            var role = target.Role.Id;
+        var role = target.Role.Id;
 
-            return !AlreadyAudited(target) &&
-                   target.Alive &&
-                   target.Role.Perks.CurrentDefense <= AttackStrength.None &&
-                   role != "Cultist" && // TODO
-                   role != "Witch Doctor";
+        return role == "Citizen" || // TODO
+               role == "Mafioso" ||
+               role == "Enforcer" ||
+               role == "Scumbag";
+    }
+
+    public IRole AuditedRole(IPlayer target)
+    {
+        var team = target.Role.Team.Id;
+
+        var role = team switch
+        {
+            "Town" => Match.Roles["Citizen"], // TODO
+            "Mafia" => Match.Roles["Mafioso"],
+            "Triad" => Match.Roles["Enforcer"],
+            "Neutral" => Match.Roles["Scumbag"],
+            _ => throw new NotImplementedException()
+        };
+
+        return role.Build();
+    }
+
+    public override void NightStart(in IList<IAbility> abilities)
+    {
+        SetupTargets<AuditKey>(abilities, TargetFilter.Living(Match).Except(User));
+
+        if (Uses == 0)
+        {
+            User.OnNotification(Notification.Chat(Role, AuditKey.OutOfAudits));
+            return;
         }
 
-        public bool AlreadyAudited(IPlayer target)
+        var usesLeft = Notification.Chat(Role, Uses == 1 ? AuditKey.AuditsLeft : AuditKey.AuditsLeftPlural, Uses);
+        User.OnNotification(usesLeft);
+    }
+
+    public override bool CanUseAny()
+    {
+        return base.CanUseAny() && Uses > 0;
+    }
+
+    public override bool Use(IPlayer target)
+    {
+        if (Uses == 0) return false;
+
+        if (AlreadyAudited(target))
         {
-            var role = target.Role.Id;
-
-            return role == "Citizen" || // TODO
-                   role == "Mafioso" ||
-                   role == "Enforcer" ||
-                   role == "Scumbag";
-        }
-
-        public IRole AuditedRole(IPlayer target)
-        {
-            var team = target.Role.Team.Id;
-
-            var role = team switch
-            {
-                "Town" => Match.Roles["Citizen"], // TODO
-                "Mafia" => Match.Roles["Mafioso"],
-                "Triad" => Match.Roles["Enforcer"],
-                "Neutral" => Match.Roles["Scumbag"],
-                _ => throw new NotImplementedException()
-            };
-
-            return role.Build();
-        }
-
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            SetupTargets<AuditKey>(abilities, TargetFilter.Living(Match).Except(User));
-
-            if (Uses == 0)
-            {
-                User.OnNotification(Notification.Chat(Role, AuditKey.OutOfAudits));
-                return;
-            }
-
-            var usesLeft = Notification.Chat(Role, Uses == 1 ? AuditKey.AuditsLeft : AuditKey.AuditsLeftPlural, Uses);
-            User.OnNotification(usesLeft);
-        }
-
-        public override bool CanUseAny()
-        {
-            return base.CanUseAny() && Uses > 0;
-        }
-
-        public override bool Use(IPlayer target)
-        {
-            if (Uses == 0) return false;
-
-            if (AlreadyAudited(target))
-            {
-                var notification = Notification.Chat(Role, AuditKey.AlreadyAudited, target);
-                User.OnNotification(notification);
-
-                return false;
-            }
-
-            if (Auditable(target))
-            {
-                Uses--;
-
-                var role = AuditedRole(target);
-                target.ChangeRole(role);
-
-                var userAudited = Notification.Chat(Role, AuditKey.UserAudited, target);
-                User.OnNotification(userAudited);
-
-                var targetAudited = Notification.Chat(Role, AuditKey.TargetAudited);
-                User.OnNotification(targetAudited);
-
-                return true;
-            }
-
-            var cantAudit = Notification.Chat(Role, AuditKey.CantAudit, target);
-            User.OnNotification(cantAudit);
+            var notification = Notification.Chat(Role, AuditKey.AlreadyAudited, target);
+            User.OnNotification(notification);
 
             return false;
         }
-    }
 
-    public interface IAuditSetup : IAbilitySetup
-    {
-        bool ConvertsMafiaToMafioso { get; }
-        bool ConvertsTriadToEnforcer { get; }
-        bool ImmunityPreventsConversion { get; }
-    }
+        if (Auditable(target))
+        {
+            Uses--;
 
-    [RegisterSetup]
-    public class AuditSetup : IAuditSetup
-    {
-        public bool ConvertsMafiaToMafioso { get; } = true;
-        public bool ConvertsTriadToEnforcer { get; } = true;
-        public bool ImmunityPreventsConversion { get; } = true;
+            var role = AuditedRole(target);
+            target.ChangeRole(role);
+
+            var userAudited = Notification.Chat(Role, AuditKey.UserAudited, target);
+            User.OnNotification(userAudited);
+
+            var targetAudited = Notification.Chat(Role, AuditKey.TargetAudited);
+            User.OnNotification(targetAudited);
+
+            return true;
+        }
+
+        var cantAudit = Notification.Chat(Role, AuditKey.CantAudit, target);
+        User.OnNotification(cantAudit);
+
+        return false;
     }
+}
+
+public interface IAuditSetup : IAbilitySetup
+{
+    bool ConvertsMafiaToMafioso { get; }
+    bool ConvertsTriadToEnforcer { get; }
+    bool ImmunityPreventsConversion { get; }
+}
+
+[RegisterSetup]
+public class AuditSetup : IAuditSetup
+{
+    public bool ConvertsMafiaToMafioso { get; } = true;
+    public bool ConvertsTriadToEnforcer { get; } = true;
+    public bool ImmunityPreventsConversion { get; } = true;
 }

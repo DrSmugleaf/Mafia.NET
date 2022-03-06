@@ -4,60 +4,59 @@ using System.Collections.Immutable;
 using System.Drawing;
 using System.Linq;
 
-namespace Mafia.NET.Localization
-{
-    public interface IText
-    {
-        string String { get; }
-        IImmutableList<IContent> Contents { get; }
-        Color Background { get; }
+namespace Mafia.NET.Localization;
 
-        Text With(string text);
+public interface IText
+{
+    string String { get; }
+    IImmutableList<IContent> Contents { get; }
+    Color Background { get; }
+
+    Text With(string text);
+}
+
+public class Text : IText
+{
+    public static readonly Text Empty = new(new List<IContent>());
+
+    public Text(IEnumerable<IContent> contents, Color background = default)
+    {
+        Contents = contents.ToImmutableList();
+        String = string.Join("", Contents.Select(content => content.Str));
+        Background = background;
     }
 
-    public class Text : IText
+    public Text(Color background = default, params Text[] texts)
     {
-        public static readonly Text Empty = new(new List<IContent>());
+        Contents = texts.SelectMany(text => text.Contents).ToImmutableList();
+        String = string.Join("", Contents.Select(content => content.Str));
+        Background = background;
+    }
 
-        public Text(IEnumerable<IContent> contents, Color background = default)
-        {
-            Contents = contents.ToImmutableList();
-            String = string.Join("", Contents.Select(content => content.Str));
-            Background = background;
-        }
+    public string String { get; }
+    public IImmutableList<IContent> Contents { get; }
+    public Color Background { get; }
 
-        public Text(Color background = default, params Text[] texts)
-        {
-            Contents = texts.SelectMany(text => text.Contents).ToImmutableList();
-            String = string.Join("", Contents.Select(content => content.Str));
-            Background = background;
-        }
+    public Text With(string text)
+    {
+        return new Text(Contents.Add(new Content(text)), Background);
+    }
 
-        public string String { get; }
-        public IImmutableList<IContent> Contents { get; }
-        public Color Background { get; }
+    public override bool Equals(object? obj)
+    {
+        return obj is IText o &&
+               String.Equals(o.String) &&
+               Contents.SequenceEqual(o.Contents) &&
+               Background.Equals(o.Background);
+    }
 
-        public Text With(string text)
-        {
-            return new Text(Contents.Add(new Content(text)), Background);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(String, Contents, Background);
+    }
 
-        public override bool Equals(object? obj)
-        {
-            return obj is IText o &&
-                   String.Equals(o.String) &&
-                   Contents.SequenceEqual(o.Contents) &&
-                   Background.Equals(o.Background);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(String, Contents, Background);
-        }
-
-        public override string ToString()
-        {
-            return String;
-        }
+    public override string ToString()
+    {
+        return String;
     }
 }

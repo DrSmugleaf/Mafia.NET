@@ -5,55 +5,54 @@ using Mafia.NET.Matches.Phases;
 using Mafia.NET.Players.Roles.Abilities;
 using NUnit.Framework;
 
-namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town
+namespace Mafia.Net.IntegrationTests.Players.Roles.Abilities.Town;
+
+[TestFixture]
+[TestOf(typeof(Block))]
+public class EscortTest : BaseMatchTest
 {
-    [TestFixture]
-    [TestOf(typeof(Block))]
-    public class EscortTest : BaseMatchTest
+    [TestCaseSource(typeof(BlockCases))]
+    public void Block(string rolesString, bool block)
     {
-        [TestCaseSource(typeof(BlockCases))]
-        public void Block(string rolesString, bool block)
+        var roleNames = rolesString.Split(",");
+        var match = new Match(roleNames);
+        match.AbilitySetups.Replace(new SerialKillerSetup
         {
-            var roleNames = rolesString.Split(",");
-            var match = new Match(roleNames);
-            match.AbilitySetups.Replace(new SerialKillerSetup
-            {
-                KillsRoleBlockers = false
-            }, new MafiaMinionSetup
-            {
-                BecomesHenchmanIfAlone = false
-            });
-            match.Start();
+            KillsRoleBlockers = false
+        }, new MafiaMinionSetup
+        {
+            BecomesHenchmanIfAlone = false
+        });
+        match.Start();
 
-            var blocker = match.AllPlayers[0];
-            var citizen = match.AllPlayers[1];
-            var attacker = match.AllPlayers[2];
+        var blocker = match.AllPlayers[0];
+        var citizen = match.AllPlayers[1];
+        var attacker = match.AllPlayers[2];
 
-            match.Skip<NightPhase>();
+        match.Skip<NightPhase>();
 
-            if (block) blocker.Target(attacker);
-            attacker.Target(citizen);
+        if (block) blocker.Target(attacker);
+        attacker.Target(citizen);
 
-            match.Skip<DeathsPhase>();
+        match.Skip<DeathsPhase>();
 
-            Assert.That(citizen.Alive, Is.EqualTo(block));
-            Deaths(match, block ? 0 : 1);
-        }
+        Assert.That(citizen.Alive, Is.EqualTo(block));
+        Deaths(match, block ? 0 : 1);
     }
+}
 
-    public class BlockCases : IEnumerable
+public class BlockCases : IEnumerable
+{
+    public IEnumerator GetEnumerator()
     {
-        public IEnumerator GetEnumerator()
+        var blockers = new[] {"Escort", "Consort", "Liaison"};
+
+        foreach (var blocker in blockers)
         {
-            var blockers = new[] {"Escort", "Consort", "Liaison"};
+            var roleNames = $"{blocker},Citizen,Serial Killer";
 
-            foreach (var blocker in blockers)
-            {
-                var roleNames = $"{blocker},Citizen,Serial Killer";
-
-                foreach (var block in new[] {true, false})
-                    yield return new object[] {roleNames, block};
-            }
+            foreach (var block in new[] {true, false})
+                yield return new object[] {roleNames, block};
         }
     }
 }

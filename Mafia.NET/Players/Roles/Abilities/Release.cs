@@ -3,27 +3,26 @@ using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterAbility("Release", -2)]
+public class Release : Ability
 {
-    [RegisterAbility("Release", -2)]
-    public class Release : Ability
+    public override bool CanUse(IPlayer target)
     {
-        public override bool CanUse(IPlayer target)
-        {
-            return base.CanUse() &&
-                   Targets.TryDay(out _) &&
-                   !Targets.TryNight(out _);
-        }
+        return base.CanUse() &&
+               Targets.TryDay(out _) &&
+               !Targets.TryNight(out _);
+    }
 
-        public override PhaseTargeting ResolveTargets()
-        {
-            return Targets.GetAll(Time.Day);
-        }
+    public override PhaseTargeting ResolveTargets()
+    {
+        return Targets.GetAll(Time.Day);
+    }
 
-        public override bool Use(IPlayer prisoner)
-        {
-            prisoner.Perks.RoleBlock(User, true);
-            return true;
-        }
+    public override bool Use(IPlayer prisoner)
+    {
+        prisoner.Perks.RoleBlock(User, true);
+        return true;
     }
 }

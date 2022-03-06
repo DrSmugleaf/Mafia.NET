@@ -6,52 +6,51 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum AutopsyKey
 {
-    [RegisterKey]
-    public enum AutopsyKey
+    StillAlive,
+    AutopsyRole,
+    AutopsyLastWill,
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Autopsy", 9, typeof(AutopsySetup))]
+public class Autopsy : NightEndAbility<AutopsySetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        StillAlive,
-        AutopsyRole,
-        AutopsyLastWill,
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        SetupTargets<AutopsyKey>(abilities, TargetFilter.Dead(Match));
     }
 
-    [RegisterAbility("Autopsy", 9, typeof(AutopsySetup))]
-    public class Autopsy : NightEndAbility<AutopsySetup>
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
+        if (target.Alive)
         {
-            SetupTargets<AutopsyKey>(abilities, TargetFilter.Dead(Match));
+            var notification = Notification.Chat(Role, AutopsyKey.StillAlive);
+            User.OnNotification(notification);
+            return false;
         }
 
-        public override bool Use(IPlayer target)
-        {
-            if (target.Alive)
-            {
-                var notification = Notification.Chat(Role, AutopsyKey.StillAlive);
-                User.OnNotification(notification);
-                return false;
-            }
+        var message = new EntryBundle();
+        message.Chat(Role, AutopsyKey.AutopsyRole, target, target.Role);
+        if (Setup.DiscoverLastWill && target.LastWill.Text.Length > 0)
+            message.Chat(Role, AutopsyKey.AutopsyLastWill, target.LastWill);
 
-            var message = new EntryBundle();
-            message.Chat(Role, AutopsyKey.AutopsyRole, target, target.Role);
-            if (Setup.DiscoverLastWill && target.LastWill.Text.Length > 0)
-                message.Chat(Role, AutopsyKey.AutopsyLastWill, target.LastWill);
+        User.OnNotification(message);
 
-            User.OnNotification(message);
-
-            return true;
-        }
+        return true;
     }
+}
 
-    [RegisterSetup]
-    public class AutopsySetup : IAbilitySetup
-    {
-        public bool DiscoverAllTargets { get; set; } = true; // TODO: Discover targets
-        public bool DiscoverDeathType { get; set; } = true; // TODO: Death type
-        public bool DiscoverLastWill { get; set; } = true;
-    }
+[RegisterSetup]
+public class AutopsySetup : IAbilitySetup
+{
+    public bool DiscoverAllTargets { get; set; } = true; // TODO: Discover targets
+    public bool DiscoverDeathType { get; set; } = true; // TODO: Death type
+    public bool DiscoverLastWill { get; set; } = true;
 }

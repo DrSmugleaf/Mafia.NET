@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
 
-namespace Mafia.NET.Localization
+namespace Mafia.NET.Localization;
+
+public interface ILocalizable
 {
-    public interface ILocalizable
-    {
-        Text Localize(CultureInfo? culture = null);
-    }
+    Text Localize(CultureInfo? culture = null);
 }

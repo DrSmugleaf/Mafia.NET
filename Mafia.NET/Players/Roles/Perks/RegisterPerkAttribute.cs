@@ -1,11 +1,10 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace Mafia.NET.Players.Roles.Perks
+namespace Mafia.NET.Players.Roles.Perks;
+
+[AttributeUsage(AttributeTargets.Property)]
+[MeansImplicitUse]
+public class RegisterPerkAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    [MeansImplicitUse]
-    public class RegisterPerkAttribute : Attribute
-    {
-    }
 }

@@ -6,61 +6,60 @@ using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum HideKey
 {
-    [RegisterKey]
-    public enum HideKey
+    SomeoneHide,
+    SelfHide,
+    HideAt
+}
+
+[RegisterAbility("Hide", 2, typeof(HideSetup))]
+public class Hide : NightEndAbility<HideSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        SomeoneHide,
-        SelfHide,
-        HideAt
+        if (Uses == 0) return;
+
+        var filter = Setup.CanHideBehindMafia
+            ? TargetFilter.Living(Match).Except(User)
+            : TargetFilter.Living(Match).Except(User.Role.Team);
+
+        SetupTargets<HideKey>(abilities, filter);
     }
 
-    [RegisterAbility("Hide", 2, typeof(HideSetup))]
-    public class Hide : NightEndAbility<HideSetup>
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
+        if (Uses == 0) return false;
+
+        User.Crimes.Add(CrimeKey.Trespassing);
+
+        foreach (var player in Match.LivingPlayers)
         {
-            if (Uses == 0) return;
-
-            var filter = Setup.CanHideBehindMafia
-                ? TargetFilter.Living(Match).Except(User)
-                : TargetFilter.Living(Match).Except(User.Role.Team);
-
-            SetupTargets<HideKey>(abilities, filter);
+            var targets = player.Targets;
+            if (targets[0] == User) targets.ForceSet(target);
         }
 
-        public override bool Use(IPlayer target)
-        {
-            if (Uses == 0) return false;
+        if (Setup.NotifiesTarget)
+            target.OnNotification(Notification.Chat(Role, HideKey.SomeoneHide));
 
-            User.Crimes.Add(CrimeKey.Trespassing);
+        var notification = target == User
+            ? Notification.Chat(Role, HideKey.SelfHide)
+            : Notification.Chat(Role, HideKey.HideAt, target); // TODO: Attribute kills to the Beguiler
 
-            foreach (var player in Match.LivingPlayers)
-            {
-                var targets = player.Targets;
-                if (targets[0] == User) targets.ForceSet(target);
-            }
+        User.OnNotification(notification);
 
-            if (Setup.NotifiesTarget)
-                target.OnNotification(Notification.Chat(Role, HideKey.SomeoneHide));
+        Uses--;
 
-            var notification = target == User
-                ? Notification.Chat(Role, HideKey.SelfHide)
-                : Notification.Chat(Role, HideKey.HideAt, target); // TODO: Attribute kills to the Beguiler
-
-            User.OnNotification(notification);
-
-            Uses--;
-
-            return true;
-        }
+        return true;
     }
+}
 
-    [RegisterSetup]
-    public class HideSetup : IAbilitySetup
-    {
-        public bool CanHideBehindMafia = false;
-        public bool NotifiesTarget { get; set; }
-    }
+[RegisterSetup]
+public class HideSetup : IAbilitySetup
+{
+    public bool CanHideBehindMafia = false;
+    public bool NotifiesTarget { get; set; }
 }

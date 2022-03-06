@@ -4,83 +4,82 @@ using System.Threading.Tasks;
 using Mafia.NET.Web.Extensions;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Mafia.NET.Web.Hubs
+namespace Mafia.NET.Web.Hubs;
+
+public class LobbyChat : Chat
 {
-    public class LobbyChat : Chat
+    public override async Task OnConnectedAsync()
     {
-        public override async Task OnConnectedAsync()
+        var connection = Context.UserIdentifier;
+        if (connection == null)
         {
-            var connection = Context.UserIdentifier;
-            if (connection == null)
-            {
-                Context.Abort();
-                throw new InvalidOperationException($"No user identifier found for connection {Context.ConnectionId}");
-            }
+            Context.Abort();
+            throw new InvalidOperationException($"No user identifier found for connection {Context.ConnectionId}");
+        }
             
-            if (Session == null || !Session.TryLobbyController(out var connected))
-            {
-                Context.Abort();
-                throw new InvalidOperationException($"No lobby controller found for connection {Context.ConnectionId}");
-            }
-
-            Session.Connection(connection);
-
-            var lobby = connected.Lobby;
-
-            if (connected.Lobby.Host == connected)
-                await Clients.User(connection).SendAsync("Host");
-
-            var names = lobby.Controllers
-                .Select(user => user.Name);
-            await Clients.User(connection).SendAsync("Players", names);
-
-            var others = lobby.IdsExcept(connected);
-            await Clients.Users(others).SendAsync("Join", connected.Name);
-
-            var allConnections = connected.Lobby.ControllerIds();
-            await Clients.Users(allConnections).SendAsync("HostPlayer", connected.Lobby.Host.Name);
-
-            await base.OnConnectedAsync();
-        }
-
-        public override Task OnDisconnectedAsync(Exception? exception)
+        if (Session == null || !Session.TryLobbyController(out var connected))
         {
-            if (Session != null && Session.TryLobbyController(out var controller))
-            {
-                var others = controller.Lobby.IdsExcept(controller);
-                Clients.Users(others).SendAsync("Leave", controller.Name);
-            }
-
-            Session?.Connection(null);
-            return base.OnDisconnectedAsync(exception);
+            Context.Abort();
+            throw new InvalidOperationException($"No lobby controller found for connection {Context.ConnectionId}");
         }
 
-        public async Task NewMessage(string text)
+        Session.Connection(connection);
+
+        var lobby = connected.Lobby;
+
+        if (connected.Lobby.Host == connected)
+            await Clients.User(connection).SendAsync("Host");
+
+        var names = lobby.Controllers
+            .Select(user => user.Name);
+        await Clients.User(connection).SendAsync("Players", names);
+
+        var others = lobby.IdsExcept(connected);
+        await Clients.Users(others).SendAsync("Join", connected.Name);
+
+        var allConnections = connected.Lobby.ControllerIds();
+        await Clients.Users(allConnections).SendAsync("HostPlayer", connected.Lobby.Host.Name);
+
+        await base.OnConnectedAsync();
+    }
+
+    public override Task OnDisconnectedAsync(Exception? exception)
+    {
+        if (Session != null && Session.TryLobbyController(out var controller))
         {
-            text = text.Trim();
-            text = text.Substring(0, Math.Min(text.Length, 500));
-            if (text.Length == 0 || Session == null || !Session.TryLobbyController(out var sender)) return;
-
-            var users = sender.Lobby.ControllerIds();
-            await Clients.Users(users).SendAsync("Message", $"{sender.Name}: {text}");
+            var others = controller.Lobby.IdsExcept(controller);
+            Clients.Users(others).SendAsync("Leave", controller.Name);
         }
 
-        public async Task Start()
-        {
-            if (Session == null || !Session.TryLobbyController(out var host)) return;
+        Session?.Connection(null);
+        return base.OnDisconnectedAsync(exception);
+    }
 
-            var lobby = host.Lobby;
-            if (lobby.Started || host != lobby.Host) return;
+    public async Task NewMessage(string text)
+    {
+        text = text.Trim();
+        text = text.Substring(0, Math.Min(text.Length, 500));
+        if (text.Length == 0 || Session == null || !Session.TryLobbyController(out var sender)) return;
 
-            var match = lobby.Start();
+        var users = sender.Lobby.ControllerIds();
+        await Clients.Users(users).SendAsync("Message", $"{sender.Name}: {text}");
+    }
 
-            foreach (var controller in lobby.Controllers)
-                SessionExtensions.LobbyControllers.TryRemove(controller.Id, out _);
+    public async Task Start()
+    {
+        if (Session == null || !Session.TryLobbyController(out var host)) return;
 
-            foreach (var player in match.AllPlayers)
-                SessionExtensions.PlayerControllers[player.Id] = player.Controller;
+        var lobby = host.Lobby;
+        if (lobby.Started || host != lobby.Host) return;
 
-            await Clients.Users(lobby.ControllerIds()).SendAsync("Start");
-        }
+        var match = lobby.Start();
+
+        foreach (var controller in lobby.Controllers)
+            SessionExtensions.LobbyControllers.TryRemove(controller.Id, out _);
+
+        foreach (var player in match.AllPlayers)
+            SessionExtensions.PlayerControllers[player.Id] = player.Controller;
+
+        await Clients.Users(lobby.ControllerIds()).SendAsync("Start");
     }
 }

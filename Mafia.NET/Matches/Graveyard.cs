@@ -6,116 +6,115 @@ using Mafia.NET.Notifications;
 using Mafia.NET.Players;
 using Mafia.NET.Players.Deaths;
 
-namespace Mafia.NET.Matches
+namespace Mafia.NET.Matches;
+
+public class Graveyard
 {
-    public class Graveyard
+    public Graveyard(IMatch match)
     {
-        public Graveyard(IMatch match)
+        Match = match;
+        PublicDeaths = new List<IDeath>();
+        UndisclosedDeaths = new List<IDeath>();
+        Threats = new List<IDeath>();
+        Announcements = new List<Notification>();
+    }
+
+    public IMatch Match { get; }
+    public List<IDeath> PublicDeaths { get; }
+    public List<IDeath> UndisclosedDeaths { get; }
+    public List<IDeath> Threats { get; }
+    public List<Notification> Announcements { get; }
+
+    public IReadOnlyList<IDeath> AllDeaths()
+    {
+        return PublicDeaths.Union(UndisclosedDeaths).ToList();
+    }
+
+    public void Disclose()
+    {
+        PublicDeaths.AddRange(UndisclosedDeaths);
+        UndisclosedDeaths.Clear();
+    }
+
+    public void SettleThreats()
+    {
+        var victims = new Dictionary<IPlayer, IDeath>();
+
+        foreach (var threat in Threats)
         {
-            Match = match;
-            PublicDeaths = new List<IDeath>();
-            UndisclosedDeaths = new List<IDeath>();
-            Threats = new List<IDeath>();
-            Announcements = new List<Notification>();
-        }
+            if (threat.Victim.Perks.CurrentDefense >= threat.Strength) continue;
 
-        public IMatch Match { get; }
-        public List<IDeath> PublicDeaths { get; }
-        public List<IDeath> UndisclosedDeaths { get; }
-        public List<IDeath> Threats { get; }
-        public List<Notification> Announcements { get; }
-
-        public IReadOnlyList<IDeath> AllDeaths()
-        {
-            return PublicDeaths.Union(UndisclosedDeaths).ToList();
-        }
-
-        public void Disclose()
-        {
-            PublicDeaths.AddRange(UndisclosedDeaths);
-            UndisclosedDeaths.Clear();
-        }
-
-        public void SettleThreats()
-        {
-            var victims = new Dictionary<IPlayer, IDeath>();
-
-            foreach (var threat in Threats)
+            var victim = threat.Victim;
+            if (victims.TryGetValue(victim, out _))
             {
-                if (threat.Victim.Perks.CurrentDefense >= threat.Strength) continue;
-
-                var victim = threat.Victim;
-                if (victims.TryGetValue(victim, out _))
-                {
-                    victims[victim].Description += Environment.NewLine + threat.Description;
-                }
-                else
-                {
-                    threat.Victim.Alive = false; // TODO: Change active depending on the action
-                    victims[victim] = threat;
-                }
+                victims[victim].Description += Environment.NewLine + threat.Description;
             }
-
-            Threats.Clear();
-            UndisclosedDeaths.AddRange(victims.Values);
+            else
+            {
+                threat.Victim.Alive = false; // TODO: Change active depending on the action
+                victims[victim] = threat;
+            }
         }
 
-        public bool DeathOf(IPlayer player, [NotNullWhen(true)] out IDeath? death)
-        {
-            death = default;
+        Threats.Clear();
+        UndisclosedDeaths.AddRange(victims.Values);
+    }
 
-            death = AllDeaths().FirstOrDefault(death => death.Victim == player);
+    public bool DeathOf(IPlayer player, [NotNullWhen(true)] out IDeath? death)
+    {
+        death = default;
 
-            return death != default;
-        }
+        death = AllDeaths().FirstOrDefault(death => death.Victim == player);
 
-        public IList<IDeath> DeathsOn(int day, DeathCause cause)
-        {
-            return AllDeaths().Where(death => death.Day == day && death.Cause == cause).ToList();
-        }
+        return death != default;
+    }
 
-        public bool AnyDeathsOn(int day, DeathCause cause)
-        {
-            return DeathsOn(day, cause).Any();
-        }
+    public IList<IDeath> DeathsOn(int day, DeathCause cause)
+    {
+        return AllDeaths().Where(death => death.Day == day && death.Cause == cause).ToList();
+    }
 
-        public IList<IDeath> DeathsToday(DeathCause cause)
-        {
-            return DeathsOn(Match.Phase.Day, cause);
-        }
+    public bool AnyDeathsOn(int day, DeathCause cause)
+    {
+        return DeathsOn(day, cause).Any();
+    }
 
-        public bool AnyDeathsToday(DeathCause cause)
-        {
-            return DeathsToday(cause).Any();
-        }
+    public IList<IDeath> DeathsToday(DeathCause cause)
+    {
+        return DeathsOn(Match.Phase.Day, cause);
+    }
 
-        public IList<IDeath> LynchesToday()
-        {
-            return DeathsToday(DeathCause.Lynch);
-        }
+    public bool AnyDeathsToday(DeathCause cause)
+    {
+        return DeathsToday(cause).Any();
+    }
 
-        public bool AnyLynchesToday()
-        {
-            return LynchesToday().Any();
-        }
+    public IList<IDeath> LynchesToday()
+    {
+        return DeathsToday(DeathCause.Lynch);
+    }
 
-        public List<IDeath> ThreatsOn(IPlayer victim)
-        {
-            return Threats.Where(death => death.Victim == victim).ToList();
-        }
+    public bool AnyLynchesToday()
+    {
+        return LynchesToday().Any();
+    }
 
-        public List<IDeath> ThreatsBy(IPlayer killer)
-        {
-            return Threats.Where(death => death.Killer != null && death.Killer == killer).ToList();
-        }
+    public List<IDeath> ThreatsOn(IPlayer victim)
+    {
+        return Threats.Where(death => death.Victim == victim).ToList();
+    }
 
-        public void Announce()
-        {
-            foreach (var announcement in Announcements)
-            foreach (var player in Match.AllPlayers)
-                player.OnNotification(announcement);
+    public List<IDeath> ThreatsBy(IPlayer killer)
+    {
+        return Threats.Where(death => death.Killer != null && death.Killer == killer).ToList();
+    }
 
-            Announcements.Clear();
-        }
+    public void Announce()
+    {
+        foreach (var announcement in Announcements)
+        foreach (var player in Match.AllPlayers)
+            player.OnNotification(announcement);
+
+        Announcements.Clear();
     }
 }

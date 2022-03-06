@@ -7,71 +7,70 @@ using Mafia.NET.Players.Roles.Abilities.Setups;
 using Mafia.NET.Players.Roles.Perks;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum GuardKey
 {
-    [RegisterKey]
-    public enum GuardKey
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Guard", 7, typeof(GuardSetup))]
+public class Guard : NightEndAbility<GuardSetup>
+{
+    // TODO The Bodyguard will stay together with his guarded target. That means he won't die if a Mass Murderer visits his target, if that target visited someone else that night.
+    // TODO Manipulated to target self
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        SetupTargets<GuardKey>(abilities, TargetFilter.Living(Match).Except(User));
     }
 
-    [RegisterAbility("Guard", 7, typeof(GuardSetup))]
-    public class Guard : NightEndAbility<GuardSetup>
+    public override void NightEnd(in IList<IAbility> abilities)
     {
-        // TODO The Bodyguard will stay together with his guarded target. That means he won't die if a Mass Murderer visits his target, if that target visited someone else that night.
-        // TODO Manipulated to target self
-        public override void NightStart(in IList<IAbility> abilities)
+        base.NightEnd(in abilities);
+
+        var protect = Get<Protect>();
+        abilities.Add(protect);
+    }
+
+    public override bool Use(IPlayer target)
+    {
+        var threats = Match.Graveyard.ThreatsOn(target)
+            .Where(death => death.Direct)
+            .ToList();
+
+        if (threats.Count > 0)
         {
-            SetupTargets<GuardKey>(abilities, TargetFilter.Living(Match).Except(User));
-        }
+            var threat = threats[0];
+            threat.WithVictim(User);
 
-        public override void NightEnd(in IList<IAbility> abilities)
-        {
-            base.NightEnd(in abilities);
+            var strength = AttackStrength.Base;
+            if (Setup.IgnoresInvulnerability) strength = AttackStrength.Pierce;
 
-            var protect = Get<Protect>();
-            abilities.Add(protect);
-        }
+            var killer = threat.Killer;
+            if (killer == null) return true;
 
-        public override bool Use(IPlayer target)
-        {
-            var threats = Match.Graveyard.ThreatsOn(target)
-                .Where(death => death.Direct)
-                .ToList();
-
-            if (threats.Count > 0)
+            foreach (var killerThreat in Match.Graveyard.ThreatsBy(killer))
             {
-                var threat = threats[0];
-                threat.WithVictim(User);
-
-                var strength = AttackStrength.Base;
-                if (Setup.IgnoresInvulnerability) strength = AttackStrength.Pierce;
-
-                var killer = threat.Killer;
-                if (killer == null) return true;
-
-                foreach (var killerThreat in Match.Graveyard.ThreatsBy(killer))
-                {
-                    if (killerThreat == threat) continue;
-                    Match.Graveyard.Threats.Remove(killerThreat); // TODO: Threats committed at the victim's house
-                }
-
-                var attack = Attack(strength, Priority);
-                attack.Use(killer);
-
-                return true;
+                if (killerThreat == threat) continue;
+                Match.Graveyard.Threats.Remove(killerThreat); // TODO: Threats committed at the victim's house
             }
 
-            return false;
-        }
-    }
+            var attack = Attack(strength, Priority);
+            attack.Use(killer);
 
-    [RegisterSetup]
-    public class GuardSetup : IAbilitySetup
-    {
-        public bool PreventsCultistConversion = false; // TODO: Prevents conversions
-        public bool IgnoresInvulnerability { get; set; } = true;
+            return true;
+        }
+
+        return false;
     }
+}
+
+[RegisterSetup]
+public class GuardSetup : IAbilitySetup
+{
+    public bool PreventsCultistConversion = false; // TODO: Prevents conversions
+    public bool IgnoresInvulnerability { get; set; } = true;
 }

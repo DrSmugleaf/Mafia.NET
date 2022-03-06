@@ -2,36 +2,35 @@
 using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Perks;
 
-namespace Mafia.NET.Players.Roles.Abilities.Actions
+namespace Mafia.NET.Players.Roles.Abilities.Actions;
+
+public class Attack : Ability
 {
-    public class Attack : Ability
+    public Attack(
+        AttackStrength strength = AttackStrength.Base,
+        int priority = 5,
+        bool direct = true,
+        bool stoppable = true)
     {
-        public Attack(
-            AttackStrength strength = AttackStrength.Base,
-            int priority = 5,
-            bool direct = true,
-            bool stoppable = true)
-        {
-            Strength = strength;
-            Priority = priority;
-            Direct = direct;
-            Stoppable = stoppable;
-        }
+        Strength = strength;
+        Priority = priority;
+        Direct = direct;
+        Stoppable = stoppable;
+    }
 
-        public Attack() : this(AttackStrength.Base)
-        {
-        }
+    public Attack() : this(AttackStrength.Base)
+    {
+    }
 
-        public AttackStrength Strength { get; set; }
-        public bool Direct { get; set; }
-        public bool Stoppable { get; set; }
+    public AttackStrength Strength { get; set; }
+    public bool Direct { get; set; }
+    public bool Stoppable { get; set; }
 
-        public override bool Use(IPlayer victim)
-        {
-            var threat = new Death(this, victim, Strength, Direct, Stoppable);
-            User.Crimes.Add(CrimeKey.Murder);
-            Match.Graveyard.Threats.Add(threat);
-            return true;
-        }
+    public override bool Use(IPlayer victim)
+    {
+        var threat = new Death(this, victim, Strength, Direct, Stoppable);
+        User.Crimes.Add(CrimeKey.Murder);
+        Match.Graveyard.Threats.Add(threat);
+        return true;
     }
 }

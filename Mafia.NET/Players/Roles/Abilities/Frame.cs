@@ -4,29 +4,28 @@ using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum FrameKey
 {
-    [RegisterKey]
-    public enum FrameKey
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage
+}
+
+[RegisterAbility("Frame", 4)]
+public class Frame : NightEndAbility
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage
+        SetupTargets<FrameKey>(abilities, TargetFilter.Living(Match).Except(User.Role.Team));
     }
 
-    [RegisterAbility("Frame", 4)]
-    public class Frame : NightEndAbility
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            SetupTargets<FrameKey>(abilities, TargetFilter.Living(Match).Except(User.Role.Team));
-        }
-
-        public override bool Use(IPlayer target)
-        {
-            User.Crimes.Add(CrimeKey.Trespassing);
-            target.Crimes.Framing = new Framing(Match);
-            return true;
-        }
+        User.Crimes.Add(CrimeKey.Trespassing);
+        target.Crimes.Framing = new Framing(Match);
+        return true;
     }
 }

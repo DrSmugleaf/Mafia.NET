@@ -1,98 +1,97 @@
 ﻿using System;
 using Mafia.NET.Matches.Chats;
 
-namespace Mafia.NET.Matches.Phases
-{
-    public interface IPhaseManager
-    {
-        IMatch Match { get; }
-        int Day { get; set; }
-        Time CurrentTime { get; set; }
-        IPhase CurrentPhase { get; set; }
-        Clock Clock { get; }
-        ChatManager Chat { get; }
+namespace Mafia.NET.Matches.Phases;
 
-        void Start();
-        void AdvancePhase();
-        void SupersedePhase(IPhase newPhase);
-        void Close();
+public interface IPhaseManager
+{
+    IMatch Match { get; }
+    int Day { get; set; }
+    Time CurrentTime { get; set; }
+    IPhase CurrentPhase { get; set; }
+    Clock Clock { get; }
+    ChatManager Chat { get; }
+
+    void Start();
+    void AdvancePhase();
+    void SupersedePhase(IPhase newPhase);
+    void Close();
+}
+
+public class PhaseManager : IPhaseManager
+{
+    public PhaseManager(IMatch match)
+    {
+        Match = match;
+        Day = 1;
+        CurrentTime = Time.Day;
+        CurrentPhase = new PresentationPhase(Match);
+        Clock = new Clock();
+        Chat = new ChatManager(match);
     }
 
-    public class PhaseManager : IPhaseManager
+    public IMatch Match { get; }
+    public int Day { get; set; }
+    public Time CurrentTime { get; set; }
+    public IPhase CurrentPhase { get; set; }
+    public Clock Clock { get; }
+    public ChatManager Chat { get; }
+
+    public void Start()
     {
-        public PhaseManager(IMatch match)
+        CurrentPhase.Start();
+        Clock.Elapsed += (source, e) => AdvancePhase();
+        Clock.Start(CurrentPhase.Duration);
+    }
+
+    public void AdvancePhase()
+    {
+        Clock.Stop();
+
+        var next = CurrentPhase.NextPhase();
+        if (next == null) throw new NullReferenceException(nameof(next));
+
+        CurrentPhase.End();
+
+        double duration;
+        if (next == CurrentPhase.Supersedes)
         {
-            Match = match;
-            Day = 1;
-            CurrentTime = Time.Day;
-            CurrentPhase = new PresentationPhase(Match);
-            Clock = new Clock();
-            Chat = new ChatManager(match);
+            CurrentPhase.Supersedes = null;
+            next.SupersededBy = null;
+            duration = next.Resume();
+        }
+        else
+        {
+            next.Start();
+            duration = next.Duration;
         }
 
-        public IMatch Match { get; }
-        public int Day { get; set; }
-        public Time CurrentTime { get; set; }
-        public IPhase CurrentPhase { get; set; }
-        public Clock Clock { get; }
-        public ChatManager Chat { get; }
+        CurrentPhase = next;
 
-        public void Start()
-        {
-            CurrentPhase.Start();
-            Clock.Elapsed += (source, e) => AdvancePhase();
-            Clock.Start(CurrentPhase.Duration);
-        }
+        if (duration > 0)
+            Clock.Start(next.Duration);
+        else
+            AdvancePhase();
+    }
 
-        public void AdvancePhase()
-        {
-            Clock.Stop();
+    public void SupersedePhase(IPhase newPhase)
+    {
+        Clock.Stop();
 
-            var next = CurrentPhase.NextPhase();
-            if (next == null) throw new NullReferenceException(nameof(next));
+        CurrentPhase.SupersededBy = newPhase;
+        newPhase.Supersedes = CurrentPhase;
 
-            CurrentPhase.End();
+        CurrentPhase.Pause();
 
-            double duration;
-            if (next == CurrentPhase.Supersedes)
-            {
-                CurrentPhase.Supersedes = null;
-                next.SupersededBy = null;
-                duration = next.Resume();
-            }
-            else
-            {
-                next.Start();
-                duration = next.Duration;
-            }
+        CurrentPhase = newPhase;
+        CurrentPhase.Start();
 
-            CurrentPhase = next;
+        Clock.Start(CurrentPhase.Duration);
+    }
 
-            if (duration > 0)
-                Clock.Start(next.Duration);
-            else
-                AdvancePhase();
-        }
-
-        public void SupersedePhase(IPhase newPhase)
-        {
-            Clock.Stop();
-
-            CurrentPhase.SupersededBy = newPhase;
-            newPhase.Supersedes = CurrentPhase;
-
-            CurrentPhase.Pause();
-
-            CurrentPhase = newPhase;
-            CurrentPhase.Start();
-
-            Clock.Start(CurrentPhase.Duration);
-        }
-
-        public void Close()
-        {
-            Clock.Stop();
-            Clock.Dispose();
-        }
+    public void Close()
+    {
+        Clock.Stop();
+        Clock.Dispose();
     }
 }

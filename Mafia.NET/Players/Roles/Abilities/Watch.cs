@@ -4,57 +4,56 @@ using Mafia.NET.Players.Roles.Abilities.Bases;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 using Mafia.NET.Players.Targeting;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterKey]
+public enum WatchKey
 {
-    [RegisterKey]
-    public enum WatchKey
+    UserAddMessage,
+    UserRemoveMessage,
+    UserChangeMessage,
+    SomeoneVisitedTarget,
+    NoneVisitedTarget
+}
+
+[RegisterAbility("Watch", 9, typeof(WatchSetup))]
+public class Watch : NightEndAbility<IWatchSetup>
+{
+    public override void NightStart(in IList<IAbility> abilities)
     {
-        UserAddMessage,
-        UserRemoveMessage,
-        UserChangeMessage,
-        SomeoneVisitedTarget,
-        NoneVisitedTarget
+        var filter = TargetFilter.Living(Match);
+        if (!Setup.CanTargetSelf) filter = filter.Except(User);
+
+        SetupTargets<WatchKey>(abilities, filter);
     }
 
-    [RegisterAbility("Watch", 9, typeof(WatchSetup))]
-    public class Watch : NightEndAbility<IWatchSetup>
+    public override bool Use(IPlayer target)
     {
-        public override void NightStart(in IList<IAbility> abilities)
-        {
-            var filter = TargetFilter.Living(Match);
-            if (!Setup.CanTargetSelf) filter = filter.Except(User);
+        User.Crimes.Add(CrimeKey.Trespassing);
 
-            SetupTargets<WatchKey>(abilities, filter);
-        }
+        var foreignVisits = new EntryBundle();
+        foreach (var other in Match.LivingPlayers)
+            if (other != User &&
+                other.Role.DetectionProfile.TryDetectTarget(out var foreignTarget, Setup) &&
+                foreignTarget == target)
+                foreignVisits.Chat(Role, WatchKey.SomeoneVisitedTarget, other);
 
-        public override bool Use(IPlayer target)
-        {
-            User.Crimes.Add(CrimeKey.Trespassing);
+        if (foreignVisits.Entries.Count == 0)
+            foreignVisits.Chat(Role, WatchKey.NoneVisitedTarget);
 
-            var foreignVisits = new EntryBundle();
-            foreach (var other in Match.LivingPlayers)
-                if (other != User &&
-                    other.Role.DetectionProfile.TryDetectTarget(out var foreignTarget, Setup) &&
-                    foreignTarget == target)
-                    foreignVisits.Chat(Role, WatchKey.SomeoneVisitedTarget, other);
+        User.OnNotification(foreignVisits);
 
-            if (foreignVisits.Entries.Count == 0)
-                foreignVisits.Chat(Role, WatchKey.NoneVisitedTarget);
-
-            User.OnNotification(foreignVisits);
-
-            return true;
-        }
+        return true;
     }
+}
 
-    public interface IWatchSetup : IDetectSetup
-    {
-        bool CanTargetSelf { get; set; }
-    }
+public interface IWatchSetup : IDetectSetup
+{
+    bool CanTargetSelf { get; set; }
+}
 
-    public class WatchSetup : IWatchSetup
-    {
-        public bool IgnoresDetectionImmunity { get; set; } = true;
-        public bool CanTargetSelf { get; set; } = false;
-    }
+public class WatchSetup : IWatchSetup
+{
+    public bool IgnoresDetectionImmunity { get; set; } = true;
+    public bool CanTargetSelf { get; set; } = false;
 }

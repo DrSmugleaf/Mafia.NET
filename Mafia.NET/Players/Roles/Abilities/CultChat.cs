@@ -1,11 +1,10 @@
 ﻿using Mafia.NET.Players.Roles.Abilities.Actions;
 using Mafia.NET.Players.Roles.Abilities.Registry;
 
-namespace Mafia.NET.Players.Roles.Abilities
+namespace Mafia.NET.Players.Roles.Abilities;
+
+[RegisterAbility("Cult Chat", -1)]
+public class CultChat : NightChat
 {
-    [RegisterAbility("Cult Chat", -1)]
-    public class CultChat : NightChat
-    {
-        public override string ChatId => "Cult"; // TODO
-    }
+    public override string ChatId => "Cult"; // TODO
 }
