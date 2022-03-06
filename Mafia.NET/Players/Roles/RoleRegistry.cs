@@ -16,7 +16,7 @@ namespace Mafia.NET.Players.Roles
 {
     public class RoleRegistry : ImmutableRegistry<RoleEntry>
     {
-        private static readonly Lazy<RoleRegistry> Lazy = new Lazy<RoleRegistry>(() => new RoleRegistry());
+        private static readonly Lazy<RoleRegistry> Lazy = new(() => new RoleRegistry());
 
         public RoleRegistry(Dictionary<string, RoleEntry> ids) : base(ids)
         {

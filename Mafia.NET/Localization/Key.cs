@@ -8,7 +8,7 @@ namespace Mafia.NET.Localization
 {
     public class Key : ILocalizable
     {
-        public static readonly Key Empty = new Key("");
+        public static readonly Key Empty = new("");
 
         public Key(string key)
         {

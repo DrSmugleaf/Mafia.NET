@@ -7,7 +7,7 @@ namespace Mafia.NET.Notifications
 {
     public class Notification : ILocalizable
     {
-        public static readonly Notification Empty = new Notification("", default);
+        public static readonly Notification Empty = new("", default);
 
         public Notification(string key, NotificationLocation location, params object[] args)
         {

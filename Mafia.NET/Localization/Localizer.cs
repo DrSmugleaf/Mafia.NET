@@ -11,7 +11,7 @@ namespace Mafia.NET.Localization
 {
     public class Localizer
     {
-        private static readonly Lazy<Localizer> Lazy = new Lazy<Localizer>(() => new Localizer());
+        private static readonly Lazy<Localizer> Lazy = new(() => new Localizer());
 
         private Localizer()
         {

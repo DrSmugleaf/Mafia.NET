@@ -6,7 +6,7 @@ namespace Mafia.NET.Players.Targeting
 {
     public class TargetNotification
     {
-        public static readonly TargetNotification Empty = new TargetNotification();
+        public static readonly TargetNotification Empty = new();
 
         public static readonly Func<IPlayer, Notification> DefaultUser = target => Notification.Empty;
         public static readonly Func<IPlayer, IPlayer?, Notification> DefaultOther = (user, target) => Notification.Empty;

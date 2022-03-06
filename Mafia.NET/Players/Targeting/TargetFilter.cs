@@ -10,7 +10,7 @@ namespace Mafia.NET.Players.Targeting
 {
     public class TargetFilter
     {
-        public static readonly TargetFilter Any = new TargetFilter(players => players);
+        public static readonly TargetFilter Any = new(players => players);
 
         private readonly Func<IReadOnlyList<IPlayer>, IReadOnlyList<IPlayer>> _filter;
 

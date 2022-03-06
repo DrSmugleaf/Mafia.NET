@@ -11,10 +11,9 @@ namespace Mafia.NET.Players.Roles.Abilities.Registry
 {
     public class AbilityRegistry : ImmutableRegistry<AbilityEntry>
     {
-        private static readonly MessageRandomizer DefaultMurderDescriptions =
-            new MessageRandomizer("They died in mysterious ways");
+        private static readonly MessageRandomizer DefaultMurderDescriptions = new("They died in mysterious ways");
 
-        private static readonly Lazy<AbilityRegistry> Lazy = new Lazy<AbilityRegistry>(() => new AbilityRegistry());
+        private static readonly Lazy<AbilityRegistry> Lazy = new(() => new AbilityRegistry());
 
         public AbilityRegistry(Dictionary<string, AbilityEntry> ids) : base(ids)
         {

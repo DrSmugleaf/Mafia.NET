@@ -8,11 +8,9 @@ namespace Mafia.NET.Web.Extensions
 {
     public static class SessionExtensions
     {
-        public static readonly ConcurrentDictionary<Guid, ILobbyController> LobbyControllers =
-            new ConcurrentDictionary<Guid, ILobbyController>();
+        public static readonly ConcurrentDictionary<Guid, ILobbyController> LobbyControllers = new();
 
-        public static readonly ConcurrentDictionary<Guid, IPlayerController> PlayerControllers =
-            new ConcurrentDictionary<Guid, IPlayerController>();
+        public static readonly ConcurrentDictionary<Guid, IPlayerController> PlayerControllers = new();
 
         public static bool TryGuid(this ISession session, out Guid guid)
         {

@@ -10,7 +10,7 @@ namespace Mafia.NET.Players.Teams
 {
     public class TeamRegistry : ImmutableRegistry<ITeam>
     {
-        private static readonly Lazy<TeamRegistry> Lazy = new Lazy<TeamRegistry>(() => new TeamRegistry());
+        private static readonly Lazy<TeamRegistry> Lazy = new(() => new TeamRegistry());
 
         public TeamRegistry(Dictionary<string, ITeam> ids) : base(ids)
         {

@@ -8,8 +8,7 @@ namespace Mafia.NET.Players.Roles.HealProfiles
 {
     public class HealProfileRegistry : ImmutableRegistry<HealProfileEntry>
     {
-        private static readonly Lazy<HealProfileRegistry> Lazy =
-            new Lazy<HealProfileRegistry>(() => new HealProfileRegistry());
+        private static readonly Lazy<HealProfileRegistry> Lazy = new(() => new HealProfileRegistry());
 
         public HealProfileRegistry(Dictionary<string, HealProfileEntry> ids) : base(ids)
         {

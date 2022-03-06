@@ -10,7 +10,7 @@ namespace Mafia.NET.Players.Roles.Categories
 {
     public class CategoryRegistry : ImmutableRegistry<ICategory>
     {
-        private static readonly Lazy<CategoryRegistry> Lazy = new Lazy<CategoryRegistry>(() => new CategoryRegistry());
+        private static readonly Lazy<CategoryRegistry> Lazy = new(() => new CategoryRegistry());
 
         public CategoryRegistry(Dictionary<string, ICategory> ids) : base(ids)
         {

@@ -39,8 +39,7 @@ namespace Mafia.NET.Web.Controllers
 
     public class GameController : BaseController
     {
-        public static readonly ConcurrentDictionary<Guid, ILobby> Lobbies =
-            new ConcurrentDictionary<Guid, ILobby>();
+        public static readonly ConcurrentDictionary<Guid, ILobby> Lobbies = new();
 
         private readonly IHubContext<GameChat> _gameContext;
         public readonly WebMatchManager Matches;
